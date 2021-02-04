@@ -1,16 +1,15 @@
 import { createStore } from 'vuex';
-import createPersistedState from 'vuex-persistedstate';
+import VuexPersistence from 'vuex-persist';
 
-const plugins = [
-  createPersistedState({
-    key: 'do_not_forget_to_define_your_own_key',
-    paths: [],
-    filter: () => true,
-  }),
-];
+export interface RootState {}
 
-export const store = createStore({
-  plugins,
+const vuexLocal = new VuexPersistence<RootState>({
+  key: 'do_not_forget_to_define_your_own_key',
+  storage: window.localStorage,
+});
+
+export const store = createStore<RootState>({
+  plugins: [vuexLocal.plugin],
 
   state: {},
   mutations: {},

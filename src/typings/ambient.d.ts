@@ -1,5 +1,3 @@
-declare const __DEV__: boolean;
-
 interface HTMLElement {
   _observe?: {
     init: boolean;

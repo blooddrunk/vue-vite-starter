@@ -1,5 +1,5 @@
 import { defineComponent, h, resolveComponent, computed } from 'vue';
-import pick from 'lodash/pick';
+import { pick } from 'lodash-es';
 
 import { useSharedProps, useFormField } from './useFormField';
 

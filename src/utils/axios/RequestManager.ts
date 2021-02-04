@@ -51,7 +51,7 @@ export class RequestManager {
   }
 
   async log(message: string) {
-    if (__DEV__) {
+    if (import.meta.env.DEV) {
       return;
     }
 

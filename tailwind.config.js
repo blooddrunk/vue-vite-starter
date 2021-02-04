@@ -2,6 +2,8 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 const colors = require('tailwindcss/colors');
 
 module.exports = {
+  presets: [require('./tailwind-preset.js')],
+
   theme: {
     extend: {
       boxShadow: (theme) => ({

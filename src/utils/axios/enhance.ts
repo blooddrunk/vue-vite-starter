@@ -8,7 +8,7 @@ import Axios, {
   AxiosResponse,
   AxiosError,
 } from 'axios';
-import defaultsDeep from 'lodash/defaultsDeep';
+import { defaultsDeep } from 'lodash-es';
 import Nprogress from 'nprogress';
 
 import { logger } from '@/utils/logger';
@@ -263,7 +263,7 @@ export const createAxiosInstance = (extraOptions: AxiosRequestConfig) => {
   axios.CancelToken = Axios.CancelToken;
   axios.isCancel = Axios.isCancel;
 
-  if (__DEV__) {
+  if (import.meta.env.DEV) {
     setupDebugInterceptor(axios);
   }
 

@@ -1,7 +1,6 @@
 // import { provide, inject } from 'vue';
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
-import defaultsDeep from 'lodash/defaultsDeep';
-import isPlainObject from 'lodash/isPlainObject';
+import { defaultsDeep, isPlainObject } from 'lodash-es';
 
 import { createAxiosInstance, EnhancedAxiosInstance } from './enhance';
 import { jsonToUrlParams } from '@/utils/common';
