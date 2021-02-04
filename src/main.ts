@@ -1,7 +1,8 @@
 import 'animate.css';
 import 'nprogress/nprogress.css';
-import 'tailwindcss/tailwind.css';
+// import 'tailwindcss/tailwind.css';
 
+import './assets/css/tailwind.css';
 import './assets/scss/element-ui.scss';
 import './assets/scss/main.scss';
 
