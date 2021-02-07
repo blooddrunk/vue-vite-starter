@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import NProgress from 'nprogress';
 
-export const routerHistory = createWebHistory(process.env.BASE_URL);
+export const routerHistory = createWebHistory(import.meta.env.BASE_URL);
 
 declare module 'vue-router' {
   interface RouteMeta {

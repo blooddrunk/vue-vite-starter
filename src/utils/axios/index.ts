@@ -20,7 +20,7 @@ declare module 'axios' {
   }
 }
 
-const apiRoot = process.env.VUE_APP_API_ROOT;
+const apiRoot = import.meta.env.VITE_API_ROOT;
 
 export const defaultDataTransformer = (data: unknown = {}) => data;
 

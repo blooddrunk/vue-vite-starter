@@ -5,27 +5,31 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import legacy from '@vitejs/plugin-legacy';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    vue(),
-    vueJsx(),
-    legacy({
-      targets: ['defaults', 'not IE 11'],
-    }),
-  ],
+export default ({ mode }) => {
+  return {
+    alias: {
+      '@': path.resolve(__dirname, '/src'),
+    },
 
-  alias: {
-    '@': path.resolve(__dirname, '/src'),
-  },
+    base: mode === 'production' ? '/' : '/',
 
-  server: {
-    proxy: {
-      '^/json/.*': {
-        target:
-          'https://my-json-server.typicode.com/blooddrunk/my-json-server/',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/json/, ''),
+    plugins: [
+      vue(),
+      vueJsx(),
+      legacy({
+        targets: ['defaults', 'not IE 11'],
+      }),
+    ],
+
+    server: {
+      proxy: {
+        '^/json/.*': {
+          target:
+            'https://my-json-server.typicode.com/blooddrunk/my-json-server/',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/json/, ''),
+        },
       },
     },
-  },
-});
+  };
+};
