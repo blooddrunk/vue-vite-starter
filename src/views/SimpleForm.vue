@@ -26,7 +26,7 @@ import axios from '@/utils/axios';
 const useProduct = () => {
   const { data: products, isLoading: isProductLoading } = useAxios<Product[]>(
     {
-      url: `${process.env.VUE_APP_JSON_SERVER_PATH}products`,
+      url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
       __needValidation: false,
     },
     []
@@ -45,7 +45,7 @@ const useProduct = () => {
 
     try {
       await axios.delete(
-        `${process.env.VUE_APP_JSON_SERVER_PATH}products/${target.id}`,
+        `${import.meta.env.VITE_JSON_SERVER_PATH}products/${target.id}`,
         {
           __needValidation: false,
         }

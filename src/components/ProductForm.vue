@@ -74,7 +74,7 @@ export type Product = {
 
 const useSubmit = (product: Product) =>
   axios.request<Product>({
-    url: `${process.env.VUE_APP_JSON_SERVER_PATH}products`,
+    url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
     method: 'post',
     data: product,
     __needValidation: false,

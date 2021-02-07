@@ -17,4 +17,15 @@ export default defineConfig({
   alias: {
     '@': path.resolve(__dirname, '/src'),
   },
+
+  server: {
+    proxy: {
+      '^/json/.*': {
+        target:
+          'https://my-json-server.typicode.com/blooddrunk/my-json-server/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/json/, ''),
+      },
+    },
+  },
 });
