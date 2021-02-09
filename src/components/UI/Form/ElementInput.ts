@@ -11,10 +11,10 @@ export default defineComponent({
   },
 
   setup(props, { attrs }) {
-    const { handleChange, handleBlur, errorMessage, value } = useFormField(
-      props.name,
-      props.label
-    );
+    const { handleChange, handleBlur, errorMessage, value } = useFormField({
+      name: props.name,
+      label: props.label,
+    });
 
     const formItemProps = computed(() => ({
       error: errorMessage.value,

@@ -2,59 +2,7 @@
   <div class="tw-p-3 tw-shadow-md">
     <h1 class="tw-py-2 tw-text-semibold tw-text-xl">Enter Product</h1>
 
-    <Form
-      as="el-form"
-      :validation-schema="validationSchema"
-      @submit="onSubmit"
-      #default="{ isSubmitting, meta }"
-    >
-      <ElementInput
-        name="name"
-        label="Product Name"
-        required
-        placeholder="Please Enter Product Name"
-      ></ElementInput>
-
-      <!-- <BaseTextInput
-        v-model="product.price"
-        name="price"
-        label="Product Price"
-        type="number"
-      ></BaseTextInput>
-
-      <BaseTextInput
-        v-model="product.inventory"
-        name="invetory"
-        label="Product Inventory"
-        type="number"
-      ></BaseTextInput> -->
-
-      <div class="tw-flex tw-items-center tw-justify-end tw-p-3">
-        <!-- <transition
-          enter-active-class="animate__animated animate__jello"
-          leave-active-class="animate__animated animate__fadeOut"
-        >
-          <div
-            v-if="message"
-            :class="[
-              'tw-mr-2',
-              error ? 'tw-text-red-500' : 'tw-text-green-400',
-            ]"
-          >
-            {{ message }}
-          </div>
-        </transition> -->
-
-        <button
-          class="button_primary"
-          type="submit"
-          :disabled="!meta.valid || isSubmitting"
-        >
-          {{ isSubmitting ? 'Submitting...' : 'Submit' }}
-        </button>
-        <button class="button_normal" type="reset">Reset</button>
-      </div>
-    </Form>
+    <el-form> </el-form>
   </div>
 </template>
 
@@ -86,6 +34,12 @@ export default defineComponent({
   components: {
     Form,
     ElementInput,
+  },
+
+  props: {
+    onSubmit: {
+      type: Function,
+    },
   },
 
   emits: {

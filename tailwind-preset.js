@@ -32,6 +32,15 @@ module.exports = {
         88: '22rem',
       },
 
+      minWidth: (theme) => theme('spacing'),
+
+      maxWidth: (theme) => ({
+        ...theme('spacing'),
+        '8xl': '88rem',
+        '9xl': '96rem',
+        '10xl': '104rem',
+      }),
+
       backgroundColor: (theme) => ({
         main: theme('colors.gray.100'),
       }),
