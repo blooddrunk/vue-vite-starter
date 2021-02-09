@@ -1,5 +1,6 @@
 import { computed, PropType } from 'vue';
 import { useField } from 'vee-validate';
+
 // import {
 //   h,
 //   defineComponent,
@@ -10,6 +11,8 @@ import { useField } from 'vee-validate';
 // } from 'vue';
 
 type ValidationMode = 'aggressive' | 'lazy' | 'aggressiveIfInvalid';
+
+export const useFormItemProps = () => ({} as const);
 
 export const useSharedProps = () =>
   ({
@@ -60,17 +63,17 @@ export const useFormField = ({
 
   const listeners = computed(() => {
     const validationListeners: {
-      blur: typeof handleChange;
-      change: typeof handleChange;
-      input: typeof handleChange | typeof handleInput;
+      onBlur: typeof handleChange;
+      onChange: typeof handleChange;
+      onInput: typeof handleChange | typeof handleInput;
     } = {
-      blur: handleChange,
-      change: handleChange,
-      input: handleInput,
+      onBlur: handleChange,
+      onChange: handleChange,
+      onInput: handleInput,
     };
 
     if (mode === 'aggressive' || errorMessage.value) {
-      validationListeners.input = handleChange;
+      validationListeners.onInput = handleChange;
     }
 
     return validationListeners;

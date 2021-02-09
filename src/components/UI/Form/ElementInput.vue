@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useSharedProps, useFormField } from './useFormField';
+import { useSharedProps, useFormField } from '@/hooks/useFormField';
 
 export default defineComponent({
   name: 'ElementInput',

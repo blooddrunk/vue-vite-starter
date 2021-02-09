@@ -1,7 +1,7 @@
 import { defineComponent, h, resolveComponent, computed } from 'vue';
 import { pick } from 'lodash-es';
 
-import { useSharedProps, useFormField } from './useFormField';
+import { useSharedProps, useFormField } from '../../../hooks/useFormField';
 
 export default defineComponent({
   name: 'ElementInput',
@@ -11,7 +11,7 @@ export default defineComponent({
   },
 
   setup(props, { attrs }) {
-    const { handleChange, handleBlur, errorMessage, value } = useFormField({
+    const { handleChange, listeners, errorMessage, value } = useFormField({
       name: props.name,
       label: props.label,
     });
@@ -22,11 +22,11 @@ export default defineComponent({
     }));
 
     const formFieldProps = computed(() => ({
-      name: props.name,
-      modelValue: value,
-      onUpdateModelValue: handleChange,
-      onBlur: handleBlur,
       ...attrs,
+      ...listeners,
+      name: props.name,
+      modelValue: value.value,
+      'onUpdate:modelValue': handleChange,
     }));
 
     return () => {

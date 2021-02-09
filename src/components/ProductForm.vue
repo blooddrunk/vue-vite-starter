@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Form, FormActions } from 'vee-validate';
+import { useForm, FormActions } from 'vee-validate';
 
 import axios from '@/utils/axios';
 import ElementInput from '@/components/UI/Form/ElementInput.ts';
@@ -32,7 +32,6 @@ export default defineComponent({
   name: 'ProductForm',
 
   components: {
-    Form,
     ElementInput,
   },
 
@@ -58,6 +57,10 @@ export default defineComponent({
       emit('submit', data);
       actions.resetForm();
     };
+
+    useForm({
+      validationSchema,
+    });
 
     // const message = ref('');
     // watch(isCompleted, (value) => {
