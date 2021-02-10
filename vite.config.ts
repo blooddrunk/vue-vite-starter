@@ -22,6 +22,9 @@ export default ({ mode }) => {
     ],
 
     server: {
+      host: '0.0.0.0',
+      port: 3000,
+
       proxy: {
         '^/json/.*': {
           target:

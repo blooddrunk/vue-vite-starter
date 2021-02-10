@@ -2,7 +2,9 @@
   <div class="tw-p-3 tw-shadow-md">
     <h1 class="tw-py-2 tw-text-semibold tw-text-xl">Enter Product</h1>
 
-    <el-form> </el-form>
+    <el-form>
+      <ElementInput name="name" label="Product Name" required></ElementInput>
+    </el-form>
   </div>
 </template>
 
