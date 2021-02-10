@@ -1,9 +1,11 @@
 <template>
-  <div class="tw-p-3 tw-shadow-md">
+  <div class="tw-max-w-lg tw-p-3 tw-shadow-md">
     <h1 class="tw-py-2 tw-text-semibold tw-text-xl">Enter Product</h1>
 
     <el-form>
-      <ElementInput name="name" label="Product Name" required></ElementInput>
+      <ElementInput name="name" label="Product Name" required>
+        <template #prepend>Http://</template>
+      </ElementInput>
     </el-form>
   </div>
 </template>
@@ -49,7 +51,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const validationSchema = {
-      name: 'required',
+      name: 'required|min:5|max:10',
       price: 'required',
       inventory: 'required',
     };

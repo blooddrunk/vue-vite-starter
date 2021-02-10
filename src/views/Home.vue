@@ -30,8 +30,8 @@ export default {
       },
 
       {
-        text: 'Simple form',
-        to: '/simple-form',
+        text: 'Element UI',
+        to: '/element-ui',
       },
 
       {
@@ -42,11 +42,6 @@ export default {
       {
         text: 'Lazy Image',
         to: '/lazy-image',
-      },
-
-      {
-        text: 'Element UI',
-        to: '/element-ui',
       },
     ],
   }),

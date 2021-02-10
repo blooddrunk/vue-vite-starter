@@ -1,7 +1,13 @@
-import { defineComponent, h, resolveComponent, computed } from 'vue';
+import {
+  defineComponent,
+  h,
+  resolveComponent,
+  computed,
+  ComponentOptions,
+} from 'vue';
 import { pick } from 'lodash-es';
 
-import { useSharedProps, useFormField } from '../../../hooks/useFormField';
+import { useSharedProps, useFormField } from '@/hooks/useFormField';
 
 export default defineComponent({
   name: 'ElementInput',
@@ -10,11 +16,10 @@ export default defineComponent({
     ...useSharedProps(),
   },
 
-  setup(props, { attrs }) {
-    const { handleChange, listeners, errorMessage, value } = useFormField({
-      name: props.name,
-      label: props.label,
-    });
+  setup(props, { attrs, slots }) {
+    const { listeners, errorMessage, value } = useFormField(
+      pick(props, ['name', 'label', 'mode', 'validateOnMount'])
+    );
 
     const formItemProps = computed(() => ({
       error: errorMessage.value,
@@ -23,17 +28,20 @@ export default defineComponent({
 
     const formFieldProps = computed(() => ({
       ...attrs,
-      ...listeners,
+      ...listeners.value,
       name: props.name,
       modelValue: value.value,
-      'onUpdate:modelValue': handleChange,
     }));
 
     return () => {
       return h(
         resolveComponent('ElFormItem'),
-        formItemProps,
-        h(resolveComponent('ElInput'), formFieldProps)
+        formItemProps.value,
+        h(
+          resolveComponent('ElInput') as ComponentOptions,
+          formFieldProps.value,
+          slots
+        )
       );
     };
   },

@@ -1,18 +1,7 @@
-import { computed, PropType } from 'vue';
+import { computed, PropType, watchEffect } from 'vue';
 import { useField } from 'vee-validate';
 
-// import {
-//   h,
-//   defineComponent,
-//   resolveComponent,
-//   resolveDynamicComponent,
-//   ComponentOptions,
-//   VNodeArrayChildren,
-// } from 'vue';
-
 type ValidationMode = 'aggressive' | 'lazy' | 'aggressiveIfInvalid';
-
-export const useFormItemProps = () => ({} as const);
 
 export const useSharedProps = () =>
   ({
@@ -41,23 +30,31 @@ export const useSharedProps = () =>
       type: String as PropType<ValidationMode>,
       default: 'aggressiveIfInvalid',
     },
+
+    validateOnMount: {
+      type: Boolean,
+      default: false,
+    },
   } as const);
 
 export const useFormField = ({
   name,
   label,
   mode = 'aggressiveIfInvalid',
+  validateOnMount,
 }: {
   name: string;
   label: string;
   mode?: ValidationMode;
+  validateOnMount?: boolean;
 }) => {
   const { errorMessage, handleInput, handleChange, ...rest } = useField(
     name,
     undefined,
     {
       label,
-      validateOnValueUpdate: false,
+      validateOnValueUpdate: mode === 'aggressive',
+      validateOnMount,
     }
   );
 
@@ -65,15 +62,18 @@ export const useFormField = ({
     const validationListeners: {
       onBlur: typeof handleChange;
       onChange: typeof handleChange;
-      onInput: typeof handleChange | typeof handleInput;
+      'onUpdate:modelValue': typeof handleChange | typeof handleInput;
     } = {
       onBlur: handleChange,
       onChange: handleChange,
-      onInput: handleInput,
+      'onUpdate:modelValue': handleInput,
     };
 
-    if (mode === 'aggressive' || errorMessage.value) {
-      validationListeners.onInput = handleChange;
+    if (
+      mode === 'aggressive' ||
+      (mode === 'aggressiveIfInvalid' && errorMessage.value)
+    ) {
+      validationListeners['onUpdate:modelValue'] = handleChange;
     }
 
     return validationListeners;
@@ -87,19 +87,3 @@ export const useFormField = ({
     listeners,
   };
 };
-
-// export const createFormField = (
-//   component: string,
-//   componentProps?: Record<string, any> | null,
-//   children?: VNodeArrayChildren
-// ) => {
-//   return () => {
-//     const
-
-//     return h(
-//       resolveDynamicComponent(component) as ComponentOptions,
-//       componentProps,
-//       children
-//     )
-//   };
-// };

@@ -17,21 +17,21 @@ export const routes: RouteRecordRaw[] = [
   },
 
   {
-    path: '/simple-list',
-    name: 'SimpleList',
-    component: () => import('../views/SimpleList.vue'),
-  },
-
-  {
     path: '/counter',
     name: 'Counter',
     component: () => import('../views/Counter.vue'),
   },
 
   {
-    path: '/simple-form',
-    name: 'SimpleForm',
-    component: () => import('../views/SimpleForm.vue'),
+    path: '/simple-list',
+    name: 'SimpleList',
+    component: () => import('../views/SimpleList.vue'),
+  },
+
+  {
+    path: '/element-ui',
+    name: 'ElementUI',
+    component: () => import('../views/ElementUI.vue'),
   },
 
   {
@@ -44,12 +44,6 @@ export const routes: RouteRecordRaw[] = [
     path: '/lazy-image',
     name: 'LazyImage',
     component: () => import('../views/LazyImage.vue'),
-  },
-
-  {
-    path: '/element-ui',
-    name: 'ElementUI',
-    component: () => import('../views/ElementUI.vue'),
   },
 
   {

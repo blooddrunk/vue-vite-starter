@@ -1,6 +1,6 @@
 import { App } from 'vue';
 
-import ElementInput from '@/components/UI/Form/ElementInput.vue';
+import ElementInput from '@/components/UI/Form/ElementInput.ts';
 
 export { default as elementUI } from './element-ui';
 export { default as veeValidate } from './vee-validate';
