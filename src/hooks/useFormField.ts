@@ -41,7 +41,7 @@ export const useFormField = ({
   name,
   label,
   mode = 'aggressiveIfInvalid',
-  validateOnMount,
+  validateOnMount = false,
 }: {
   name: string;
   label: string;
@@ -53,7 +53,7 @@ export const useFormField = ({
     undefined,
     {
       label,
-      validateOnValueUpdate: mode === 'aggressive',
+      validateOnValueUpdate: false,
       validateOnMount,
     }
   );

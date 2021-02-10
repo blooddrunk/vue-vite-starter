@@ -17,12 +17,25 @@ export default defineComponent({
   },
 
   setup(props, { attrs, slots }) {
-    const { listeners, errorMessage, value } = useFormField(
+    const { listeners, errorMessage, value, meta } = useFormField(
       pick(props, ['name', 'label', 'mode', 'validateOnMount'])
     );
 
+    const validateStatus = computed(() => {
+      if (errorMessage.value) {
+        return 'error';
+      } else if (meta.pending) {
+        return 'validating';
+      } else if (meta.dirty) {
+        return 'success';
+      } else {
+        return '';
+      }
+    });
+
     const formItemProps = computed(() => ({
       error: errorMessage.value,
+      validateStatus: validateStatus.value,
       ...pick(props, ['label', 'labelWidth', 'required']),
     }));
 
@@ -33,15 +46,21 @@ export default defineComponent({
       modelValue: value.value,
     }));
 
+    const { label, ...fieldSlots } = slots;
+
     return () => {
       return h(
-        resolveComponent('ElFormItem'),
+        resolveComponent('ElFormItem') as ComponentOptions,
         formItemProps.value,
-        h(
-          resolveComponent('ElInput') as ComponentOptions,
-          formFieldProps.value,
-          slots
-        )
+        {
+          default: () =>
+            h(
+              resolveComponent('ElInput') as ComponentOptions,
+              formFieldProps.value,
+              fieldSlots
+            ),
+          label,
+        }
       );
     };
   },

@@ -1,11 +1,13 @@
 <template>
   <div class="tw-max-w-lg tw-p-3 tw-shadow-md">
-    <h1 class="tw-py-2 tw-text-semibold tw-text-xl">Enter Product</h1>
+    <h1 class="tw-py-2 tw-text-semibold tw-text-xl tw">Enter Product</h1>
 
-    <el-form>
-      <ElementInput name="name" label="Product Name" required>
-        <template #prepend>Http://</template>
-      </ElementInput>
+    <el-form status-icon>
+      <ElementFormInput name="name" label="Product Name" required>
+        <template #label>
+          <span class="tw-text-teal-600">Product Name</span>
+        </template>
+      </ElementFormInput>
     </el-form>
   </div>
 </template>
@@ -15,7 +17,7 @@ import { defineComponent } from 'vue';
 import { useForm, FormActions } from 'vee-validate';
 
 import axios from '@/utils/axios';
-import ElementInput from '@/components/UI/Form/ElementInput.ts';
+import ElementFormInput from '@/components/UI/Form/ElementFormInput';
 
 export type Product = {
   id?: string | number;
@@ -36,7 +38,7 @@ export default defineComponent({
   name: 'ProductForm',
 
   components: {
-    ElementInput,
+    ElementFormInput,
   },
 
   props: {
