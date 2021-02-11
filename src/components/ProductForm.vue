@@ -8,6 +8,31 @@
           <span class="tw-text-teal-600">Product Name</span>
         </template>
       </ElementFormInput>
+
+      <ElementFormInput name="price" label="Price" required>
+        <template #label>
+          <span class="tw-text-blue-600">Price</span>
+        </template>
+
+        <template #prepend> $ </template>
+      </ElementFormInput>
+
+      <ElementFormInputNumber
+        class="tw-w-full"
+        name="inventory"
+        label="Inventory"
+        required
+        controls-position="right"
+        :min="0"
+        :max="9999"
+        :precision="0"
+      >
+      </ElementFormInputNumber>
+
+      <div class="tw-flex tw-justify-end tw-py-3">
+        <el-button>RESET</el-button>
+        <el-button type="primary">SUBMIT</el-button>
+      </div>
     </el-form>
   </div>
 </template>
@@ -18,6 +43,7 @@ import { useForm, FormActions } from 'vee-validate';
 
 import axios from '@/utils/axios';
 import ElementFormInput from '@/components/UI/Form/ElementFormInput';
+import ElementFormInputNumber from '@/components/UI/Form/ElementFormInputNumber';
 
 export type Product = {
   id?: string | number;
@@ -39,6 +65,7 @@ export default defineComponent({
 
   components: {
     ElementFormInput,
+    ElementFormInputNumber,
   },
 
   props: {
@@ -54,7 +81,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const validationSchema = {
       name: 'required|min:5|max:10',
-      price: 'required',
+      price: 'required|numeric|min_value:1|max_value:9999999',
       inventory: 'required',
     };
 

@@ -32,8 +32,17 @@ const useProduct = () => {
     []
   );
 
-  const addProduct = (value: Product) => {
-    products.value.unshift(value);
+  const addProduct = (product: Product) => {
+    try {
+      axios.request<Product>({
+        url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
+        method: 'post',
+        data: product,
+        __needValidation: false,
+      });
+
+      products.value.unshift(product);
+    } catch (error) {}
   };
 
   const removeError = ref('');

@@ -1,4 +1,4 @@
-import { computed, PropType, watchEffect } from 'vue';
+import { computed, PropType } from 'vue';
 import { useField } from 'vee-validate';
 
 type ValidationMode = 'aggressive' | 'lazy' | 'aggressiveIfInvalid';
@@ -42,11 +42,13 @@ export const useFormField = ({
   label,
   mode = 'aggressiveIfInvalid',
   validateOnMount = false,
+  bindBlurEvent = true,
 }: {
   name: string;
   label: string;
   mode?: ValidationMode;
   validateOnMount?: boolean;
+  bindBlurEvent?: boolean;
 }) => {
   const { errorMessage, handleInput, handleChange, ...rest } = useField(
     name,
@@ -60,14 +62,17 @@ export const useFormField = ({
 
   const listeners = computed(() => {
     const validationListeners: {
-      onBlur: typeof handleChange;
+      onBlur?: typeof handleChange;
       onChange: typeof handleChange;
       'onUpdate:modelValue': typeof handleChange | typeof handleInput;
     } = {
-      onBlur: handleChange,
       onChange: handleChange,
       'onUpdate:modelValue': handleInput,
     };
+
+    if (bindBlurEvent) {
+      validationListeners.onBlur = handleChange;
+    }
 
     if (
       mode === 'aggressive' ||
