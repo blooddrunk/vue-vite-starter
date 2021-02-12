@@ -26,7 +26,7 @@ type CreateElementFieldOptions = {
   bindBlurEvent?: boolean;
 };
 
-export const createElementField = (
+export const createElementField = <TValue = unknown>(
   componentName: ElementFormComponent,
   { bindBlurEvent = true } = {}
 ) =>
@@ -38,7 +38,7 @@ export const createElementField = (
     },
 
     setup(props, { attrs, slots }) {
-      const { listeners, errorMessage, value, meta } = useFormField({
+      const { listeners, errorMessage, value, meta } = useFormField<TValue>({
         ...pick(props, ['name', 'label', 'mode', 'validateOnMount']),
         bindBlurEvent,
       });

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ProductForm @submit="addProduct"></ProductForm>
+    <ProductForm :add-product="addProduct"></ProductForm>
 
     <SimpleList
       class="tw-mt-6"
@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { ElMessage } from 'element-plus';
 
 import ProductForm, { Product } from '@/components/ProductForm.vue';
 import SimpleList from '@/components/SimpleList.vue';
@@ -32,9 +33,9 @@ const useProduct = () => {
     []
   );
 
-  const addProduct = (product: Product) => {
+  const addProduct = async (product: Product) => {
     try {
-      axios.request<Product>({
+      await axios.request<Product>({
         url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
         method: 'post',
         data: product,
@@ -42,10 +43,11 @@ const useProduct = () => {
       });
 
       products.value.unshift(product);
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+      ElMessage.error(error.message);
+    }
   };
-
-  const removeError = ref('');
 
   const removeProduct = async (target: Product) => {
     if (!target.id) {
@@ -64,7 +66,7 @@ const useProduct = () => {
         (product) => product.id !== target.id
       );
     } catch (error) {
-      removeError.value = error.message;
+      ElMessage.error(error.message);
       console.error(error);
     }
   };

@@ -1,3 +1,3 @@
 import { createElementField } from '@/utils/form/createElementField';
 
-export default createElementField('ElInputNumber');
+export default createElementField<number>('ElInputNumber');

@@ -37,7 +37,7 @@ export const useSharedProps = () =>
     },
   } as const);
 
-export const useFormField = ({
+export const useFormField = <TValue = unknown>({
   name,
   label,
   mode = 'aggressiveIfInvalid',
@@ -50,7 +50,7 @@ export const useFormField = ({
   validateOnMount?: boolean;
   bindBlurEvent?: boolean;
 }) => {
-  const { errorMessage, handleInput, handleChange, ...rest } = useField(
+  const { errorMessage, handleInput, handleChange, ...rest } = useField<TValue>(
     name,
     undefined,
     {

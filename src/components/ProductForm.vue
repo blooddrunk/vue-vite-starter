@@ -2,7 +2,7 @@
   <div class="tw-max-w-lg tw-p-3 tw-shadow-md">
     <h1 class="tw-py-2 tw-text-semibold tw-text-xl tw">Enter Product</h1>
 
-    <el-form status-icon>
+    <el-form status-icon @submit="onSubmit">
       <ElementFormInput name="name" label="Product Name" required>
         <template #label>
           <span class="tw-text-teal-600">Product Name</span>
@@ -31,17 +31,23 @@
 
       <div class="tw-flex tw-justify-end tw-py-3">
         <el-button>RESET</el-button>
-        <el-button type="primary">SUBMIT</el-button>
+        <el-button
+          type="primary"
+          native-type="submit"
+          :loading="isSubmitting"
+          :disabled="isSubmitting"
+        >
+          SUBMIT
+        </el-button>
       </div>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { useForm, FormActions } from 'vee-validate';
 
-import axios from '@/utils/axios';
 import ElementFormInput from '@/components/UI/Form/ElementFormInput';
 import ElementFormInputNumber from '@/components/UI/Form/ElementFormInputNumber';
 
@@ -52,13 +58,11 @@ export type Product = {
   inventory?: number | null;
 };
 
-const useSubmit = (product: Product) =>
-  axios.request<Product>({
-    url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
-    method: 'post',
-    data: product,
-    __needValidation: false,
-  });
+const initialValues = {
+  name: '',
+  price: 1,
+  inventory: 1,
+};
 
 export default defineComponent({
   name: 'ProductForm',
@@ -69,8 +73,9 @@ export default defineComponent({
   },
 
   props: {
-    onSubmit: {
+    addProduct: {
       type: Function,
+      required: true,
     },
   },
 
@@ -85,37 +90,21 @@ export default defineComponent({
       inventory: 'required',
     };
 
-    const onSubmit = async (values: Product, actions: FormActions<Product>) => {
-      const { data } = await useSubmit(values);
-      emit('submit', data);
-      actions.resetForm();
-    };
-
-    useForm({
+    const { meta, isSubmitting, handleSubmit } = useForm({
       validationSchema,
+      initialValues,
     });
 
-    // const message = ref('');
-    // watch(isCompleted, (value) => {
-    //   if (!value) {
-    //     return;
-    //   }
+    const invalid = computed(() => !meta.value.valid);
 
-    //   if (error.value) {
-    //     message.value = 'Failed to create product';
-    //   } else {
-    //     message.value = 'Product created';
-    //     onReset();
-    //     emit('submit', data.value);
-    //   }
-
-    //   useTimeout(() => {
-    //     message.value = '';
-    //   }, 3000);
-    // });
+    const onSubmit = handleSubmit(async (values) => {
+      await props.addProduct(values);
+    });
 
     return {
       validationSchema,
+      invalid,
+      isSubmitting,
       onSubmit,
     };
   },
