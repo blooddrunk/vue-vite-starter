@@ -83,7 +83,7 @@ export default defineComponent({
     submit: null,
   },
 
-  setup(props, { emit }) {
+  setup(props) {
     const validationSchema = {
       name: 'required|min:5|max:10',
       price: 'required|numeric|min_value:1|max_value:9999999',

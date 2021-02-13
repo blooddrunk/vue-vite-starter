@@ -25,7 +25,7 @@ import { useAxios } from '@/hooks/useAxios';
 import axios from '@/utils/axios';
 
 const useProduct = () => {
-  const { data: products, isLoading: isProductLoading } = useAxios<Product[]>(
+  const { data: products, isPending: isProductLoading } = useAxios<Product[]>(
     {
       url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
       __needValidation: false,

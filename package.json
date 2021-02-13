@@ -16,6 +16,7 @@
     "animate.css": "^4.1.1",
     "axios": "^0.21.1",
     "element-plus": "^1.0.2-beta.32",
+    "immer": "^8.0.1",
     "lodash-es": "^4.17.20",
     "nprogress": "^0.2.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3",

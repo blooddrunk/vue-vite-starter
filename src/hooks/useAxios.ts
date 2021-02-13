@@ -4,16 +4,12 @@ import { AxiosRequestConfig, CancelTokenSource, AxiosResponse } from 'axios';
 import { Refable } from '@/utils/typings';
 import axios from '@/utils/axios';
 
-type UseAxiosConfig = {
-  immediate?: boolean;
-};
-
 export const useAxios = <T = unknown>(
   requestConfig: Refable<AxiosRequestConfig>,
   initialData: T,
-  { immediate = true }: UseAxiosConfig = {}
+  { immediate = true, takeLatest = true } = {}
 ) => {
-  const isLoading = ref(false);
+  const isPending = ref(false);
   const isCompleted = ref(false);
   const error = ref<Error | null>(null);
   const data = ref<T>(initialData) as Ref<T>;
@@ -34,7 +30,7 @@ export const useAxios = <T = unknown>(
   const request = async () => {
     const unwrappedConfig = unref(requestConfig);
 
-    if (isLoading.value) {
+    if (takeLatest && isPending.value) {
       cancel(
         `[userAxios]: '${unwrappedConfig.url}' cancelling request due to duplicate call`
       );
@@ -43,7 +39,7 @@ export const useAxios = <T = unknown>(
 
     cancelSource = axios.CancelToken.source();
 
-    isLoading.value = true;
+    isPending.value = true;
     isCompleted.value = false;
     error.value = null;
 
@@ -54,13 +50,15 @@ export const useAxios = <T = unknown>(
       });
 
       data.value = response.value.data;
+      isPending.value = false;
+      isCompleted.value = true;
 
       return data.value;
     } catch (error) {
-      error.value = error;
       console.error(error);
-    } finally {
-      isLoading.value = false;
+
+      error.value = error;
+      isPending.value = false;
       isCompleted.value = true;
     }
   };
@@ -70,7 +68,7 @@ export const useAxios = <T = unknown>(
   }
 
   return {
-    isLoading,
+    isPending,
     isCompleted,
     isSuccessful,
     error,

@@ -1,31 +1,20 @@
 <template>
   <section>
-    <SearchHNForm
+    <!-- <SearchHNForm
       :query="query"
       :on-query-change="handleQueryChange"
       @submit="handleSubmit"
-    ></SearchHNForm>
+    ></SearchHNForm> -->
 
     <div>
-      <SimpleList
-        :items="items"
-        :loading="isLoading"
-        item-key="objectID"
-      ></SimpleList>
-      <SimplePagination :pagination="pagination"></SimplePagination>
+      {{ items }}
+      <!-- <SimplePagination :pagination="pagination"></SimplePagination> -->
     </div>
   </section>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  reactive,
-  computed,
-  watchEffect,
-  watch,
-} from 'vue';
+import { defineComponent, ref, computed, watchEffect, watch } from 'vue';
 
 import SimpleList from '@/components/SimpleList.vue';
 import SimplePagination from '@/components/SimplePagination.vue';
@@ -52,19 +41,19 @@ export default defineComponent({
     const query = ref('vue');
     const page = ref(1);
 
-    const { data, isLoading, request } = useAxios<{
+    const { data, isPending, request } = useAxios<{
       hits: ListItem[];
       nbHits: number;
     }>(
-      reactive({
+      {
         // ? '/hn/search' using proxy will take forever
         url: 'https://hn.algolia.com/api/v1/search',
         params: {
-          query,
-          page,
+          query: query.value,
+          page: page.value,
         },
         __needValidation: false,
-      }),
+      },
       {
         hits: [],
         nbHits: 0,
@@ -73,39 +62,51 @@ export default defineComponent({
 
     const items = computed(() => data.value?.hits || []);
 
-    const handleQueryChange = (event: Event) => {
-      query.value = (event.target as HTMLInputElement).value;
-    };
+    const test = ref<any>({});
 
-    const pagination = usePagination({ pageSize: 20 });
+    test.value.k1 = 1;
+
+    setTimeout(() => {
+      test.value = 2;
+    }, 300);
 
     watchEffect(() => {
-      pagination.total.value = data.value?.nbHits || 0;
+      console.log(test.value);
     });
 
-    watch(pagination.currentPage, () => {
-      page.value = pagination.currentPage.value;
-      request();
-    });
+    // const handleQueryChange = (event: Event) => {
+    //   query.value = (event.target as HTMLInputElement).value;
+    // };
 
-    const handleSubmit = (event: Event) => {
-      event.preventDefault();
+    // const pagination = usePagination({ pageSize: 20 });
 
-      if (pagination.isFirst.value) {
-        request();
-      } else {
-        pagination.first();
-      }
-    };
+    // watchEffect(() => {
+    //   pagination.total.value = data.value?.nbHits || 0;
+    // });
+
+    // watch(pagination.currentPage, () => {
+    //   page.value = pagination.currentPage.value;
+    //   request();
+    // });
+
+    // const handleSubmit = (event: Event) => {
+    //   event.preventDefault();
+
+    //   if (pagination.isFirst.value) {
+    //     request();
+    //   } else {
+    //     pagination.first();
+    //   }
+    // };
 
     return {
       query,
       items,
-      isLoading,
-      handleSubmit,
-      handleQueryChange,
+      isPending,
+      // handleSubmit,
+      // handleQueryChange,
 
-      pagination,
+      // pagination,
     };
   },
 });

@@ -1,4 +1,4 @@
-import { Ref } from 'vue';
+import { Ref, ComputedRef } from 'vue';
 
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 
@@ -8,4 +8,4 @@ export type PromiseType<P extends Promise<any>> = P extends Promise<infer T>
   ? T
   : never;
 
-export type Refable<T> = Ref<T> | T;
+export type Refable<T> = Ref<T> | ComputedRef<T> | T;

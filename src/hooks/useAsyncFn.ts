@@ -12,7 +12,7 @@ export const useAsyncFn = <T extends FnReturningPromise>(
 ) => {
   const fnRef = ref<T>(fn);
 
-  const isLoading = ref(false);
+  const isPending = ref(false);
   const isCompleted = ref(false);
   const isSuccessful = ref(false);
   const error = ref<Error | null>(null);
@@ -22,7 +22,7 @@ export const useAsyncFn = <T extends FnReturningPromise>(
 
   let lastPromise;
   const request = async (...args: Parameters<T> | []) => {
-    isLoading.value = true;
+    isPending.value = true;
     isCompleted.value = false;
     isSuccessful.value = false;
     error.value = null;
@@ -45,13 +45,13 @@ export const useAsyncFn = <T extends FnReturningPromise>(
         console.error(error);
       }
     } finally {
-      isLoading.value = false;
+      isPending.value = false;
       isCompleted.value = true;
     }
   };
 
   return {
-    isLoading,
+    isPending,
     isCompleted,
     isSuccessful,
     error,
