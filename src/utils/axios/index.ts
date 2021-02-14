@@ -11,7 +11,7 @@ declare module 'axios' {
     __showProgress?: boolean;
     __needValidation?: boolean;
     __urlEncoded?: boolean;
-    __transformData?: boolean | ((data: unknown) => unknown);
+    __transformData?: boolean | ((data: any) => any);
   }
 
   interface AxiosInstance {
@@ -88,7 +88,7 @@ export const setupInterceptor = (enhancedAxios: EnhancedAxiosInstance) => {
       if (typeof __transformData === 'function') {
         response.data = __transformData(response.data);
       } else if (__transformData === true) {
-        response.data = defaultDataTransformer(response.data as ServerResponse);
+        response.data = defaultDataTransformer(response.data);
       }
     } catch (error) {
       console.error(error);
@@ -100,8 +100,6 @@ export const setupInterceptor = (enhancedAxios: EnhancedAxiosInstance) => {
   });
 
   enhancedAxios.onError((error) => {
-    console.log(enhancedAxios.isCancel(error));
-
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx

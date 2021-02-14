@@ -1,17 +1,6 @@
 <template>
   <div>
     <ProductForm :add-product="addProduct"></ProductForm>
-
-    <SimpleList
-      class="tw-mt-6"
-      :items="products"
-      :loading="isProductLoading"
-      title-key="name"
-    >
-      <template #action="{ item }">
-        <button class="button_normal" @click="removeProduct(item)">❌</button>
-      </template>
-    </SimpleList>
   </div>
 </template>
 
@@ -20,7 +9,6 @@ import { defineComponent, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 
 import ProductForm, { Product } from '@/components/ProductForm.vue';
-import SimpleList from '@/components/SimpleList.vue';
 import { useAxios } from '@/hooks/useAxios';
 import axios from '@/utils/axios';
 
@@ -84,7 +72,6 @@ export default defineComponent({
 
   components: {
     ProductForm,
-    SimpleList,
   },
 
   setup() {
