@@ -4,10 +4,11 @@ import {
   resolveComponent,
   computed,
   ComponentOptions,
+  PropType,
 } from 'vue';
 import { pick } from 'lodash-es';
 
-import { useSharedProps, useFormField } from '@/hooks/useFormField';
+import { useFormField, ValidationMode } from '@/hooks/useFormField';
 
 type ElementFormComponent =
   | 'ElInput'
@@ -34,7 +35,46 @@ export const createElementField = <TValue = unknown>(
     name: `${componentName}WithFormItem`,
 
     props: {
-      ...useSharedProps(),
+      name: {
+        type: String,
+        required: true,
+      },
+
+      label: {
+        type: String,
+        default: '',
+      },
+
+      labelWidth: {
+        type: String,
+        default: undefined,
+      },
+
+      // only has a visual effect
+      required: {
+        type: Boolean,
+        default: false,
+      },
+
+      mode: {
+        type: String as PropType<ValidationMode>,
+        default: 'aggressiveIfInvalid',
+      },
+
+      validateOnMount: {
+        type: Boolean,
+        default: false,
+      },
+
+      showLabel: {
+        type: Boolean,
+        default: true,
+      },
+
+      hasWrapper: {
+        type: Boolean,
+        default: true,
+      },
     },
 
     setup(props, { attrs, slots }) {
@@ -55,11 +95,18 @@ export const createElementField = <TValue = unknown>(
         }
       });
 
-      const formItemProps = computed(() => ({
-        error: errorMessage.value,
-        validateStatus: validateStatus.value,
-        ...pick(props, ['label', 'labelWidth', 'required']),
-      }));
+      const formItemProps = computed(() => {
+        const passedByProps = ['labelWidth', 'required'];
+        if (props.showLabel) {
+          passedByProps.push('label');
+        }
+
+        return {
+          error: errorMessage.value,
+          validateStatus: validateStatus.value,
+          ...pick(props, passedByProps),
+        };
+      });
 
       const formFieldProps = computed(() => ({
         ...attrs,
@@ -71,19 +118,24 @@ export const createElementField = <TValue = unknown>(
       const { label, ...fieldSlots } = slots;
 
       return () => {
-        return h(
-          resolveComponent('ElFormItem') as ComponentOptions,
-          formItemProps.value,
-          {
-            default: () =>
-              h(
-                resolveComponent(componentName) as ComponentOptions,
-                formFieldProps.value,
-                fieldSlots
-              ),
-            label,
-          }
+        const FormField = h(
+          resolveComponent(componentName) as ComponentOptions,
+          formFieldProps.value,
+          fieldSlots
         );
+
+        if (props.hasWrapper) {
+          return h(
+            resolveComponent('ElFormItem') as ComponentOptions,
+            formItemProps.value,
+            {
+              default: () => FormField,
+              label,
+            }
+          );
+        } else {
+          return FormField;
+        }
       };
     },
   });

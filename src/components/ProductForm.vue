@@ -46,10 +46,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
-import { useForm, FormActions } from 'vee-validate';
-
-import ElementFormInput from '@/components/UI/Form/ElementFormInput';
-import ElementFormInputNumber from '@/components/UI/Form/ElementFormInputNumber';
+import { useForm } from 'vee-validate';
 
 export type Product = {
   id?: string | number;
@@ -66,11 +63,6 @@ const initialValues = {
 
 export default defineComponent({
   name: 'ProductForm',
-
-  components: {
-    ElementFormInput,
-    ElementFormInputNumber,
-  },
 
   props: {
     addProduct: {

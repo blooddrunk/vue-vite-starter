@@ -1,41 +1,7 @@
-import { computed, PropType } from 'vue';
+import { computed } from 'vue';
 import { useField } from 'vee-validate';
 
-type ValidationMode = 'aggressive' | 'lazy' | 'aggressiveIfInvalid';
-
-export const useSharedProps = () =>
-  ({
-    name: {
-      type: String,
-      required: true,
-    },
-
-    label: {
-      type: String,
-      default: '',
-    },
-
-    labelWidth: {
-      type: String,
-      default: undefined,
-    },
-
-    // only has a visual effect
-    required: {
-      type: Boolean,
-      default: false,
-    },
-
-    mode: {
-      type: String as PropType<ValidationMode>,
-      default: 'aggressiveIfInvalid',
-    },
-
-    validateOnMount: {
-      type: Boolean,
-      default: false,
-    },
-  } as const);
+export type ValidationMode = 'aggressive' | 'lazy' | 'aggressiveIfInvalid';
 
 export const useFormField = <TValue = unknown>({
   name,

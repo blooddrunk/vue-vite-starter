@@ -13,7 +13,7 @@ type Pagination = {
 
 type PaginationToQuery = Partial<Record<keyof Pagination, string>>;
 
-type ListResult<T = any> = {
+export type ListResult<T = any> = {
   items: T[];
   total: number;
 };
@@ -109,7 +109,13 @@ export const usePaginatedList = <
     });
   };
 
+  watch(filter, (value) => {
+    console.log(value);
+  });
+
   const fetchList = (config: AxiosRequestConfig) => {
+    console.log(filter.value);
+
     const { data, isPending, error } = useAxios<ListResult<TValue>>(
       {
         __transformData: defaultDataTransformer,

@@ -30,6 +30,8 @@ export const useAxios = <T = unknown>(
   const request = async () => {
     const unwrappedConfig = unref(requestConfig);
 
+    console.log(unwrappedConfig);
+
     if (takeLatest && isPending.value) {
       cancel(
         `[userAxios]: '${unwrappedConfig.url}' cancelling request due to duplicate call`
