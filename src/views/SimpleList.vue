@@ -37,14 +37,6 @@ export default defineComponent({
       },
     });
 
-    watch(
-      () => filter,
-      () => {
-        console.log(filter);
-      },
-      { deep: true }
-    );
-
     const { fetchList } = usePaginatedList({
       paginationToQuery: {
         rowsPerPage: 'hitsPerPage',
@@ -55,12 +47,7 @@ export default defineComponent({
 
     const { request } = useAxios(
       {
-        url: 'https://hn.algolia.com/api/v1/search',
-        params: { ...filter },
-        __transformData: (data) => ({
-          items: data?.hits,
-          total: data?.nbHits,
-        }),
+        url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
         __needValidation: false,
       },
       {

@@ -18,25 +18,20 @@ export const useAxios = <T = unknown>(
   const isSuccessful = computed(() => isCompleted.value && !error.value);
 
   // cancel func
-  const isCancelled = ref(false);
-  let cancelSource: CancelTokenSource;
+  let cancelSource: CancelTokenSource | null;
   const cancel = (message?: string) => {
     if (cancelSource) {
       cancelSource.cancel(message);
-      isCancelled.value = true;
     }
   };
 
   const request = async () => {
     const unwrappedConfig = unref(requestConfig);
 
-    console.log(unwrappedConfig);
-
-    if (takeLatest && isPending.value) {
+    if (takeLatest && cancelSource) {
       cancel(
         `[userAxios]: '${unwrappedConfig.url}' cancelling request due to duplicate call`
       );
-      return;
     }
 
     cancelSource = axios.CancelToken.source();
@@ -55,13 +50,17 @@ export const useAxios = <T = unknown>(
       isPending.value = false;
       isCompleted.value = true;
 
+      cancelSource = null;
+
       return data.value;
     } catch (error) {
-      console.error(error);
-
       error.value = error;
       isPending.value = false;
       isCompleted.value = true;
+
+      if (!axios.isCancel(error)) {
+        cancelSource = null;
+      }
     }
   };
 

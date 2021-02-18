@@ -32,7 +32,6 @@ const useProduct = () => {
 
       products.value.unshift(product);
     } catch (error) {
-      console.error(error);
       ElMessage.error(error.message);
     }
   };
@@ -55,7 +54,6 @@ const useProduct = () => {
       );
     } catch (error) {
       ElMessage.error(error.message);
-      console.error(error);
     }
   };
 
