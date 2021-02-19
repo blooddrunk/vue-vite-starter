@@ -20,26 +20,27 @@ export const useAsyncFn = <T extends FnReturningPromise>(
     initialData
   ) as Ref<ResultOfFnReturningPromise<T> | null>;
 
-  let lastPromise;
+  const lastPromise = ref<ReturnType<T>>();
+
   const request = async (...args: Parameters<T> | []) => {
     isPending.value = true;
     isCompleted.value = false;
     isSuccessful.value = false;
     error.value = null;
 
-    const promise = (lastPromise = fnRef.value(...args) as ReturnType<T>);
+    const promise = (lastPromise.value = fnRef.value(...args) as ReturnType<T>);
 
     try {
       const result = await promise;
 
-      if (lastPromise === promise) {
+      if (lastPromise.value === promise) {
         isSuccessful.value = true;
         data.value = result;
 
         return result;
       }
     } catch (error) {
-      if (lastPromise === promise) {
+      if (lastPromise.value === promise) {
         error.value = error;
         isSuccessful.value = false;
         console.error(error);

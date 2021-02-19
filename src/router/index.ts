@@ -17,12 +17,6 @@ export const routes: RouteRecordRaw[] = [
   },
 
   {
-    path: '/counter',
-    name: 'Counter',
-    component: () => import('../views/Counter.vue'),
-  },
-
-  {
     path: '/simple-list',
     name: 'SimpleList',
     component: () => import('../views/SimpleList.vue'),

@@ -43,10 +43,11 @@ const getRequestConfig = <
 ) => {
   const paginationInPayload = {} as any;
   if (paginationToQuery.page) {
-    paginationInPayload[paginationToQuery.page] = pagination.page;
+    paginationInPayload[paginationToQuery.page ?? 'page'] = pagination.page;
   }
   if (paginationToQuery.rowsPerPage) {
-    paginationInPayload[paginationToQuery.rowsPerPage] = pagination.rowsPerPage;
+    paginationInPayload[paginationToQuery.rowsPerPage ?? 'rowsPerPage'] =
+      pagination.rowsPerPage;
   }
 
   const payloadValues: Record<string, any> = {
@@ -63,6 +64,16 @@ const getRequestConfig = <
   };
 };
 
+const defaultPagination: Pagination = {
+  page: 1,
+  rowsPerPage: 20,
+};
+
+const defaultPaginationToQuery: PaginationToQuery = {
+  page: 'page',
+  rowsPerPage: 'rowsPerPage',
+};
+
 export const usePaginatedList = <
   TValue extends object = object,
   TFilter extends Record<string, any> = Record<string, any>
@@ -70,14 +81,8 @@ export const usePaginatedList = <
   initialFilter = {} as TFilter,
   initialItems = [],
   initialTotal = 0,
-  initialPagination = {
-    page: 1,
-    rowsPerPage: 20,
-  },
-  paginationToQuery = {
-    page: 'page',
-    rowsPerPage: 'rowsPerPage',
-  },
+  initialPagination = defaultPagination,
+  paginationToQuery = defaultPaginationToQuery,
   defaultDataTransformer = (data) => ({
     items: data?.items || [],
     total: data?.total || 0,
@@ -91,10 +96,16 @@ export const usePaginatedList = <
   const pagination = ref(initialPagination);
 
   const isListEmpty = computed(() => items.value.length === 0);
-  const computedPagination = computed<Pagination>(() => ({
+
+  const __computedPagination = computed<Pagination>(() => ({
     page: 1,
     ...pagination.value,
   }));
+
+  const __mergedPaginationToQuery = {
+    ...defaultPaginationToQuery,
+    ...paginationToQuery,
+  };
 
   const updatePagination = (newPagination: Partial<Pagination>) => {
     pagination.value = {
@@ -109,27 +120,37 @@ export const usePaginatedList = <
     });
   };
 
-  watch(filter, (value) => {
-    console.log(value);
-  });
+  // data fetch
+  const __dataFetcher = ref<(config?: AxiosRequestConfig) => void>();
+  const __appliedRequestPayload = ref<AxiosRequestConfig>();
+  const __appliedFilter = ref<TFilter>();
 
   const fetchList = (config: AxiosRequestConfig) => {
-    console.log(filter.value);
+    __appliedRequestPayload.value = {
+      __transformData: defaultDataTransformer,
+      ...getRequestConfig(config, {
+        filter: filter.value,
+        pagination: __computedPagination.value,
+        paginationToQuery: __mergedPaginationToQuery,
+      }),
+    };
 
-    const { data, isPending, error } = useAxios<ListResult<TValue>>(
-      {
-        __transformData: defaultDataTransformer,
-        ...getRequestConfig(config, {
-          filter: filter.value,
-          pagination: computedPagination.value,
-          paginationToQuery,
-        }),
-      },
+    console.log(__appliedRequestPayload);
+
+    if (__dataFetcher.value) {
+      __dataFetcher.value(__appliedRequestPayload.value);
+      return;
+    }
+
+    const { data, isPending, error, request } = useAxios<ListResult<TValue>>(
+      __appliedRequestPayload.value,
       {
         items: items.value,
         total: total.value,
       }
     );
+
+    __dataFetcher.value = request;
 
     watch(data, (value) => {
       if (value.items === undefined) {
@@ -150,6 +171,12 @@ export const usePaginatedList = <
       error.value = value;
     });
   };
+
+  watch(pagination, () => {
+    __dataFetcher.value?.();
+  });
+
+  // utility functions
 
   const toggleListState = (key: keyof TValue, index: number, value: any) => {
     const item = items.value[index];

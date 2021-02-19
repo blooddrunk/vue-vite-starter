@@ -20,11 +20,6 @@ export default {
   data: () => ({
     menuList: [
       {
-        text: 'Counter',
-        to: '/counter',
-      },
-
-      {
         text: 'Simple list',
         to: '/simple-list',
       },

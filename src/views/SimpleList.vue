@@ -13,11 +13,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watchEffect, watch } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useForm } from 'vee-validate';
 
 import { usePaginatedList } from '@/hooks/usePaginatedList';
-import { useAxios } from '@/hooks/useAxios';
 
 export type ListItem = {
   id: string;
@@ -37,7 +36,7 @@ export default defineComponent({
       },
     });
 
-    const { fetchList } = usePaginatedList({
+    const { fetchList, updatePagination } = usePaginatedList({
       paginationToQuery: {
         rowsPerPage: 'hitsPerPage',
       },
@@ -45,33 +44,29 @@ export default defineComponent({
       initialFilter: filter,
     });
 
-    const { request } = useAxios(
-      {
-        url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
-        __needValidation: false,
-      },
-      {
-        items: [],
-        total: 0,
-      },
-      { immediate: false }
-    );
-
     const fetchData = () => {
-      // fetchList({
-      //   url: 'https://hn.algolia.com/api/v1/search',
-      //   __transformData: (data) => ({
-      //     items: data?.hits,
-      //     total: data?.nbHits,
-      //   }),
-      //   __needValidation: false,
-      // });
-      request();
+      fetchList({
+        url: 'https://hn.algolia.com/api/v1/search',
+        __transformData: (data) => ({
+          items: data?.hits,
+          total: data?.nbHits,
+        }),
+        __needValidation: false,
+      });
     };
 
     const handleSearch = handleSubmit(() => {
-      fetchData();
+      // updatePagination({
+      //   page: 2,
+      // });
     });
+
+    // fetchData();
+    const obj = [1];
+    const testRef = ref(obj);
+    console.log(testRef.value);
+    obj.push(2);
+    console.log(testRef.value);
 
     return {
       handleSearch,

@@ -1,11 +1,11 @@
 import { ref, computed, unref, Ref } from 'vue';
 import { AxiosRequestConfig, CancelTokenSource, AxiosResponse } from 'axios';
 
-import { Refable } from '@/utils/typings';
+import { MaybeRef } from '@/utils/typings';
 import axios from '@/utils/axios';
 
 export const useAxios = <T = unknown>(
-  requestConfig: Refable<AxiosRequestConfig>,
+  requestConfig: MaybeRef<AxiosRequestConfig>,
   initialData: T,
   { immediate = true, takeLatest = true } = {}
 ) => {
@@ -17,7 +17,7 @@ export const useAxios = <T = unknown>(
 
   const isSuccessful = computed(() => isCompleted.value && !error.value);
 
-  // cancel func
+  // cancel
   let cancelSource: CancelTokenSource | null;
   const cancel = (message?: string) => {
     if (cancelSource) {
@@ -25,8 +25,11 @@ export const useAxios = <T = unknown>(
     }
   };
 
-  const request = async () => {
-    const unwrappedConfig = unref(requestConfig);
+  // prevent race condition
+  const lastPromise = ref<Promise<AxiosResponse<T>>>();
+
+  const request = async (newConfig?: MaybeRef<AxiosRequestConfig>) => {
+    const unwrappedConfig = unref(newConfig ?? requestConfig);
 
     if (takeLatest && cancelSource) {
       cancel(
@@ -40,26 +43,31 @@ export const useAxios = <T = unknown>(
     isCompleted.value = false;
     error.value = null;
 
+    const promise = (lastPromise.value = axios.request<T>({
+      cancelToken: cancelSource.token,
+      ...unwrappedConfig,
+    }));
     try {
-      response.value = await axios.request<T>({
-        cancelToken: cancelSource.token,
-        ...unwrappedConfig,
-      });
+      response.value = await promise;
 
-      data.value = response.value.data;
-      isPending.value = false;
-      isCompleted.value = true;
+      if (lastPromise.value === promise) {
+        data.value = response.value.data;
+        isPending.value = false;
+        isCompleted.value = true;
 
-      cancelSource = null;
+        cancelSource = null;
+      }
 
       return data.value;
     } catch (error) {
-      error.value = error;
-      isPending.value = false;
-      isCompleted.value = true;
+      if (lastPromise.value === promise) {
+        error.value = error;
+        isPending.value = false;
+        isCompleted.value = true;
 
-      if (!axios.isCancel(error)) {
-        cancelSource = null;
+        if (!axios.isCancel(error)) {
+          cancelSource = null;
+        }
       }
     }
   };
