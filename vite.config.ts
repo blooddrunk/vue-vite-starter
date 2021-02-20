@@ -7,11 +7,13 @@ import legacy from '@vitejs/plugin-legacy';
 // https://vitejs.dev/config/
 export default ({ mode }) => {
   return {
-    alias: {
-      '@': path.resolve(__dirname, '/src'),
-    },
-
     base: mode === 'production' ? '/' : '/',
+
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, '/src'),
+      },
+    },
 
     plugins: [
       vue(),

@@ -7,7 +7,7 @@ import { cloneDeep, merge } from 'lodash-es';
 import { trimValues } from '@/utils/form';
 import { useAxios } from '@/hooks/useAxios';
 
-type Pagination = {
+export type Pagination = {
   page?: number;
   rowsPerPage?: number;
 };

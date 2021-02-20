@@ -19,6 +19,7 @@ import { defineComponent } from 'vue';
 import { useForm } from 'vee-validate';
 
 import { usePaginatedList } from '@/hooks/usePaginatedList';
+import ElementTable from '@/components/UI/ElementTable.vue';
 
 export type ListItem = {
   id: string;
@@ -29,7 +30,9 @@ export type ListItem = {
 export default defineComponent({
   name: 'SimpleListView',
 
-  components: {},
+  components: {
+    ElementTable,
+  },
 
   setup() {
     const { values: filter, handleSubmit } = useForm({
@@ -38,24 +41,27 @@ export default defineComponent({
       },
     });
 
-    const { fetchList, fetchListAndReset, updatePagination } = usePaginatedList(
-      {
-        paginationToQuery: {
-          rowsPerPage: 'hitsPerPage',
-        },
+    const {
+      fetchList,
+      fetchListAndReset,
+      updatePagination,
+      isLoading,
+    } = usePaginatedList({
+      paginationToQuery: {
+        rowsPerPage: 'hitsPerPage',
+      },
 
-        initialFilter: filter,
+      initialFilter: filter,
 
-        initialRequestConfig: {
-          url: 'https://hn.algolia.com/api/v1/search',
-          __transformData: (data) => ({
-            items: data?.hits,
-            total: data?.nbHits,
-          }),
-          __needValidation: false,
-        },
-      }
-    );
+      initialRequestConfig: {
+        url: 'https://hn.algolia.com/api/v1/search',
+        __transformData: (data) => ({
+          items: data?.hits,
+          total: data?.nbHits,
+        }),
+        __needValidation: false,
+      },
+    });
 
     const handleSearch = handleSubmit(() => {
       fetchList();
