@@ -8,12 +8,14 @@
       ></ElementFormInput>
 
       <el-button native-type="submit">QUERY</el-button>
+      <el-button @click="nextPage">NEXT</el-button>
+      <el-button @click="handleSearchAndReset">RESET</el-button>
     </el-form>
   </section>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { useForm } from 'vee-validate';
 
 import { usePaginatedList } from '@/hooks/usePaginatedList';
@@ -36,40 +38,45 @@ export default defineComponent({
       },
     });
 
-    const { fetchList, updatePagination } = usePaginatedList({
-      paginationToQuery: {
-        rowsPerPage: 'hitsPerPage',
-      },
+    const { fetchList, fetchListAndReset, updatePagination } = usePaginatedList(
+      {
+        paginationToQuery: {
+          rowsPerPage: 'hitsPerPage',
+        },
 
-      initialFilter: filter,
+        initialFilter: filter,
+
+        initialRequestConfig: {
+          url: 'https://hn.algolia.com/api/v1/search',
+          __transformData: (data) => ({
+            items: data?.hits,
+            total: data?.nbHits,
+          }),
+          __needValidation: false,
+        },
+      }
+    );
+
+    const handleSearch = handleSubmit(() => {
+      fetchList();
     });
 
-    const fetchData = () => {
-      fetchList({
-        url: 'https://hn.algolia.com/api/v1/search',
-        __transformData: (data) => ({
-          items: data?.hits,
-          total: data?.nbHits,
-        }),
-        __needValidation: false,
+    const handleSearchAndReset = handleSubmit(() => {
+      fetchListAndReset();
+    });
+
+    const nextPage = () => {
+      updatePagination({
+        page: 2,
       });
     };
 
-    const handleSearch = handleSubmit(() => {
-      // updatePagination({
-      //   page: 2,
-      // });
-    });
-
-    // fetchData();
-    const obj = [1];
-    const testRef = ref(obj);
-    console.log(testRef.value);
-    obj.push(2);
-    console.log(testRef.value);
+    handleSearch();
 
     return {
       handleSearch,
+      handleSearchAndReset,
+      nextPage,
     };
   },
 });

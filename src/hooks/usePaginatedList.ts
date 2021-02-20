@@ -1,7 +1,8 @@
-import { ref, computed, watch, Ref } from 'vue';
+import { ref, computed, watch, readonly, Ref, UnwrapRef, unref } from 'vue';
 import produce from 'immer';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { AxiosRequestConfig } from 'axios';
+import { cloneDeep, merge } from 'lodash-es';
 
 import { trimValues } from '@/utils/form';
 import { useAxios } from '@/hooks/useAxios';
@@ -11,7 +12,7 @@ type Pagination = {
   rowsPerPage?: number;
 };
 
-type PaginationToQuery = Partial<Record<keyof Pagination, string>>;
+type PaginationToQuery = Record<keyof Pagination, string>;
 
 export type ListResult<T = any> = {
   items: T[];
@@ -23,46 +24,9 @@ type UsePaginatedListOptions<TValue, TFilter> = Partial<{
   initialItems: TValue[];
   initialTotal: number;
   initialPagination: Pagination;
-  paginationToQuery: PaginationToQuery;
-  defaultDataTransformer: (data: any) => ListResult;
+  initialRequestConfig: AxiosRequestConfig;
+  paginationToQuery: Partial<PaginationToQuery>;
 }>;
-
-const getRequestConfig = <
-  TFilter extends Record<string, any> = Record<string, any>
->(
-  config: AxiosRequestConfig,
-  {
-    filter,
-    pagination,
-    paginationToQuery,
-  }: {
-    filter: TFilter;
-    pagination: Pagination;
-    paginationToQuery: PaginationToQuery;
-  }
-) => {
-  const paginationInPayload = {} as any;
-  if (paginationToQuery.page) {
-    paginationInPayload[paginationToQuery.page ?? 'page'] = pagination.page;
-  }
-  if (paginationToQuery.rowsPerPage) {
-    paginationInPayload[paginationToQuery.rowsPerPage ?? 'rowsPerPage'] =
-      pagination.rowsPerPage;
-  }
-
-  const payloadValues: Record<string, any> = {
-    ...trimValues(filter),
-    ...paginationInPayload,
-  };
-  const method = (config.method || 'get').toLowerCase();
-  const payload =
-    method === 'get' ? { params: payloadValues } : { data: payloadValues };
-
-  return {
-    ...config,
-    ...payload,
-  };
-};
 
 const defaultPagination: Pagination = {
   page: 1,
@@ -74,22 +38,27 @@ const defaultPaginationToQuery: PaginationToQuery = {
   rowsPerPage: 'rowsPerPage',
 };
 
+const defaultRequestConfig: AxiosRequestConfig = {
+  __transformData: (data) => ({
+    items: data?.items || [],
+    total: data?.total || 0,
+  }),
+};
+
 export const usePaginatedList = <
   TValue extends object = object,
-  TFilter extends Record<string, any> = Record<string, any>
+  TFilter extends Record<string, any> = UnwrapRef<Record<string, any>>
 >({
   initialFilter = {} as TFilter,
   initialItems = [],
   initialTotal = 0,
   initialPagination = defaultPagination,
+  initialRequestConfig,
   paginationToQuery = defaultPaginationToQuery,
-  defaultDataTransformer = (data) => ({
-    items: data?.items || [],
-    total: data?.total || 0,
-  }),
 }: UsePaginatedListOptions<TValue, TFilter> = {}) => {
   const error = ref<Error | null | undefined>();
   const filter = ref(initialFilter);
+  const appliedFilter = ref({} as TFilter);
   const items = ref(initialItems) as Ref<TValue[]>;
   const total = ref(initialTotal);
   const isLoading = ref(false);
@@ -101,6 +70,11 @@ export const usePaginatedList = <
     page: 1,
     ...pagination.value,
   }));
+
+  const __mergedRequestConfig = {
+    ...defaultRequestConfig,
+    ...initialRequestConfig,
+  };
 
   const __mergedPaginationToQuery = {
     ...defaultPaginationToQuery,
@@ -121,21 +95,41 @@ export const usePaginatedList = <
   };
 
   // data fetch
-  const __dataFetcher = ref<(config?: AxiosRequestConfig) => void>();
-  const __appliedRequestPayload = ref<AxiosRequestConfig>();
-  const __appliedFilter = ref<TFilter>();
 
-  const fetchList = (config: AxiosRequestConfig) => {
-    __appliedRequestPayload.value = {
-      __transformData: defaultDataTransformer,
-      ...getRequestConfig(config, {
-        filter: filter.value,
-        pagination: __computedPagination.value,
-        paginationToQuery: __mergedPaginationToQuery,
-      }),
+  const __getRequestConfig = (config?: AxiosRequestConfig) => {
+    const unwrappedPagination = unref(__computedPagination);
+    const paginationInPayload = {} as any;
+
+    paginationInPayload[__mergedPaginationToQuery.page] =
+      unwrappedPagination.page;
+
+    paginationInPayload[__mergedPaginationToQuery.rowsPerPage] =
+      unwrappedPagination.rowsPerPage;
+
+    const payloadValues: Record<string, any> = {
+      ...trimValues(unref(appliedFilter)),
+      ...paginationInPayload,
     };
 
-    console.log(__appliedRequestPayload);
+    const mergedConfig = merge({}, __mergedRequestConfig, config);
+    const method = (mergedConfig?.method ?? 'get').toLowerCase();
+    const payload =
+      method === 'get' ? { params: payloadValues } : { data: payloadValues };
+
+    return {
+      ...mergedConfig,
+      ...payload,
+    };
+  };
+
+  const __dataFetcher = ref<(config?: AxiosRequestConfig) => void>();
+  const __appliedRequestPayload = ref<AxiosRequestConfig>();
+
+  const fetchList = (newConfig?: AxiosRequestConfig) => {
+    // apply filter first
+    appliedFilter.value = cloneDeep(unref(filter));
+
+    __appliedRequestPayload.value = __getRequestConfig(newConfig);
 
     if (__dataFetcher.value) {
       __dataFetcher.value(__appliedRequestPayload.value);
@@ -143,7 +137,7 @@ export const usePaginatedList = <
     }
 
     const { data, isPending, error, request } = useAxios<ListResult<TValue>>(
-      __appliedRequestPayload.value,
+      __appliedRequestPayload.value!,
       {
         items: items.value,
         total: total.value,
@@ -172,12 +166,18 @@ export const usePaginatedList = <
     });
   };
 
+  const fetchListAndReset = (newConfig?: AxiosRequestConfig) => {
+    // avoid triggering watcher
+    pagination.value.page = 1;
+
+    fetchList(newConfig);
+  };
+
   watch(pagination, () => {
-    __dataFetcher.value?.();
+    fetchList();
   });
 
   // utility functions
-
   const toggleListState = (key: keyof TValue, index: number, value: any) => {
     const item = items.value[index];
     if (item) {
@@ -230,6 +230,7 @@ export const usePaginatedList = <
   return {
     error,
     filter,
+    appliedFilter: readonly(appliedFilter),
     items,
     total,
     isLoading,
@@ -240,6 +241,7 @@ export const usePaginatedList = <
     updatePagination,
     resetPagination,
     fetchList,
+    fetchListAndReset,
     toggleListState,
     handleListAction,
   };

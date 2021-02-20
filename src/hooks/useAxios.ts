@@ -18,55 +18,55 @@ export const useAxios = <T = unknown>(
   const isSuccessful = computed(() => isCompleted.value && !error.value);
 
   // cancel
-  let cancelSource: CancelTokenSource | null;
+  let __cancelSource: CancelTokenSource | null;
   const cancel = (message?: string) => {
-    if (cancelSource) {
-      cancelSource.cancel(message);
+    if (__cancelSource) {
+      __cancelSource.cancel(message);
     }
   };
 
   // prevent race condition
-  const lastPromise = ref<Promise<AxiosResponse<T>>>();
+  const __lastPromise = ref<Promise<AxiosResponse<T>>>();
 
   const request = async (newConfig?: MaybeRef<AxiosRequestConfig>) => {
     const unwrappedConfig = unref(newConfig ?? requestConfig);
 
-    if (takeLatest && cancelSource) {
+    if (takeLatest && __cancelSource) {
       cancel(
         `[userAxios]: '${unwrappedConfig.url}' cancelling request due to duplicate call`
       );
     }
 
-    cancelSource = axios.CancelToken.source();
+    __cancelSource = axios.CancelToken.source();
 
     isPending.value = true;
     isCompleted.value = false;
     error.value = null;
 
-    const promise = (lastPromise.value = axios.request<T>({
-      cancelToken: cancelSource.token,
+    const promise = (__lastPromise.value = axios.request<T>({
+      cancelToken: __cancelSource.token,
       ...unwrappedConfig,
     }));
     try {
       response.value = await promise;
 
-      if (lastPromise.value === promise) {
+      if (__lastPromise.value === promise) {
         data.value = response.value.data;
         isPending.value = false;
         isCompleted.value = true;
 
-        cancelSource = null;
+        __cancelSource = null;
       }
 
       return data.value;
     } catch (error) {
-      if (lastPromise.value === promise) {
+      if (__lastPromise.value === promise) {
         error.value = error;
         isPending.value = false;
         isCompleted.value = true;
 
         if (!axios.isCancel(error)) {
-          cancelSource = null;
+          __cancelSource = null;
         }
       }
     }
