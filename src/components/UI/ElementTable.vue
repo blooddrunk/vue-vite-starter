@@ -1,11 +1,6 @@
 <template>
   <div>
-    <el-table
-      ref="table"
-      v-loading="listState.loading"
-      :data="listState.items"
-      v-bind="$attrs"
-    >
+    <el-table ref="table" v-loading="loading" :data="items" v-bind="$attrs">
       <slot></slot>
     </el-table>
 
@@ -14,7 +9,7 @@
       class="tw-py-3"
       v-bind="computedPaginationProps"
       :page-size="pagination.rowsPerPage"
-      :total="listState.total"
+      :total="total"
       @size-change="handleSizeChange"
       @current-change="handlePageChange"
     >
@@ -25,6 +20,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, PropType } from 'vue';
+
 import { Pagination } from '@/hooks/usePaginatedList';
 
 const defaultPaginationProps = {
@@ -37,6 +33,21 @@ export default defineComponent({
   name: 'ElementTable',
 
   props: {
+    items: {
+      type: Array,
+      default: () => [],
+    },
+
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+
+    total: {
+      type: Number,
+      default: 0,
+    },
+
     pagination: {
       type: Object as PropType<Pagination>,
       required: true,

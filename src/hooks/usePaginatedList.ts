@@ -227,6 +227,15 @@ export const usePaginatedList = <
     }
   };
 
+  // for ElementTable
+  const tableProps = computed(() => ({
+    items: items.value,
+    total: total.value,
+    loading: isLoading.value,
+    pagination: pagination.value,
+    updatePagination,
+  }));
+
   return {
     error,
     filter,
@@ -237,6 +246,7 @@ export const usePaginatedList = <
 
     pagination,
     isListEmpty,
+    tableProps,
 
     updatePagination,
     resetPagination,

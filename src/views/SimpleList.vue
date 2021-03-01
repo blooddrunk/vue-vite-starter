@@ -7,16 +7,30 @@
         :show-label="false"
       ></ElementFormInput>
 
-      <el-button native-type="submit">QUERY</el-button>
-      <el-button @click="nextPage">NEXT</el-button>
-      <el-button @click="handleSearchAndReset">RESET</el-button>
+      <el-button native-type="submit" type="primary">QUERY</el-button>
     </el-form>
+
+    <ElementTable class="tw-mt-3" v-bind="tableProps">
+      <el-table-column
+        prop="author"
+        label="Author"
+        width="100"
+      ></el-table-column>
+      <el-table-column prop="title" label="Title"></el-table-column>
+      <el-table-column prop="url" label="Link"></el-table-column>
+      <el-table-column prop="created_at" label="Created At" width="200">
+        <template #default="{ row }">
+          {{ formatDate(row.created_at) }}
+        </template>
+      </el-table-column>
+    </ElementTable>
   </section>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useForm } from 'vee-validate';
+import { parseISO, format } from 'date-fns';
 
 import { usePaginatedList } from '@/hooks/usePaginatedList';
 import ElementTable from '@/components/UI/ElementTable.vue';
@@ -41,12 +55,7 @@ export default defineComponent({
       },
     });
 
-    const {
-      fetchList,
-      fetchListAndReset,
-      updatePagination,
-      isLoading,
-    } = usePaginatedList({
+    const { fetchListAndReset, tableProps } = usePaginatedList({
       paginationToQuery: {
         rowsPerPage: 'hitsPerPage',
       },
@@ -64,25 +73,18 @@ export default defineComponent({
     });
 
     const handleSearch = handleSubmit(() => {
-      fetchList();
-    });
-
-    const handleSearchAndReset = handleSubmit(() => {
       fetchListAndReset();
     });
 
-    const nextPage = () => {
-      updatePagination({
-        page: 2,
-      });
-    };
-
     handleSearch();
 
+    const formatDate = (value: string) =>
+      format(parseISO(value), 'yyyy-MM-dd HH:ss');
+
     return {
+      tableProps,
       handleSearch,
-      handleSearchAndReset,
-      nextPage,
+      formatDate,
     };
   },
 });
