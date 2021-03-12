@@ -50,7 +50,7 @@ module.exports = {
       },
 
       fontFamily: {
-        sans: ['Microsoft YaHei', '微软雅黑', ...defaultTheme.fontFamily.sans],
+        sans: ['Microsoft YaHei', ...defaultTheme.fontFamily.sans],
       },
     },
   },

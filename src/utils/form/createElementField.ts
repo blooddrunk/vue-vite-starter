@@ -23,13 +23,17 @@ type ElementFormComponent =
   | 'ElRate'
   | 'ElCascader';
 
-type CreateElementFieldOptions = {
+type CreateElementFieldOptions<T> = {
   bindBlurEvent?: boolean;
+  valueFormatter?: (value: unknown) => T;
 };
 
 export const createElementField = <TValue = unknown>(
   componentName: ElementFormComponent,
-  { bindBlurEvent = true } = {}
+  {
+    bindBlurEvent = true,
+    valueFormatter,
+  }: CreateElementFieldOptions<TValue> = {}
 ) =>
   defineComponent({
     name: `${componentName}WithFormItem`,
@@ -75,6 +79,11 @@ export const createElementField = <TValue = unknown>(
         type: Boolean,
         default: true,
       },
+
+      valueFormatter: {
+        type: Function as PropType<(value: unknown) => TValue>,
+        default: valueFormatter,
+      },
     },
 
     setup(props, { attrs, slots }) {
@@ -108,12 +117,18 @@ export const createElementField = <TValue = unknown>(
         };
       });
 
-      const formFieldProps = computed(() => ({
-        ...attrs,
-        ...listeners.value,
-        name: props.name,
-        modelValue: value.value,
-      }));
+      const formFieldProps = computed(() => {
+        const modelValue = props.valueFormatter
+          ? props.valueFormatter(value.value)
+          : value.value;
+
+        return {
+          ...attrs,
+          ...listeners.value,
+          name: props.name,
+          modelValue,
+        };
+      });
 
       const { label, ...fieldSlots } = slots;
 

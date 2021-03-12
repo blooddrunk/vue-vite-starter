@@ -58,7 +58,7 @@ export const usePaginatedList = <
 }: UsePaginatedListOptions<TValue, TFilter> = {}) => {
   const error = ref<Error | null | undefined>();
   const filter = ref(initialFilter);
-  const appliedFilter = ref({} as TFilter);
+  const lastAppliedFilter = ref({} as TFilter);
   const items = ref(initialItems) as Ref<TValue[]>;
   const total = ref(initialTotal);
   const isLoading = ref(false);
@@ -107,7 +107,7 @@ export const usePaginatedList = <
       unwrappedPagination.rowsPerPage;
 
     const payloadValues: Record<string, any> = {
-      ...trimValues(unref(appliedFilter)),
+      ...trimValues(unref(lastAppliedFilter)),
       ...paginationInPayload,
     };
 
@@ -127,7 +127,7 @@ export const usePaginatedList = <
 
   const fetchList = (newConfig?: AxiosRequestConfig) => {
     // apply filter first
-    appliedFilter.value = cloneDeep(unref(filter));
+    lastAppliedFilter.value = cloneDeep(unref(filter));
 
     __appliedRequestPayload.value = __getRequestConfig(newConfig);
 
@@ -239,7 +239,7 @@ export const usePaginatedList = <
   return {
     error,
     filter,
-    appliedFilter: readonly(appliedFilter),
+    lastAppliedFilter: readonly(lastAppliedFilter),
     items,
     total,
     isLoading,

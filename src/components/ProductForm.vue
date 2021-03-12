@@ -82,7 +82,7 @@ export default defineComponent({
       inventory: 'required',
     };
 
-    const { meta, isSubmitting, handleSubmit } = useForm({
+    const { values, meta, isSubmitting, handleSubmit } = useForm({
       validationSchema,
       initialValues,
     });
@@ -94,6 +94,7 @@ export default defineComponent({
     });
 
     return {
+      values,
       validationSchema,
       invalid,
       isSubmitting,

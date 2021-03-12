@@ -17,7 +17,13 @@
         width="100"
       ></el-table-column>
       <el-table-column prop="title" label="Title"></el-table-column>
-      <el-table-column prop="url" label="Link"></el-table-column>
+      <el-table-column prop="url" label="Link">
+        <template #default="{ row }">
+          <a class="tw-text-primary" :href="row.url" target="_blank">
+            {{ row.url }}
+          </a>
+        </template>
+      </el-table-column>
       <el-table-column prop="created_at" label="Created At" width="200">
         <template #default="{ row }">
           {{ formatDate(row.created_at) }}
