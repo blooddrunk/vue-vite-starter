@@ -2,22 +2,22 @@
   <div class="tw-max-w-lg tw-p-3 tw-shadow-md">
     <h1 class="tw-py-2 tw-text-semibold tw-text-xl tw">Enter Product</h1>
 
-    <el-form status-icon @submit="onSubmit">
-      <ElementFormInput name="name" label="Product Name" required>
+    <el-form status-icon @submit="onSubmit" @reset="onReset">
+      <InputWrapper name="name" label="Product Name" required>
         <template #label>
           <span class="tw-text-teal-600">Product Name</span>
         </template>
-      </ElementFormInput>
+      </InputWrapper>
 
-      <ElementFormInput name="price" label="Price" required>
+      <InputWrapper name="price" label="Price" required>
         <template #label>
           <span class="tw-text-blue-600">Price</span>
         </template>
 
         <template #prepend> $ </template>
-      </ElementFormInput>
+      </InputWrapper>
 
-      <ElementFormInputNumber
+      <InputNumberWrapper
         class="tw-w-full"
         name="inventory"
         label="Inventory"
@@ -27,10 +27,10 @@
         :max="9999"
         :precision="0"
       >
-      </ElementFormInputNumber>
+      </InputNumberWrapper>
 
       <div class="tw-flex tw-justify-end tw-py-3">
-        <el-button>RESET</el-button>
+        <el-button native-type="reset">RESET</el-button>
         <el-button
           type="primary"
           native-type="submit"
@@ -56,7 +56,7 @@ export type Product = {
 };
 
 const initialValues = {
-  name: '',
+  name: '233',
   price: 1,
   inventory: 1,
 };
@@ -82,7 +82,7 @@ export default defineComponent({
       inventory: 'required',
     };
 
-    const { values, meta, isSubmitting, handleSubmit } = useForm({
+    const { values, meta, isSubmitting, handleSubmit, resetForm } = useForm({
       validationSchema,
       initialValues,
     });
@@ -93,12 +93,19 @@ export default defineComponent({
       await props.addProduct(values);
     });
 
+    const onReset = (e: Event) => {
+      e.preventDefault();
+
+      resetForm();
+    };
+
     return {
       values,
       validationSchema,
       invalid,
       isSubmitting,
       onSubmit,
+      onReset,
     };
   },
 });

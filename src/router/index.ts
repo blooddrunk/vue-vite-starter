@@ -23,9 +23,9 @@ export const routes: RouteRecordRaw[] = [
   },
 
   {
-    path: '/element-ui',
-    name: 'ElementUI',
-    component: () => import('../views/ElementUI.vue'),
+    path: '/simple-form',
+    name: 'SimpleForm',
+    component: () => import('../views/SimpleForm.vue'),
   },
 
   {

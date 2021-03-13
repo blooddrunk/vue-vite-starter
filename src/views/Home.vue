@@ -25,8 +25,8 @@ export default {
       },
 
       {
-        text: 'Element UI',
-        to: '/element-ui',
+        text: 'Simple Form',
+        to: '/simple-form',
       },
 
       {

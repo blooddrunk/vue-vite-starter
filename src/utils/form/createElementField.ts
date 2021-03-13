@@ -36,7 +36,7 @@ export const createElementField = <TValue = unknown>(
   }: CreateElementFieldOptions<TValue> = {}
 ) =>
   defineComponent({
-    name: `${componentName}WithFormItem`,
+    name: `${componentName}Wrapper`,
 
     props: {
       name: {

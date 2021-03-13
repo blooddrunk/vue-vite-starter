@@ -1,16 +1,16 @@
 <template>
   <section>
     <el-form inline @submit="handleSearch">
-      <ElementFormInput
+      <InputWrapper
         name="query"
         label="Query"
         :show-label="false"
-      ></ElementFormInput>
+      ></InputWrapper>
 
       <el-button native-type="submit" type="primary">QUERY</el-button>
     </el-form>
 
-    <ElementTable class="tw-mt-3" v-bind="tableProps">
+    <PaginatedTable class="tw-mt-3" v-bind="tableProps">
       <el-table-column
         prop="author"
         label="Author"
@@ -29,7 +29,7 @@
           {{ formatDate(row.created_at) }}
         </template>
       </el-table-column>
-    </ElementTable>
+    </PaginatedTable>
   </section>
 </template>
 
@@ -39,7 +39,6 @@ import { useForm } from 'vee-validate';
 import { parseISO, format } from 'date-fns';
 
 import { usePaginatedList } from '@/hooks/usePaginatedList';
-import ElementTable from '@/components/UI/ElementTable.vue';
 
 export type ListItem = {
   id: string;
@@ -49,10 +48,6 @@ export type ListItem = {
 
 export default defineComponent({
   name: 'SimpleListView',
-
-  components: {
-    ElementTable,
-  },
 
   setup() {
     const { values: filter, handleSubmit } = useForm({

@@ -27,7 +27,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, watchEffect } from 'vue';
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  watchEffect,
+  PropType,
+} from 'vue';
 
 type InputType =
   | 'url'
@@ -68,7 +75,7 @@ export default defineComponent({
     },
 
     type: {
-      type: String as () => InputType,
+      type: String as PropType<InputType>,
       default: 'text',
     },
 

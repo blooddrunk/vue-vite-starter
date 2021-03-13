@@ -157,9 +157,15 @@ export const usePaginatedList = <
       total.value = value.total;
     });
 
-    watch(isPending, (value) => {
-      isLoading.value = value;
-    });
+    watch(
+      isPending,
+      (value) => {
+        isLoading.value = value;
+      },
+      {
+        immediate: true,
+      }
+    );
 
     watch(error, (value) => {
       error.value = value;

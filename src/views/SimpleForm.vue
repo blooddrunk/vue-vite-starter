@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <section>
     <ProductForm :add-product="addProduct"></ProductForm>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">

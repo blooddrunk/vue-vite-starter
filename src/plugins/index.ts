@@ -1,15 +1,15 @@
 import { App } from 'vue';
 
-import ElementTable from '@/components/UI/ElementTable.vue';
-import ElementFormInput from '@/components/UI/Form/ElementFormInput';
-import ElementFormInputNumber from '@/components/UI/Form/ElementFormInputNumber';
+import PaginatedTable from '../components/UI/PaginatedTable.vue';
+import InputWrapper from '@/components/UI/Form/InputWrapper';
+import InputNumberWrapper from '@/components/UI/Form/InputNumberWrapper';
 
 export { default as elementUI } from './element-ui';
 export { default as veeValidate } from './vee-validate';
 export { default as promised } from './promised';
 
 export const clientInit = (app: App) => {
-  app.component('ElementTable', ElementTable);
-  app.component('ElementFormInput', ElementFormInput);
-  app.component('ElementFormInputNumber', ElementFormInputNumber);
+  app.component('PaginatedTable', PaginatedTable);
+  app.component('InputWrapper', InputWrapper);
+  app.component('InputNumberWrapper', InputNumberWrapper);
 };

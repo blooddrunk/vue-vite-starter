@@ -30,7 +30,7 @@ const defaultPaginationProps = {
 };
 
 export default defineComponent({
-  name: 'ElementTable',
+  name: 'PaginatedTable',
 
   props: {
     items: {
