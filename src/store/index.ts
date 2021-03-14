@@ -1,12 +1,17 @@
-import { createStore } from 'vuex';
+import { InjectionKey } from 'vue';
+import { createStore, useStore as baseUseStore, Store, Module } from 'vuex';
 import VuexPersistence from 'vuex-persist';
 
-export interface RootState {}
+import auth, { AuthState } from './modules/auth';
+
+export type RootState = {};
 
 const vuexLocal = new VuexPersistence<RootState>({
   key: 'do_not_forget_to_define_your_own_key',
-  storage: window.localStorage,
+  filter: () => false,
 });
+
+export const storeSymbol: InjectionKey<Store<RootState>> = Symbol();
 
 export const store = createStore<RootState>({
   plugins: [vuexLocal.plugin],
@@ -14,5 +19,12 @@ export const store = createStore<RootState>({
   state: {},
   mutations: {},
   actions: {},
-  modules: {},
+
+  modules: {
+    auth: auth as Module<AuthState, RootState>,
+  },
 });
+
+export const useStore = () => {
+  return baseUseStore(storeSymbol);
+};
