@@ -1,10 +1,19 @@
-import { ref, computed, watch, readonly, Ref, UnwrapRef, unref } from 'vue';
-import produce from 'immer';
+import {
+  ref,
+  computed,
+  watch,
+  watchEffect,
+  readonly,
+  Ref,
+  UnwrapRef,
+  unref,
+} from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { AxiosRequestConfig } from 'axios';
 import { cloneDeep, merge } from 'lodash-es';
 
 import { trimValues } from '@/utils/form';
+import { setItemValueByArrayIndex } from '@/utils/common';
 import { useAxios } from '@/hooks/useAxios';
 
 export type Pagination = {
@@ -136,13 +145,12 @@ export const usePaginatedList = <
       return;
     }
 
-    const { data, isPending, error, request } = useAxios<ListResult<TValue>>(
-      __appliedRequestPayload.value!,
-      {
-        items: items.value,
-        total: total.value,
-      }
-    );
+    const { data, isPending, error: requestError, request } = useAxios<
+      ListResult<TValue>
+    >(__appliedRequestPayload.value!, {
+      items: items.value,
+      total: total.value,
+    });
 
     __dataFetcher.value = request;
 
@@ -157,18 +165,9 @@ export const usePaginatedList = <
       total.value = value.total;
     });
 
-    watch(
-      isPending,
-      (value) => {
-        isLoading.value = value;
-      },
-      {
-        immediate: true,
-      }
-    );
-
-    watch(error, (value) => {
-      error.value = value;
+    watchEffect(() => {
+      isLoading.value = isPending.value;
+      error.value = requestError.value;
     });
   };
 
@@ -184,16 +183,6 @@ export const usePaginatedList = <
   });
 
   // utility functions
-  const toggleListState = (key: keyof TValue, index: number, value: any) => {
-    const item = items.value[index];
-    if (item) {
-      items.value = produce(items.value, (draftItems) => {
-        (draftItems[index] as TValue)[key] =
-          value === undefined ? !item[key] : value;
-      });
-    }
-  };
-
   const handleListAction = async ({
     confirmText,
     successText,
@@ -216,7 +205,13 @@ export const usePaginatedList = <
         });
       }
 
-      toggleListState('loading' as any, index, true);
+      setItemValueByArrayIndex({
+        items,
+        index,
+        key: 'loading' as any,
+        value: true,
+      });
+
       try {
         const response = await handler();
 
@@ -226,7 +221,12 @@ export const usePaginatedList = <
         ElMessage.error(error.message);
         onFailure && onFailure(error);
       } finally {
-        toggleListState('loading' as any, index, false);
+        setItemValueByArrayIndex({
+          items,
+          index,
+          key: 'loading' as any,
+          value: false,
+        });
       }
     } catch (error) {
       // cancelled
@@ -258,7 +258,6 @@ export const usePaginatedList = <
     resetPagination,
     fetchList,
     fetchListAndReset,
-    toggleListState,
     handleListAction,
   };
 };

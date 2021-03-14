@@ -1,16 +1,34 @@
 <template>
   <section>
     <ProductForm :add-product="addProduct"></ProductForm>
+
+    <el-table class="tw-mt-3" :data="products">
+      <el-table-column prop="name" label="Product Name"></el-table-column>
+      <el-table-column prop="price" label="Product Price"></el-table-column>
+      <el-table-column prop="inventory" label="Inventory"></el-table-column>
+      <el-table-column label="Action">
+        <template #default="props">
+          <TableActionButton
+            :button-props="{ type: 'danger' }"
+            :row-props="props"
+            @click="handleDelete(props)"
+          >
+            DELETE
+          </TableActionButton>
+        </template>
+      </el-table-column>
+    </el-table>
   </section>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { ElMessage } from 'element-plus';
 
 import ProductForm, { Product } from '@/components/ProductForm.vue';
 import { useAxios } from '@/hooks/useAxios';
 import axios from '@/utils/axios';
+import { setItemValueByArrayIndex } from '@/utils/common';
 
 const useProduct = () => {
   const { data: products, isPending: isProductLoading } = useAxios<Product[]>(
@@ -18,7 +36,8 @@ const useProduct = () => {
       url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
       __needValidation: false,
     },
-    []
+    [],
+    { immediate: true }
   );
 
   const addProduct = async (product: Product) => {
@@ -80,11 +99,29 @@ export default defineComponent({
       removeProduct,
     } = useProduct();
 
+    const handleDelete = async (props: any) => {
+      setItemValueByArrayIndex({
+        items: products,
+        index: props.$index,
+        key: 'loading' as any,
+        value: true,
+      });
+
+      await removeProduct(props.row);
+
+      setItemValueByArrayIndex({
+        items: products,
+        index: props.$index,
+        key: 'loading' as any,
+        value: false,
+      });
+    };
+
     return {
       products,
       isProductLoading,
       addProduct,
-      removeProduct,
+      handleDelete,
     };
   },
 });

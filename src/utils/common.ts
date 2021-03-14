@@ -1,3 +1,6 @@
+import { Ref } from 'vue';
+import produce from 'immer';
+
 export const isClient = () => typeof window === 'object';
 
 export const isNumeric = (num: number | string) =>
@@ -24,3 +27,22 @@ export const jsonToUrlParams = (data: Record<string, any>) =>
     params.append(key, value);
     return params;
   }, new URLSearchParams());
+
+export const setItemValueByArrayIndex = <TItem extends Record<string, any>>({
+  items,
+  index,
+  key,
+  value,
+}: {
+  items: Ref<TItem[]>;
+  index: number;
+  key: keyof TItem;
+  value: any;
+}) => {
+  const item = items.value[index];
+  if (item) {
+    items.value = produce(items.value, (draftItems) => {
+      (draftItems[index] as TItem)[key] = value;
+    });
+  }
+};

@@ -5,6 +5,7 @@ import {
   computed,
   ComponentOptions,
   PropType,
+  DefineComponent,
 } from 'vue';
 import { pick } from 'lodash-es';
 
