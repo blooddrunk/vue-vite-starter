@@ -1,5 +1,6 @@
 import { Ref, ComputedRef } from 'vue';
 export * from './element-plus';
+export * from './vuex';
 
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 
