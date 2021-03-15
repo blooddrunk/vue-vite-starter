@@ -3,7 +3,7 @@ import { AxiosResponse, AxiosRequestConfig } from 'axios';
 import { defaultsDeep, isPlainObject } from 'lodash-es';
 
 import { createAxiosInstance, EnhancedAxiosInstance } from './enhance';
-import { jsonToUrlParams } from '@/utils/common';
+import { jsonToUrlParams } from '@/utils/misc';
 
 declare module 'axios' {
   interface AxiosRequestConfig {

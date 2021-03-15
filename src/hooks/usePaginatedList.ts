@@ -13,7 +13,7 @@ import { AxiosRequestConfig } from 'axios';
 import { cloneDeep, merge } from 'lodash-es';
 
 import { trimValues } from '@/utils/form';
-import { setItemValueByArrayIndex } from '@/utils/common';
+import { setItemValueByArrayIndex } from '@/utils/misc';
 import { useAxios } from '@/hooks/useAxios';
 
 export type Pagination = {

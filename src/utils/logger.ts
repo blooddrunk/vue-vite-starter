@@ -1,4 +1,4 @@
-import { isClient } from './common';
+import { isClient } from './misc';
 
 type BaseLoggerTypes = {
   log: string;

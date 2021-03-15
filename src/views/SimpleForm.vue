@@ -2,7 +2,7 @@
   <section>
     <ProductForm :add-product="addProduct"></ProductForm>
 
-    <el-table class="tw-mt-3" :data="products">
+    <el-table v-loading="isProductLoading" class="tw-mt-3" :data="products">
       <el-table-column prop="name" label="Product Name"></el-table-column>
       <el-table-column prop="price" label="Product Price"></el-table-column>
       <el-table-column prop="inventory" label="Inventory"></el-table-column>
@@ -28,7 +28,7 @@ import { ElMessage } from 'element-plus';
 import ProductForm, { Product } from '@/components/ProductForm.vue';
 import { useAxios } from '@/hooks/useAxios';
 import axios from '@/utils/axios';
-import { setItemValueByArrayIndex } from '@/utils/common';
+import { setItemValueByArrayIndex } from '@/utils/misc';
 
 const useProduct = () => {
   const { data: products, isPending: isProductLoading } = useAxios<Product[]>(
