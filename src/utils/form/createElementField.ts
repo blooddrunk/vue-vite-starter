@@ -5,24 +5,11 @@ import {
   computed,
   ComponentOptions,
   PropType,
-  DefineComponent,
 } from 'vue';
 import { pick } from 'lodash-es';
+import { ElFormItem } from 'element-plus';
 
 import { useFormField, ValidationMode } from '@/hooks/useFormField';
-
-type ElementFormComponent =
-  | 'ElInput'
-  | 'ElInputNumber'
-  | 'ElRadio'
-  | 'ElCheckbox'
-  | 'ElSelect'
-  | 'ElSwitch'
-  | 'ElTimePicker'
-  | 'ElTimeSelect'
-  | 'ElDateTimePicker'
-  | 'ElRate'
-  | 'ElCascader';
 
 type CreateElementFieldOptions<T> = {
   bindBlurEvent?: boolean;
@@ -30,14 +17,14 @@ type CreateElementFieldOptions<T> = {
 };
 
 export const createElementField = <TValue = unknown>(
-  componentName: ElementFormComponent,
+  Component: ComponentOptions,
   {
     bindBlurEvent = true,
     valueFormatter,
   }: CreateElementFieldOptions<TValue> = {}
 ) =>
   defineComponent({
-    name: `${componentName}Wrapper`,
+    name: `${Component.name ?? 'Unknown'}Wrapper`,
 
     props: {
       name: {
@@ -134,21 +121,13 @@ export const createElementField = <TValue = unknown>(
       const { label, ...fieldSlots } = slots;
 
       return () => {
-        const FormField = h(
-          resolveComponent(componentName) as ComponentOptions,
-          formFieldProps.value,
-          fieldSlots
-        );
+        const FormField = h(Component, formFieldProps.value, fieldSlots);
 
         if (props.hasWrapper) {
-          return h(
-            resolveComponent('ElFormItem') as ComponentOptions,
-            formItemProps.value,
-            {
-              default: () => FormField,
-              label,
-            }
-          );
+          return h(ElFormItem, formItemProps.value, {
+            default: () => FormField,
+            label,
+          });
         } else {
           return FormField;
         }

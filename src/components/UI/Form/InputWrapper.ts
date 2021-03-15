@@ -1,3 +1,5 @@
+import { ElInput } from 'element-plus';
+
 import { createElementField } from '@/utils/form/createElementField';
 
-export default createElementField<string | number>('ElInput');
+export default createElementField<string | number>(ElInput);

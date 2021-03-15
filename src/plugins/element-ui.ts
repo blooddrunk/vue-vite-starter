@@ -1,7 +1,7 @@
 import { App } from 'vue';
-import ElementPlus from 'element-plus';
-import 'element-plus/lib/theme-chalk/index.css';
+import { ElLoading } from 'element-plus';
+import '@/assets/scss/element-ui.scss';
 
 export default (app: App) => {
-  app.use(ElementPlus);
+  app.use(ElLoading);
 };
