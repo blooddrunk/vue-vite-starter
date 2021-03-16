@@ -31,12 +31,26 @@ type GetActionsTypes<Module, ModuleName = ''> = Module extends {
     }
   : never;
 
+type GetGettersTypes<Module, ModuleName = ''> = Module extends {
+  getters: infer G;
+}
+  ? {
+      [GetterKey in keyof G as AddPrefix<GetterKey, ModuleName>]: ReturnType<
+        G[GetterKey]
+      >;
+    }
+  : never;
+
 type GetModulesMutationTypes<Modules> = {
   [K in keyof Modules]: GetMutationsTypes<Modules[K], K>;
 }[keyof Modules];
 
 type GetModulesActionTypes<Modules> = {
   [K in keyof Modules]: GetActionsTypes<Modules[K], K>;
+}[keyof Modules];
+
+type GetModulesGetterType<Modules> = {
+  [K in keyof Modules]: GetGettersTypes<Modules[K], K>;
 }[keyof Modules];
 
 type GetSubModuleMutationsTypes<Module> = Module extends {
@@ -49,6 +63,12 @@ type GetSubModuleActionsTypes<Module> = Module extends {
   modules: infer SubModules;
 }
   ? GetModulesActionTypes<SubModules>
+  : never;
+
+type GetSubModuleGettersTypes<Module> = Module extends {
+  modules: infer SubModules;
+}
+  ? GetModulesGetterType<SubModules>
   : never;
 
 type UnionToIntersection<T> = (T extends any ? (k: T) => void : never) extends (
@@ -75,6 +95,10 @@ export type GetMutationsType<R> = UnionToIntersection<
 
 export type GetActionsType<R> = UnionToIntersection<
   GetSubModuleActionsTypes<R> | GetActionsTypes<R>
+>;
+
+export type GetGettersType<R> = UnionToIntersection<
+  GetSubModuleGettersTypes<R> | GetGettersTypes<R>
 >;
 
 export type GetPayLoad<T, K extends keyof T> = GetParam<GetTypeOfKey<T, K>>;
