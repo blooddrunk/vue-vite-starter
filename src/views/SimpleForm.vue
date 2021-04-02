@@ -8,13 +8,12 @@
       <el-table-column prop="inventory" label="Inventory"></el-table-column>
       <el-table-column label="Action">
         <template #default="props">
-          <TableActionButton
+          <BaseLoadingButton
             :button-props="{ type: 'danger' }"
-            :row-props="props"
-            @click="handleDelete(props)"
+            :action="getDeleteAction(props)"
           >
             DELETE
-          </TableActionButton>
+          </BaseLoadingButton>
         </template>
       </el-table-column>
     </el-table>
@@ -99,29 +98,13 @@ export default defineComponent({
       removeProduct,
     } = useProduct();
 
-    const handleDelete = async (props: any) => {
-      setItemValueByArrayIndex({
-        items: products,
-        index: props.$index,
-        key: 'loading' as any,
-        value: true,
-      });
-
-      await removeProduct(props.row);
-
-      setItemValueByArrayIndex({
-        items: products,
-        index: props.$index,
-        key: 'loading' as any,
-        value: false,
-      });
-    };
+    const getDeleteAction = (props: any) => removeProduct(props.row);
 
     return {
       products,
       isProductLoading,
       addProduct,
-      handleDelete,
+      getDeleteAction,
     };
   },
 });
