@@ -56,7 +56,7 @@ export type Product = {
 };
 
 const initialValues = {
-  name: '233',
+  name: '23333',
   price: 1,
   inventory: 1,
 };

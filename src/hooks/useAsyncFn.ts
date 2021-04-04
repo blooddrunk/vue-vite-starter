@@ -2,13 +2,13 @@ import { ref, Ref } from 'vue';
 
 import { PromiseType, FnReturningPromise } from '@/utils/typings';
 
-type ResultOfFnReturningPromise<T extends FnReturningPromise> = PromiseType<
-  ReturnType<T>
-> | null;
+type ResultOfFnReturningPromise<T extends FnReturningPromise> =
+  | PromiseType<ReturnType<T>>
+  | undefined;
 
 export const useAsyncFn = <T extends FnReturningPromise>(
   fn: T,
-  initialData: ResultOfFnReturningPromise<T>
+  initialData?: ResultOfFnReturningPromise<T>
 ) => {
   const fnRef = ref<T>(fn);
 
@@ -16,13 +16,11 @@ export const useAsyncFn = <T extends FnReturningPromise>(
   const isCompleted = ref(false);
   const isSuccessful = ref(false);
   const error = ref<Error | null>(null);
-  const data = ref<ResultOfFnReturningPromise<T>>(
-    initialData
-  ) as Ref<ResultOfFnReturningPromise<T> | null>;
+  const data = ref<ResultOfFnReturningPromise<T>>(initialData);
 
   const __lastPromise = ref<ReturnType<T>>();
 
-  const request = async (...args: Parameters<T> | []) => {
+  const execute = async (...args: Parameters<T> | []) => {
     isPending.value = true;
     isCompleted.value = false;
     isSuccessful.value = false;
@@ -59,6 +57,6 @@ export const useAsyncFn = <T extends FnReturningPromise>(
     isSuccessful,
     error,
     data,
-    request,
+    execute,
   };
 };
