@@ -29,6 +29,12 @@ export const routes: RouteRecordRaw[] = [
   },
 
   {
+    path: '/echarts',
+    name: 'ECharts',
+    component: () => import('../views/ECharts.vue'),
+  },
+
+  {
     path: '/directive-intersection-observer',
     name: 'DirectiveIntersectionObserver',
     component: () => import('../views/DirectiveIntersectionObserver.vue'),

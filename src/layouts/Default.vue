@@ -19,13 +19,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// import { Home } from '@icon-park/vue-next';
 
 export default defineComponent({
   name: 'DefaultLayout',
-
-  // components: {
-  //   [Home.name]: Home,
-  // },
 });
 </script>
