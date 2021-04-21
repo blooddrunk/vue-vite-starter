@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div class="tw-w-full tw-h-72">
+    <HistChart></HistChart>
+  </div>
 </template>
 
 <script lang="ts">

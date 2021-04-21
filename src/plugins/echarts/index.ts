@@ -1,5 +1,5 @@
 import ECharts from 'vue-echarts';
-import { use } from 'echarts/core';
+import { use, registerTheme } from 'echarts/core';
 
 import { CanvasRenderer } from 'echarts/renderers';
 import { BarChart } from 'echarts/charts';
@@ -36,7 +36,7 @@ export default async (app: App) => {
 
   themeList.forEach((theme, index) => {
     const themeName = availableThemeNameList[index];
-    ECharts.registerTheme(themeName, theme);
+    registerTheme(themeName, theme);
   });
 
   app.component('ECharts', ECharts);

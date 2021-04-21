@@ -8,12 +8,10 @@ import {
   UnwrapRef,
   unref,
 } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
 import { AxiosRequestConfig } from 'axios';
 import { cloneDeep, merge } from 'lodash-es';
 
 import { trimValues } from '@/utils/form';
-import { setItemValueByArrayIndex } from '@/utils/misc';
 import { useAxios } from '@/hooks/useAxios';
 
 export type Pagination = {
@@ -182,57 +180,6 @@ export const usePaginatedList = <
     fetchList();
   });
 
-  // utility functions
-  const handleListAction = async ({
-    confirmText,
-    successText,
-    index,
-    handler,
-    onSuccess,
-    onFailure,
-  }: {
-    confirmText?: string;
-    successText?: string;
-    index: number;
-    handler: () => any;
-    onSuccess: (response: any) => void;
-    onFailure: (error: Error) => void;
-  }) => {
-    try {
-      if (confirmText) {
-        await ElMessageBox.confirm(confirmText, '提示', {
-          type: 'warning',
-        });
-      }
-
-      setItemValueByArrayIndex({
-        items,
-        index,
-        key: 'loading' as any,
-        value: true,
-      });
-
-      try {
-        const response = await handler();
-
-        successText && ElMessage.success(successText);
-        onSuccess && onSuccess(response);
-      } catch (error) {
-        ElMessage.error(error.message);
-        onFailure && onFailure(error);
-      } finally {
-        setItemValueByArrayIndex({
-          items,
-          index,
-          key: 'loading' as any,
-          value: false,
-        });
-      }
-    } catch (error) {
-      // cancelled
-    }
-  };
-
   // for ElementTable
   const tableProps = computed(() => ({
     items: items.value,
@@ -258,6 +205,5 @@ export const usePaginatedList = <
     resetPagination,
     fetchList,
     fetchListAndReset,
-    handleListAction,
   };
 };
