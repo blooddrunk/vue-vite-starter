@@ -4,7 +4,7 @@
 
 import { ref, computed, watch, Ref } from 'vue';
 
-import { isNumeric } from '@/utils/math';
+import { isNumeric } from '@/utils/misc';
 
 const ensureNumber = (value: number | string) => {
   if (typeof value !== 'undefined' && !isNumeric(value)) {

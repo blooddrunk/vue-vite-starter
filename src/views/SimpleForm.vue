@@ -8,11 +8,19 @@
       :data="products"
       row-key="id"
     >
-      <el-table-column prop="id" label="ID"></el-table-column>
+      <el-table-column prop="id" label="ID" width="100"></el-table-column>
       <el-table-column prop="name" label="Product Name"></el-table-column>
-      <el-table-column prop="price" label="Product Price"></el-table-column>
-      <el-table-column prop="inventory" label="Inventory"></el-table-column>
-      <el-table-column label="Action">
+      <el-table-column
+        prop="price"
+        label="Product Price"
+        width="200"
+      ></el-table-column>
+      <el-table-column
+        prop="inventory"
+        label="Inventory"
+        width="100"
+      ></el-table-column>
+      <el-table-column label="Action" width="200">
         <template #default="props">
           <BaseLoadingButton
             :button-props="{ type: 'danger' }"

@@ -1,58 +1,73 @@
 <template>
-  <ECharts :option="option"> </ECharts>
+  <ECharts :autoresize="autoResize" :option="option" :theme="theme"> </ECharts>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed, PropType } from 'vue';
 import { EChartsCoreOption } from 'echarts/core';
-// import { DatasetOption } from 'echarts/components';
+import { BarSeriesOption } from 'echarts/charts';
+import { merge } from 'lodash-es';
+
+import { useSharedProps } from '@/hooks/useECharts';
 
 export default defineComponent({
-  props: {},
+  props: {
+    ...useSharedProps(),
 
-  setup() {
-    function random() {
-      return Math.round(300 + Math.random() * 700) / 10;
-    }
+    series: {
+      type: [Object, Array, Function] as PropType<
+        | BarSeriesOption
+        | BarSeriesOption[]
+        | { (config: BarSeriesOption): BarSeriesOption | BarSeriesOption[] }
+      >,
+    },
+  },
 
-    const option = ref<EChartsCoreOption>({
+  setup(props) {
+    const seriesCount = computed(() => props.dimensions!.length - 1);
+
+    const series = computed(() => {
+      if (Array.isArray(props.series)) {
+        return props.series;
+      }
+
+      const baseConfig: BarSeriesOption = {
+        type: 'bar',
+      };
+
+      if (typeof props.series === 'function') {
+        return props.series(baseConfig);
+      } else if (props.option?.series) {
+        return props.option.series;
+      } else {
+        return Array(seriesCount.value).fill(baseConfig);
+      }
+    });
+
+    const defaultOption = computed<EChartsCoreOption>(() => ({
       dataset: {
-        dimensions: ['Product', '2015', '2016', '2017'],
-        source: [
-          {
-            Product: 'Matcha Latte',
-            '2015': random(),
-            '2016': random(),
-            '2017': random(),
-          },
-          {
-            Product: 'Milk Tea',
-            '2015': random(),
-            '2016': random(),
-            '2017': random(),
-          },
-          {
-            Product: 'Cheese Cocoa',
-            '2015': random(),
-            '2016': random(),
-            '2017': random(),
-          },
-          {
-            Product: 'Walnut Brownie',
-            '2015': random(),
-            '2016': random(),
-            '2017': random(),
-          },
-        ],
+        sourceHeader: false,
+        dimensions: props.dimensions,
+        source: props.source,
       },
       xAxis: { type: 'category' },
       yAxis: {},
-      // Declare several bar series, each will be mapped
-      // to a column of dataset.source by default.
-      series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' }],
-    });
+      series: series.value,
+      tooltip: {
+        trigger: 'axis',
+        confine: true,
+        // formatter: (params: any) => {
+        //   console.log(params);
+        //   return null;
+        // },
+      },
+    }));
 
-    return { option };
+    const mergedOption = computed<EChartsCoreOption>(() =>
+      merge({}, defaultOption.value, props.option)
+    );
+
+    return { option: mergedOption };
   },
 });
 </script>

@@ -32,7 +32,9 @@ export default {
       color: '#999999',
     },
   },
+  dataZoom: {},
   tooltip: {},
+  toolbox: {},
 
   bar: {
     itemStyle: {
