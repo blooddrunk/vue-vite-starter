@@ -2,7 +2,7 @@ import ECharts from 'vue-echarts';
 import { use, registerTheme } from 'echarts/core';
 
 import { CanvasRenderer } from 'echarts/renderers';
-import { BarChart } from 'echarts/charts';
+import { BarChart, LineChart } from 'echarts/charts';
 import {
   DatasetComponent,
   GridComponent,
@@ -20,6 +20,7 @@ export default async (app: App) => {
     CanvasRenderer,
 
     BarChart,
+    LineChart,
 
     DatasetComponent,
     GridComponent,

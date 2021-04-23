@@ -1,18 +1,10 @@
-import { Ref, ComponentPublicInstance, PropType } from 'vue';
-import ECharts from 'vue-echarts';
+import { PropType } from 'vue';
 import { EChartsCoreOption } from 'echarts/core';
-import { useThrottleFn } from '@vueuse/core';
-
-export type ChartRef = Ref<ComponentPublicInstance<typeof ECharts>>;
 
 export const useSharedProps = () => ({
-  aspectRatio: {
-    type: Number,
-  },
-
   autoResize: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 
   dimensions: {
@@ -42,15 +34,4 @@ export const useSharedProps = () => ({
     type: [String, Object],
     default: 'primary',
   },
-
-  shouldPrintDebugInfo: {
-    type: Boolean,
-    default: false,
-  },
 });
-
-const useAspectRatio = (aspectRatio: number) => {};
-
-export const useECharts = (
-  chartRef: Ref<ComponentPublicInstance<typeof ECharts>>
-) => {};
