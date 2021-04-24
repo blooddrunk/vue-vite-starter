@@ -1,66 +1,77 @@
-import { InjectionKey } from 'vue';
-import {
-  createStore,
-  useStore as baseUseStore,
-  createLogger,
-  Store,
-  Module,
-  StoreOptions,
-} from 'vuex';
+import { createStore, createLogger, Store } from 'vuex';
 import VuexPersistence from 'vuex-persist';
 
 import {
   GetActionsType,
+  GetGettersType,
   GetMutationsType,
   GetPayLoad,
   GetReturnType,
 } from '@/utils/typings';
-
-export type RootState = {};
+import { RootState } from './typings';
+import auth, { AuthState } from './modules/auth';
 
 const vuexLocal = new VuexPersistence<RootState>({
   key: 'do_not_forget_to_define_your_own_key',
   filter: () => false,
 });
 
-export const storeSymbol: InjectionKey<Store<RootState>> = Symbol();
-
-const storeOptions: StoreOptions<RootState> = {
+const storeOptions = {
   plugins: [vuexLocal.plugin].concat(
     import.meta.env.DEV ? [createLogger()] : []
   ),
 
-  state: {},
+  state: {
+    foo: 'bar',
+  },
   getters: {},
   mutations: {},
   actions: {},
 
-  modules: {},
+  modules: {
+    auth,
+  },
 };
 
-type Mutations = GetMutationsType<typeof storeOptions>;
+type StoreOptions = typeof storeOptions;
 
-type Actions = GetActionsType<typeof storeOptions>;
+type Mutations = GetMutationsType<StoreOptions>;
 
+type Actions = GetActionsType<StoreOptions>;
+
+type Getters = GetGettersType<StoreOptions>;
+
+// * Module Augmentation
+// ! cannot augment getters type(because it's any)
 declare module 'vuex' {
   export interface Commit {
-    <T extends keyof Mutations>(
-      type: T,
-      payload?: GetPayLoad<Mutations, T>,
+    <K extends keyof Mutations>(
+      type: K,
+      payload?: GetPayLoad<Mutations, K>,
       options?: CommitOptions
-    ): GetReturnType<Mutations, T>;
+    ): GetReturnType<Mutations, K>;
   }
   export interface Dispatch {
-    <T extends keyof Actions>(
-      type: T,
-      payload?: GetPayLoad<Actions, T>,
+    <K extends keyof Actions>(
+      type: K,
+      payload?: GetPayLoad<Actions, K>,
       options?: DispatchOptions
-    ): Promise<GetReturnType<Actions, T>>;
+    ): Promise<GetReturnType<Actions, K>>;
   }
 }
 
-export const store = createStore<RootState>(storeOptions);
+export type RootStateWithModule = RootState & {
+  auth: AuthState;
+};
+
+export type VuexStore = Omit<Store<RootStateWithModule>, 'getters'> & {
+  getters: Getters;
+};
+
+export const store = (createStore<RootState>(
+  storeOptions
+) as unknown) as VuexStore;
 
 export const useStore = () => {
-  return baseUseStore(storeSymbol);
+  return store;
 };

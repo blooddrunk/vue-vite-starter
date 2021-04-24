@@ -30,6 +30,11 @@ export default {
       },
 
       {
+        text: 'ECharts',
+        to: '/echarts',
+      },
+
+      {
         text: 'Directive(Intersection Observer)',
         to: '/directive-intersection-observer',
       },

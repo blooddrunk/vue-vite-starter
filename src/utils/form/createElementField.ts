@@ -1,11 +1,4 @@
-import {
-  defineComponent,
-  h,
-  resolveComponent,
-  computed,
-  ComponentOptions,
-  PropType,
-} from 'vue';
+import { defineComponent, h, computed, ComponentOptions, PropType } from 'vue';
 import { pick } from 'lodash-es';
 import { ElFormItem } from 'element-plus';
 

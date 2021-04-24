@@ -1,21 +1,20 @@
 <template>
-  <Promised :promise="promise">
-    <template #combined="{ isPending }">
-      <el-button
-        v-bind="buttonProps"
-        :loading="isPending"
-        :disabled="isPending"
-      >
-        <slot v-if="isPending"></slot>
-        <slot v-else name="loading"></slot>
-      </el-button>
-    </template>
-  </Promised>
+  <el-button
+    v-bind="buttonProps"
+    :loading="isPending"
+    :disabled="isPending"
+    @click="handleButtonClick"
+  >
+    <slot v-if="isPending" name="loading"></slot>
+    <slot v-else></slot>
+  </el-button>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, PropType } from 'vue';
+import { ElMessageBox } from 'element-plus';
 
+import { useAsyncFn } from '@/hooks/useAsyncFn';
 import { ElementPlusSize, ElementPlusButtonType } from '@/utils/typings';
 
 type ButtonProps = Partial<{
@@ -26,6 +25,10 @@ type ButtonProps = Partial<{
 
 export default defineComponent({
   props: {
+    confirmText: {
+      type: String,
+    },
+
     action: {
       type: Function as PropType<() => Promise<void>>,
       required: true,
@@ -48,11 +51,25 @@ export default defineComponent({
       )
     );
 
-    const promise = computed(() => props.action());
+    const { isPending, execute } = useAsyncFn(props.action);
+    const handleButtonClick = async () => {
+      if (props.confirmText) {
+        try {
+          await ElMessageBox.confirm(props.confirmText, '提示', {
+            type: 'warning',
+          });
+        } catch (error) {
+          // cancel
+        }
+      }
+
+      execute();
+    };
 
     return {
       buttonProps,
-      promise,
+      isPending,
+      handleButtonClick,
     };
   },
 });

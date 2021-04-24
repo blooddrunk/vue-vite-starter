@@ -2,17 +2,33 @@
   <section>
     <ProductForm :add-product="addProduct"></ProductForm>
 
-    <el-table v-loading="isProductLoading" class="tw-mt-3" :data="products">
+    <el-table
+      v-loading="isProductLoading"
+      class="tw-mt-3"
+      :data="products"
+      row-key="id"
+    >
+      <el-table-column prop="id" label="ID" width="100"></el-table-column>
       <el-table-column prop="name" label="Product Name"></el-table-column>
-      <el-table-column prop="price" label="Product Price"></el-table-column>
-      <el-table-column prop="inventory" label="Inventory"></el-table-column>
-      <el-table-column label="Action">
+      <el-table-column
+        prop="price"
+        label="Product Price"
+        width="200"
+      ></el-table-column>
+      <el-table-column
+        prop="inventory"
+        label="Inventory"
+        width="100"
+      ></el-table-column>
+      <el-table-column label="Action" width="200">
         <template #default="props">
           <BaseLoadingButton
             :button-props="{ type: 'danger' }"
-            :action="getDeleteAction(props)"
+            :action="getDeleteAction(props.row)"
+            confirm-text="Are you sure?"
           >
             DELETE
+            <template #loading> DELETING... </template>
           </BaseLoadingButton>
         </template>
       </el-table-column>
@@ -27,10 +43,13 @@ import { ElMessage } from 'element-plus';
 import ProductForm, { Product } from '@/components/ProductForm.vue';
 import { useAxios } from '@/hooks/useAxios';
 import axios from '@/utils/axios';
-import { setItemValueByArrayIndex } from '@/utils/misc';
 
 const useProduct = () => {
-  const { data: products, isPending: isProductLoading } = useAxios<Product[]>(
+  const {
+    data: products,
+    isPending: isProductLoading,
+    request: fetchProducts,
+  } = useAxios<Product[]>(
     {
       url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
       __needValidation: false,
@@ -41,15 +60,16 @@ const useProduct = () => {
 
   const addProduct = async (product: Product) => {
     try {
-      await axios.request<Product>({
+      const { data } = await axios.request<Product>({
         url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
         method: 'post',
         data: product,
         __needValidation: false,
       });
 
-      products.value.unshift(product);
+      products.value.unshift(data);
     } catch (error) {
+      console.error(error);
       ElMessage.error(error.message);
     }
   };
@@ -71,6 +91,7 @@ const useProduct = () => {
         (product) => product.id !== target.id
       );
     } catch (error) {
+      console.error(error);
       ElMessage.error(error.message);
     }
   };
@@ -80,6 +101,7 @@ const useProduct = () => {
     isProductLoading,
     addProduct,
     removeProduct,
+    fetchProducts,
   };
 };
 
@@ -98,7 +120,12 @@ export default defineComponent({
       removeProduct,
     } = useProduct();
 
-    const getDeleteAction = (props: any) => removeProduct(props.row);
+    const getDeleteAction = (row: any) => {
+      return async () => {
+        await removeProduct(row);
+        ElMessage.success('Deleted successfully');
+      };
+    };
 
     return {
       products,

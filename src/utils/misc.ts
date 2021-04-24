@@ -1,10 +1,50 @@
-import { Ref } from 'vue';
-import produce from 'immer';
+import { isNil } from 'lodash-es';
 
 export const isClient = () => typeof window === 'object';
 
-export const isNumeric = (num: number | string) =>
-  !isNaN(Number(num)) && isFinite(Number(num));
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export const noop = () => {};
+
+export const isNumeric = (num: string | number) =>
+  !Number.isNaN(Number.parseFloat(String(num)));
+
+export const isNumericStrict = (num: string | number) =>
+  !isNaN(Number(num)) && isNumeric(num);
+
+export type GetFallbackDisplayForNonValueOption = Partial<{
+  fallback: string;
+  isValueNumeric: boolean;
+  extraTestList: string[];
+}>;
+export const getFallbackDisplayForNonValue = (
+  value: any,
+  {
+    fallback = '--',
+    isValueNumeric = false,
+    extraTestList,
+  }: GetFallbackDisplayForNonValueOption = {}
+): { value: any; hasUsedFallback: boolean } => {
+  const shouldUseFallback =
+    (isValueNumeric ? !isNumeric(value) : isNil(value)) ||
+    (extraTestList && extraTestList.some((nonValue) => nonValue === value));
+  if (shouldUseFallback) {
+    return {
+      value: fallback,
+      hasUsedFallback: true,
+    };
+  }
+
+  return {
+    value,
+    hasUsedFallback: false,
+  };
+};
+
+export const jsonToUrlParams = (obj: Record<string, any>) =>
+  Object.entries(obj).reduce((params, [key, value]) => {
+    params.append(key, value);
+    return params;
+  }, new URLSearchParams());
 
 export const convertToUnit = (
   str: string | number | null | undefined,
@@ -16,33 +56,5 @@ export const convertToUnit = (
     return `${Number(str)}${unit}`;
   } else {
     return String(str);
-  }
-};
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-export const noop = () => {};
-
-export const jsonToUrlParams = (data: Record<string, any>) =>
-  Object.entries(data).reduce((params, [key, value]) => {
-    params.append(key, value);
-    return params;
-  }, new URLSearchParams());
-
-export const setItemValueByArrayIndex = <TItem extends Record<string, any>>({
-  items,
-  index,
-  key,
-  value,
-}: {
-  items: Ref<TItem[]>;
-  index: number;
-  key: keyof TItem;
-  value: any;
-}) => {
-  const item = items.value[index];
-  if (item) {
-    items.value = produce(items.value, (draftItems) => {
-      (draftItems[index] as TItem)[key] = value;
-    });
   }
 };
