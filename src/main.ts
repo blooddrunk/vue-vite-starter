@@ -9,12 +9,15 @@ import { createApp } from 'vue';
 
 import App from './App.vue';
 import { router } from './router';
-// import { store } from './store';
+import { store } from './store';
 import { install } from './install-plugins';
 
 const app = createApp(App);
-app.use(router);
-//.use(store);
-install(app);
 
-router.isReady().then(() => app.mount('#app'));
+(async () => {
+  await install(app);
+
+  app.use(router).use(store);
+
+  router.isReady().then(() => app.mount('#app'));
+})();

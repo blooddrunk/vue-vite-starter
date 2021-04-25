@@ -12,6 +12,7 @@
     "@vee-validate/i18n": "^4.1.20",
     "@vee-validate/rules": "^4.1.20",
     "@vueuse/core": "^4.9.0",
+    "@vueuse/head": "^0.5.1",
     "@vueuse/integrations": "^4.9.0",
     "@vueuse/router": "^4.9.0",
     "animate.css": "^4.1.1",

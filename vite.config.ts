@@ -3,6 +3,8 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import legacy from '@vitejs/plugin-legacy';
 import viteComponents, { ElementPlusResolver } from 'vite-plugin-components';
+import vitePages from 'vite-plugin-pages';
+import viteLayous from 'vite-plugin-vue-layouts';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -28,6 +30,14 @@ export default ({ mode }) => {
       /**
        * 3rd party plugins
        */
+
+      vitePages({
+        extensions: ['vue', 'ts'],
+        nuxtStyle: true,
+      }),
+
+      viteLayous(),
+
       // * this works, but I don't really like it
       viteComponents({
         extensions: ['vue', 'ts'],

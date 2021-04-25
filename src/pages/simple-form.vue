@@ -36,11 +36,16 @@
   </section>
 </template>
 
+<route lang="yaml">
+meta:
+  requiresAuth: false
+</route>
+
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { ElMessage } from 'element-plus';
 
-import ProductForm, { Product } from '@/components/ProductForm.vue';
+import { Product } from '@/components/ProductForm.vue';
 import { useAxios } from '@/hooks/useAxios';
 import axios from '@/utils/axios';
 
@@ -107,10 +112,6 @@ const useProduct = () => {
 
 export default defineComponent({
   name: 'SimpleFormView',
-
-  components: {
-    ProductForm,
-  },
 
   setup() {
     const {

@@ -16,7 +16,9 @@ export type AuthState = {
 
 const state = () =>
   ({
-    user: {},
+    user: {
+      userName: '',
+    },
     hasForcedOut: false,
     error: null,
     pending: false,
@@ -25,6 +27,8 @@ const state = () =>
 
 const getters = {
   user: (state: AuthState) => state.user || {},
+  userName: (state: AuthState, getters: any) => getters.user.userName,
+  isLoggedIn: (state: AuthState, getters: any) => !!getters.userName,
 };
 
 const mutations = {

@@ -24,17 +24,16 @@
   </div>
 </template>
 
+<route lang="yaml">
+meta:
+  requiresAuth: false
+</route>
+
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import BaseImage from '@/components/UI/BaseImage.vue';
-
 export default defineComponent({
   name: 'LazyImage',
-
-  components: {
-    BaseImage,
-  },
 
   setup() {
     const imageList = [...Array(10).keys()].map(
