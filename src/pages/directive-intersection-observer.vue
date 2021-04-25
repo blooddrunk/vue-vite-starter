@@ -32,6 +32,11 @@
   </section>
 </template>
 
+<route lang="yaml">
+meta:
+  requiresAuth: false
+</route>
+
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 

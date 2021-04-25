@@ -1,9 +1,11 @@
-import { Router } from 'vue-router';
+import { Router, RouteLocationRaw } from 'vue-router';
 
 import { useStore } from '@/store';
 
 export default (router: Router) => {
   router.beforeEach((to, from, next) => {
+    console.log(to);
+
     const store = useStore();
 
     const isLoggedIn = store.getters['auth/isLoggedIn'];
@@ -23,7 +25,7 @@ export default (router: Router) => {
           from: to.name || 'index',
           ...to.query,
         },
-      });
+      } as RouteLocationRaw);
     }
 
     next();

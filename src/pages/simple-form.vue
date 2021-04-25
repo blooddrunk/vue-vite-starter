@@ -36,6 +36,11 @@
   </section>
 </template>
 
+<route lang="yaml">
+meta:
+  requiresAuth: false
+</route>
+
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { ElMessage } from 'element-plus';

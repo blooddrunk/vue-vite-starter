@@ -17,7 +17,7 @@ export type AuthState = {
 const state = () =>
   ({
     user: {
-      userName: 'admin',
+      userName: '',
     },
     hasForcedOut: false,
     error: null,
