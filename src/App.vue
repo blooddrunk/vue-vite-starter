@@ -1,34 +1,14 @@
 <template>
-  <component :is="layoutComponent">
-    <router-view></router-view>
-  </component>
+  <router-view></router-view>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
-import { useRoute } from 'vue-router';
+<script setup lang="ts">
+import { useHead } from '@vueuse/head';
 
-import DefaultLayout from './layouts/Default.vue';
-import EmptyLayout from './layouts/Empty.vue';
-import ErrorLayout from './layouts/Error.vue';
-
-export default defineComponent({
-  name: 'App',
-
-  components: {
-    DefaultLayout,
-    EmptyLayout,
-    ErrorLayout,
-  },
-
-  setup() {
-    const route = useRoute();
-    const layoutComponent = computed(
-      () => `${route.meta.layout || 'Default'}Layout`
-    );
-    return {
-      layoutComponent,
-    };
-  },
+useHead({
+  title: 'Vue 3 starter template using Vite',
+  meta: [
+    { name: 'description', content: 'Opinionated Vite/Vue 3 Starter Template' },
+  ],
 });
 </script>

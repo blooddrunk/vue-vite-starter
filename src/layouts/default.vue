@@ -11,16 +11,8 @@
       </router-link>
 
       <div class="tw-container">
-        <slot></slot>
+        <router-view></router-view>
       </div>
     </section>
   </main>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'DefaultLayout',
-});
-</script>
