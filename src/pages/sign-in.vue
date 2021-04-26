@@ -17,7 +17,9 @@
     <div :class="$style.formWrapper">
       <AppLogo size="large" class="lg:tw-hidden tw-mb-20"></AppLogo>
 
-      <div class="tw-w-80 tw-py-6 tw-px-10 tw-shadow tw-rounded-md tw-bg-white">
+      <div
+        class="tw-py-6 tw-w-80 2xl:tw-w-88 tw-px-10 2xl:tw-px-14 tw-shadow tw-rounded-md tw-bg-white"
+      >
         <header>
           <h3
             class="tw-text-primary tw-font-semibold tw-text-xl tw-text-center tw-tracking-widiest"
@@ -37,13 +39,57 @@
             autofocus
           >
             <template #prefix>
-              <div
-                class="tw-h-full tw-grid tw-place-content-center el-input__icon"
-              >
+              <div class="el-input__prefix_fix el-input__icon">
                 <IconUser></IconUser>
               </div>
             </template>
           </InputWrapper>
+
+          <InputWrapper
+            name="password"
+            label="密码"
+            :show-label="false"
+            required
+            placeholder="密码"
+            clearable
+          >
+            <template #prefix>
+              <div class="el-input__prefix_fix el-input__icon">
+                <IconLock></IconLock>
+              </div>
+            </template>
+          </InputWrapper>
+
+          <div class="tw-grid tw-grid-cols-3 tw-gap-x-1">
+            <InputWrapper
+              class="tw-col-span-2"
+              name="captcha"
+              label="验证码"
+              :show-label="false"
+              required
+              placeholder="验证码"
+              clearable
+            >
+              <template #prefix>
+                <div class="el-input__prefix_fix el-input__icon">
+                  <IconPic></IconPic>
+                </div>
+              </template>
+            </InputWrapper>
+
+            <div style="height: 40px">
+              <!-- <transition
+                enter-active-class="animate__animated animate__fadeIn"
+                leave-active-class="animate__animated animate__fadeOut"
+              >
+              </transition> -->
+              <img
+                class="tw-rounded-sm tw-cursor-pointer tw-object-contain"
+                src=""
+                alt="captcha"
+              />
+            </div>
+          </div>
         </el-form>
       </div>
     </div>
@@ -57,7 +103,7 @@ meta:
 </route>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useForm } from 'vee-validate';
 
 type LoginInfo = {
@@ -69,12 +115,12 @@ type LoginInfo = {
 export default defineComponent({
   setup() {
     const validationSchema = {
-      username: 'required',
+      username: 'required|min:5',
       password: 'required',
       captcha: 'required',
     };
 
-    const { values, isSubmitting, handleSubmit } = useForm<LoginInfo>({
+    const { isSubmitting, handleSubmit } = useForm<LoginInfo>({
       validationSchema,
       initialValues: {
         username: '',

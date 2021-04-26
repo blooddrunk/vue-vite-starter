@@ -1,7 +1,18 @@
-import { computed } from 'vue';
+import { unref, computed } from 'vue';
 import { useField } from 'vee-validate';
 
+import { MaybeRef } from '@/utils/typings';
+
 export type ValidationMode = 'aggressive' | 'lazy' | 'aggressiveIfInvalid';
+
+export type UseFormFieldOption = {
+  name: MaybeRef<string>;
+  label: MaybeRef<string>;
+  mode?: MaybeRef<ValidationMode>;
+  validateOnMount?: boolean;
+  bindBlurEvent?: boolean;
+  isCheckbox: boolean;
+};
 
 export const useFormField = <TValue = unknown>({
   name,
@@ -9,22 +20,18 @@ export const useFormField = <TValue = unknown>({
   mode = 'aggressiveIfInvalid',
   validateOnMount = false,
   bindBlurEvent = true,
-}: {
-  name: string;
-  label: string;
-  mode?: ValidationMode;
-  validateOnMount?: boolean;
-  bindBlurEvent?: boolean;
-}) => {
-  const { errorMessage, handleInput, handleChange, ...rest } = useField<TValue>(
-    name,
-    undefined,
-    {
-      label,
-      validateOnValueUpdate: false,
-      validateOnMount,
-    }
-  );
+}: UseFormFieldOption) => {
+  const {
+    errorMessage,
+    handleInput,
+    handleChange,
+    meta,
+    ...rest
+  } = useField<TValue>(unref(name), undefined, {
+    label,
+    validateOnValueUpdate: false,
+    validateOnMount,
+  });
 
   const listeners = computed(() => {
     const validationListeners: {
@@ -50,11 +57,27 @@ export const useFormField = <TValue = unknown>({
     return validationListeners;
   });
 
+  const validateStatus = computed(() => {
+    if (errorMessage.value) {
+      return 'error';
+    } else if (meta.pending) {
+      return 'validating';
+    } else if (meta.dirty) {
+      return 'success';
+    } else {
+      return '';
+    }
+  });
+
   return {
-    ...rest,
+    /** original useForm return */
     errorMessage,
-    handleChange,
     handleInput,
+    handleChange,
+    meta,
+    ...rest,
+
     listeners,
+    validateStatus,
   };
 };

@@ -23,3 +23,7 @@ html {
 ::-webkit-scrollbar-thumb {
   @apply tw-bg-medium tw-rounded-md;
 }
+
+.el-input__prefix_fix {
+  @apply tw-h-full tw-grid tw-place-content-center;
+}

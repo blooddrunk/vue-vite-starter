@@ -26,8 +26,27 @@
         :min="0"
         :max="9999"
         :precision="0"
-      >
+        >1`
       </InputNumberWrapper>
+
+      <CheckboxWrapper name="terms" label="Terms" :show-label="false" required>
+        Agree to terms and conditions
+      </CheckboxWrapper>
+
+      <CheckboxGroupWrapper
+        name="tags"
+        label="Tags"
+        :items="tagList"
+      ></CheckboxGroupWrapper>
+
+      <SelectWrapper
+        name="location"
+        label="Location"
+        :items="locationList"
+        clearable
+        placeholder="Location"
+      >
+      </SelectWrapper>
 
       <div class="tw-flex tw-justify-end tw-py-3">
         <el-button native-type="reset">RESET</el-button>
@@ -35,7 +54,7 @@
           type="primary"
           native-type="submit"
           :loading="isSubmitting"
-          :disabled="isSubmitting"
+          :disabled="invalid || isSubmitting"
         >
           SUBMIT
         </el-button>
@@ -45,7 +64,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 import { useForm } from 'vee-validate';
 
 export type Product = {
@@ -53,12 +72,8 @@ export type Product = {
   name?: string | null;
   price?: number | null;
   inventory?: number | null;
-};
-
-const initialValues = {
-  name: '23333',
-  price: 1,
-  inventory: 1,
+  terms?: boolean;
+  location?: string[];
 };
 
 export default defineComponent({
@@ -80,14 +95,24 @@ export default defineComponent({
       name: 'required|min:5|max:10',
       price: 'required|numeric|min_value:1|max_value:9999999',
       inventory: 'required',
+      terms: 'required',
+      tags: 'required',
+      location: 'required',
     };
 
-    const { values, meta, isSubmitting, handleSubmit, resetForm } = useForm({
+    const { meta, isSubmitting, handleSubmit, resetForm } = useForm({
       validationSchema,
-      initialValues,
+      initialValues: {
+        name: '233',
+        price: 1,
+        inventory: 1,
+        terms: false,
+        tags: ['book'],
+        location: '',
+      },
     });
 
-    const invalid = computed(() => !meta.value.valid);
+    const invalid = computed(() => !meta.value.valid && meta.value.dirty);
 
     const onSubmit = handleSubmit(async (values) => {
       await props.addProduct(values);
@@ -100,8 +125,26 @@ export default defineComponent({
     };
 
     return {
-      values,
-      validationSchema,
+      tagList: ref([
+        {
+          label: 'Phone',
+          value: 'phone',
+        },
+        {
+          label: 'Book',
+          value: 'book',
+        },
+      ]),
+      locationList: ref([
+        {
+          label: 'UP',
+          value: 'up',
+        },
+        {
+          label: 'DOWN',
+          value: 'down',
+        },
+      ]),
       invalid,
       isSubmitting,
       onSubmit,

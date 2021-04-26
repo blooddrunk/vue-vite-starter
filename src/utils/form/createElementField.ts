@@ -1,10 +1,10 @@
 import { defineComponent, h, computed, ComponentOptions, PropType } from 'vue';
-import { pick } from 'lodash-es';
 import { ElFormItem } from 'element-plus';
+import { reactivePick } from '@vueuse/core';
 
 import { useFormField, ValidationMode } from '@/hooks/useFormField';
 
-type CreateElementFieldOptions<T> = {
+type CreateElementFieldOption<T> = {
   bindBlurEvent?: boolean;
   valueFormatter?: (value: unknown) => T;
 };
@@ -14,7 +14,7 @@ export const createElementField = <TValue = unknown>(
   {
     bindBlurEvent = true,
     valueFormatter,
-  }: CreateElementFieldOptions<TValue> = {}
+  }: CreateElementFieldOption<TValue> = {}
 ) =>
   defineComponent({
     name: `${Component.name ?? 'Unknown'}Wrapper`,
@@ -68,33 +68,31 @@ export const createElementField = <TValue = unknown>(
     },
 
     setup(props, { attrs, slots }) {
-      const { listeners, errorMessage, value, meta } = useFormField<TValue>({
-        ...pick(props, ['name', 'label', 'mode', 'validateOnMount']),
-        bindBlurEvent,
-      });
+      const isCheckbox = [
+        'ElCheckbox',
+        'ElCheckboxButton',
+        'ElRadio',
+        'ElRadioButton',
+      ].includes(Component.name ?? '');
 
-      const validateStatus = computed(() => {
-        if (errorMessage.value) {
-          return 'error';
-        } else if (meta.pending) {
-          return 'validating';
-        } else if (meta.dirty) {
-          return 'success';
-        } else {
-          return '';
-        }
+      const {
+        listeners,
+        errorMessage,
+        value,
+        validateStatus,
+      } = useFormField<TValue>({
+        ...reactivePick(props, 'name', 'label', 'mode', 'validateOnMount'),
+        bindBlurEvent,
+        isCheckbox,
       });
 
       const formItemProps = computed(() => {
-        const passedByProps = ['labelWidth', 'required'];
-        if (props.showLabel) {
-          passedByProps.push('label');
-        }
-
         return {
           error: errorMessage.value,
           validateStatus: validateStatus.value,
-          ...pick(props, passedByProps),
+          labelWidth: props.labelWidth,
+          required: props.required,
+          label: props.showLabel ? props.label : undefined,
         };
       });
 
