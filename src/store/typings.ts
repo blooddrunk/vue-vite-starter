@@ -1,3 +1,1 @@
-export type RootState = {
-  foo: string;
-};
+export type RootState = {};

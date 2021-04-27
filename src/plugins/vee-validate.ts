@@ -1,5 +1,5 @@
 import { configure, defineRule } from 'vee-validate';
-import { localize, setLocale } from '@vee-validate/i18n';
+import { localize } from '@vee-validate/i18n';
 import {
   required,
   min,
@@ -12,13 +12,18 @@ import {
 export default async () => {
   const zh_CN = await import('@vee-validate/i18n/dist/locale/zh_CN.json');
 
+  localize({
+    zh_CN,
+  });
   configure({
-    generateMessage: localize({
-      zh_CN,
+    generateMessage: localize(zh_CN.code, {
+      messages: {
+        required: '{field}不能为空',
+      },
     }),
   });
 
-  setLocale(zh_CN.code);
+  // setLocale(zh_CN.code);
 
   defineRule('required', required);
   defineRule('min', min);

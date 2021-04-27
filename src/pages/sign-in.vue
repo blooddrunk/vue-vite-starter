@@ -78,18 +78,48 @@
             </InputWrapper>
 
             <div style="height: 40px">
-              <!-- <transition
+              <transition
                 enter-active-class="animate__animated animate__fadeIn"
                 leave-active-class="animate__animated animate__fadeOut"
               >
-              </transition> -->
-              <img
-                class="tw-rounded-sm tw-cursor-pointer tw-object-contain"
-                src=""
-                alt="captcha"
-              />
+                <div
+                  v-if="isCapchaBroken"
+                  class="tw-h-full tw-flex tw-items-center tw-justify-center tw-text-yellow-300 tw-text-xs tw-cursor-pointer"
+                  @click="fetchCaptcha"
+                >
+                  加载失败
+                </div>
+                <img
+                  v-else
+                  ref="captchaRef"
+                  class="tw-rounded-sm tw-cursor-pointer tw-object-contain"
+                  :src="captchaUrl"
+                  alt="captcha"
+                  @click="fetchCaptcha"
+                />
+              </transition>
             </div>
           </div>
+
+          <el-form-item>
+            <el-button
+              class="tw-w-full"
+              type="primary"
+              :disabled="isLoginButtonDisabled"
+              :loading="isLoginPending"
+              native-type="submit"
+            >
+              <transition
+                enter-active-class="animate__animated animate__heartBeat animate__faster"
+                leave-active-class="animate__animated animate__fadeOut animate__faster"
+                mode="out-in"
+                @after-enter="handleLoginSuccess"
+              >
+                <span v-if="!isLoggedIn">{{ loginButtonTest }}</span>
+                <IconCheckOne v-else></IconCheckOne>
+              </transition>
+            </el-button>
+          </el-form-item>
         </el-form>
       </div>
     </div>
@@ -103,23 +133,31 @@ meta:
 </route>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed, watchEffect, onMounted } from 'vue';
 import { useForm } from 'vee-validate';
 
-type LoginInfo = {
-  username: string;
-  password: string;
-  captcha: string;
-};
+import { useStore } from '@/store';
+import { LoginInfo } from '@/store/modules/auth';
 
 export default defineComponent({
   setup() {
+    /** login state*/
+    const store = useStore();
+    const isLoggedIn = computed(() => store.getters['auth/isLoggedIn']);
+    const isLoginPending = computed(() => store.state.auth.isLoginPending);
+    const loginErrorMessage = computed(() => store.state.auth.error?.message);
+    const hasLoginError = computed(() => store.getters['auth/hasLoginError']);
+    const isLoginButtonDisabled = computed(() => false);
+    const loginButtonTest = computed(() =>
+      isLoginPending.value ? '登录中...' : '登 录'
+    );
+
+    /** form validation*/
     const validationSchema = {
-      username: 'required|min:5',
+      username: 'required',
       password: 'required',
       captcha: 'required',
     };
-
     const { isSubmitting, handleSubmit } = useForm<LoginInfo>({
       validationSchema,
       initialValues: {
@@ -131,11 +169,54 @@ export default defineComponent({
 
     const onSubmit = handleSubmit(async (values) => {
       console.log(values);
+      await store.dispatch('auth/login', values);
+    });
+
+    const handleLoginSuccess = () => {};
+
+    /** captcha handling */
+    const isCapchaBroken = ref(false);
+    const captchaUrl = ref('');
+    const captchaRef = ref<HTMLImageElement>();
+    const setCaptchaUrl = () => {
+      captchaUrl.value = `/captcha?_r=${Date.now()}`;
+    };
+    setCaptchaUrl();
+    const fetchCaptcha = () => {
+      isCapchaBroken.value = false;
+      setCaptchaUrl();
+    };
+
+    onMounted(() => {
+      if (captchaRef.value) {
+        captchaRef.value.onerror = () => {
+          isCapchaBroken.value = true;
+        };
+      }
+    });
+
+    watchEffect(() => {
+      if (hasLoginError.value) {
+        fetchCaptcha();
+      }
     });
 
     return {
+      isLoggedIn,
+      isLoginPending,
+      loginErrorMessage,
+      hasLoginError,
+      isLoginButtonDisabled,
+      loginButtonTest,
+
       onSubmit,
       isSubmitting,
+      handleLoginSuccess,
+
+      isCapchaBroken,
+      captchaUrl,
+      captchaRef,
+      fetchCaptcha,
     };
   },
 });

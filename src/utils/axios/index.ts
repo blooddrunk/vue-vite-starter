@@ -44,13 +44,13 @@ export const validateResponse = (response: ServerResponse) => {
 };
 
 // http status
-const validateStatus = (response: AxiosResponse) => {
-  const { status, data } = response;
+// const validateStatus = (response: AxiosResponse) => {
+//   const { status, data } = response;
 
-  console.error(`服务异常: ${status}`, data);
+//   console.error(`服务异常: ${status}`, data);
 
-  return data;
-};
+//   return data;
+// };
 
 export const setupInterceptor = (enhancedAxios: EnhancedAxiosInstance) => {
   enhancedAxios.onRequest(({ __urlEncoded, ...config }) => {
@@ -102,12 +102,10 @@ export const setupInterceptor = (enhancedAxios: EnhancedAxiosInstance) => {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
-      const handled = validateStatus(error.response);
-      if (typeof handled === 'string') {
-        error.message = handled;
-      }
-
-      return Promise.reject(error);
+      // const handled = validateStatus(error.response);
+      // if (typeof handled === 'string') {
+      //   error.message = handled;
+      // }
     }
   });
 };

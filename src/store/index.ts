@@ -21,9 +21,7 @@ const storeOptions = {
     import.meta.env.DEV ? [createLogger()] : []
   ),
 
-  state: {
-    foo: 'bar',
-  },
+  state: {},
   getters: {},
   mutations: {},
   actions: {},

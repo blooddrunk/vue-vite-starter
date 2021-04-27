@@ -1,6 +1,13 @@
 import { ActionContext } from 'vuex';
 
 import { RootState } from '../typings';
+import axios from '@/utils/axios';
+
+export type LoginInfo = {
+  username: string;
+  password: string;
+  captcha: string;
+};
 
 export type UserInfo = Partial<{
   userName: string;
@@ -10,7 +17,7 @@ export type AuthState = {
   user: UserInfo;
   hasForcedOut: boolean;
   error: Error | null;
-  pending: boolean;
+  isLoginPending: boolean;
   shouldChangePassword: boolean;
 };
 
@@ -21,7 +28,7 @@ const state = () =>
     },
     hasForcedOut: false,
     error: null,
-    pending: false,
+    isLoginPending: false,
     shouldChangePassword: false,
   } as AuthState);
 
@@ -29,9 +36,27 @@ const getters = {
   user: (state: AuthState) => state.user || {},
   userName: (state: AuthState, getters: any) => getters.user.userName,
   isLoggedIn: (state: AuthState, getters: any) => !!getters.userName,
+  hasLoginError: (state: AuthState) => !!state.error,
 };
 
 const mutations = {
+  loginRequest(state: AuthState) {
+    state.isLoginPending = true;
+    state.error = null;
+  },
+  loginSuccess(state: AuthState, payload: UserInfo) {
+    state.isLoginPending = false;
+    state.user = {
+      ...state.user,
+      ...payload,
+    };
+  },
+  loginFailure(state: AuthState, error: Error) {
+    state.isLoginPending = false;
+
+    console.log(error.message);
+    state.error = error;
+  },
   forceLogout: (state: AuthState, payload: boolean) => {
     state.hasForcedOut = payload;
   },
@@ -44,8 +69,24 @@ const mutations = {
 };
 
 const actions = {
+  login: async (
+    { commit }: ActionContext<AuthState, RootState>,
+    payload: LoginInfo
+  ) => {
+    commit('loginRequest');
+
+    try {
+      const user = await axios.$post('/security/login', payload, {
+        __needValidation: false,
+      });
+
+      commit('loginSuccess', user);
+    } catch (error) {
+      commit('loginFailure', error);
+    }
+  },
   logout: ({ commit }: ActionContext<AuthState, RootState>) => {
-    commit('auth/logout');
+    commit('logout');
   },
 };
 

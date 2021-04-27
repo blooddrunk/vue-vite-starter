@@ -154,7 +154,7 @@ export const setupProgress = (axiosInstance: EnhancedAxiosInstance) => {
     return response;
   });
 
-  axiosInstance.onError(() => {
+  axiosInstance.onError((error) => {
     if (showProgress === false) {
       return;
     }

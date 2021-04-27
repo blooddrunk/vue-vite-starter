@@ -12,7 +12,6 @@
     "lib": ["esnext", "dom"],
     "types": ["vite/client", "vite-plugin-pages/client", "vite-plugin-vue-layouts/client"],
     "typeRoots": ["./src/typings", "./node_modules/@types"],
-    "plugins": [{ "name": "@vuedx/typescript-plugin-vue" }],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
