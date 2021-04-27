@@ -57,7 +57,7 @@ const mutations = {
     console.log(error.message);
     state.error = error;
   },
-  forceLogout: (state: AuthState, payload: boolean) => {
+  setHasForcedOut: (state: AuthState, payload: boolean) => {
     state.hasForcedOut = payload;
   },
   logout: (state: AuthState) => {
@@ -65,6 +65,9 @@ const mutations = {
     state.error = null;
     state.hasForcedOut = false;
     state.shouldChangePassword = false;
+  },
+  clearError: (state: AuthState) => {
+    state.error = null;
   },
 };
 
@@ -76,11 +79,19 @@ const actions = {
     commit('loginRequest');
 
     try {
-      const user = await axios.$post('/security/login', payload, {
-        __needValidation: false,
+      // const user = await axios.$post('/security/login', payload, {
+      //   __needValidation: false,
+      // });
+
+      await new Promise<void>((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, 1500);
       });
 
-      commit('loginSuccess', user);
+      commit('loginSuccess', {
+        userName: 'mockedLoginUser',
+      });
     } catch (error) {
       commit('loginFailure', error);
     }

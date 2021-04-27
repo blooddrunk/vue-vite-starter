@@ -1,5 +1,5 @@
 import { createStore, createLogger, Store } from 'vuex';
-import VuexPersistence from 'vuex-persist';
+import VuexPersist from 'vuex-persist';
 
 import {
   GetActionsType,
@@ -11,7 +11,7 @@ import {
 import { RootState } from './typings';
 import auth, { AuthState } from './modules/auth';
 
-const vuexLocal = new VuexPersistence<RootState>({
+const vuexLocal = new VuexPersist<RootState>({
   key: 'do_not_forget_to_define_your_own_key',
   filter: () => false,
 });

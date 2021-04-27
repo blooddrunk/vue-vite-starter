@@ -28,6 +28,22 @@
           </h3>
         </header>
 
+        <transition
+          enter-active-class="animate__animated animate__fadeIn"
+          leave-active-class="animate__animated animate__bounceOut animate__fast"
+          mode="in-out"
+        >
+          <el-alert
+            v-if="loginErrorMessage"
+            class="tw-mt-6"
+            :title="loginErrorMessage"
+            type="error"
+            effect="dark"
+            :closable="false"
+          >
+          </el-alert>
+        </transition>
+
         <el-form class="tw-mt-6" status-icon @submit="onSubmit">
           <InputWrapper
             name="username"
@@ -36,10 +52,9 @@
             required
             placeholder="手机号/账号"
             clearable
-            autofocus
           >
             <template #prefix>
-              <div class="el-input__prefix_fix el-input__icon">
+              <div class="el-input__icon">
                 <IconUser></IconUser>
               </div>
             </template>
@@ -54,7 +69,7 @@
             clearable
           >
             <template #prefix>
-              <div class="el-input__prefix_fix el-input__icon">
+              <div class="el-input__icon">
                 <IconLock></IconLock>
               </div>
             </template>
@@ -71,7 +86,7 @@
               clearable
             >
               <template #prefix>
-                <div class="el-input__prefix_fix el-input__icon">
+                <div class="el-input__icon">
                   <IconPic></IconPic>
                 </div>
               </template>
@@ -79,8 +94,9 @@
 
             <div style="height: 40px">
               <transition
-                enter-active-class="animate__animated animate__fadeIn"
-                leave-active-class="animate__animated animate__fadeOut"
+                enter-active-class="animate__animated animate__fadeIn animate__faster"
+                leave-active-class="animate__animated animate__fadeOut animate__faster"
+                mode="out-in"
               >
                 <div
                   v-if="isCapchaBroken"
@@ -114,9 +130,10 @@
                 leave-active-class="animate__animated animate__fadeOut animate__faster"
                 mode="out-in"
                 @after-enter="handleLoginSuccess"
+                @enter-cancelled="handleLoginSuccess"
               >
-                <span v-if="!isLoggedIn">{{ loginButtonTest }}</span>
-                <IconCheckOne v-else></IconCheckOne>
+                <IconCheckOne v-if="isLoggedIn"></IconCheckOne>
+                <span v-else>{{ loginButtonTest }}</span>
               </transition>
             </el-button>
           </el-form-item>
@@ -133,8 +150,17 @@ meta:
 </route>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watchEffect, onMounted } from 'vue';
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  watchEffect,
+  onMounted,
+} from 'vue';
 import { useForm } from 'vee-validate';
+import { useRouter, useRoute } from 'vue-router';
+import { useTimeoutFn } from '@vueuse/core';
 
 import { useStore } from '@/store';
 import { LoginInfo } from '@/store/modules/auth';
@@ -147,32 +173,10 @@ export default defineComponent({
     const isLoginPending = computed(() => store.state.auth.isLoginPending);
     const loginErrorMessage = computed(() => store.state.auth.error?.message);
     const hasLoginError = computed(() => store.getters['auth/hasLoginError']);
-    const isLoginButtonDisabled = computed(() => false);
     const loginButtonTest = computed(() =>
       isLoginPending.value ? '登录中...' : '登 录'
     );
-
-    /** form validation*/
-    const validationSchema = {
-      username: 'required',
-      password: 'required',
-      captcha: 'required',
-    };
-    const { isSubmitting, handleSubmit } = useForm<LoginInfo>({
-      validationSchema,
-      initialValues: {
-        username: '',
-        password: '',
-        captcha: '',
-      },
-    });
-
-    const onSubmit = handleSubmit(async (values) => {
-      console.log(values);
-      await store.dispatch('auth/login', values);
-    });
-
-    const handleLoginSuccess = () => {};
+    const clearError = () => store.commit('auth/clearError');
 
     /** captcha handling */
     const isCapchaBroken = ref(false);
@@ -183,12 +187,17 @@ export default defineComponent({
     };
     setCaptchaUrl();
     const fetchCaptcha = () => {
-      isCapchaBroken.value = false;
       setCaptchaUrl();
     };
 
     onMounted(() => {
+      console.log('mounted');
+
       if (captchaRef.value) {
+        captchaRef.value.onload = () => {
+          isCapchaBroken.value = false;
+        };
+
         captchaRef.value.onerror = () => {
           isCapchaBroken.value = true;
         };
@@ -198,6 +207,76 @@ export default defineComponent({
     watchEffect(() => {
       if (hasLoginError.value) {
         fetchCaptcha();
+      }
+    });
+
+    /** form handling*/
+    const validationSchema = {
+      username: 'required',
+      password: 'required',
+      captcha: 'required',
+    };
+    const { values, meta, isSubmitting, handleSubmit } = useForm<LoginInfo>({
+      validationSchema,
+      initialValues: {
+        username: '',
+        password: '',
+        captcha: '',
+      },
+    });
+    const invalid = computed(() => !meta.value.valid && meta.value.dirty);
+    const isLoginButtonDisabled = computed(
+      () => invalid.value || isSubmitting.value
+    );
+
+    const {
+      start: startTransitionCounting,
+      stop: stopTransitionCounting,
+    } = useTimeoutFn(
+      () => {
+        if (isLoggedIn.value && !isLoginTransitionFinished.value) {
+          handleLoginSuccess();
+        }
+      },
+      2000,
+      false
+    );
+    const onSubmit = handleSubmit(async (values) => {
+      isLoginTransitionFinished.value = false;
+
+      await store.dispatch('auth/login', values);
+
+      // in case animationend did not happen, wait a while, then force redirecting
+      startTransitionCounting();
+    });
+
+    const router = useRouter();
+    const route = useRoute();
+    const isLoginTransitionFinished = ref(false);
+    const handleLoginSuccess = () => {
+      // in case page has already been redirected
+      // should not happen
+      if (route.name !== 'sign-in' || isLoginTransitionFinished.value) {
+        return;
+      }
+
+      store.commit('auth/setHasForcedOut', false);
+      isLoginTransitionFinished.value = true;
+      stopTransitionCounting();
+
+      const { from, ...rest } = route.query;
+      if (from === 'sign-in') {
+        return;
+      } else if (from) {
+        router.push({ name: String(from), query: rest });
+      }
+
+      fetchCaptcha();
+    };
+
+    watch(values, () => {
+      if (hasLoginError.value) {
+        clearError();
       }
     });
 
