@@ -18,6 +18,8 @@
 <route lang="yaml">
 meta:
   requiresAuth: false
+  breadcrumb:
+    text: 'fsd'
 </route>
 
 <script setup lang="ts">

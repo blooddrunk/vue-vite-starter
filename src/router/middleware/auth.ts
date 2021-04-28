@@ -3,7 +3,7 @@ import { Router, RouteLocationRaw } from 'vue-router';
 import { useStore } from '@/store';
 
 export default (router: Router) => {
-  router.beforeEach((to, from, next) => {
+  router.beforeEach((to) => {
     const store = useStore();
 
     const isLoggedIn = store.getters['auth/isLoggedIn'];
@@ -17,15 +17,13 @@ export default (router: Router) => {
     if (isInLoginPage && isLoggedIn) {
       store.dispatch('auth/logout');
     } else if (requiresAuth && !isLoggedIn) {
-      return next({
+      return {
         name: 'sign-in',
         query: {
           from: to.name || 'index',
           ...to.query,
         },
-      } as RouteLocationRaw);
+      } as RouteLocationRaw;
     }
-
-    next();
   });
 };

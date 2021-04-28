@@ -40,18 +40,18 @@ const getters = {
 };
 
 const mutations = {
-  loginRequest(state: AuthState) {
+  loginRequest: (state: AuthState) => {
     state.isLoginPending = true;
     state.error = null;
   },
-  loginSuccess(state: AuthState, payload: UserInfo) {
+  loginSuccess: (state: AuthState, payload: UserInfo) => {
     state.isLoginPending = false;
     state.user = {
       ...state.user,
       ...payload,
     };
   },
-  loginFailure(state: AuthState, error: Error) {
+  loginFailure: (state: AuthState, error: Error) => {
     state.isLoginPending = false;
 
     console.log(error.message);

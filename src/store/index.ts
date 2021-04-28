@@ -1,4 +1,9 @@
-import { createStore, createLogger, Store } from 'vuex';
+import {
+  createStore,
+  createLogger,
+  Store,
+  StoreOptions as BaseStoreOptions,
+} from 'vuex';
 import VuexPersist from 'vuex-persist';
 
 import {
@@ -10,10 +15,16 @@ import {
 } from '@/utils/typings';
 import { RootState } from './typings';
 import auth, { AuthState } from './modules/auth';
+import ui, { UIState } from './modules/ui';
 
-const vuexLocal = new VuexPersist<RootState>({
+const vuexLocal = new VuexPersist<RootStateWithModule>({
   key: 'do_not_forget_to_define_your_own_key',
-  filter: () => false,
+
+  reducer: (state) => ({
+    auth: state.auth,
+  }),
+  filter: (mutation) =>
+    ['auth/loginSuccess', 'auth/logout'].includes(mutation.type),
 });
 
 const storeOptions = {
@@ -28,6 +39,7 @@ const storeOptions = {
 
   modules: {
     auth,
+    ui,
   },
 };
 
@@ -60,6 +72,7 @@ declare module 'vuex' {
 
 export type RootStateWithModule = RootState & {
   auth: AuthState;
+  ui: UIState;
 };
 
 export type VuexStore = Omit<Store<RootStateWithModule>, 'getters'> & {
@@ -67,7 +80,7 @@ export type VuexStore = Omit<Store<RootStateWithModule>, 'getters'> & {
 };
 
 export const store = (createStore<RootState>(
-  storeOptions
+  storeOptions as any
 ) as unknown) as VuexStore;
 
 export const useStore = () => {

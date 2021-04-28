@@ -253,7 +253,7 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const isLoginTransitionFinished = ref(false);
-    const handleLoginSuccess = () => {
+    const handleLoginSuccess = async () => {
       // in case page has already been redirected
       // should not happen
       if (route.name !== 'sign-in' || isLoginTransitionFinished.value) {
@@ -265,11 +265,10 @@ export default defineComponent({
       stopTransitionCounting();
 
       const { from, ...rest } = route.query;
-      if (from === 'sign-in') {
-        return;
-      } else if (from) {
-        router.push({ name: String(from), query: rest });
-      }
+      await router.push({
+        name: String(from === 'sign-in' || !from ? 'index' : from),
+        query: rest,
+      });
 
       fetchCaptcha();
     };

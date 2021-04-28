@@ -12,7 +12,7 @@ export const createMenuLookup = (menuList: MenuItem[]) => {
   const lookup: Record<string, MenuItem> = {};
 
   const traverse = (list: MenuItem[]) =>
-    menuList.forEach((item) => {
+    list.forEach((item) => {
       if (!item.id) {
         throw new Error(`Menu item must have a 'id' field: ${item}`);
       }
@@ -32,6 +32,7 @@ export const createMenuLookup = (menuList: MenuItem[]) => {
 };
 
 export const menuList: MenuItem[] = [
+  { id: 'dashboard', title: '首页', icon: 'dashboard' },
   {
     id: 'admin',
     title: '系统管理',
