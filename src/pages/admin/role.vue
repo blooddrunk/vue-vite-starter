@@ -5,4 +5,9 @@
 <route lang="yaml">
 meta:
   layout: sidebar
+  breadcrumb:
+    - text: 'Custom'
+      to:
+        name: 'admin-account'
+    - text: 'Breadcrumb'
 </route>

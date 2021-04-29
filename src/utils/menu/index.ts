@@ -46,10 +46,10 @@ export const menuList: MenuItem[] = [
         },
       },
       {
-        id: 'admin-account-role',
+        id: 'admin-role',
         title: '角色管理',
         to: {
-          name: 'admin-account',
+          name: 'admin-role',
         },
       },
     ],

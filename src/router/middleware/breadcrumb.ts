@@ -8,15 +8,14 @@ import { BreadcrumbItem } from '@/store/modules/ui';
 export default (router: Router) => {
   router.beforeEach((to, from) => {
     const store = useStore();
-    const {
-      meta: { breadcrumb },
-      matched,
-    } = to;
+    const { matched } = to;
     let breadcrumbList: BreadcrumbItem[] = [];
 
-    if (Array.isArray(breadcrumb)) {
-      breadcrumbList = breadcrumb;
-    } else if (breadcrumb) {
+    const { meta } = matched[matched.length - 1];
+
+    if (Array.isArray(meta.breadcrumb)) {
+      breadcrumbList = meta.breadcrumb;
+    } else if (meta.breadcrumb) {
       breadcrumbList = matched.reduce<BreadcrumbItem[]>((acc, record) => {
         let item: BreadcrumbItem;
         if (record.meta?.breadcrumb === true) {
