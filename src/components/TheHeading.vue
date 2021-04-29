@@ -56,6 +56,7 @@ export default defineComponent({
 
 <style lang="postcss" module>
 .heading {
+  height: var(--app-header-height);
   background-image: linear-gradient(
     to right,
     var(--color-primary) 75%,

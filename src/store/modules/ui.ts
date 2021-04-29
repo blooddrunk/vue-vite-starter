@@ -10,19 +10,23 @@ export type BreadcrumbItem = {
 
 export type UIState = {
   breadcrumbList: BreadcrumbItem[];
-  sidebarCollapsed: boolean;
+  isSidebarCollapsed: boolean;
   sidebarData: MenuItem[];
 };
 
 const state = () => ({
   breadcrumbList: [],
-  sidebarCollapsed: false,
+  isSidebarCollapsed: false,
   sidebarData: menuList,
 });
 
 const mutations = {
   setBreadcrumbList: (state: UIState, payload: BreadcrumbItem[]) => {
     state.breadcrumbList = payload;
+  },
+
+  toggleIsSidebarCollapsed: (state: UIState) => {
+    state.isSidebarCollapsed = !state.isSidebarCollapsed;
   },
 
   setSidebarData: (state: UIState, payload: MenuItem[]) => {

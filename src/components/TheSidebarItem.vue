@@ -5,8 +5,9 @@
         <component
           v-if="item.icon"
           :is="getIconComponentName(item.icon)"
+          :size="18"
         ></component>
-        <span>{{ item.title }}</span>
+        <span class="tw-ml-1">{{ item.title }}</span>
       </div>
     </template>
 
@@ -22,8 +23,9 @@
       <component
         v-if="item.icon"
         :is="getIconComponentName(item.icon)"
+        :size="18"
       ></component>
-      <span>{{ item.title }}</span>
+      <span class="tw-ml-1">{{ item.title }}</span>
     </div>
   </el-menu-item>
 </template>
