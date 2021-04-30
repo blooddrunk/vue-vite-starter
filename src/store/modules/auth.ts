@@ -53,8 +53,6 @@ const mutations = {
   },
   loginFailure: (state: AuthState, error: Error) => {
     state.isLoginPending = false;
-
-    console.log(error.message);
     state.error = error;
   },
   setHasForcedOut: (state: AuthState, payload: boolean) => {

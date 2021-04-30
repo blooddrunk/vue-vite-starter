@@ -1,6 +1,6 @@
 <template>
   <aside :class="$style.sidebar">
-    <div>
+    <div class="tw-border-b tw-border-gray-100">
       <el-tooltip
         :content="isSidebarCollapsed ? '展开' : '折叠'"
         placement="right"
@@ -54,7 +54,7 @@ export default defineComponent({
 <style lang="scss" module>
 .sidebar {
   height: var(--app-content-height);
-  @apply tw-overflow-y-auto;
+  @apply tw-overflow-y-auto tw-border-r tw-border-gray-200;
 
   :global {
     span.i-icon {
@@ -62,7 +62,12 @@ export default defineComponent({
     }
 
     .el-menu {
-      min-height: theme('spacing.96');
+      @apply tw-min-h-80;
+      @apply tw-border-none #{!important};
+
+      &:not(.el-menu--collapse) {
+        @apply tw-w-56;
+      }
     }
   }
 }

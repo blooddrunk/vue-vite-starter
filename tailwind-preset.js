@@ -41,6 +41,15 @@ module.exports = {
         '10xl': '104rem',
       }),
 
+      minHeight: (theme) => theme('spacing'),
+
+      maxHeight: (theme) => ({
+        ...theme('spacing'),
+        '8xl': '88rem',
+        '9xl': '96rem',
+        '10xl': '104rem',
+      }),
+
       backgroundColor: (theme) => ({
         main: theme('colors.gray.100'),
       }),

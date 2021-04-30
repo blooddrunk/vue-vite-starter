@@ -22,9 +22,16 @@ const vuexLocal = new VuexPersist<RootStateWithModule>({
 
   reducer: (state) => ({
     auth: state.auth,
+    ui: {
+      isSidebarCollapsed: state.ui.isSidebarCollapsed,
+    },
   }),
   filter: (mutation) =>
-    ['auth/loginSuccess', 'auth/logout'].includes(mutation.type),
+    [
+      'auth/loginSuccess',
+      'auth/logout',
+      'ui/toggleIsSidebarCollapsed',
+    ].includes(mutation.type),
 });
 
 const storeOptions = {
