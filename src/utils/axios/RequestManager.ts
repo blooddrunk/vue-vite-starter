@@ -1,6 +1,5 @@
 import { Canceler } from 'axios';
-
-import { logger } from '@/utils/logger';
+import consola from 'consola';
 
 export type RequestManagerOptions = {
   logger?: (...args: unknown[]) => void;
@@ -9,7 +8,9 @@ export type RequestManagerOptions = {
 export class RequestManager {
   requests: Map<string, Canceler>;
 
-  constructor(public options: RequestManagerOptions = { logger: logger.info }) {
+  constructor(
+    public options: RequestManagerOptions = { logger: consola.info }
+  ) {
     this.options = options;
     this.requests = new Map();
   }

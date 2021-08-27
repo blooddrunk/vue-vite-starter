@@ -3,7 +3,6 @@ const colors = require('tailwindcss/colors');
 
 module.exports = {
   prefix: 'tw-',
-  important: true,
   purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: 'class',
 
@@ -65,7 +64,8 @@ module.exports = {
   },
 
   plugins: [
-    require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/typography'),
   ],
 };

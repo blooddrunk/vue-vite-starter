@@ -33,6 +33,8 @@ export class BaseLogger {
     type: keyof BaseLoggerTypes,
     badge: string = type
   ) {
+    console.log(this.options);
+
     const sourceType = type === 'success' ? 'log' : type;
 
     (console as any)[`__${sourceType}`] = console[sourceType];
@@ -44,11 +46,11 @@ export class BaseLogger {
     );
   }
 
-  log = this.createDefaultLogger('log');
-  info = this.createDefaultLogger('info');
-  warn = this.createDefaultLogger('warn');
-  error = this.createDefaultLogger('error');
-  success = this.createDefaultLogger('success');
+  log = this.createDefaultLogger.call(this, 'log');
+  info = this.createDefaultLogger.call(this, 'info');
+  warn = this.createDefaultLogger.call(this, 'warn');
+  error = this.createDefaultLogger.call(this, 'error');
+  success = this.createDefaultLogger.call(this, 'success');
 
   bark(
     bark: string | number | Array<unknown> | Record<string, unknown>,

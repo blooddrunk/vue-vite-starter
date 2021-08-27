@@ -1,3 +1,6 @@
+/// <reference types="vite-plugin-pages/client" />
+/// <reference types="vite-plugin-vue-layouts/client" />
+
 interface HTMLElement {
   _observe?: {
     init: boolean;

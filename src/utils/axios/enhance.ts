@@ -10,8 +10,8 @@ import Axios, {
 } from 'axios';
 import { defaultsDeep } from 'lodash-es';
 import Nprogress from 'nprogress';
+import consola from 'consola';
 
-import { logger } from '@/utils/logger';
 import { RequestManager, RequestManagerOptions } from './RequestManager';
 
 // stolen from nuxt-axios https://github.com/nuxt-community/axios-module
@@ -97,27 +97,27 @@ const addRequestHelpers = (axiosInstance: EnhancedAxiosInstance) => {
 
 const setupDebugInterceptor = async (axiosInstance: EnhancedAxiosInstance) => {
   axiosInstance.onResponse((res) => {
-    logger.success(
+    consola.success(
       `[${res.status}]`,
       `[${res.config.method?.toUpperCase()}]`,
       res.config.url
     );
 
-    logger.info(res);
+    consola.info(res);
 
     return res;
   });
 
   axiosInstance.onRequestError((error) => {
-    logger.error('Request error:', error);
+    consola.error('Request error:', error);
     return Promise.reject(error);
   });
 
   axiosInstance.onResponseError((error) => {
     if (axiosInstance.isCancel(error)) {
-      logger.warn(error);
+      consola.warn(error);
     } else {
-      logger.error('error', 'Response error:', error);
+      consola.error('error', 'Response error:', error);
     }
     return Promise.reject(error);
   });

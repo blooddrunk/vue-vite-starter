@@ -3,7 +3,6 @@ import 'nprogress/nprogress.css';
 import '@icon-park/vue-next/styles/index.css';
 
 import './assets/css/tailwind.css';
-import './assets/scss/element-ui.scss';
 import './assets/scss/main.scss';
 
 import { createApp } from 'vue';

@@ -2,9 +2,12 @@ import path from 'path';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import legacy from '@vitejs/plugin-legacy';
-import viteComponents, { ElementPlusResolver } from 'vite-plugin-components';
 import vitePages from 'vite-plugin-pages';
 import viteLayous from 'vite-plugin-vue-layouts';
+import viteComponents, {
+  VueUseComponentsResolver,
+} from 'vite-plugin-components';
+// import VitePluginElementPlus from 'vite-plugin-element-plus';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -42,6 +45,8 @@ export default ({ mode }) => {
       viteComponents({
         extensions: ['vue', 'ts'],
 
+        globalComponentsDeclaration: './src/typings/components.d.ts',
+
         customComponentResolvers: [
           // * icon-park
           (name) => {
@@ -53,11 +58,27 @@ export default ({ mode }) => {
             }
           },
 
-          ElementPlusResolver({
-            importStyle: false,
-          }),
+          // * element-plus
+          // (name) => {
+          //   if (name.startsWith('El')) {
+          //     const partialName =
+          //       name[2].toLowerCase() +
+          //       name
+          //         .substring(3)
+          //         .replace(/[A-Z]/g, (l) => `-${l.toLowerCase()}`);
+          //     return {
+          //       path: `element-plus/es/components/${partialName}`,
+          //     };
+          //   }
+          // },
+
+          VueUseComponentsResolver(),
         ],
       }),
+
+      // VitePluginElementPlus({
+      //   useSource: false,
+      // }),
     ],
 
     server: {
