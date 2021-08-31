@@ -16,7 +16,7 @@ export default ({ mode }) => {
 
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '/src'),
+        '@': path.resolve(__dirname, 'src'),
       },
     },
 
@@ -45,7 +45,7 @@ export default ({ mode }) => {
       viteComponents({
         extensions: ['vue', 'ts'],
 
-        globalComponentsDeclaration: './src/typings/components.d.ts',
+        // globalComponentsDeclaration: './src/typings/components.d.ts',
 
         customComponentResolvers: [
           // * icon-park
