@@ -1,13 +1,15 @@
 import path from 'path';
-import vue from '@vitejs/plugin-vue';
-import vueJsx from '@vitejs/plugin-vue-jsx';
+import Vue from '@vitejs/plugin-vue';
+import VueJsx from '@vitejs/plugin-vue-jsx';
 import legacy from '@vitejs/plugin-legacy';
-import vitePages from 'vite-plugin-pages';
-import viteLayous from 'vite-plugin-vue-layouts';
-import viteComponents, {
-  VueUseComponentsResolver,
-} from 'vite-plugin-components';
-// import VitePluginElementPlus from 'vite-plugin-element-plus';
+import Pages from 'vite-plugin-pages';
+import Layouts from 'vite-plugin-vue-layouts';
+import Components from 'unplugin-vue-components/vite';
+import {
+  ElementPlusResolver,
+  VantResolver,
+} from 'unplugin-vue-components/resolvers';
+import AutoImport from 'unplugin-auto-import/vite';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -24,8 +26,8 @@ export default ({ mode }) => {
       /**
        * official plugins
        */
-      vue(),
-      vueJsx(),
+      Vue(),
+      VueJsx(),
       legacy({
         targets: ['defaults', 'not IE 11'],
       }),
@@ -34,20 +36,20 @@ export default ({ mode }) => {
        * 3rd party plugins
        */
 
-      vitePages({
+      Pages({
         extensions: ['vue', 'ts'],
         nuxtStyle: true,
       }),
 
-      viteLayous(),
+      Layouts(),
 
       // * this works, but I don't really like it
-      viteComponents({
+      Components({
         extensions: ['vue', 'ts'],
 
-        // globalComponentsDeclaration: './src/typings/components.d.ts',
+        dts: './src/typings/components.d.ts',
 
-        customComponentResolvers: [
+        resolvers: [
           // * icon-park
           (name) => {
             if (name.startsWith('Icon')) {
@@ -58,27 +60,22 @@ export default ({ mode }) => {
             }
           },
 
-          // * element-plus
-          // (name) => {
-          //   if (name.startsWith('El')) {
-          //     const partialName =
-          //       name[2].toLowerCase() +
-          //       name
-          //         .substring(3)
-          //         .replace(/[A-Z]/g, (l) => `-${l.toLowerCase()}`);
-          //     return {
-          //       path: `element-plus/es/components/${partialName}`,
-          //     };
-          //   }
-          // },
-
-          VueUseComponentsResolver(),
+          ElementPlusResolver(),
+          VantResolver(),
         ],
       }),
 
-      // VitePluginElementPlus({
-      //   useSource: false,
-      // }),
+      AutoImport({
+        dts: './src/typings/auto-imports.d.ts',
+        imports: [
+          'vue',
+          'vue-router',
+          '@vueuse/head',
+          '@vueuse/core',
+          'pinia',
+          'vee-validate',
+        ],
+      }),
     ],
 
     server: {

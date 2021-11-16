@@ -9,7 +9,13 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "lib": ["esnext", "dom"],
+    "types": [
+      "vite/client",
+      "vite-plugin-pages/client",
+      "vite-plugin-vue-layouts/client"
+    ],
     "typeRoots": ["./src/typings", "./node_modules/@types"],
     "baseUrl": ".",
     "paths": {
