@@ -2,8 +2,7 @@ import 'animate.css';
 import 'nprogress/nprogress.css';
 import '@icon-park/vue-next/styles/index.css';
 
-import './assets/css/tailwind.css';
-import './assets/scss/main.scss';
+import './assets/css/main.css';
 
 import { createApp } from 'vue';
 

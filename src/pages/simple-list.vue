@@ -7,7 +7,9 @@
         :show-label="false"
       ></InputWrapper>
 
-      <el-button native-type="submit" type="primary">QUERY</el-button>
+      <el-form-item>
+        <el-button native-type="submit" type="primary">QUERY</el-button>
+      </el-form-item>
     </el-form>
 
     <PaginatedTable class="tw-mt-3" v-bind="tableProps">
