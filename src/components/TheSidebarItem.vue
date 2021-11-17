@@ -1,5 +1,5 @@
 <template>
-  <el-submenu v-if="hasChildren" index="item.id">
+  <el-sub-menu v-if="hasChildren" index="item.id">
     <template #title>
       <div class="tw-h-full tw-flex tw-items-center">
         <component
@@ -16,7 +16,7 @@
       :key="child.id"
       :item="child"
     ></TheSidebarItem>
-  </el-submenu>
+  </el-sub-menu>
 
   <el-menu-item v-else :index="item.id" @click="handleItemClick(item)">
     <div class="tw-h-full tw-flex tw-items-center">

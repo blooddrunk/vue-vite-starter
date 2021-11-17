@@ -57,13 +57,8 @@ export default defineComponent({
 <style lang="postcss" module>
 .heading {
   height: var(--app-header-height);
-  background-image: linear-gradient(
-    to right,
-    var(--color-primary) 75%,
-    var(--color-tertiary)
-  );
-  background-color: var(--color-primary);
 
   @apply tw-flex-shrink-0 tw-flex tw-items-center tw-justify-between tw-p-4;
+  @apply tw-bg-primary;
 }
 </style>
