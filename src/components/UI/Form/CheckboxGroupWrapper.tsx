@@ -18,7 +18,7 @@ export default defineComponent({
         ElCheckboxGroup
       );
       return h(
-        (GroupComponent as unknown) as DefineComponent,
+        GroupComponent as unknown as DefineComponent,
         {
           ...attrs,
         },

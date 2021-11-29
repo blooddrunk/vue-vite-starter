@@ -5,7 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AppLogo: typeof import('./../components/AppLogo.vue')['default'];
-    BaseIconWrapper: typeof import('./../components/UI/BaseIconWrapper.ts')['default'];
+    BaseIconWrapper: typeof import('./../components/UI/BaseIconWrapper.tsx')['default'];
     BaseImage: typeof import('./../components/UI/BaseImage.vue')['default'];
     BaseLoadingButton: typeof import('./../components/UI/BaseLoadingButton.vue')['default'];
     BaseTextInput: typeof import('./../components/UI/BaseTextInput.vue')['default'];

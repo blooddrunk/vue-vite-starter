@@ -75,16 +75,12 @@ export const createElementField = <TValue = unknown>(
         'ElRadioButton',
       ].includes(Component.name ?? '');
 
-      const {
-        listeners,
-        errorMessage,
-        value,
-        validateStatus,
-      } = useFormField<TValue>({
-        ...reactivePick(props, 'name', 'label', 'mode', 'validateOnMount'),
-        bindBlurEvent,
-        isCheckbox,
-      });
+      const { listeners, errorMessage, value, validateStatus } =
+        useFormField<TValue>({
+          ...reactivePick(props, 'name', 'label', 'mode', 'validateOnMount'),
+          bindBlurEvent,
+          isCheckbox,
+        });
 
       const formItemProps = computed(() => {
         return {

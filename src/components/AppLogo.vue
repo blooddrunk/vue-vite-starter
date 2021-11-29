@@ -11,13 +11,15 @@
 </template>
 
 <script lang="ts" setup>
+import { withDefaults, defineProps, computed } from 'vue';
+
 type Props = {
-  size?: 'normarl' | 'large';
+  size?: 'normal' | 'large';
   isLink?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
-  size: 'normarl',
+  size: 'normal',
   isLink: false,
 });
 

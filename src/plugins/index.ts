@@ -9,3 +9,9 @@ export { default as iconPark } from './icon-park';
 export const clientInit = (app: App) => {
   app.config.globalProperties.$appName = import.meta.env.VITE_APP_NAME;
 };
+
+declare module '@vue/runtime-core' {
+  export interface ComponentCustomProperties {
+    $appName: string;
+  }
+}

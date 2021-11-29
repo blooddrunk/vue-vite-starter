@@ -9,7 +9,7 @@ import {
   ElementPlusResolver,
   VantResolver,
 } from 'unplugin-vue-components/resolvers';
-import AutoImport from 'unplugin-auto-import/vite';
+// import AutoImport from 'unplugin-auto-import/vite';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -45,7 +45,7 @@ export default ({ mode }) => {
 
       // * this works, but I don't really like it
       Components({
-        extensions: ['vue', 'ts'],
+        extensions: ['vue', 'tsx'],
 
         dts: './src/typings/components.d.ts',
 
@@ -65,17 +65,17 @@ export default ({ mode }) => {
         ],
       }),
 
-      AutoImport({
-        dts: './src/typings/auto-imports.d.ts',
-        imports: [
-          'vue',
-          'vue-router',
-          '@vueuse/head',
-          '@vueuse/core',
-          'pinia',
-          'vee-validate',
-        ],
-      }),
+      // AutoImport({
+      //   dts: './src/typings/auto-imports.d.ts',
+      //   imports: [
+      //     'vue',
+      //     'vue-router',
+      //     '@vueuse/head',
+      //     '@vueuse/core',
+      //     'pinia',
+      //     'vee-validate',
+      //   ],
+      // }),
     ],
 
     server: {

@@ -4,7 +4,6 @@ import {
   resolveComponent,
   ref,
   computed,
-  PropType,
   ComponentOptions,
 } from 'vue';
 import { EChartsCoreOption } from 'echarts/core';

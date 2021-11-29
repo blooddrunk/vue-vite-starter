@@ -17,7 +17,6 @@
       "vite-plugin-vue-layouts/client",
       "element-plus/global"
     ],
-    "typeRoots": ["./src/typings", "./node_modules/@types"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
