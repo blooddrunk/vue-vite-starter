@@ -21,9 +21,19 @@ module.exports = {
         orange: colors.orange,
 
         inherit: 'inherit',
-        primary: 'var(--color-primary)',
-        secondary: 'var(--color-secondary)',
-        tertiary: 'var(--color-tertiary)',
+
+        primary: {
+          DEFAULT: 'var(--color-primary)',
+        },
+
+        secondary: {
+          DEFAULT: 'var(--color-secondary)',
+        },
+
+        tertiary: {
+          DEFAULT: 'var(--color-tertiary)',
+        },
+
         light: 'var(--color-light)',
         medium: 'var(--color-medium)',
         dark: 'var(--color-dark)',

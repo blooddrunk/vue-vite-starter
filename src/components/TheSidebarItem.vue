@@ -47,7 +47,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const hasChildren = computed(() => props.item.children?.length);
+    const hasChildren = computed(() => !!props.item.children?.length);
 
     const router = useRouter();
     const handleItemClick = (item: MenuItem) => {

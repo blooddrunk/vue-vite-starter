@@ -10,44 +10,28 @@
   </component>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, PropType } from 'vue';
+<script lang="ts" setup>
+type Props = {
+  size?: 'normarl' | 'large';
+  isLink?: boolean;
+};
 
-export default defineComponent({
-  name: 'AppName',
-
-  props: {
-    size: {
-      type: String as PropType<'normarl' | 'large'>,
-      default: 'normal',
-    },
-
-    isLink: {
-      type: Boolean,
-      default: false,
-    },
-  },
-
-  setup(props) {
-    const tag = computed(() => (props.isLink ? 'router-link' : 'header'));
-    const route = computed(() => (props.isLink ? '/' : undefined));
-    const classMap = computed(() =>
-      props.size === 'large'
-        ? {
-            logo: 'tw-h-12 tw-w-12',
-            text: 'tw-text-5xl',
-          }
-        : {
-            logo: 'tw-h-6 tw-w-6',
-            text: 'tw-text-2xl',
-          }
-    );
-
-    return {
-      tag,
-      route,
-      classMap,
-    };
-  },
+const props = withDefaults(defineProps<Props>(), {
+  size: 'normarl',
+  isLink: false,
 });
+
+const tag = computed(() => (props.isLink ? 'router-link' : 'header'));
+const route = computed(() => (props.isLink ? '/' : undefined));
+const classMap = computed(() =>
+  props.size === 'large'
+    ? {
+        logo: 'tw-h-12 tw-w-12',
+        text: 'tw-text-5xl',
+      }
+    : {
+        logo: 'tw-h-6 tw-w-6',
+        text: 'tw-text-2xl',
+      }
+);
 </script>

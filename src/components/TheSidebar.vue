@@ -53,7 +53,7 @@ export default defineComponent({
 
 <style lang="scss" module>
 .sidebar {
-  height: var(--app-content-height);
+  @apply tw-h-[var(--app-content-height)];
   @apply tw-overflow-y-auto tw-border-r tw-border-gray-200;
 
   :global {
