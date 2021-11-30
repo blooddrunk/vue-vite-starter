@@ -1,11 +1,11 @@
 <template>
   <main
-    class=" tw-h-screen tw-p-6 tw-overflow-y-auto dark:tw-bg-gray-800 dark:tw-text-white"
+    class="tw-h-screen tw-p-6 tw-overflow-y-auto dark:tw-bg-gray-800 dark:tw-text-white"
   >
     <section class="tw-flex tw-flex-col tw-items-center tw-pt-20">
       <router-link to="/">
         <h2
-          class=" tw-flex tw-items-center tw-py-5 tw-text-3xl tw-font-bold tw-text-primary"
+          class="tw-flex tw-items-center tw-py-5 tw-text-3xl tw-font-bold tw-text-primary"
         >
           <span>Vue 3</span>
 

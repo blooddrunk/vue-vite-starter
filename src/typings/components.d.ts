@@ -4,15 +4,15 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AppLogo: typeof import('./../components/AppLogo.vue')['default'];
-    BaseIconWrapper: typeof import('./../components/UI/BaseIconWrapper.tsx')['default'];
-    BaseImage: typeof import('./../components/UI/BaseImage.vue')['default'];
-    BaseLoadingButton: typeof import('./../components/UI/BaseLoadingButton.vue')['default'];
-    BaseTextInput: typeof import('./../components/UI/BaseTextInput.vue')['default'];
-    CartesianChart: typeof import('./../components/UI/Chart/CartesianChart.ts')['default'];
-    CheckboxGroupWrapper: typeof import('./../components/UI/Form/CheckboxGroupWrapper.ts')['default'];
-    CheckboxWrapper: typeof import('./../components/UI/Form/CheckboxWrapper.ts')['default'];
-    DemoPieChart: typeof import('./../components/modules/ECharts/DemoPieChart.vue')['default'];
+    AppLogo: typeof import('./../components/AppLogo.vue')['default']
+    BaseIconWrapper: typeof import('./../components/UI/BaseIconWrapper.tsx')['default']
+    BaseImage: typeof import('./../components/UI/BaseImage.vue')['default']
+    BaseLoadingButton: typeof import('./../components/UI/BaseLoadingButton.vue')['default']
+    BaseTextInput: typeof import('./../components/UI/BaseTextInput.vue')['default']
+    CartesianChart: typeof import('./../components/UI/Chart/CartesianChart.tsx')['default']
+    CheckboxGroupWrapper: typeof import('./../components/UI/Form/CheckboxGroupWrapper.tsx')['default']
+    CheckboxWrapper: typeof import('./../components/UI/Form/CheckboxWrapper.tsx')['default']
+    DemoPieChart: typeof import('./../components/modules/ECharts/DemoPieChart.vue')['default']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb'];
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem'];
     ElButton: typeof import('element-plus/es')['ElButton'];
@@ -29,7 +29,7 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable'];
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn'];
     ElTooltip: typeof import('element-plus/es')['ElTooltip'];
-    HistChart: typeof import('./../components/modules/ECharts/HistChart.vue')['default'];
+    HistChart: typeof import('./../components/modules/ECharts/HistChart.vue')['default']
     IconKey: typeof import('@icon-park/vue-next')['Key'];
     IconLogout: typeof import('@icon-park/vue-next')['Logout'];
     IconMe: typeof import('@icon-park/vue-next')['Me'];
@@ -37,21 +37,21 @@ declare module 'vue' {
     IconMenuUnfold: typeof import('@icon-park/vue-next')['MenuUnfold'];
     IconMoon: typeof import('@icon-park/vue-next')['Moon'];
     IconSun: typeof import('@icon-park/vue-next')['Sun'];
-    InputNumberWrapper: typeof import('./../components/UI/Form/InputNumberWrapper.ts')['default'];
-    InputWrapper: typeof import('./../components/UI/Form/InputWrapper.ts')['default'];
-    LineChart: typeof import('./../components/modules/ECharts/LineChart.vue')['default'];
+    InputNumberWrapper: typeof import('./../components/UI/Form/InputNumberWrapper.tsx')['default']
+    InputWrapper: typeof import('./../components/UI/Form/InputWrapper.tsx')['default']
+    LineChart: typeof import('./../components/modules/ECharts/LineChart.vue')['default']
     Loading: typeof import('element-plus/es')['ElLoadingDirective'];
-    MixedChart: typeof import('./../components/modules/ECharts/MixedChart.vue')['default'];
-    PaginatedTable: typeof import('./../components/UI/PaginatedTable.vue')['default'];
-    PieChart: typeof import('./../components/UI/Chart/PieChart.ts')['default'];
-    ProductForm: typeof import('./../components/ProductForm.vue')['default'];
-    SelectWrapper: typeof import('./../components/UI/Form/SelectWrapper.ts')['default'];
-    TableActionButton: typeof import('./../components/UI/TableActionButton.vue')['default'];
-    TheBreadcrumb: typeof import('./../components/TheBreadcrumb.vue')['default'];
-    TheHeading: typeof import('./../components/TheHeading.vue')['default'];
-    TheSidebar: typeof import('./../components/TheSidebar.vue')['default'];
-    TheSidebarItem: typeof import('./../components/TheSidebarItem.vue')['default'];
+    MixedChart: typeof import('./../components/modules/ECharts/MixedChart.vue')['default']
+    PaginatedTable: typeof import('./../components/UI/PaginatedTable.vue')['default']
+    PieChart: typeof import('./../components/UI/Chart/PieChart.tsx')['default']
+    ProductForm: typeof import('./../components/ProductForm.vue')['default']
+    SelectWrapper: typeof import('./../components/UI/Form/SelectWrapper.tsx')['default']
+    TableActionButton: typeof import('./../components/UI/TableActionButton.vue')['default']
+    TheBreadcrumb: typeof import('./../components/TheBreadcrumb.vue')['default']
+    TheHeading: typeof import('./../components/TheHeading.vue')['default']
+    TheSidebar: typeof import('./../components/TheSidebar.vue')['default']
+    TheSidebarItem: typeof import('./../components/TheSidebarItem.vue')['default']
   }
 }
 
-export {};
+export { }

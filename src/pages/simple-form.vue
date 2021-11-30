@@ -114,12 +114,8 @@ export default defineComponent({
   name: 'SimpleFormView',
 
   setup() {
-    const {
-      products,
-      isProductLoading,
-      addProduct,
-      removeProduct,
-    } = useProduct();
+    const { products, isProductLoading, addProduct, removeProduct } =
+      useProduct();
 
     const getDeleteAction = (row: any) => {
       return async () => {

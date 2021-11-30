@@ -1,4 +1,5 @@
 import path from 'path';
+import { loadEnv } from 'vite';
 import Vue from '@vitejs/plugin-vue';
 import VueJsx from '@vitejs/plugin-vue-jsx';
 import legacy from '@vitejs/plugin-legacy';
@@ -13,8 +14,15 @@ import {
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
+  const isDev = mode === 'development';
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+
   return {
-    base: mode === 'production' ? '/' : '/',
+    base: process.env.VITE_PUBLIC_PATH,
+
+    define: {
+      __DEV__: isDev,
+    },
 
     resolve: {
       alias: {
@@ -37,7 +45,7 @@ export default ({ mode }) => {
        */
 
       Pages({
-        extensions: ['vue', 'ts'],
+        extensions: ['vue', 'ts', 'tsx'],
         nuxtStyle: true,
       }),
 
@@ -45,7 +53,7 @@ export default ({ mode }) => {
 
       // * this works, but I don't really like it
       Components({
-        extensions: ['vue', 'tsx'],
+        extensions: ['vue', 'ts', 'tsx'],
 
         dts: './src/typings/components.d.ts',
 

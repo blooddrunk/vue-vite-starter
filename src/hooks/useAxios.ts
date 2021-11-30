@@ -1,5 +1,6 @@
 import { ref, computed, unref, Ref } from 'vue';
 import { AxiosRequestConfig, CancelTokenSource, AxiosResponse } from 'axios';
+import { isString } from 'lodash-es';
 
 import { MaybeRef } from '@/utils/typings';
 import axios from '@/utils/axios';
@@ -11,11 +12,17 @@ export const useAxios = <T = unknown>(
 ) => {
   const isPending = ref(false);
   const isCompleted = ref(false);
-  const error = ref<Error | null>(null);
+  const error = ref<unknown | null>(null);
   const data = ref<T>(initialData) as Ref<T>;
   const response = ref<AxiosResponse<T>>();
 
   const isSuccessful = computed(() => isCompleted.value && !error.value);
+  const errorMessage = computed(() => {
+    const unwrappedError = unref(error);
+    return isString(unwrappedError)
+      ? unwrappedError
+      : (unwrappedError as Error)?.message;
+  });
 
   // cancel
   let __cancelSource: CancelTokenSource | null;
@@ -29,7 +36,7 @@ export const useAxios = <T = unknown>(
   const __lastPromise = ref<Promise<AxiosResponse<T>>>();
 
   const request = async (newConfig?: MaybeRef<AxiosRequestConfig>) => {
-    const unwrappedConfig = unref(newConfig ?? requestConfig);
+    const unwrappedConfig = unref(newConfig ?? unref(requestConfig));
 
     if (takeLatest && __cancelSource) {
       cancel(
@@ -59,13 +66,13 @@ export const useAxios = <T = unknown>(
       }
 
       return data.value;
-    } catch (error) {
+    } catch (e) {
       if (__lastPromise.value === promise) {
-        error.value = error;
+        error.value = e;
         isPending.value = false;
         isCompleted.value = true;
 
-        if (!axios.isCancel(error)) {
+        if (!axios.isCancel(e)) {
           __cancelSource = null;
         }
       }
@@ -81,6 +88,7 @@ export const useAxios = <T = unknown>(
     isCompleted,
     isSuccessful,
     error,
+    errorMessage,
     data,
     response,
     request,

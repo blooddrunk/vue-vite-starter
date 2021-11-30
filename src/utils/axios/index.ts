@@ -1,12 +1,12 @@
 // import { provide, inject } from 'vue';
-import { AxiosResponse, AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 import { defaultsDeep, isPlainObject } from 'lodash-es';
 
 import { createAxiosInstance, EnhancedAxiosInstance } from './enhance';
 import { jsonToUrlParams } from '@/utils/misc';
 
 declare module 'axios' {
-  interface AxiosRequestConfig {
+  export interface AxiosRequestConfig {
     __cancellable?: boolean | string;
     __showProgress?: boolean;
     __needValidation?: boolean;
@@ -14,7 +14,7 @@ declare module 'axios' {
     __transformData?: boolean | ((data: any) => any);
   }
 
-  interface AxiosInstance {
+  export interface AxiosInstance {
     cancel?: (requestId: string, reason: string) => void;
     cancelAll?: (reason: string) => void;
   }
@@ -58,7 +58,7 @@ export const setupInterceptor = (enhancedAxios: EnhancedAxiosInstance) => {
     const presetConfig: AxiosRequestConfig = { method: 'GET' };
 
     if (__urlEncoded) {
-      presetConfig.headers['content-type'] =
+      presetConfig.headers!['content-type'] =
         'application/x-www-form-urlencoded';
       if (isPlainObject(config.data)) {
         config.data = jsonToUrlParams(config.data);
@@ -79,7 +79,7 @@ export const setupInterceptor = (enhancedAxios: EnhancedAxiosInstance) => {
       try {
         response.data = validateResponse(response.data as ServerResponse);
       } catch (error) {
-        error.config = response.config;
+        (error as any).config = response.config;
         throw error;
       }
     }
@@ -91,7 +91,7 @@ export const setupInterceptor = (enhancedAxios: EnhancedAxiosInstance) => {
         response.data = defaultDataTransformer(response.data);
       }
     } catch (error) {
-      error.config = response.config;
+      (error as any).config = response.config;
       throw error;
     }
 

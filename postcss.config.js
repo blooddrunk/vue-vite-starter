@@ -1,5 +1,3 @@
-const isDev = process.env.NODE_ENV === 'development';
-
 // https://github.com/nuxt/nuxt.js/blob/ed564c3bd8/packages/webpack/src/utils/postcss.js
 module.exports = {
   plugins: {
@@ -13,6 +11,6 @@ module.exports = {
     },
 
     // https://github.com/cssnano/cssnano
-    cssnano: isDev ? false : { preset: 'default' },
+    cssnano: import.meta.env.DEV ? false : { preset: 'default' },
   },
 };
