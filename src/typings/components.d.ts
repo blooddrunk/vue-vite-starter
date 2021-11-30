@@ -15,7 +15,7 @@ declare module 'vue' {
     DemoPieChart: typeof import('./../components/modules/ECharts/DemoPieChart.vue')['default']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb'];
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem'];
-    ElButton: typeof import('element-plus/es')['ElButton'];
+    ElButton: typeof import('element-plus/es')['ElButton']
     ElDropdown: typeof import('element-plus/es')['ElDropdown'];
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem'];
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu'];
@@ -35,8 +35,8 @@ declare module 'vue' {
     IconMe: typeof import('@icon-park/vue-next')['Me'];
     IconMenuFold: typeof import('@icon-park/vue-next')['MenuFold'];
     IconMenuUnfold: typeof import('@icon-park/vue-next')['MenuUnfold'];
-    IconMoon: typeof import('@icon-park/vue-next')['Moon'];
-    IconSun: typeof import('@icon-park/vue-next')['Sun'];
+    IconMoon: typeof import('@icon-park/vue-next')['Moon']
+    IconSun: typeof import('@icon-park/vue-next')['Sun']
     InputNumberWrapper: typeof import('./../components/UI/Form/InputNumberWrapper.tsx')['default']
     InputWrapper: typeof import('./../components/UI/Form/InputWrapper.tsx')['default']
     LineChart: typeof import('./../components/modules/ECharts/LineChart.vue')['default']

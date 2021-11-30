@@ -1,4 +1,5 @@
-// https://github.com/nuxt/nuxt.js/blob/ed564c3bd8/packages/webpack/src/utils/postcss.js
+const isDev = process.env.MODE === 'development';
+
 module.exports = {
   plugins: {
     // https://github.com/tailwindcss/tailwindcss
@@ -11,6 +12,6 @@ module.exports = {
     },
 
     // https://github.com/cssnano/cssnano
-    cssnano: import.meta.env.DEV ? false : { preset: 'default' },
+    cssnano: isDev ? false : { preset: 'default' },
   },
 };

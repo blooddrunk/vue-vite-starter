@@ -1,3 +1,5 @@
+const isDev = process.env.MODE === 'development';
+
 module.exports = {
   root: true,
 
@@ -27,8 +29,8 @@ module.exports = {
   plugins: [],
 
   rules: {
-    'no-console': import.meta.env.DEV === 'production' ? 'error' : 'off',
-    'no-debugger': import.meta.env.DEV === 'production' ? 'error' : 'off',
+    'no-console': isDev ? 'error' : 'off',
+    'no-debugger': isDev ? 'error' : 'off',
 
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',

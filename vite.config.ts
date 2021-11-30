@@ -10,7 +10,7 @@ import {
   ElementPlusResolver,
   VantResolver,
 } from 'unplugin-vue-components/resolvers';
-// import AutoImport from 'unplugin-auto-import/vite';
+import AutoImport from 'unplugin-auto-import/vite';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -45,15 +45,14 @@ export default ({ mode }) => {
        */
 
       Pages({
-        extensions: ['vue', 'ts', 'tsx'],
+        extensions: ['vue'],
         nuxtStyle: true,
       }),
 
       Layouts(),
 
-      // * this works, but I don't really like it
       Components({
-        extensions: ['vue', 'ts', 'tsx'],
+        extensions: ['vue'],
 
         dts: './src/typings/components.d.ts',
 
@@ -73,17 +72,27 @@ export default ({ mode }) => {
         ],
       }),
 
-      // AutoImport({
-      //   dts: './src/typings/auto-imports.d.ts',
-      //   imports: [
-      //     'vue',
-      //     'vue-router',
-      //     '@vueuse/head',
-      //     '@vueuse/core',
-      //     'pinia',
-      //     'vee-validate',
-      //   ],
-      // }),
+      AutoImport({
+        dts: './src/typings/auto-imports.d.ts',
+        // imports: [
+        //   'vue',
+        //   'vue-router',
+        //   '@vueuse/head',
+        //   '@vueuse/core',
+        //   'pinia',
+        //   'vee-validate',
+        // ],
+
+        resolvers: [
+          // * jsx
+          (name) => {
+            // console.log(name);
+            // if (name.endsWith('Chart')) {
+            //   return `./../components/UI/Chart/${name}`;
+            // }
+          },
+        ],
+      }),
     ],
 
     server: {
