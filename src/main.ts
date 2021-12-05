@@ -8,7 +8,6 @@ import { createApp } from 'vue';
 
 import App from './App.vue';
 import { router } from './router';
-import { store } from './store';
 import { install } from './install-plugins';
 
 const app = createApp(App);
@@ -16,7 +15,7 @@ const app = createApp(App);
 (async () => {
   await install(app);
 
-  app.use(router).use(store);
+  app.use(router);
 
   router.isReady().then(() => app.mount('#app'));
 })();

@@ -24,8 +24,8 @@
     >
       <div class="tw-h-screen tw-flex tw-justify-center tw-items-end tw-p-6">
         <div
-          class="tw-w-40 tw-h-40 tw-p-6 tw-border-4 tw-border-blue-500 tw-border-opacity-75"
           v-intersect="intersect"
+          class="tw-w-40 tw-h-40 tw-p-6 tw-border-4 tw-border-blue-500 tw-border-opacity-75"
         ></div>
       </div>
     </div>
@@ -37,35 +37,25 @@ meta:
   requiresAuth: false
 </route>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 
-export default defineComponent({
-  name: 'DirectiveIntersectionObserver',
+const scrollContainer = ref(null);
 
-  setup() {
-    const scrollContainer = ref(null);
+const isBoxIntersecting = ref(false);
+const handleIntersect = (
+  entries: IntersectionObserverEntry[],
+  observer: IntersectionObserver,
+  isIntersecting: boolean
+) => {
+  isBoxIntersecting.value = isIntersecting;
+};
 
-    const isBoxIntersecting = ref(false);
-    const handleIntersect = (
-      entries: IntersectionObserverEntry[],
-      observer: IntersectionObserver,
-      isIntersecting: boolean
-    ) => {
-      isBoxIntersecting.value = isIntersecting;
-    };
-
-    const intersect = {
-      handler: handleIntersect,
-      options: {
-        root: scrollContainer,
-        // threshold: [0, 0.5, 1.0],
-      },
-    };
-    return {
-      isBoxIntersecting,
-      intersect,
-    };
+const intersect = {
+  handler: handleIntersect,
+  options: {
+    root: scrollContainer,
+    // threshold: [0, 0.5, 1.0],
   },
-});
+};
 </script>

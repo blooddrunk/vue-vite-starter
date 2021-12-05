@@ -5,11 +5,7 @@
         :content="isSidebarCollapsed ? '展开' : '折叠'"
         placement="right"
       >
-        <el-button
-          class="tw-w-full"
-          type="text"
-          @click="toggleIsSidebarCollapsed"
-        >
+        <el-button class="tw-w-full" type="text" @click="handleSidebarCollapse">
           <IconMenuUnfold v-if="isSidebarCollapsed"></IconMenuUnfold>
           <IconMenuFold v-else></IconMenuFold>
         </el-button>
@@ -26,29 +22,20 @@
   </aside>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia';
 
-import { useStore } from '@/store';
+import { useUIStore } from '@/stores/ui';
 
-export default defineComponent({
-  name: 'TheSidebar',
+const ui = useUIStore();
+const { isSidebarCollapsed, sidebarData } = storeToRefs(ui);
 
-  setup() {
-    const store = useStore();
-    const route = useRoute();
+const handleSidebarCollapse = () => ui.toggleIsSidebarCollapsed();
 
-    return {
-      isSidebarCollapsed: computed(() => store.state.ui.isSidebarCollapsed),
-      toggleIsSidebarCollapsed: () =>
-        store.commit('ui/toggleIsSidebarCollapsed'),
-      sidebarData: computed(() => store.state.ui.sidebarData),
-
-      defaultActiveName: computed(() => route.name),
-    };
-  },
-});
+const route = useRoute();
+const defaultActiveName = computed(() => (route.name || '') as string);
 </script>
 
 <style lang="scss" module>

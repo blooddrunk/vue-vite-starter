@@ -4,8 +4,8 @@
   </el-button>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, PropType } from 'vue';
+<script lang="ts" setup>
+import { defineProps, computed } from 'vue';
 
 import { ElementPlusSize, ElementPlusButtonType } from '@/utils/typings';
 
@@ -23,38 +23,23 @@ type RowProps = {
   $index: number;
 };
 
-export default defineComponent({
-  name: 'TableActionButton',
+type Props = {
+  buttonProps?: ButtonProps;
+  rowProps: RowProps;
+};
 
-  props: {
-    buttonProps: {
-      type: Object as PropType<ButtonProps>,
+const props = defineProps<Props>();
+
+const buttonProps = computed(() =>
+  Object.assign(
+    {},
+    {
+      type: 'text',
+      size: 'mini',
     },
+    props.buttonProps
+  )
+);
 
-    rowProps: {
-      type: Object as PropType<RowProps>,
-      required: true,
-    },
-  },
-
-  setup(props) {
-    const buttonProps = computed(() =>
-      Object.assign(
-        {},
-        {
-          type: 'text',
-          size: 'mini',
-        },
-        props.buttonProps
-      )
-    );
-
-    const isLoading = computed(() => props.rowProps.row.loading);
-
-    return {
-      buttonProps,
-      isLoading,
-    };
-  },
-});
+const isLoading = computed(() => props.rowProps.row.loading);
 </script>

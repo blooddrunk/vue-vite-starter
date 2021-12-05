@@ -29,21 +29,9 @@ meta:
   requiresAuth: false
 </route>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'LazyImage',
-
-  setup() {
-    const imageList = [...Array(10).keys()].map(
-      (index) =>
-        `https://ik.imagekit.io/demo/img/image${index + 1}.jpeg?tr=w-400,h-300`
-    );
-
-    return {
-      imageList,
-    };
-  },
-});
+<script lang="ts" setup>
+const imageList = [...Array(10).keys()].map(
+  (index) =>
+    `https://ik.imagekit.io/demo/img/image${index + 1}.jpeg?tr=w-400,h-300`
+);
 </script>

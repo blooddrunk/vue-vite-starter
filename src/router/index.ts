@@ -1,10 +1,10 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import NProgress from 'nprogress';
 import generatedRoutes from 'virtual:generated-pages';
-import { setupLayouts } from 'layouts-generated';
+import { setupLayouts } from 'virtual:generated-layouts';
 
 import * as middlewareList from './middleware';
-import { BreadcrumbItem } from '@/store/modules/ui';
+import { BreadcrumbItem } from '@/stores/ui';
 
 export const routerHistory = createWebHistory(import.meta.env.BASE_URL);
 

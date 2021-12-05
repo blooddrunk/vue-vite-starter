@@ -40,8 +40,7 @@ meta:
   requiresAuth: false
 </route>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
 import { useForm } from 'vee-validate';
 import { parseISO, format } from 'date-fns';
 
@@ -53,47 +52,35 @@ export type ListItem = {
   url?: string | null;
 };
 
-export default defineComponent({
-  name: 'SimpleListView',
-
-  setup() {
-    const { values: filter, handleSubmit } = useForm({
-      initialValues: {
-        query: 'vue',
-      },
-    });
-
-    const { fetchListAndReset, tableProps } = usePaginatedList({
-      paginationToQuery: {
-        rowsPerPage: 'hitsPerPage',
-      },
-
-      initialFilter: filter,
-
-      initialRequestConfig: {
-        url: 'https://hn.algolia.com/api/v1/search',
-        __transformData: (data) => ({
-          items: data?.hits,
-          total: data?.nbHits,
-        }),
-        __needValidation: false,
-      },
-    });
-
-    const handleSearch = handleSubmit(() => {
-      fetchListAndReset();
-    });
-
-    handleSearch();
-
-    const formatDate = (value: string) =>
-      format(parseISO(value), 'yyyy-MM-dd HH:ss');
-
-    return {
-      tableProps,
-      handleSearch,
-      formatDate,
-    };
+const { values: filter, handleSubmit } = useForm({
+  initialValues: {
+    query: 'vue',
   },
 });
+
+const { fetchListAndReset, tableProps } = usePaginatedList({
+  paginationToQuery: {
+    rowsPerPage: 'hitsPerPage',
+  },
+
+  initialFilter: filter,
+
+  initialRequestConfig: {
+    url: 'https://hn.algolia.com/api/v1/search',
+    __transformData: (data) => ({
+      items: data?.hits,
+      total: data?.nbHits,
+    }),
+    __needValidation: false,
+  },
+});
+
+const handleSearch = handleSubmit(() => {
+  fetchListAndReset();
+});
+
+handleSearch();
+
+const formatDate = (value: string) =>
+  format(parseISO(value), 'yyyy-MM-dd HH:ss');
 </script>

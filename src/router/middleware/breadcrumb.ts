@@ -2,12 +2,12 @@ import { menuLookup } from '@/utils/menu';
 
 import { Router } from 'vue-router';
 
-import { useStore } from '@/store';
-import { BreadcrumbItem } from '@/store/modules/ui';
+import { useUIStore } from '@/stores/ui';
+import { BreadcrumbItem } from '@/stores/ui';
 
 export default (router: Router) => {
   router.beforeEach((to, from) => {
-    const store = useStore();
+    const ui = useUIStore();
     const { matched } = to;
     let breadcrumbList: BreadcrumbItem[] = [];
 
@@ -40,7 +40,6 @@ export default (router: Router) => {
       }, []);
     }
 
-    store.commit('ui/setBreadcrumbList', breadcrumbList);
-    // // eslint-disable-next-line prefer-const
+    ui.breadcrumbList = breadcrumbList;
   });
 };

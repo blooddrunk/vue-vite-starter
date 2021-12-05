@@ -23,35 +23,27 @@
   </nav>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
 import { useRouter } from 'vue-router';
 
-import { useStore } from '@/store';
+import { useAuthStore } from '@/stores/auth';
 
-export default defineComponent({
-  setup() {
-    const router = useRouter();
-    const store = useStore();
-    const userName = store.getters['auth/userName'];
+const router = useRouter();
+const auth = useAuthStore();
 
-    const handleCommand = async (command: string) => {
-      switch (command) {
-        case 'logout':
-          await store.dispatch('auth/logout');
-          router.push({ name: 'sign-in' });
-          break;
+const userName = auth.userName;
 
-        default:
-          break;
-      }
-    };
-    return {
-      userName,
-      handleCommand,
-    };
-  },
-});
+const handleCommand = async (command: string) => {
+  switch (command) {
+    case 'logout':
+      await auth.logout();
+      router.push({ name: 'sign-in' });
+      break;
+
+    default:
+      break;
+  }
+};
 </script>
 
 <style lang="postcss" module>

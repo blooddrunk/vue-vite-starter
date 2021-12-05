@@ -12,27 +12,16 @@
   </nav>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 
-import { useStore } from '@/store';
+import { useUIStore } from '@/stores/ui';
 
-export default defineComponent({
-  setup() {
-    const store = useStore();
-    const visibleBreadcrumbs = computed(() =>
-      store.state.ui.breadcrumbList.filter(
-        (breadcrumb) => breadcrumb.isVisible !== false
-      )
-    );
-    const shouldShowBreadcrumb = computed(
-      () => visibleBreadcrumbs.value.length > 0
-    );
-
-    return {
-      visibleBreadcrumbs,
-      shouldShowBreadcrumb,
-    };
-  },
-});
+const ui = useUIStore();
+const visibleBreadcrumbs = computed(() =>
+  ui.breadcrumbList.filter((breadcrumb) => breadcrumb.isVisible !== false)
+);
+const shouldShowBreadcrumb = computed(
+  () => visibleBreadcrumbs.value.length > 0
+);
 </script>

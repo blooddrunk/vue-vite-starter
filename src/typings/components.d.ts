@@ -13,14 +13,15 @@ declare module 'vue' {
     CheckboxGroupWrapper: typeof import('./../components/UI/Form/CheckboxGroupWrapper.tsx')['default']
     CheckboxWrapper: typeof import('./../components/UI/Form/CheckboxWrapper.tsx')['default']
     DemoPieChart: typeof import('./../components/modules/ECharts/DemoPieChart.vue')['default']
+    ElAlert: typeof import('element-plus/es')['ElAlert']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb'];
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem'];
     ElButton: typeof import('element-plus/es')['ElButton']
     ElDropdown: typeof import('element-plus/es')['ElDropdown'];
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem'];
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu'];
-    ElForm: typeof import('element-plus/es')['ElForm'];
-    ElFormItem: typeof import('element-plus/es')['ElFormItem'];
+    ElForm: typeof import('element-plus/es')['ElForm']
+    ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElMenu: typeof import('element-plus/es')['ElMenu'];
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem'];
     ElPagination: typeof import('element-plus/es')['ElPagination'];
@@ -30,13 +31,17 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn'];
     ElTooltip: typeof import('element-plus/es')['ElTooltip'];
     HistChart: typeof import('./../components/modules/ECharts/HistChart.vue')['default']
+    IconCheckOne: typeof import('@icon-park/vue-next')['CheckOne']
     IconKey: typeof import('@icon-park/vue-next')['Key'];
+    IconLock: typeof import('@icon-park/vue-next')['Lock']
     IconLogout: typeof import('@icon-park/vue-next')['Logout'];
     IconMe: typeof import('@icon-park/vue-next')['Me'];
     IconMenuFold: typeof import('@icon-park/vue-next')['MenuFold'];
     IconMenuUnfold: typeof import('@icon-park/vue-next')['MenuUnfold'];
     IconMoon: typeof import('@icon-park/vue-next')['Moon']
+    IconPic: typeof import('@icon-park/vue-next')['Pic']
     IconSun: typeof import('@icon-park/vue-next')['Sun']
+    IconUser: typeof import('@icon-park/vue-next')['User']
     InputNumberWrapper: typeof import('./../components/UI/Form/InputNumberWrapper.tsx')['default']
     InputWrapper: typeof import('./../components/UI/Form/InputWrapper.tsx')['default']
     LineChart: typeof import('./../components/modules/ECharts/LineChart.vue')['default']

@@ -18,79 +18,52 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, PropType } from 'vue';
+<script lang="ts" setup>
+import { withDefaults, defineProps, computed } from 'vue';
+import { PaginationProps } from 'element-plus';
 
 import { Pagination } from '@/hooks/usePaginatedList';
 
-const defaultPaginationProps = {
+type Props = {
+  items?: any[];
+  loading?: boolean;
+  total?: number;
+  pagination: Pagination;
+  paginationProps?: Partial<PaginationProps>;
+  updatePagination: (pagination: Partial<Pagination>) => void;
+};
+
+const defaultPaginationProps: Partial<PaginationProps> = {
   background: true,
   pageSizes: [10, 20, 50, 100],
   layout: 'total, sizes, prev, pager, next, jumper, ->, slot',
 };
 
-export default defineComponent({
-  name: 'PaginatedTable',
-
-  props: {
-    items: {
-      type: Array,
-      default: () => [],
-    },
-
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-
-    total: {
-      type: Number,
-      default: 0,
-    },
-
-    pagination: {
-      type: Object as PropType<Pagination>,
-      required: true,
-    },
-
-    paginationProps: {
-      type: Object,
-      default: () => ({}),
-    },
-
-    updatePagination: {
-      type: Function as PropType<(pagination: Partial<Pagination>) => void>,
-      required: true,
-    },
-  },
-
-  setup(props) {
-    const computedPaginationProps = computed(() => ({
-      ...defaultPaginationProps,
-      ...props.paginationProps,
-      currentPage: props.pagination.page,
-    }));
-
-    const handleSizeChange = (rowsPerPage: number) => {
-      props.updatePagination({
-        page: 1,
-        rowsPerPage,
-      });
-    };
-
-    const handlePageChange = (page: number) => {
-      props.updatePagination({
-        page,
-      });
-    };
-
-    return {
-      computedPaginationProps,
-      handleSizeChange,
-      handlePageChange,
-    };
-  },
+const props = withDefaults(defineProps<Props>(), {
+  items: () => [],
+  loading: false,
+  total: 0,
+  paginationProps: () => ({}),
 });
+
+const computedPaginationProps = computed(() => ({
+  ...defaultPaginationProps,
+  ...props.paginationProps,
+  currentPage: props.pagination.page,
+}));
+
+const handleSizeChange = (rowsPerPage: number) => {
+  props.updatePagination({
+    page: 1,
+    rowsPerPage,
+  });
+};
+
+const handlePageChange = (page: number) => {
+  props.updatePagination({
+    page,
+  });
+};
 </script>
 
 <style lang="scss" module>

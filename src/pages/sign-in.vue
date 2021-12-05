@@ -34,9 +34,9 @@
           mode="in-out"
         >
           <el-alert
-            v-if="loginErrorMessage"
+            v-if="loginError"
             class="tw-mt-6"
-            :title="loginErrorMessage"
+            :title="loginError"
             type="error"
             effect="dark"
             :closable="false"
@@ -99,7 +99,7 @@
                 mode="out-in"
               >
                 <div
-                  v-if="isCapchaBroken"
+                  v-if="isCaptchaBroken"
                   class="tw-h-full tw-flex tw-items-center tw-justify-center tw-text-yellow-300 tw-text-xs tw-cursor-pointer"
                   @click="fetchCaptcha"
                 >
@@ -149,154 +149,123 @@ meta:
   requiresAuth: false
 </route>
 
-<script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  watch,
-  watchEffect,
-  onMounted,
-} from 'vue';
+<script lang="ts" setup>
+import { ref, computed, watch, watchEffect, onMounted } from 'vue';
 import { useForm } from 'vee-validate';
 import { useRouter, useRoute } from 'vue-router';
 import { useTimeoutFn } from '@vueuse/core';
+import { storeToRefs } from 'pinia';
 
-import { useStore } from '@/store';
-import { LoginInfo } from '@/store/modules/auth';
+import { useAuthStore, LoginInfo } from '@/stores/auth';
 
-export default defineComponent({
-  setup() {
-    /** login state*/
-    const store = useStore();
-    const isLoggedIn = computed(() => store.getters['auth/isLoggedIn']);
-    const isLoginPending = computed(() => store.state.auth.isLoginPending);
-    const loginErrorMessage = computed(() => store.state.auth.error?.message);
-    const hasLoginError = computed(() => store.getters['auth/hasLoginError']);
-    const loginButtonTest = computed(() =>
-      isLoginPending.value ? '登录中...' : '登 录'
-    );
-    const clearError = () => store.commit('auth/clearError');
+const auth = useAuthStore();
+const { isLoggedIn, isLoginPending, loginError, hasLoginError } =
+  storeToRefs(auth);
+const loginButtonTest = computed(() =>
+  isLoginPending.value ? '登录中...' : '登 录'
+);
 
-    /** captcha handling */
-    const isCapchaBroken = ref(false);
-    const captchaUrl = ref('');
-    const captchaRef = ref<HTMLImageElement>();
-    const setCaptchaUrl = () => {
-      captchaUrl.value = `/captcha?_r=${Date.now()}`;
-    };
-    setCaptchaUrl();
-    const fetchCaptcha = () => {
-      setCaptchaUrl();
-    };
+const clearError = () => {
+  loginError.value = '';
+};
 
-    onMounted(() => {
-      console.log('mounted');
+/** captcha handling */
+const isCaptchaBroken = ref(false);
+const captchaUrl = ref('');
+const captchaRef = ref<HTMLImageElement>();
+const setCaptchaUrl = () => {
+  captchaUrl.value = `/captcha?_r=${Date.now()}`;
+};
+setCaptchaUrl();
+const fetchCaptcha = () => {
+  setCaptchaUrl();
+};
 
-      if (captchaRef.value) {
-        captchaRef.value.onload = () => {
-          isCapchaBroken.value = false;
-        };
+onMounted(() => {
+  console.log('mounted');
 
-        captchaRef.value.onerror = () => {
-          isCapchaBroken.value = true;
-        };
-      }
-    });
-
-    watchEffect(() => {
-      if (hasLoginError.value) {
-        fetchCaptcha();
-      }
-    });
-
-    /** form handling*/
-    const validationSchema = {
-      username: 'required',
-      password: 'required',
-      captcha: 'required',
-    };
-    const { values, meta, isSubmitting, handleSubmit } = useForm<LoginInfo>({
-      validationSchema,
-      initialValues: {
-        username: '',
-        password: '',
-        captcha: '',
-      },
-    });
-    const invalid = computed(() => !meta.value.valid && meta.value.dirty);
-    const isLoginButtonDisabled = computed(
-      () => invalid.value || isSubmitting.value
-    );
-
-    const {
-      start: startTransitionCounting,
-      stop: stopTransitionCounting,
-    } = useTimeoutFn(
-      () => {
-        if (isLoggedIn.value && !isLoginTransitionFinished.value) {
-          handleLoginSuccess();
-        }
-      },
-      2000,
-      false
-    );
-    const onSubmit = handleSubmit(async (values) => {
-      isLoginTransitionFinished.value = false;
-
-      await store.dispatch('auth/login', values);
-
-      // in case animationend did not happen, wait a while, then force redirecting
-      startTransitionCounting();
-    });
-
-    const router = useRouter();
-    const route = useRoute();
-    const isLoginTransitionFinished = ref(false);
-    const handleLoginSuccess = async () => {
-      // in case page has already been redirected
-      // should not happen
-      if (route.name !== 'sign-in' || isLoginTransitionFinished.value) {
-        return;
-      }
-
-      store.commit('auth/setHasForcedOut', false);
-      isLoginTransitionFinished.value = true;
-      stopTransitionCounting();
-
-      const { from, ...rest } = route.query;
-      await router.push({
-        name: String(from === 'sign-in' || !from ? 'index' : from),
-        query: rest,
-      });
-
-      fetchCaptcha();
+  if (captchaRef.value) {
+    captchaRef.value.onload = () => {
+      isCaptchaBroken.value = false;
     };
 
-    watch(values, () => {
-      if (hasLoginError.value) {
-        clearError();
-      }
-    });
-
-    return {
-      isLoggedIn,
-      isLoginPending,
-      loginErrorMessage,
-      hasLoginError,
-      isLoginButtonDisabled,
-      loginButtonTest,
-
-      onSubmit,
-      isSubmitting,
-      handleLoginSuccess,
-
-      isCapchaBroken,
-      captchaUrl,
-      captchaRef,
-      fetchCaptcha,
+    captchaRef.value.onerror = () => {
+      isCaptchaBroken.value = true;
     };
+  }
+});
+
+watchEffect(() => {
+  if (hasLoginError.value) {
+    fetchCaptcha();
+  }
+});
+
+/** form handling*/
+const validationSchema = {
+  username: 'required',
+  password: 'required',
+  captcha: 'required',
+};
+const { values, meta, isSubmitting, handleSubmit } = useForm<LoginInfo>({
+  validationSchema,
+  initialValues: {
+    username: '',
+    password: '',
+    captcha: '',
   },
+});
+const invalid = computed(() => !meta.value.valid && meta.value.dirty);
+const isLoginButtonDisabled = computed(
+  () => invalid.value || isSubmitting.value
+);
+
+const { start: startTransitionCounting, stop: stopTransitionCounting } =
+  useTimeoutFn(
+    () => {
+      if (isLoggedIn.value && !isLoginTransitionFinished.value) {
+        handleLoginSuccess();
+      }
+    },
+    2000,
+    { immediate: false }
+  );
+const onSubmit = handleSubmit(async (values) => {
+  isLoginTransitionFinished.value = false;
+
+  await auth.login(values);
+
+  // in case animationend did not happen, wait a while, then force redirecting
+  startTransitionCounting();
+});
+
+const router = useRouter();
+const route = useRoute();
+const isLoginTransitionFinished = ref(false);
+const handleLoginSuccess = async () => {
+  // in case page has already been redirected
+  // should not happen
+  if (route.name !== 'sign-in' || isLoginTransitionFinished.value) {
+    return;
+  }
+
+  auth.isForcedOut = false;
+  isLoginTransitionFinished.value = true;
+  stopTransitionCounting();
+
+  const { from, ...rest } = route.query;
+  await router.push({
+    name: String(from === 'sign-in' || !from ? 'index' : from),
+    query: rest,
+  });
+
+  fetchCaptcha();
+};
+
+watch(values, () => {
+  if (hasLoginError.value) {
+    clearError();
+  }
 });
 </script>
 
@@ -312,9 +281,7 @@ export default defineComponent({
   background-image: url(~assets/images/login.png);
   @apply tw-flex-grow tw-flex tw-flex-col tw-items-center tw-justify-center;
   @apply tw-bg-no-repeat tw-bg-center;
-  @screen lg {
-    @apply tw-bg-none;
-  }
+  @apply lg:tw-bg-none;
 }
 
 .captcha {

@@ -14,13 +14,3 @@
 meta:
   requiresAuth: false
 </route>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'ECharts',
-
-  setup() {},
-});
-</script>

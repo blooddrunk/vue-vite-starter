@@ -1,5 +1,6 @@
 import { App } from 'vue';
 
+export { default as pinia } from './pinia';
 export { default as elementUI } from './element-plus';
 export { default as veeValidate } from './vee-validate';
 export { default as echarts } from './echarts';

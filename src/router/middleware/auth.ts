@@ -1,12 +1,12 @@
 import { Router, RouteLocationRaw } from 'vue-router';
 
-import { useStore } from '@/store';
+import { useAuthStore } from '@/stores/auth';
 
 export default (router: Router) => {
   router.beforeEach((to) => {
-    const store = useStore();
+    const auth = useAuthStore();
 
-    const isLoggedIn = store.getters['auth/isLoggedIn'];
+    const isLoggedIn = auth.isLoggedIn;
     const isInLoginPage = to.name === 'sign-in';
     const requiresAuth =
       !isLoggedIn &&
@@ -15,7 +15,7 @@ export default (router: Router) => {
         : !!to.meta.requiresAuth);
 
     if (isInLoginPage && isLoggedIn) {
-      store.dispatch('auth/logout');
+      auth.logout();
     } else if (requiresAuth && !isLoggedIn) {
       return {
         name: 'sign-in',
