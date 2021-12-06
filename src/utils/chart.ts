@@ -1,6 +1,13 @@
-import { unref } from 'vue';
+import { unref, withDefaults, defineProps } from 'vue';
+import { EChartsCoreOption } from 'echarts/core';
+import ECharts from 'vue-echarts';
 
 import { MaybeRef } from '@/utils/typings';
+
+export type VueEchartsComponent = InstanceType<typeof ECharts>;
+
+export const chartThemeList = ['primary'] as const;
+export type ChartTheme = typeof chartThemeList[number];
 
 export type EnhancedDimensionDefinition =
   | {
@@ -21,6 +28,7 @@ export type SimplifiedSeriesDefinition =
       encode: Record<string, string | number | (string | number)[]>;
     }
   | Record<string, any>;
+
 export const getSeriesEncodeByDimensions = (
   dimensions: MaybeRef<EnhancedDimensionDefinition[]>,
   type?: string,
@@ -41,21 +49,17 @@ export const getSeriesEncodeByDimensions = (
             name: dimension,
           }
         : dimension;
-    let {
-      name,
-      displayName,
-      displayDimension,
-      isPercentage,
-      seriesConfig,
-    } = definitionItem;
+    const { name, displayName, displayDimension, isPercentage, seriesConfig } =
+      definitionItem;
 
     auxiliaryDimensions.push({
       name,
       displayName,
     });
 
+    let maybePercentageDimension = displayDimension;
     if (isPercentage && !displayDimension) {
-      displayDimension = `${name}_Percentage`;
+      maybePercentageDimension = `${name}_Percentage`;
     }
 
     if (!seriesConfig?.type && !type) {
@@ -73,9 +77,9 @@ export const getSeriesEncodeByDimensions = (
       type: seriesConfig?.type || type,
     };
 
-    if (displayDimension) {
-      auxiliaryDimensions.push(displayDimension);
-      seriesItem.encode.tooltip = displayDimension;
+    if (maybePercentageDimension) {
+      auxiliaryDimensions.push(maybePercentageDimension);
+      seriesItem.encode.tooltip = maybePercentageDimension;
     }
 
     series.push(seriesItem);
@@ -86,3 +90,21 @@ export const getSeriesEncodeByDimensions = (
     series,
   };
 };
+
+export type CommonChartType = 'pie' | 'bar' | 'line' | 'scatter';
+export type CommonChartProps = {
+  autoResize?: boolean;
+  dimensions: EnhancedDimensionDefinition[];
+  data: any[];
+  loading?: boolean;
+  option: EChartsCoreOption;
+  theme?: ChartTheme | Record<string, any>;
+  type: CommonChartType;
+};
+
+export const getSharedProps = () =>
+  withDefaults(defineProps<CommonChartProps>(), {
+    autoResize: true,
+    loading: false,
+    theme: 'primary',
+  });

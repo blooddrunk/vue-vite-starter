@@ -6,11 +6,8 @@ import legacy from '@vitejs/plugin-legacy';
 import Pages from 'vite-plugin-pages';
 import Layouts from 'vite-plugin-vue-layouts';
 import Components from 'unplugin-vue-components/vite';
-import {
-  ElementPlusResolver,
-  VantResolver,
-} from 'unplugin-vue-components/resolvers';
-import AutoImport from 'unplugin-auto-import/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+// import AutoImport from 'unplugin-auto-import/vite';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -68,31 +65,30 @@ export default ({ mode }) => {
           },
 
           ElementPlusResolver(),
-          VantResolver(),
         ],
       }),
 
-      AutoImport({
-        dts: './src/typings/auto-imports.d.ts',
-        // imports: [
-        //   'vue',
-        //   'vue-router',
-        //   '@vueuse/head',
-        //   '@vueuse/core',
-        //   'pinia',
-        //   'vee-validate',
-        // ],
+      // AutoImport({
+      //   dts: './src/typings/auto-imports.d.ts',
+      // imports: [
+      //   'vue',
+      //   'vue-router',
+      //   '@vueuse/head',
+      //   '@vueuse/core',
+      //   'pinia',
+      //   'vee-validate',
+      // ],
 
-        resolvers: [
-          // * jsx
-          (name) => {
-            // console.log(name);
-            // if (name.endsWith('Chart')) {
-            //   return `./../components/UI/Chart/${name}`;
-            // }
-          },
-        ],
-      }),
+      //   resolvers: [
+      // * jsx
+      //     (name) => {
+      //       console.log(name);
+      //       if (name.endsWith('Chart')) {
+      //         return `./../components/UI/Chart/${name}`;
+      //       }
+      //     },
+      //   ],
+      // }),
     ],
 
     server: {

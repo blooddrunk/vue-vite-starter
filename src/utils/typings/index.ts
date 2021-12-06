@@ -1,4 +1,4 @@
-import { Ref, ComputedRef } from 'vue';
+import { Ref } from 'vue';
 export * from './element-plus';
 export * from './vuex';
 
@@ -10,7 +10,7 @@ export type PromiseType<P extends Promise<any>> = P extends Promise<infer T>
   ? T
   : never;
 
-export type MaybeRef<T> = T | Ref<T> | ComputedRef<T>;
+export type MaybeRef<T> = T | Ref<T>;
 
 export type CommonSelectOption = {
   label: string;

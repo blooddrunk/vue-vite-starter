@@ -1,6 +1,5 @@
-import ECharts from 'vue-echarts';
+import VueEcharts from 'vue-echarts';
 import { use, registerTheme } from 'echarts/core';
-
 import { CanvasRenderer } from 'echarts/renderers';
 import { BarChart, LineChart, PieChart } from 'echarts/charts';
 import {
@@ -10,10 +9,9 @@ import {
   TitleComponent,
   TooltipComponent,
 } from 'echarts/components';
-
 import { App } from 'vue';
 
-const availableThemeNameList = ['primary'];
+import { chartThemeList } from '@/utils/chart';
 
 export default async (app: App) => {
   use([
@@ -31,15 +29,15 @@ export default async (app: App) => {
   ]);
 
   const themeList = await Promise.all(
-    availableThemeNameList.map((theme) =>
+    chartThemeList.map((theme) =>
       import(`./theme/${theme}.ts`).then((module) => module.default)
     )
   );
 
   themeList.forEach((theme, index) => {
-    const themeName = availableThemeNameList[index];
+    const themeName = chartThemeList[index];
     registerTheme(themeName, theme);
   });
 
-  app.component('ECharts', ECharts);
+  app.component('ECharts', VueEcharts);
 };
