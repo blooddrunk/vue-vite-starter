@@ -6,7 +6,7 @@
 
     <MixedChart></MixedChart>
 
-    <DemoPieChart></DemoPieChart>
+    <PieChart></PieChart>
   </div>
 </template>
 

@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AppLogo: typeof import('./../components/AppLogo.vue')['default']
+    BaseChart: typeof import('./../components/UI/BaseChart.vue')['default']
     BaseIconWrapper: typeof import('./../components/UI/BaseIconWrapper.tsx')['default']
     BaseImage: typeof import('./../components/UI/BaseImage.vue')['default']
     BaseLoadingButton: typeof import('./../components/UI/BaseLoadingButton.vue')['default']
@@ -12,7 +13,7 @@ declare module 'vue' {
     CartesianChart: typeof import('./../components/UI/Chart/CartesianChart.vue')['default']
     CheckboxGroupWrapper: typeof import('./../components/UI/Form/CheckboxGroupWrapper.tsx')['default']
     CheckboxWrapper: typeof import('./../components/UI/Form/CheckboxWrapper.tsx')['default']
-    CommonChart: typeof import('./../components/UI/Chart/CommonChart.vue')['default']
+    CommonChart: typeof import('./../components/UI/CommonChart.vue')['default']
     DemoPieChart: typeof import('./../components/modules/ECharts/DemoPieChart.vue')['default']
     ElAlert: typeof import('element-plus/es')['ElAlert']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb'];
@@ -49,7 +50,7 @@ declare module 'vue' {
     Loading: typeof import('element-plus/es')['ElLoadingDirective'];
     MixedChart: typeof import('./../components/modules/ECharts/MixedChart.vue')['default']
     PaginatedTable: typeof import('./../components/UI/PaginatedTable.vue')['default']
-    PieChart: typeof import('./../components/UI/Chart/PieChart.vue')['default']
+    PieChart: typeof import('./../components/modules/ECharts/PieChart.vue')['default']
     ProductForm: typeof import('./../components/ProductForm.vue')['default']
     SelectWrapper: typeof import('./../components/UI/Form/SelectWrapper.tsx')['default']
     SimpleChart: typeof import('./../components/UI/Chart/SimpleChart.vue')['default']

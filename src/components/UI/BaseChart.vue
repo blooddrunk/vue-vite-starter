@@ -9,12 +9,16 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { withDefaults, defineProps, toRefs } from 'vue';
 
-import { getSharedProps } from '@/utils/chart';
+import { CommonChartProps as Props } from '@/utils/chart';
 import { useEcharts } from '@/hooks/useEcharts';
 
-const props = getSharedProps();
+const props = withDefaults(defineProps<Props>(), {
+  autoResize: true,
+  loading: false,
+  theme: 'primary',
+});
 const { autoResize, theme } = toRefs(props);
 
 const { chartRef, mergedOption } = useEcharts(props, props.type);

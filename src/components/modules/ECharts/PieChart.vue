@@ -1,10 +1,11 @@
 <template>
   <div class="tw-aspect-w-3 tw-aspect-h-1">
-    <PieChart
+    <BaseChart
       :dimensions="dimensions"
-      :source="dataSource"
+      :data="dataSource"
       :option="option"
-    ></PieChart>
+      type="pie"
+    ></BaseChart>
   </div>
 </template>
 

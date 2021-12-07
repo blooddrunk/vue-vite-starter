@@ -1,10 +1,11 @@
 <template>
   <div class="tw-aspect-w-4 tw-aspect-h-1">
-    <CartesianChart
+    <BaseChart
       :dimensions="dimensions"
-      :source="dataSource"
+      :data="dataSource"
       :option="option"
-    ></CartesianChart>
+      type="line"
+    ></BaseChart>
   </div>
 </template>
 

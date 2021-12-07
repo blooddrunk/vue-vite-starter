@@ -1,4 +1,4 @@
-import { unref, withDefaults, defineProps } from 'vue';
+import { unref } from 'vue';
 import { EChartsCoreOption } from 'echarts/core';
 import ECharts from 'vue-echarts';
 
@@ -8,6 +8,17 @@ export type VueEchartsComponent = InstanceType<typeof ECharts>;
 
 export const chartThemeList = ['primary'] as const;
 export type ChartTheme = typeof chartThemeList[number];
+
+export type CommonChartType = 'pie' | 'bar' | 'line' | 'scatter';
+export type CommonChartProps = {
+  autoResize?: boolean;
+  dimensions: EnhancedDimensionDefinition[];
+  data: any[];
+  loading?: boolean;
+  option: EChartsCoreOption;
+  theme?: ChartTheme | Record<string, any>;
+  type: CommonChartType;
+};
 
 export type EnhancedDimensionDefinition =
   | {
@@ -90,21 +101,3 @@ export const getSeriesEncodeByDimensions = (
     series,
   };
 };
-
-export type CommonChartType = 'pie' | 'bar' | 'line' | 'scatter';
-export type CommonChartProps = {
-  autoResize?: boolean;
-  dimensions: EnhancedDimensionDefinition[];
-  data: any[];
-  loading?: boolean;
-  option: EChartsCoreOption;
-  theme?: ChartTheme | Record<string, any>;
-  type: CommonChartType;
-};
-
-export const getSharedProps = () =>
-  withDefaults(defineProps<CommonChartProps>(), {
-    autoResize: true,
-    loading: false,
-    theme: 'primary',
-  });

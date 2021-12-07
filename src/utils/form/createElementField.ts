@@ -1,4 +1,4 @@
-import { defineComponent, h, computed, ComponentOptions, PropType } from 'vue';
+import { defineComponent, h, computed, PropType, DefineComponent } from 'vue';
 import { ElFormItem } from 'element-plus';
 import { reactivePick } from '@vueuse/core';
 
@@ -10,7 +10,7 @@ type CreateElementFieldOption<T> = {
 };
 
 export const createElementField = <TValue = unknown>(
-  Component: ComponentOptions,
+  Component: DefineComponent,
   {
     bindBlurEvent = true,
     valueFormatter,
