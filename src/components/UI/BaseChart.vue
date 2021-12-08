@@ -11,10 +11,10 @@
 <script lang="ts" setup>
 import { withDefaults, defineProps, toRefs } from 'vue';
 
-import { CommonChartProps as Props } from '@/utils/chart';
+import type { CommonChartProps } from '@/utils/chart';
 import { useEcharts } from '@/hooks/useEcharts';
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CommonChartProps>(), {
   autoResize: true,
   loading: false,
   theme: 'primary',

@@ -2,13 +2,13 @@ import path from 'path';
 import { loadEnv } from 'vite';
 import Vue from '@vitejs/plugin-vue';
 import VueJsx from '@vitejs/plugin-vue-jsx';
-import legacy from '@vitejs/plugin-legacy';
+import Legacy from '@vitejs/plugin-legacy';
 import Pages from 'vite-plugin-pages';
 import Layouts from 'vite-plugin-vue-layouts';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 // import AutoImport from 'unplugin-auto-import/vite';
-// import VueTypeImports from 'vite-plugin-vue-type-imports';
+import VueTypeImports from 'vite-plugin-vue-type-imports';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -34,7 +34,7 @@ export default ({ mode }) => {
        */
       Vue(),
       VueJsx(),
-      legacy({
+      Legacy({
         targets: ['defaults', 'not IE 11'],
       }),
 
@@ -91,7 +91,7 @@ export default ({ mode }) => {
       //   ],
       // }),
 
-      // VueTypeImports(),
+      VueTypeImports(),
     ],
 
     server: {

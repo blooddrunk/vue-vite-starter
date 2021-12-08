@@ -1,4 +1,4 @@
-import { computed, ref, Ref, ComputedRef } from 'vue';
+import { computed, ref } from 'vue';
 import { EChartsCoreOption } from 'echarts/core';
 import { merge } from 'lodash-es';
 
@@ -55,7 +55,7 @@ export const useCartesianChart = (props: CommonChartProps) => {
   return defaultOption;
 };
 
-export const useEcharts = (props: CommonChartProps, type: CommonChartType) => {
+export const useEcharts = (props: CommonChartProps, type?: CommonChartType) => {
   const defaultOption =
     type === 'pie' ? usePieChart(props) : useCartesianChart(props);
 

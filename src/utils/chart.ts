@@ -1,6 +1,7 @@
 import { unref } from 'vue';
 import { EChartsCoreOption } from 'echarts/core';
 import ECharts from 'vue-echarts';
+import { merge } from 'lodash-es';
 
 import { MaybeRef } from '@/utils/typings';
 
@@ -12,12 +13,12 @@ export type ChartTheme = typeof chartThemeList[number];
 export type CommonChartType = 'pie' | 'bar' | 'line' | 'scatter';
 export type CommonChartProps = {
   autoResize?: boolean;
-  dimensions: EnhancedDimensionDefinition[];
+  dimensions?: EnhancedDimensionDefinition[];
   data: any[];
   loading?: boolean;
   option: EChartsCoreOption;
   theme?: ChartTheme | Record<string, any>;
-  type: CommonChartType;
+  type?: CommonChartType;
 };
 
 export type EnhancedDimensionDefinition =
@@ -40,17 +41,18 @@ export type SimplifiedSeriesDefinition =
     }
   | Record<string, any>;
 
-export const getSeriesEncodeByDimensions = (
-  dimensions: MaybeRef<EnhancedDimensionDefinition[]>,
+export const normalizeSeries = (
+  enhancedDimensions: MaybeRef<EnhancedDimensionDefinition[]>,
   type?: string,
   { hasCategoryDimension = true } = {}
 ) => {
-  const auxiliaryDimensions: EnhancedDimensionDefinition[] = [];
+  const dimensions: EnhancedDimensionDefinition[] = [];
   const series: SimplifiedSeriesDefinition[] = [];
 
-  unref(dimensions).forEach((dimension, index) => {
+  unref(enhancedDimensions).forEach((dimension, index) => {
+    // first row is category dimension
     if (hasCategoryDimension && index === 0) {
-      auxiliaryDimensions.push(dimension);
+      dimensions.push(dimension);
       return;
     }
 
@@ -63,7 +65,7 @@ export const getSeriesEncodeByDimensions = (
     const { name, displayName, displayDimension, isPercentage, seriesConfig } =
       definitionItem;
 
-    auxiliaryDimensions.push({
+    dimensions.push({
       name,
       displayName,
     });
@@ -73,23 +75,27 @@ export const getSeriesEncodeByDimensions = (
       maybePercentageDimension = `${name}_Percentage`;
     }
 
-    if (!seriesConfig?.type && !type) {
+    const extraSeriesConfig = seriesConfig || {};
+    extraSeriesConfig.type = extraSeriesConfig.type || type;
+
+    if (!extraSeriesConfig.type) {
       throw new Error(`series type of [${name}] is missing`);
     }
 
-    const seriesItem: SimplifiedSeriesDefinition = {
-      encode: {
-        x: [0],
-        y: name,
-        seriesName: name,
-        tooltip: name,
+    const seriesItem: SimplifiedSeriesDefinition = merge(
+      {
+        encode: {
+          x: [0],
+          y: name,
+          seriesName: name,
+          tooltip: name,
+        },
       },
-      ...seriesConfig,
-      type: seriesConfig?.type || type,
-    };
+      extraSeriesConfig
+    );
 
     if (maybePercentageDimension) {
-      auxiliaryDimensions.push(maybePercentageDimension);
+      dimensions.push(maybePercentageDimension);
       seriesItem.encode.tooltip = maybePercentageDimension;
     }
 
@@ -97,7 +103,7 @@ export const getSeriesEncodeByDimensions = (
   });
 
   return {
-    dimensions: auxiliaryDimensions,
+    dimensions,
     series,
   };
 };
