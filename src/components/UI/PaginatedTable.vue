@@ -66,7 +66,7 @@ const handlePageChange = (page: number) => {
 };
 </script>
 
-<style lang="scss" module>
+<style lang="postcss" module>
 .pager {
   :global {
     .el-pager {

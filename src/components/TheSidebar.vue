@@ -38,7 +38,7 @@ const route = useRoute();
 const defaultActiveName = computed(() => (route.name || '') as string);
 </script>
 
-<style lang="scss" module>
+<style lang="postcss" module>
 .sidebar {
   @apply tw-h-[var(--app-content-height)];
   @apply tw-overflow-y-auto tw-border-r tw-border-gray-200;

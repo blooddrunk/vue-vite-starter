@@ -3,19 +3,19 @@
     <h1 class="tw-py-2 tw-text-semibold tw-text-xl tw">Enter Product</h1>
 
     <el-form status-icon @submit="onSubmit" @reset="onReset">
-      <InputWrapper name="name" label="Product Name" required>
+      <BaseInput name="name" label="Product Name" required>
         <template #label>
           <span class="tw-text-teal-600">Product Name</span>
         </template>
-      </InputWrapper>
+      </BaseInput>
 
-      <InputWrapper name="price" label="Price" required>
+      <BaseInput name="price" label="Price" required>
         <template #label>
           <span class="tw-text-blue-600">Price</span>
         </template>
 
         <template #prepend> $ </template>
-      </InputWrapper>
+      </BaseInput>
 
       <InputNumberWrapper
         class="tw-w-full"

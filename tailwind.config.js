@@ -1,12 +1,9 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
-const colors = require('tailwindcss/colors');
 
 module.exports = {
-  mode: 'jit',
-
   prefix: 'tw-',
   important: true,
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: 'class',
 
   theme: {
@@ -16,10 +13,6 @@ module.exports = {
       },
 
       colors: {
-        cyan: colors.cyan,
-        teal: colors.teal,
-        orange: colors.orange,
-
         inherit: 'inherit',
 
         primary: {

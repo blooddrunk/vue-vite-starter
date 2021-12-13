@@ -12,7 +12,9 @@ export type UserInfo = Partial<{
 }>;
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<UserInfo>({});
+  const user = ref<UserInfo>({
+    userName: '',
+  });
   const userName = computed(() => user.value.userName);
   const isLoggedIn = computed(() => !!userName.value);
 
@@ -43,7 +45,7 @@ export const useAuthStore = defineStore('auth', () => {
     } catch (error) {
       loginError.value = (error as any).message;
     } finally {
-      isLoginPending.value = true;
+      isLoginPending.value = false;
     }
   };
 

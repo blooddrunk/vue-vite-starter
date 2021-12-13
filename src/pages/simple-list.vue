@@ -1,11 +1,7 @@
 <template>
   <section>
     <el-form inline @submit="handleSearch">
-      <InputWrapper
-        name="query"
-        label="Query"
-        :show-label="false"
-      ></InputWrapper>
+      <BaseInput name="query" label="Query" :show-label="false"></BaseInput>
 
       <el-form-item>
         <el-button native-type="submit" type="primary">QUERY</el-button>

@@ -45,7 +45,7 @@
         </transition>
 
         <el-form class="tw-mt-6" status-icon @submit="onSubmit">
-          <InputWrapper
+          <BaseInput
             name="username"
             label="用户名"
             :show-label="false"
@@ -58,9 +58,9 @@
                 <IconUser></IconUser>
               </div>
             </template>
-          </InputWrapper>
+          </BaseInput>
 
-          <InputWrapper
+          <BaseInput
             name="password"
             label="密码"
             :show-label="false"
@@ -73,26 +73,27 @@
                 <IconLock></IconLock>
               </div>
             </template>
-          </InputWrapper>
+          </BaseInput>
 
           <div class="tw-grid tw-grid-cols-3 tw-gap-x-1">
-            <InputWrapper
-              class="tw-col-span-2"
-              name="captcha"
-              label="验证码"
-              :show-label="false"
-              required
-              placeholder="验证码"
-              clearable
-            >
-              <template #prefix>
-                <div class="el-input__icon">
-                  <IconPic></IconPic>
-                </div>
-              </template>
-            </InputWrapper>
+            <div class="tw-col-span-2">
+              <BaseInput
+                name="captcha"
+                label="验证码"
+                :show-label="false"
+                required
+                placeholder="验证码"
+                clearable
+              >
+                <template #prefix>
+                  <div class="el-input__icon">
+                    <IconPic></IconPic>
+                  </div>
+                </template>
+              </BaseInput>
+            </div>
 
-            <div style="height: 40px">
+            <div class="tw-h-[40px]">
               <transition
                 enter-active-class="animate__animated animate__fadeIn animate__faster"
                 leave-active-class="animate__animated animate__fadeOut animate__faster"
@@ -133,7 +134,7 @@
                 @enter-cancelled="handleLoginSuccess"
               >
                 <IconCheckOne v-if="isLoggedIn"></IconCheckOne>
-                <span v-else>{{ loginButtonTest }}</span>
+                <span v-else>{{ loginButtonText }}</span>
               </transition>
             </el-button>
           </el-form-item>
@@ -161,7 +162,7 @@ import { useAuthStore, LoginInfo } from '@/stores/auth';
 const auth = useAuthStore();
 const { isLoggedIn, isLoginPending, loginError, hasLoginError } =
   storeToRefs(auth);
-const loginButtonTest = computed(() =>
+const loginButtonText = computed(() =>
   isLoginPending.value ? '登录中...' : '登 录'
 );
 
@@ -182,8 +183,6 @@ const fetchCaptcha = () => {
 };
 
 onMounted(() => {
-  console.log('mounted');
-
   if (captchaRef.value) {
     captchaRef.value.onload = () => {
       isCaptchaBroken.value = false;

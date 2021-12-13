@@ -143,9 +143,12 @@ export const usePaginatedList = <
       return;
     }
 
-    const { data, isPending, error: requestError, request } = useAxios<
-      ListResult<TValue>
-    >(__appliedRequestPayload.value!, {
+    const {
+      data,
+      isPending,
+      error: requestError,
+      request,
+    } = useAxios<ListResult<TValue>>(__appliedRequestPayload.value!, {
       items: items.value,
       total: total.value,
     });

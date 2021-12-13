@@ -11,7 +11,6 @@ export type UseFormFieldOption = {
   mode?: MaybeRef<ValidationMode>;
   validateOnMount?: boolean;
   bindBlurEvent?: boolean;
-  isCheckbox: boolean;
 };
 
 export const useFormField = <TValue = unknown>({
@@ -21,26 +20,24 @@ export const useFormField = <TValue = unknown>({
   validateOnMount = false,
   bindBlurEvent = true,
 }: UseFormFieldOption) => {
-  const {
-    errorMessage,
-    handleInput,
-    handleChange,
-    meta,
-    ...rest
-  } = useField<TValue>(unref(name), undefined, {
-    label,
-    validateOnValueUpdate: false,
-    validateOnMount,
-  });
+  const { errorMessage, handleChange, meta, ...rest } = useField<TValue>(
+    unref(name),
+    undefined,
+    {
+      label,
+      validateOnValueUpdate: false,
+      validateOnMount,
+    }
+  );
 
   const listeners = computed(() => {
     const validationListeners: {
-      onBlur?: typeof handleChange;
-      onChange: typeof handleChange;
-      'onUpdate:modelValue': typeof handleChange | typeof handleInput;
+      onBlur?: (e: unknown) => void;
+      onChange: (e: unknown) => void;
+      'onUpdate:modelValue': (e: unknown) => void;
     } = {
       onChange: handleChange,
-      'onUpdate:modelValue': handleInput,
+      'onUpdate:modelValue': (e) => handleChange(e, false),
     };
 
     if (bindBlurEvent) {
@@ -72,7 +69,6 @@ export const useFormField = <TValue = unknown>({
   return {
     /** original useForm return */
     errorMessage,
-    handleInput,
     handleChange,
     meta,
     ...rest,

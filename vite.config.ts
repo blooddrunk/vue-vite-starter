@@ -6,7 +6,10 @@ import Legacy from '@vitejs/plugin-legacy';
 import Pages from 'vite-plugin-pages';
 import Layouts from 'vite-plugin-vue-layouts';
 import Components from 'unplugin-vue-components/vite';
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import {
+  ElementPlusResolver,
+  VantResolver,
+} from 'unplugin-vue-components/resolvers';
 // import AutoImport from 'unplugin-auto-import/vite';
 import VueTypeImports from 'vite-plugin-vue-type-imports';
 
@@ -66,6 +69,8 @@ export default ({ mode }) => {
           },
 
           ElementPlusResolver(),
+
+          VantResolver(),
         ],
       }),
 
@@ -93,6 +98,19 @@ export default ({ mode }) => {
 
       VueTypeImports(),
     ],
+
+    // css: {
+    //   preprocessorOptions: {
+    //     less: {
+    //       modifyVars: {
+    //         hack: `true; @import "${path.resolve(
+    //           __dirname,
+    //           './src/assets/vant/overwrite.less'
+    //         )}";`,
+    //       },
+    //     },
+    //   },
+    // },
 
     server: {
       host: '0.0.0.0',

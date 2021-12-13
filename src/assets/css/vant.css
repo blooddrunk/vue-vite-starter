@@ -1,0 +1,6 @@
+@layer base {
+  :root {
+    --van-button-primary-background-color: var(--color-primary) !important;
+    --van-button-primary-border-color: var(--color-primary) !important;
+  }
+}

@@ -6,59 +6,31 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppLogo: typeof import('./../components/AppLogo.vue')['default']
     BaseChart: typeof import('./../components/UI/BaseChart.vue')['default']
-    BaseIconWrapper: typeof import('./../components/UI/BaseIconWrapper.tsx')['default']
-    BaseImage: typeof import('./../components/UI/BaseImage.vue')['default']
+    BaseInput: typeof import('./../components/UI/Form/BaseInput.vue')['default']
     BaseLoadingButton: typeof import('./../components/UI/BaseLoadingButton.vue')['default']
-    BaseTextInput: typeof import('./../components/UI/BaseTextInput.vue')['default']
-    CartesianChart: typeof import('./../components/UI/Chart/CartesianChart.vue')['default']
-    CheckboxGroupWrapper: typeof import('./../components/UI/Form/CheckboxGroupWrapper.tsx')['default']
-    CheckboxWrapper: typeof import('./../components/UI/Form/CheckboxWrapper.tsx')['default']
-    CommonChart: typeof import('./../components/UI/CommonChart.vue')['default']
-    DemoPieChart: typeof import('./../components/modules/ECharts/DemoPieChart.vue')['default']
     ElAlert: typeof import('element-plus/es')['ElAlert']
-    ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb'];
-    ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem'];
     ElButton: typeof import('element-plus/es')['ElButton']
-    ElDropdown: typeof import('element-plus/es')['ElDropdown'];
-    ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem'];
-    ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu'];
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
-    ElMenu: typeof import('element-plus/es')['ElMenu'];
-    ElMenuItem: typeof import('element-plus/es')['ElMenuItem'];
-    ElPagination: typeof import('element-plus/es')['ElPagination'];
-    ElSubmenu: typeof import('element-plus/es')['ElSubmenu'];
-    ElSubMenu: typeof import('element-plus/es')['ElSubMenu'];
-    ElTable: typeof import('element-plus/es')['ElTable'];
-    ElTableColumn: typeof import('element-plus/es')['ElTableColumn'];
-    ElTooltip: typeof import('element-plus/es')['ElTooltip'];
+    ElInput: typeof import('element-plus/es')['ElInput']
     HistChart: typeof import('./../components/modules/ECharts/HistChart.vue')['default']
     IconCheckOne: typeof import('@icon-park/vue-next')['CheckOne']
-    IconKey: typeof import('@icon-park/vue-next')['Key'];
     IconLock: typeof import('@icon-park/vue-next')['Lock']
-    IconLogout: typeof import('@icon-park/vue-next')['Logout'];
-    IconMe: typeof import('@icon-park/vue-next')['Me'];
-    IconMenuFold: typeof import('@icon-park/vue-next')['MenuFold'];
-    IconMenuUnfold: typeof import('@icon-park/vue-next')['MenuUnfold'];
     IconMoon: typeof import('@icon-park/vue-next')['Moon']
     IconPic: typeof import('@icon-park/vue-next')['Pic']
     IconSun: typeof import('@icon-park/vue-next')['Sun']
     IconUser: typeof import('@icon-park/vue-next')['User']
-    InputNumberWrapper: typeof import('./../components/UI/Form/InputNumberWrapper.tsx')['default']
-    InputWrapper: typeof import('./../components/UI/Form/InputWrapper.tsx')['default']
     LineChart: typeof import('./../components/modules/ECharts/LineChart.vue')['default']
-    Loading: typeof import('element-plus/es')['ElLoadingDirective'];
     MixedChart: typeof import('./../components/modules/ECharts/MixedChart.vue')['default']
     PaginatedTable: typeof import('./../components/UI/PaginatedTable.vue')['default']
     PieChart: typeof import('./../components/modules/ECharts/PieChart.vue')['default']
     ProductForm: typeof import('./../components/ProductForm.vue')['default']
-    SelectWrapper: typeof import('./../components/UI/Form/SelectWrapper.tsx')['default']
-    SimpleChart: typeof import('./../components/UI/Chart/SimpleChart.vue')['default']
     TableActionButton: typeof import('./../components/UI/TableActionButton.vue')['default']
     TheBreadcrumb: typeof import('./../components/TheBreadcrumb.vue')['default']
     TheHeading: typeof import('./../components/TheHeading.vue')['default']
     TheSidebar: typeof import('./../components/TheSidebar.vue')['default']
     TheSidebarItem: typeof import('./../components/TheSidebarItem.vue')['default']
+    VanButton: typeof import('vant/es')['Button']
   }
 }
 

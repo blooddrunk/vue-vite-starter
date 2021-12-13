@@ -53,5 +53,10 @@ const menuList = [
     text: 'Biz Admin',
     to: '/admin/account',
   },
+
+  {
+    text: 'Mobile layout with vant',
+    to: '/mobile',
+  },
 ];
 </script>
