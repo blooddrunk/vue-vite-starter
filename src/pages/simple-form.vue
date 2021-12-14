@@ -75,7 +75,7 @@ const useProduct = () => {
       products.value.unshift(data);
     } catch (error) {
       console.error(error);
-      ElMessage.error(error.message);
+      ElMessage.error((error as Error).message);
     }
   };
 
@@ -97,7 +97,7 @@ const useProduct = () => {
       );
     } catch (error) {
       console.error(error);
-      ElMessage.error(error.message);
+      ElMessage.error((error as Error).message);
     }
   };
 

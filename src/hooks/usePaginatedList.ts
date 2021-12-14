@@ -63,7 +63,7 @@ export const usePaginatedList = <
   initialRequestConfig,
   paginationToQuery = defaultPaginationToQuery,
 }: UsePaginatedListOptions<TValue, TFilter> = {}) => {
-  const error = ref<Error | null | undefined>();
+  const error = ref<unknown | null | undefined>(null);
   const filter = ref(initialFilter);
   const lastAppliedFilter = ref({} as TFilter);
   const items = ref(initialItems) as Ref<TValue[]>;
@@ -102,7 +102,6 @@ export const usePaginatedList = <
   };
 
   // data fetch
-
   const __getRequestConfig = (config?: AxiosRequestConfig) => {
     const unwrappedPagination = unref(__computedPagination);
     const paginationInPayload = {} as any;

@@ -17,7 +17,7 @@
         <template #prepend> $ </template>
       </BaseInput>
 
-      <InputNumberWrapper
+      <BaseNumberInput
         class="tw-w-full"
         name="inventory"
         label="Inventory"
@@ -27,17 +27,17 @@
         :max="9999"
         :precision="0"
         >1`
-      </InputNumberWrapper>
+      </BaseNumberInput>
 
-      <CheckboxWrapper name="terms" label="Terms" :show-label="false" required>
+      <BaseCheckbox name="terms" label="Terms" :show-label="false" required>
         Agree to terms and conditions
-      </CheckboxWrapper>
+      </BaseCheckbox>
 
-      <CheckboxGroupWrapper
+      <BaseCheckboxGroup
         name="tags"
         label="Tags"
         :items="tagList"
-      ></CheckboxGroupWrapper>
+      ></BaseCheckboxGroup>
 
       <BaseSelect
         name="location"

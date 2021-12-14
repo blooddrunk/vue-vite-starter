@@ -1,22 +1,35 @@
-import { ref, computed, unref, Ref } from 'vue';
+import { ref, shallowRef, computed, unref } from 'vue';
 import { AxiosRequestConfig, CancelTokenSource, AxiosResponse } from 'axios';
 import { isString } from 'lodash-es';
 
 import { MaybeRef } from '@typings';
 import axios from '@/utils/axios';
 
+export type UseAxiosOptions = {
+  immediate?: boolean;
+  takeLatest?: boolean;
+  resetOnRequest?: boolean;
+  onError?: (e: unknown) => void;
+};
+
 export const useAxios = <T = unknown>(
   requestConfig: MaybeRef<AxiosRequestConfig>,
   initialData: T,
-  { immediate = true, takeLatest = true } = {}
+  {
+    immediate = true,
+    takeLatest = true,
+    resetOnRequest = true,
+    onError,
+  }: UseAxiosOptions = {}
 ) => {
+  const data = shallowRef<T>(initialData);
   const isPending = ref(false);
-  const isCompleted = ref(false);
-  const error = ref<unknown | null>(null);
-  const data = ref<T>(initialData) as Ref<T>;
+  const isFinished = ref(false);
+  const isCanceled = ref(false);
+  const error = ref<unknown | null | undefined>(null);
   const response = ref<AxiosResponse<T>>();
 
-  const isSuccessful = computed(() => isCompleted.value && !error.value);
+  const isSuccessful = computed(() => isFinished.value && !error.value);
   const errorMessage = computed(() => {
     const unwrappedError = unref(error);
     return isString(unwrappedError)
@@ -27,55 +40,63 @@ export const useAxios = <T = unknown>(
   // cancel
   let __cancelSource: CancelTokenSource | null;
   const cancel = (message?: string) => {
+    if (isFinished.value || !isPending.value) {
+      return;
+    }
+
     if (__cancelSource) {
       __cancelSource.cancel(message);
+
+      isCanceled.value = true;
+      isPending.value = false;
+      isFinished.value = false;
     }
   };
-
-  // prevent race condition
-  const __lastPromise = ref<Promise<AxiosResponse<T>>>();
 
   const request = async (newConfig?: MaybeRef<AxiosRequestConfig>) => {
     const unwrappedConfig = unref(newConfig ?? unref(requestConfig));
 
-    if (takeLatest && __cancelSource) {
+    if (takeLatest) {
       cancel(
         `[userAxios]: '${unwrappedConfig.url}' cancelling request due to duplicate call`
       );
     }
 
+    if (resetOnRequest) {
+      data.value = initialData;
+    }
+
     __cancelSource = axios.CancelToken.source();
 
     isPending.value = true;
-    isCompleted.value = false;
+    isFinished.value = false;
     error.value = null;
 
-    const promise = (__lastPromise.value = axios.request<T>({
+    const promise = axios.request<T>({
       cancelToken: __cancelSource.token,
       ...unwrappedConfig,
-    }));
+    });
     try {
       response.value = await promise;
+      data.value = response.value.data;
 
-      if (__lastPromise.value === promise) {
-        data.value = response.value.data;
-        isPending.value = false;
-        isCompleted.value = true;
-
-        __cancelSource = null;
-      }
+      __cancelSource = null;
 
       return data.value;
     } catch (e) {
-      if (__lastPromise.value === promise) {
-        error.value = e;
-        isPending.value = false;
-        isCompleted.value = true;
+      console.error(e);
+      error.value = e;
 
-        if (!axios.isCancel(e)) {
-          __cancelSource = null;
+      if (!axios.isCancel(e)) {
+        __cancelSource = null;
+
+        if (onError) {
+          onError(e);
         }
       }
+    } finally {
+      isPending.value = false;
+      isFinished.value = true;
     }
   };
 
@@ -85,12 +106,13 @@ export const useAxios = <T = unknown>(
 
   return {
     isPending,
-    isCompleted,
+    isFinished,
     isSuccessful,
     error,
     errorMessage,
     data,
     response,
     request,
+    cancel,
   };
 };

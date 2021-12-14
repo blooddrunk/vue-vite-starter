@@ -46,15 +46,12 @@ const props = withDefaults(defineProps<Props>(), {
 
 const label = props.showLabel ? props.label : undefined;
 
-const { listeners, errorMessage, value, validateStatus } = useFormField<
-  string | number
->({
+const { listeners, errorMessage, value, validateStatus } = useFormField<any>({
   ...reactivePick(props, 'name', 'label', 'mode', 'validateOnMount'),
 });
 
 const fieldProps = computed(() => ({
   ...listeners.value,
-  name: props.name,
   modelValue: value.value,
   ...useAttrs(),
 }));
