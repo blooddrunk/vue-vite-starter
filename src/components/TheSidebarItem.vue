@@ -1,14 +1,12 @@
 <template>
   <el-sub-menu v-if="hasChildren" index="item.id">
     <template #title>
-      <div class="tw-h-full tw-flex tw-items-center">
-        <component
-          v-if="item.icon"
-          :is="getIconComponentName(item.icon)"
-          :size="18"
-        ></component>
-        <span class="tw-ml-1">{{ item.title }}</span>
-      </div>
+      <component
+        :is="getIconComponentName(item.icon)"
+        v-if="item.icon"
+        :size="18"
+      ></component>
+      <span class="tw-ml-1.5">{{ item.title }}</span>
     </template>
 
     <TheSidebarItem
@@ -19,14 +17,12 @@
   </el-sub-menu>
 
   <el-menu-item v-else :index="item.id" @click="handleItemClick(item)">
-    <div class="tw-h-full tw-flex tw-items-center">
-      <component
-        v-if="item.icon"
-        :is="getIconComponentName(item.icon)"
-        :size="18"
-      ></component>
-      <span class="tw-ml-1">{{ item.title }}</span>
-    </div>
+    <component
+      :is="getIconComponentName(item.icon)"
+      v-if="item.icon"
+      :size="18"
+    ></component>
+    <span class="tw-ml-1.5">{{ item.title }}</span>
   </el-menu-item>
 </template>
 
@@ -34,7 +30,7 @@
 import { defineComponent, computed, PropType } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { MenuItem } from '@/utils/menu';
+import { MenuItem } from '@typings';
 
 export default defineComponent({
   name: 'TheSidebarItem',

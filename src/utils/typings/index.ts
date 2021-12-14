@@ -1,6 +1,8 @@
 import { Ref } from 'vue';
+
+export * from './misc';
+export * from './auth';
 export * from './element-plus';
-export * from './vuex';
 
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 
@@ -11,9 +13,3 @@ export type PromiseType<P extends Promise<any>> = P extends Promise<infer T>
   : never;
 
 export type MaybeRef<T> = T | Ref<T>;
-
-export type CommonSelectOption = {
-  label: string;
-  value: string | number;
-  disabled?: boolean;
-};

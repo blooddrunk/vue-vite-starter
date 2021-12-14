@@ -4,7 +4,11 @@
     class="tw-h-screen tw-relative tw-flex tw-bg-primary"
   >
     <div
-      class="tw-flex-grow tw-hidden lg:tw-flex tw-flex-col tw-items-center tw-justify-center"
+      class="
+        tw-flex-grow tw-hidden
+        lg:tw-flex
+        tw-flex-col tw-items-center tw-justify-center
+      "
     >
       <AppLogo size="large"></AppLogo>
       <img
@@ -18,11 +22,23 @@
       <AppLogo size="large" class="lg:tw-hidden tw-mb-20"></AppLogo>
 
       <div
-        class="tw-py-6 tw-w-80 2xl:tw-w-88 tw-px-10 2xl:tw-px-14 tw-shadow tw-rounded-md tw-bg-white"
+        class="
+          tw-py-6 tw-w-80
+          2xl:tw-w-88
+          tw-px-10
+          2xl:tw-px-14
+          tw-shadow tw-rounded-md tw-bg-white
+        "
       >
         <header>
           <h3
-            class="tw-text-primary tw-font-semibold tw-text-xl tw-text-center tw-tracking-widiest"
+            class="
+              tw-text-primary
+              tw-font-semibold
+              tw-text-xl
+              tw-text-center
+              tw-tracking-widiest
+            "
           >
             用户登录
           </h3>
@@ -67,6 +83,7 @@
             required
             placeholder="密码"
             clearable
+            type="password"
           >
             <template #prefix>
               <div class="el-input__icon">
@@ -101,7 +118,15 @@
               >
                 <div
                   v-if="isCaptchaBroken"
-                  class="tw-h-full tw-flex tw-items-center tw-justify-center tw-text-yellow-300 tw-text-xs tw-cursor-pointer"
+                  class="
+                    tw-h-full
+                    tw-flex
+                    tw-items-center
+                    tw-justify-center
+                    tw-text-yellow-300
+                    tw-text-xs
+                    tw-cursor-pointer
+                  "
                   @click="fetchCaptcha"
                 >
                   加载失败
@@ -157,7 +182,8 @@ import { useRouter, useRoute } from 'vue-router';
 import { useTimeoutFn } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 
-import { useAuthStore, LoginInfo } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth';
+import { LoginInfo } from '@typings';
 
 const auth = useAuthStore();
 const { isLoggedIn, isLoginPending, loginError, hasLoginError } =

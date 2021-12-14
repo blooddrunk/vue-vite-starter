@@ -2,7 +2,7 @@ import { defineComponent, h, DefineComponent, PropType } from 'vue';
 import { ElSelect, ElOption } from 'element-plus';
 
 import { createElementField } from '@/utils/form/createElementField';
-import { CommonSelectOption } from '@/utils/typings';
+import { CommonSelectOption } from '@typings';
 
 export default defineComponent({
   props: {
@@ -34,6 +34,6 @@ export default defineComponent({
             ),
         }
       );
-    };
+  };
   },
 });

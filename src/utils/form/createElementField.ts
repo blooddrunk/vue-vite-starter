@@ -1,4 +1,11 @@
-import { defineComponent, h, computed, PropType, DefineComponent } from 'vue';
+import {
+  defineComponent,
+  h,
+  computed,
+  PropType,
+  DefineComponent,
+  Plugin,
+} from 'vue';
 import { ElFormItem } from 'element-plus';
 import { reactivePick } from '@vueuse/core';
 
@@ -10,7 +17,7 @@ type CreateElementFieldOption<T> = {
 };
 
 export const createElementField = <TValue = unknown>(
-  Component: DefineComponent,
+  Component: DefineComponent & Plugin,
   {
     bindBlurEvent = true,
     valueFormatter,
@@ -68,18 +75,17 @@ export const createElementField = <TValue = unknown>(
     },
 
     setup(props, { attrs, slots }) {
-      const isCheckbox = [
-        'ElCheckbox',
-        'ElCheckboxButton',
-        'ElRadio',
-        'ElRadioButton',
-      ].includes(Component.name ?? '');
+      // const isCheckbox = [
+      //   'ElCheckbox',
+      //   'ElCheckboxButton',
+      //   'ElRadio',
+      //   'ElRadioButton',
+      // ].includes(Component.name ?? '');
 
       const { listeners, errorMessage, value, validateStatus } =
         useFormField<TValue>({
           ...reactivePick(props, 'name', 'label', 'mode', 'validateOnMount'),
           bindBlurEvent,
-          isCheckbox,
         });
 
       const formItemProps = computed(() => {

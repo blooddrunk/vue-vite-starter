@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { defineProps, computed } from 'vue';
 
-import { ElementPlusSize, ElementPlusButtonType } from '@/utils/typings';
+import { ElementPlusSize, ElementPlusButtonType } from '@typings';
 
 type ButtonProps = Partial<{
   size: ElementPlusSize;

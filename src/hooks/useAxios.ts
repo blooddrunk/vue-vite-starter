@@ -2,7 +2,7 @@ import { ref, computed, unref, Ref } from 'vue';
 import { AxiosRequestConfig, CancelTokenSource, AxiosResponse } from 'axios';
 import { isString } from 'lodash-es';
 
-import { MaybeRef } from '@/utils/typings';
+import { MaybeRef } from '@typings';
 import axios from '@/utils/axios';
 
 export const useAxios = <T = unknown>(

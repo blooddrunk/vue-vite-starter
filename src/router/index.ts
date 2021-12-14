@@ -4,7 +4,7 @@ import generatedRoutes from 'virtual:generated-pages';
 import { setupLayouts } from 'virtual:generated-layouts';
 
 import * as middlewareList from './middleware';
-import { BreadcrumbItem } from '@/stores/ui';
+import { BreadcrumbItem } from '@typings';
 
 export const routerHistory = createWebHistory(import.meta.env.BASE_URL);
 

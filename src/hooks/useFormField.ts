@@ -1,7 +1,7 @@
 import { unref, computed } from 'vue';
 import { useField } from 'vee-validate';
 
-import { MaybeRef } from '@/utils/typings';
+import { MaybeRef } from '@typings';
 
 export type ValidationMode = 'aggressive' | 'lazy' | 'aggressiveIfInvalid';
 

@@ -39,14 +39,14 @@
         :items="tagList"
       ></CheckboxGroupWrapper>
 
-      <SelectWrapper
+      <BaseSelect
         name="location"
         label="Location"
         :items="locationList"
         clearable
         placeholder="Location"
       >
-      </SelectWrapper>
+      </BaseSelect>
 
       <div class="tw-flex tw-justify-end tw-py-3">
         <el-button native-type="reset">RESET</el-button>

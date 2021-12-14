@@ -12,6 +12,8 @@ import {
 } from 'unplugin-vue-components/resolvers';
 // import AutoImport from 'unplugin-auto-import/vite';
 import VueTypeImports from 'vite-plugin-vue-type-imports';
+import PackageConfig from 'vite-plugin-package-config';
+import OptimizationPersist from 'vite-plugin-optimize-persist';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -28,6 +30,7 @@ export default ({ mode }) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, 'src'),
+        '@typings': path.resolve(__dirname, 'src/utils/typings'),
       },
     },
 
@@ -97,6 +100,9 @@ export default ({ mode }) => {
       // }),
 
       VueTypeImports(),
+
+      PackageConfig(),
+      OptimizationPersist(),
     ],
 
     // css: {
@@ -114,7 +120,7 @@ export default ({ mode }) => {
 
     server: {
       host: '0.0.0.0',
-      port: 3000,
+      port: 3300,
 
       proxy: {
         '^/json/.*': {

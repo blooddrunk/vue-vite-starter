@@ -3,7 +3,7 @@ import { EChartsCoreOption } from 'echarts/core';
 import ECharts from 'vue-echarts';
 import { merge } from 'lodash-es';
 
-import { MaybeRef } from '@/utils/typings';
+import { MaybeRef } from '@typings';
 
 export type VueEchartsComponent = InstanceType<typeof ECharts>;
 

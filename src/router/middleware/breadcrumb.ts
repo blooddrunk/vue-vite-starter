@@ -3,10 +3,10 @@ import { menuLookup } from '@/utils/menu';
 import { Router } from 'vue-router';
 
 import { useUIStore } from '@/stores/ui';
-import { BreadcrumbItem } from '@/stores/ui';
+import { BreadcrumbItem } from '@typings';
 
 export default (router: Router) => {
-  router.beforeEach((to, from) => {
+  router.beforeEach((to) => {
     const ui = useUIStore();
     const { matched } = to;
     let breadcrumbList: BreadcrumbItem[] = [];
@@ -17,14 +17,13 @@ export default (router: Router) => {
       breadcrumbList = meta.breadcrumb;
     } else if (meta.breadcrumb) {
       breadcrumbList = matched.reduce<BreadcrumbItem[]>((acc, record) => {
-        let item: BreadcrumbItem;
         if (record.meta?.breadcrumb === true) {
           const matchedMenu = menuLookup[record.name as string];
           if (matchedMenu) {
-            item = {
+            acc.push({
               to: matchedMenu.to,
               text: matchedMenu.title,
-            };
+            });
           } else {
             console.warn(
               `failed to find a matched menu item for route '${

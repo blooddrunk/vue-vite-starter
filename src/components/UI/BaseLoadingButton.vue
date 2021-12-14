@@ -15,7 +15,7 @@ import { computed, defineProps } from 'vue';
 import { ElMessageBox } from 'element-plus';
 
 import { useAsyncFn } from '@/hooks/useAsyncFn';
-import { ElementPlusSize, ElementPlusButtonType } from '@/utils/typings';
+import { ElementPlusSize, ElementPlusButtonType } from '@typings';
 
 type ButtonProps = Partial<{
   size: ElementPlusSize;

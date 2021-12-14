@@ -1,12 +1,4 @@
-import { RouteLocationRaw } from 'vue-router';
-
-export type MenuItem = {
-  id: string;
-  title: string;
-  icon?: string;
-  to?: RouteLocationRaw;
-  children?: MenuItem[];
-};
+import { MenuItem } from '@typings';
 
 export const createMenuLookup = (menuList: MenuItem[]) => {
   const lookup: Record<string, MenuItem> = {};

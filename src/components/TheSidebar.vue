@@ -45,12 +45,12 @@ const defaultActiveName = computed(() => (route.name || '') as string);
 
   :global {
     span.i-icon {
-      @apply tw-visible tw-w-auto tw-h-auto #{!important};
+      @apply tw-visible tw-w-auto tw-h-auto !important;
     }
 
     .el-menu {
       @apply tw-min-h-80;
-      @apply tw-border-none #{!important};
+      @apply tw-border-none !important;
 
       &:not(.el-menu--collapse) {
         @apply tw-w-56;

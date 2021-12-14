@@ -11,6 +11,12 @@ export const isNumeric = (num: string | number) =>
 export const isNumericStrict = (num: string | number) =>
   !isNaN(Number(num)) && isNumeric(num);
 
+export const delay = (timeout: number) =>
+  new Promise((resolve) => setTimeout(resolve, timeout));
+
+export const isPromise = (promise: any) =>
+  !!promise && typeof promise.then === 'function';
+
 export type GetFallbackDisplayForNonValueOption = Partial<{
   fallback: string;
   isValueNumeric: boolean;

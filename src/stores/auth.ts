@@ -1,19 +1,12 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 
-export type LoginInfo = {
-  username: string;
-  password: string;
-  captcha: string;
-};
-
-export type UserInfo = Partial<{
-  userName: string;
-}>;
+import { UserInfo, LoginInfo } from '@typings';
+import { delay } from '@/utils/misc';
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<UserInfo>({
-    userName: '',
+    userName: 'mockedLoginUser',
   });
   const userName = computed(() => user.value.userName);
   const isLoggedIn = computed(() => !!userName.value);
@@ -33,11 +26,11 @@ export const useAuthStore = defineStore('auth', () => {
       //   __needValidation: false,
       // });
 
-      await new Promise<void>((resolve) => {
-        setTimeout(() => {
-          resolve();
-        }, 1500);
-      });
+      await delay(1000);
+
+      if (payload.password !== 'admin') {
+        throw new Error(`password is 'admin'`);
+      }
 
       user.value = {
         userName: 'mockedLoginUser',

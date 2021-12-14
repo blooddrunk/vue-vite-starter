@@ -1,6 +1,6 @@
 import { ref, Ref } from 'vue';
 
-import { PromiseType, FnReturningPromise } from '@/utils/typings';
+import { PromiseType, FnReturningPromise } from '@typings';
 
 type ResultOfFnReturningPromise<T extends FnReturningPromise> =
   | PromiseType<ReturnType<T>>

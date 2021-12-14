@@ -1,15 +1,9 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { RouteLocationRaw } from 'vue-router';
 import { useToggle } from '@vueuse/core';
 
-import { menuList, MenuItem } from '@/utils/menu';
-
-export type BreadcrumbItem = {
-  text: string;
-  to?: RouteLocationRaw;
-  isVisible?: boolean;
-};
+import { menuList } from '@/utils/menu';
+import { BreadcrumbItem, MenuItem } from '@typings';
 
 export type UIState = {
   breadcrumbList: BreadcrumbItem[];
