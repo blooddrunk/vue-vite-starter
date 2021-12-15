@@ -8,10 +8,11 @@
       :class="$style.pager"
       class="tw-py-3"
       v-bind="computedPaginationProps"
-      :page-size="pagination.rowsPerPage"
       :total="total"
-      @size-change="handleSizeChange"
-      @current-change="handlePageChange"
+      :page-size="pagination.rowsPerPage"
+      :current-page="pagination.page"
+      @update:page-size="handlePageSizeChange"
+      @update:current-page="handleCurrentPageChange"
     >
       <slot name="pagination"></slot>
     </el-pagination>
@@ -49,17 +50,16 @@ const props = withDefaults(defineProps<Props>(), {
 const computedPaginationProps = computed(() => ({
   ...defaultPaginationProps,
   ...props.paginationProps,
-  currentPage: props.pagination.page,
 }));
 
-const handleSizeChange = (rowsPerPage: number) => {
+const handlePageSizeChange = (rowsPerPage: number) => {
+  console.log('pageSize');
   props.updatePagination({
-    page: 1,
     rowsPerPage,
   });
 };
 
-const handlePageChange = (page: number) => {
+const handleCurrentPageChange = (page: number) => {
   props.updatePagination({
     page,
   });

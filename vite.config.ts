@@ -71,7 +71,9 @@ export default ({ mode }) => {
             }
           },
 
-          ElementPlusResolver(),
+          ElementPlusResolver({
+            importStyle: false,
+          }),
 
           VantResolver(),
         ],

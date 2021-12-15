@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, withDefaults, toRefs } from 'vue';
+import { defineProps, withDefaults } from 'vue';
 import { ElMessageBox } from 'element-plus';
 
 import { useAsyncFn } from '@/hooks/useAsyncFn';
@@ -34,20 +34,22 @@ const props = withDefaults(defineProps<Props>(), {
   plain: false,
 });
 
-const { size, type, plain } = toRefs(props);
-
-const { isPending, execute } = useAsyncFn(props.action());
+const { isPending, execute } = useAsyncFn(props.action, null, {
+  immediate: false,
+});
 const handleButtonClick = async () => {
   if (props.confirmText) {
     try {
       await ElMessageBox.confirm(props.confirmText, '提示', {
         type: 'warning',
       });
+
+      execute();
     } catch (error) {
       // cancel
     }
+  } else {
+    execute();
   }
-
-  execute();
 };
 </script>

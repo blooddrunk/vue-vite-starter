@@ -13,10 +13,10 @@ export type UseAxiosOptions = {
 
 export const useAxios = <T = unknown>(
   requestConfig: MaybeRef<AxiosRequestConfig>,
-  initialData?: T,
+  initialData: T,
   { immediate = true, resetOnRequest = true, onError }: UseAxiosOptions = {}
 ) => {
-  const data = shallowRef<T | undefined>(initialData);
+  const data = shallowRef<T>(initialData);
   const isPending = ref(false);
   const isFinished = ref(false);
   const isCanceled = ref(false);

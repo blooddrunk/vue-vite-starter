@@ -6,7 +6,7 @@ import { ref, computed, Ref } from 'vue';
 
 import { usePagination, UsePaginationOptions } from './usePagination';
 
-export const useArrayPagination = <T extends unknown>(
+export const useArrayPagination = <T>(
   array: T[] | Ref<T[]>,
   paginationOptions: UsePaginationOptions = {}
 ) => {

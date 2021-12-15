@@ -112,16 +112,16 @@ export const usePaginatedList = <
     };
   };
 
-  const appliedRequestPayload = ref<AxiosRequestConfig>();
-
   const { data, isPending, error, request } = useAxios<ListResult<TValue>>(
-    appliedRequestPayload.value!,
+    getRequestConfig(),
     {
       items: initialItems,
       total: initialTotal,
     },
     {
       immediate: false,
+      // ! this is very important, cost me 45min to find out
+      resetOnRequest: false,
     }
   );
 
@@ -140,9 +140,7 @@ export const usePaginatedList = <
     // apply filter first
     lastAppliedFilter.value = cloneDeep(unref(__filter));
 
-    appliedRequestPayload.value = getRequestConfig(newConfig);
-
-    request(appliedRequestPayload.value);
+    request(getRequestConfig(newConfig));
   };
 
   const fetchListAndReset = (newConfig?: AxiosRequestConfig) => {
