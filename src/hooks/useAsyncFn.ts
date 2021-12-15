@@ -1,59 +1,70 @@
-import { ref, Ref } from 'vue';
+import { ref, shallowRef, computed, Ref } from 'vue';
+import { noop, promiseTimeout } from '@vueuse/shared';
 
-import { PromiseType, FnReturningPromise } from '@typings';
+export type UseAsyncFnOptions = {
+  immediate?: boolean;
+  onError?: (e: unknown) => void;
+  resetOnExecute?: boolean;
+  delay?: number;
+};
 
-type ResultOfFnReturningPromise<T extends FnReturningPromise> =
-  | PromiseType<ReturnType<T>>
-  | undefined;
-
-export const useAsyncFn = <T extends FnReturningPromise>(
-  fn: T,
-  initialData?: ResultOfFnReturningPromise<T>
+export const useAsyncFn = <T = any>(
+  promise: Promise<T> | ((...args: any[]) => Promise<T>),
+  initialData?: T,
+  options: UseAsyncFnOptions = {}
 ) => {
-  const fnRef = ref<T>(fn);
-
+  const data = shallowRef(initialData) as Ref<T | undefined>;
   const isPending = ref(false);
-  const isCompleted = ref(false);
-  const isSuccessful = ref(false);
-  const error = ref<Error | null>(null);
-  const data = ref<ResultOfFnReturningPromise<T>>(initialData);
+  const isFinished = ref(false);
+  const error = ref<Error | null | undefined>(null);
 
-  const __lastPromise = ref<ReturnType<T>>();
+  const isSuccessful = computed(() => isFinished.value && !error.value);
 
-  const execute = async (...args: Parameters<T> | []) => {
+  const {
+    immediate = true,
+    onError = noop,
+    resetOnExecute = true,
+    delay = 0,
+  } = options;
+
+  const execute = async (delay = 0, ...args: any[]) => {
+    if (resetOnExecute) {
+      data.value = initialData;
+    }
+
     isPending.value = true;
-    isCompleted.value = false;
-    isSuccessful.value = false;
+    isFinished.value = false;
     error.value = null;
 
-    const promise = (__lastPromise.value = fnRef.value(
-      ...args
-    ) as ReturnType<T>);
+    if (delay > 0) {
+      await promiseTimeout(delay);
+    }
+
+    const __promise =
+      typeof promise === 'function' ? promise(...args) : promise;
 
     try {
-      const result = await promise;
+      const result = await __promise;
+      data.value = result;
 
-      if (__lastPromise.value === promise) {
-        isSuccessful.value = true;
-        data.value = result;
-
-        return result;
-      }
-    } catch (error) {
-      if (__lastPromise.value === promise) {
-        error.value = error;
-        isSuccessful.value = false;
-        console.error(error);
-      }
+      return result;
+    } catch (e) {
+      console.error(e);
+      (error as any).value = e;
+      onError(e);
     } finally {
       isPending.value = false;
-      isCompleted.value = true;
+      isFinished.value = true;
     }
   };
 
+  if (immediate) {
+    execute(delay);
+  }
+
   return {
     isPending,
-    isCompleted,
+    isFinished,
     isSuccessful,
     error,
     data,

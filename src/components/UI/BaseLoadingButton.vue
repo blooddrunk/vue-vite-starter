@@ -1,48 +1,42 @@
 <template>
   <el-button
-    v-bind="buttonProps"
     :loading="isPending"
     :disabled="isPending"
+    :size="size"
+    :type="type"
+    :plain="plain"
     @click="handleButtonClick"
   >
-    <slot v-if="isPending" name="loading"></slot>
+    <slot v-if="isPending" name="loading"> </slot>
     <slot v-else></slot>
   </el-button>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue';
+import { defineProps, withDefaults, toRefs } from 'vue';
 import { ElMessageBox } from 'element-plus';
 
 import { useAsyncFn } from '@/hooks/useAsyncFn';
 import { ElementPlusSize, ElementPlusButtonType } from '@typings';
 
-type ButtonProps = Partial<{
-  size: ElementPlusSize;
-  type: ElementPlusButtonType;
-  plain: boolean;
-}>;
-
 type Props = {
-  confirmText?: string;
   action: () => Promise<void>;
-  buttonProps?: ButtonProps;
+  confirmText?: string;
+  size?: ElementPlusSize;
+  type?: ElementPlusButtonType;
+  plain?: boolean;
 };
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  confirmText: '',
+  size: 'mini',
+  type: 'text',
+  plain: false,
+});
 
-const buttonProps = computed(() =>
-  Object.assign(
-    {},
-    {
-      type: 'text',
-      size: 'mini',
-    },
-    props.buttonProps
-  )
-);
+const { size, type, plain } = toRefs(props);
 
-const { isPending, execute } = useAsyncFn(props.action);
+const { isPending, execute } = useAsyncFn(props.action());
 const handleButtonClick = async () => {
   if (props.confirmText) {
     try {

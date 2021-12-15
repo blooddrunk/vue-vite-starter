@@ -1,4 +1,4 @@
-import { ref, shallowRef, computed, unref } from 'vue';
+import { ref, shallowRef, computed, unref, watchEffect } from 'vue';
 import { AxiosRequestConfig, CancelTokenSource, AxiosResponse } from 'axios';
 import { isString } from 'lodash-es';
 
@@ -7,22 +7,16 @@ import axios from '@/utils/axios';
 
 export type UseAxiosOptions = {
   immediate?: boolean;
-  takeLatest?: boolean;
   resetOnRequest?: boolean;
   onError?: (e: unknown) => void;
 };
 
 export const useAxios = <T = unknown>(
   requestConfig: MaybeRef<AxiosRequestConfig>,
-  initialData: T,
-  {
-    immediate = true,
-    takeLatest = true,
-    resetOnRequest = true,
-    onError,
-  }: UseAxiosOptions = {}
+  initialData?: T,
+  { immediate = true, resetOnRequest = true, onError }: UseAxiosOptions = {}
 ) => {
-  const data = shallowRef<T>(initialData);
+  const data = shallowRef<T | undefined>(initialData);
   const isPending = ref(false);
   const isFinished = ref(false);
   const isCanceled = ref(false);
@@ -38,14 +32,14 @@ export const useAxios = <T = unknown>(
   });
 
   // cancel
-  let __cancelSource: CancelTokenSource | null;
+  let lastCancelSource: CancelTokenSource | null;
   const cancel = (message?: string) => {
-    if (isFinished.value || !isPending.value) {
+    if (isFinished.value) {
       return;
     }
 
-    if (__cancelSource) {
-      __cancelSource.cancel(message);
+    if (lastCancelSource) {
+      lastCancelSource.cancel(message);
 
       isCanceled.value = true;
       isPending.value = false;
@@ -56,47 +50,41 @@ export const useAxios = <T = unknown>(
   const request = async (newConfig?: MaybeRef<AxiosRequestConfig>) => {
     const unwrappedConfig = unref(newConfig ?? unref(requestConfig));
 
-    if (takeLatest) {
-      cancel(
-        `[userAxios]: '${unwrappedConfig.url}' cancelling request due to duplicate call`
-      );
-    }
-
     if (resetOnRequest) {
       data.value = initialData;
     }
 
-    __cancelSource = axios.CancelToken.source();
-
+    lastCancelSource = axios.CancelToken.source();
     isPending.value = true;
     isFinished.value = false;
     error.value = null;
 
     const promise = axios.request<T>({
-      cancelToken: __cancelSource.token,
+      cancelToken: lastCancelSource.token,
       ...unwrappedConfig,
     });
     try {
       response.value = await promise;
       data.value = response.value.data;
 
-      __cancelSource = null;
+      lastCancelSource = null;
+      isPending.value = false;
+      isFinished.value = true;
 
       return data.value;
     } catch (e) {
       console.error(e);
       error.value = e;
+      isPending.value = false;
+      isFinished.value = true;
 
       if (!axios.isCancel(e)) {
-        __cancelSource = null;
+        lastCancelSource = null;
 
         if (onError) {
           onError(e);
         }
       }
-    } finally {
-      isPending.value = false;
-      isFinished.value = true;
     }
   };
 

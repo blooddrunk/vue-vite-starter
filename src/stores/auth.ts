@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
+import { promiseTimeout } from '@vueuse/shared';
 
 import { UserInfo, LoginInfo } from '@typings';
-import { delay } from '@/utils/misc';
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<UserInfo>({
@@ -26,7 +26,7 @@ export const useAuthStore = defineStore('auth', () => {
       //   __needValidation: false,
       // });
 
-      await delay(1000);
+      await promiseTimeout(1000);
 
       if (payload.password !== 'admin') {
         throw new Error(`password is 'admin'`);

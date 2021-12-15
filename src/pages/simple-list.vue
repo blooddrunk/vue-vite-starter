@@ -4,7 +4,14 @@
       <BaseInput name="query" label="Query" :show-label="false"></BaseInput>
 
       <el-form-item>
-        <el-button native-type="submit" type="primary">QUERY</el-button>
+        <el-button
+          native-type="submit"
+          type="primary"
+          :disabled="isPending"
+          :loading="isPending"
+        >
+          QUERY
+        </el-button>
       </el-form-item>
     </el-form>
 
@@ -54,14 +61,14 @@ const { values: filter, handleSubmit } = useForm({
   },
 });
 
-const { fetchListAndReset, tableProps } = usePaginatedList({
+const { fetchListAndReset, tableProps, isPending } = usePaginatedList({
   paginationToQuery: {
     rowsPerPage: 'hitsPerPage',
   },
 
-  initialFilter: filter,
+  filter,
 
-  initialRequestConfig: {
+  requestConfig: {
     url: 'https://hn.algolia.com/api/v1/search',
     __transformData: (data) => ({
       items: data?.hits,

@@ -23,7 +23,7 @@
       <el-table-column label="Action" width="200">
         <template #default="props">
           <BaseLoadingButton
-            :button-props="{ type: 'danger' }"
+            type="danger"
             :action="getDeleteAction(props.row)"
             confirm-text="Are you sure?"
           >

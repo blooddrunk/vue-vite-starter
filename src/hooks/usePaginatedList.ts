@@ -1,13 +1,4 @@
-import {
-  ref,
-  computed,
-  watch,
-  watchEffect,
-  readonly,
-  Ref,
-  UnwrapRef,
-  unref,
-} from 'vue';
+import { ref, computed, watch, readonly, UnwrapRef, unref } from 'vue';
 import { AxiosRequestConfig } from 'axios';
 import { cloneDeep, merge } from 'lodash-es';
 
@@ -27,12 +18,12 @@ export type ListResult<T = any> = {
 };
 
 type UsePaginatedListOptions<TValue, TFilter> = Partial<{
-  initialFilter: TFilter;
+  filter: TFilter;
+  requestConfig: AxiosRequestConfig;
+  paginationToQuery: Partial<PaginationToQuery>;
   initialItems: TValue[];
   initialTotal: number;
   initialPagination: Pagination;
-  initialRequestConfig: AxiosRequestConfig;
-  paginationToQuery: Partial<PaginationToQuery>;
 }>;
 
 const defaultPagination: Pagination = {
@@ -56,33 +47,26 @@ export const usePaginatedList = <
   TValue extends object = object,
   TFilter extends Record<string, any> = UnwrapRef<Record<string, any>>
 >({
-  initialFilter = {} as TFilter,
+  filter = {} as TFilter,
+  requestConfig,
+  paginationToQuery = defaultPaginationToQuery,
   initialItems = [],
   initialTotal = 0,
   initialPagination = defaultPagination,
-  initialRequestConfig,
-  paginationToQuery = defaultPaginationToQuery,
 }: UsePaginatedListOptions<TValue, TFilter> = {}) => {
-  const error = ref<unknown | null | undefined>(null);
-  const filter = ref(initialFilter);
+  const __filter = ref(filter);
   const lastAppliedFilter = ref({} as TFilter);
-  const items = ref(initialItems) as Ref<TValue[]>;
-  const total = ref(initialTotal);
-  const isLoading = ref(false);
   const pagination = ref(initialPagination);
 
   const isListEmpty = computed(() => items.value.length === 0);
-
-  const __computedPagination = computed<Pagination>(() => ({
+  const __pagination = computed<Pagination>(() => ({
     page: 1,
     ...pagination.value,
   }));
-
-  const __mergedRequestConfig = {
+  const __requestConfig = {
     ...defaultRequestConfig,
-    ...initialRequestConfig,
+    ...requestConfig,
   };
-
   const __mergedPaginationToQuery = {
     ...defaultPaginationToQuery,
     ...paginationToQuery,
@@ -102,8 +86,8 @@ export const usePaginatedList = <
   };
 
   // data fetch
-  const __getRequestConfig = (config?: AxiosRequestConfig) => {
-    const unwrappedPagination = unref(__computedPagination);
+  const getRequestConfig = (config?: AxiosRequestConfig) => {
+    const unwrappedPagination = unref(__pagination);
     const paginationInPayload = {} as any;
 
     paginationInPayload[__mergedPaginationToQuery.page] =
@@ -117,7 +101,7 @@ export const usePaginatedList = <
       ...paginationInPayload,
     };
 
-    const mergedConfig = merge({}, __mergedRequestConfig, config);
+    const mergedConfig = merge({}, __requestConfig, config);
     const method = (mergedConfig?.method ?? 'get').toLowerCase();
     const payload =
       method === 'get' ? { params: payloadValues } : { data: payloadValues };
@@ -128,47 +112,37 @@ export const usePaginatedList = <
     };
   };
 
-  const __dataFetcher = ref<(config?: AxiosRequestConfig) => void>();
-  const __appliedRequestPayload = ref<AxiosRequestConfig>();
+  const appliedRequestPayload = ref<AxiosRequestConfig>();
+
+  const { data, isPending, error, request } = useAxios<ListResult<TValue>>(
+    appliedRequestPayload.value!,
+    {
+      items: initialItems,
+      total: initialTotal,
+    },
+    {
+      immediate: false,
+    }
+  );
+
+  const items = computed(() => data.value?.items ?? []);
+  const total = computed(() => data.value?.total ?? 0);
+
+  watch(data, (value) => {
+    if (!value || !value.items) {
+      throw new Error(
+        `[fetchList] expects response data to be an object with 'items' and 'total'(optional) as keys, do you forget to define a proper data transformer?`
+      );
+    }
+  });
 
   const fetchList = (newConfig?: AxiosRequestConfig) => {
     // apply filter first
-    lastAppliedFilter.value = cloneDeep(unref(filter));
+    lastAppliedFilter.value = cloneDeep(unref(__filter));
 
-    __appliedRequestPayload.value = __getRequestConfig(newConfig);
+    appliedRequestPayload.value = getRequestConfig(newConfig);
 
-    if (__dataFetcher.value) {
-      __dataFetcher.value(__appliedRequestPayload.value);
-      return;
-    }
-
-    const {
-      data,
-      isPending,
-      error: requestError,
-      request,
-    } = useAxios<ListResult<TValue>>(__appliedRequestPayload.value!, {
-      items: items.value,
-      total: total.value,
-    });
-
-    __dataFetcher.value = request;
-
-    watch(data, (value) => {
-      if (value.items === undefined) {
-        throw new Error(
-          `[fetchList] expects response data to be an object with 'items' and 'total'(optional) as keys, do you forget to define a proper data transformer?`
-        );
-      }
-
-      items.value = value.items;
-      total.value = value.total;
-    });
-
-    watchEffect(() => {
-      isLoading.value = isPending.value;
-      error.value = requestError.value;
-    });
+    request(appliedRequestPayload.value);
   };
 
   const fetchListAndReset = (newConfig?: AxiosRequestConfig) => {
@@ -182,22 +156,22 @@ export const usePaginatedList = <
     fetchList();
   });
 
-  // for ElementTable
+  // for Element Table
   const tableProps = computed(() => ({
     items: items.value,
     total: total.value,
-    loading: isLoading.value,
+    loading: isPending.value,
     pagination: pagination.value,
     updatePagination,
   }));
 
   return {
     error,
-    filter,
+    filter: __filter,
     lastAppliedFilter: readonly(lastAppliedFilter),
     items,
     total,
-    isLoading,
+    isPending,
 
     pagination,
     isListEmpty,
