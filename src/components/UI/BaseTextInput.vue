@@ -11,6 +11,7 @@
         :class="{ [$style.labelActive]: isLabelActive }"
         :for="name"
         @click="input!.focus()"
+        @touchstart.stop="input!.focus()"
       >
         <slot name="label">
           <span>{{ label }}</span>
@@ -47,6 +48,14 @@
   </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  inheritAttrs: false,
+});
+</script>
+
 <script lang="ts" setup>
 import {
   withDefaults,
@@ -74,6 +83,7 @@ type Props = {
   label?: string;
   showLabel?: boolean;
   type?: InputType;
+  inputmode?: 'text' | 'numeric';
   modelValue?: string;
   placeholder?: string;
   showValidationError?: boolean;
@@ -83,6 +93,7 @@ const props = withDefaults(defineProps<Props>(), {
   label: '',
   showLabel: false,
   type: 'text',
+  inputmode: 'text',
   modelValue: '',
   placeholder: '',
   showValidationError: true,

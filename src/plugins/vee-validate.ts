@@ -32,7 +32,7 @@ export default async () => {
   defineRule('min_value', min_value);
   defineRule('max_value', max_value);
 
-  defineRule('mobile', (value) => {
+  defineRule('mobile', (value: string) => {
     if (!value || !value.length) {
       return true;
     }

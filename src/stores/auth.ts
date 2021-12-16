@@ -1,20 +1,19 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { promiseTimeout } from '@vueuse/shared';
 import { useStorage } from '@vueuse/core';
+import { promiseTimeout } from '@vueuse/shared';
 
-import { AuthInfo, LoginInfo } from '@typings';
+import { AuthInfo, UserInfo, LoginInfo, MobileLoginInfo } from '@typings';
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<AuthInfo>({
-    user: useStorage(
-      {
-        userName: 'mockedLoginUser',
-        mobile: '',
-      },
-      {}
-    ),
+  const auth = ref<AuthInfo>({
+    user: useStorage('hsop_user', {
+      userName: 'mockedLoginUser',
+      mobile: '13312331233',
+    }),
   });
+
+  const user = computed(() => auth.value.user);
   const userName = computed(() => user.value.userName);
   const isLoggedIn = computed(() => !!userName.value);
 
@@ -24,7 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isForcedOut = ref(false);
 
-  const login = async (payload: LoginInfo) => {
+  const login = async (payload: LoginInfo & MobileLoginInfo) => {
     isLoginPending.value = true;
 
     try {
@@ -35,12 +34,16 @@ export const useAuthStore = defineStore('auth', () => {
 
       await promiseTimeout(1000);
 
-      if (payload.password !== 'admin') {
-        throw new Error(`password is 'admin'`);
+      if (
+        (payload.password && payload.password !== 'admin') ||
+        (payload.authCode && payload.authCode === '123456')
+      ) {
+        throw new Error(`wrong auth info`);
       }
 
-      user.value = {
-        userName: 'mockedLoginUser',
+      auth.value.user = {
+        userName: payload.username,
+        mobile: payload.mobile,
       };
     } catch (error) {
       loginError.value = (error as any).message;
@@ -50,7 +53,7 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   const logout = () => {
-    user.value = {};
+    auth.value.user = {} as UserInfo;
     loginError.value = null;
   };
 

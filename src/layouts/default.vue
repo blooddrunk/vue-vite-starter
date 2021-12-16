@@ -36,7 +36,9 @@ export default defineComponent({
 
     return {
       isDark,
-      toggleIsDark,
+      toggleIsDark: () => {
+        toggleIsDark();
+      },
     };
   },
 });

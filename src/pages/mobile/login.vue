@@ -9,16 +9,31 @@
       <BaseTextInput
         name="mobile"
         label="手机号"
+        inputmode="text"
         placeholder="请输入手机号"
       ></BaseTextInput>
 
-      <BaseTextInput name="authCode" label="验证码" placeholder="请输入验证码">
+      <BaseTextInput
+        name="authCode"
+        label="验证码"
+        inputmode="text"
+        placeholder="请输入验证码"
+      >
         <template #append>
-          <a class="tw-text-primary" @click.prevent="fetchCaptcha">
-            获取验证码
+          <a
+            :class="
+              isCountdownActive ? 'tw-text-slate-400/75' : 'tw-text-primary'
+            "
+            @click.prevent="handleAuthCodeRequest"
+          >
+            {{ authCodeButtonText }}
           </a>
         </template>
       </BaseTextInput>
+
+      <div class="tw-mt-16 tw-text-center">
+        <van-button class="tw-w-11/12" type="primary" round>登录</van-button>
+      </div>
     </form>
   </article>
 </template>
@@ -30,16 +45,18 @@ meta:
 </route>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useForm } from 'vee-validate';
+import { useIntervalFn } from '@vueuse/core';
 
 import { MobileLoginInfo } from '@typings';
+import { getAuthCode } from '@/services';
 
 const { values, validateField, meta, isSubmitting, handleSubmit } =
   useForm<MobileLoginInfo>({
     validationSchema: {
       mobile: 'required|mobile',
-      authCode: 'required|max:6',
+      authCode: 'required|numeric|max:6',
     },
     initialValues: {
       mobile: '',
@@ -47,10 +64,39 @@ const { values, validateField, meta, isSubmitting, handleSubmit } =
     },
   });
 
-console.log(values);
-const fetchCaptcha = async () => {
+const maxWaitSecs = 10;
+const countdown = ref(maxWaitSecs);
+const {
+  isActive: isCountdownActive,
+  pause,
+  resume,
+} = useIntervalFn(
+  () => {
+    countdown.value--;
+    if (countdown.value <= 0) {
+      pause();
+    }
+  },
+  1000,
+  { immediate: false, immediateCallback: true }
+);
+const authCodeButtonText = computed(() =>
+  isCountdownActive.value ? `${countdown.value}s后重新获取` : '获取验证码'
+);
+
+const handleAuthCodeRequest = async () => {
   const { valid } = await validateField('mobile');
-  console.log(valid);
+  if (!valid) {
+    return;
+  }
+
+  if (isCountdownActive.value) {
+    return;
+  }
+
+  countdown.value = maxWaitSecs;
+  await getAuthCode(values.mobile);
+  resume();
 };
 
 const invalid = computed(() => !meta.value.valid && meta.value.dirty);

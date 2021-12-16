@@ -1,4 +1,4 @@
-import { isNil } from 'lodash-es';
+import { isNil, mapValues } from 'lodash-es';
 
 export const isClient = () => typeof window === 'object';
 
@@ -61,3 +61,12 @@ export const convertToUnit = (
     return String(str);
   }
 };
+
+export const trimValues = (filter: Record<string, any>) =>
+  mapValues(filter, (value) => {
+    if (value && typeof value === 'string') {
+      return value.trim();
+    }
+
+    return value;
+  });

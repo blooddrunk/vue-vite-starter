@@ -1,0 +1,1 @@
+import{_ as r}from"./index.1a71aba3.js";import{o as a,a as o}from"./vendor.64cb168e.js";var e={};const n={};"function"==typeof e&&e(n);var t=r(n,[["render",function(r,e){return a(),o("div",null,"catego111ry")}]]);export{t as default};

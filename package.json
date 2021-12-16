@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "cross-env MODE=development vite",
-    "build": "cross-env MODE=production vue-tsc --noEmit && vite build",
+    "build": "cross-env MODE=production vite build",
+    "build-strict": "cross-env MODE=production vue-tsc --noEmit && vite build",
     "serve": "vite preview",
     "format": "prettier --write \"**/*.{js,ts,jsx,tsx,vue,scss,css,json}\""
   },

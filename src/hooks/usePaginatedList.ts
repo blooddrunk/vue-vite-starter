@@ -2,7 +2,7 @@ import { ref, computed, watch, readonly, UnwrapRef, unref } from 'vue';
 import { AxiosRequestConfig } from 'axios';
 import { cloneDeep, merge } from 'lodash-es';
 
-import { trimValues } from '@/utils/form';
+import { trimValues } from '@/utils/misc';
 import { useAxios } from '@/hooks/useAxios';
 
 export type Pagination = {
