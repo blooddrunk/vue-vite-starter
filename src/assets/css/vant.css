@@ -3,5 +3,6 @@
     --van-tabbar-item-active-color: var(--color-primary) !important;
     --van-button-primary-background-color: var(--color-primary) !important;
     --van-button-primary-border-color: var(--color-primary) !important;
+    --van-checkbox-checked-icon-color: var(--color-primary) !important;
   }
 }

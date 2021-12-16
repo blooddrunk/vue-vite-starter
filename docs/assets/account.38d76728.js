@@ -1,1 +1,0 @@
-import{_ as o}from"./index.28ecbabf.js";import{o as r,a as e}from"./vendor.69be2e31.js";var n={};const t={};"function"==typeof n&&n(t);var a=o(t,[["render",function(o,n){return r(),e("h3",null,"Account")}]]);export{a as default};

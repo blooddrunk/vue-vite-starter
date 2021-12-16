@@ -1,5 +1,11 @@
 <template>
-  <div :class="[$style.input, showValidationError && 'tw-relative tw-mb-4']">
+  <div
+    :class="[
+      $style.input,
+      wrapperClass,
+      showValidationError && 'tw-relative tw-mb-4',
+    ]"
+  >
     <div
       :class="{
         [$style.control]: true,
@@ -22,8 +28,8 @@
         :id="name"
         ref="input"
         v-model="value"
-        :type="type"
         :placeholder="placeholder"
+        v-bind="$attrs"
         @focus="handleFocus"
         @blur="handleBlur"
       />
@@ -69,34 +75,23 @@ import {
 
 import { useFormField } from '@/hooks/useFormField';
 
-type InputType =
-  | 'url'
-  | 'text'
-  | 'password'
-  | 'tel'
-  | 'search'
-  | 'number'
-  | 'email';
-
 type Props = {
   name: string;
   label?: string;
   showLabel?: boolean;
-  type?: InputType;
-  inputmode?: 'text' | 'numeric';
   modelValue?: string;
   placeholder?: string;
   showValidationError?: boolean;
+  wrapperClass?: string;
 };
 
 const props = withDefaults(defineProps<Props>(), {
   label: '',
   showLabel: false,
-  type: 'text',
-  inputmode: 'text',
   modelValue: '',
   placeholder: '',
   showValidationError: true,
+  wrapperClass: undefined,
 });
 
 const emit = defineEmits<{
@@ -187,7 +182,7 @@ const isLabelActive = computed(
     @apply tw-appearance-none tw-bg-transparent tw-leading-normal;
 
     &::placeholder {
-      @apply tw-text-slate-400;
+      @apply tw-text-medium;
     }
 
     &:focus {

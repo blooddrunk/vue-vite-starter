@@ -3,6 +3,7 @@ import 'nprogress/nprogress.css';
 import '@icon-park/vue-next/styles/index.css';
 
 import './assets/css/main.css';
+import 'vant/es/toast/style/index';
 
 import { createApp } from 'vue';
 

@@ -1,6 +1,6 @@
 <route lang="yaml">
 redirect:
-  name: mobile-category
+  name: mobile-login
 meta:
   layout: tabbar
   requiresAuth: false

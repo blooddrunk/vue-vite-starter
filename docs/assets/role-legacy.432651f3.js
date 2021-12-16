@@ -1,1 +1,0 @@
-System.register(["./index-legacy.6736527a.js","./vendor-legacy.bd4da113.js"],(function(e){"use strict";var n,t,r;return{setters:[function(e){n=e._},function(e){t=e.o,r=e.a}],execute:function(){var u={};const c={};"function"==typeof u&&u(c),e("default",n(c,[["render",function(e,n){return t(),r("h3",null,"Role")}]]))}}}));
