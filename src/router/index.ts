@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import NProgress from 'nprogress';
 import generatedRoutes from 'virtual:generated-pages';
 import { setupLayouts } from 'virtual:generated-layouts';
@@ -6,7 +6,7 @@ import { setupLayouts } from 'virtual:generated-layouts';
 import * as middlewareList from './middleware';
 import { BreadcrumbItem } from '@typings';
 
-export const routerHistory = createWebHistory(import.meta.env.BASE_URL);
+export const routerHistory = createWebHashHistory(import.meta.env.BASE_URL);
 
 declare module 'vue-router' {
   interface RouteMeta {

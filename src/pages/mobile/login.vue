@@ -35,6 +35,15 @@
         <van-button class="tw-w-11/12" type="primary" round>登录</van-button>
       </div>
     </form>
+
+    <footer class="tw-text-center">
+      <p>
+        登录即代表同意
+        <router-link to="/mobile/user-agreement">《用户协议》</router-link>
+        和
+        <router-link to="/mobile/privacy-policy">《隐私政策》</router-link>
+      </p>
+    </footer>
   </article>
 </template>
 
