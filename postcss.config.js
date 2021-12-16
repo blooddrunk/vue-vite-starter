@@ -1,8 +1,6 @@
 const isDev = process.env.MODE === 'development';
 
-module.exports = ({ env }) => {
-  console.log(env);
-
+module.exports = () => {
   return {
     plugins: {
       // https://github.com/csstools/postcss-preset-env
