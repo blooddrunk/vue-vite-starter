@@ -1,5 +1,5 @@
 <template>
-  <article class="tw-h-screen tw-pt-[15vh] tw-px-8">
+  <article class="tw-flex tw-flex-col tw-h-screen tw-pt-[15vh] tw-px-8">
     <header>
       <h3 class="tw-py-3 tw-text-2xl tw-font-bold">手机快捷登录</h3>
       <p class="tw-text-sm tw-text-light">未注册过的手机号将自动创建账号</p>
