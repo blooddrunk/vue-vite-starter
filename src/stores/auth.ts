@@ -1,12 +1,19 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { promiseTimeout } from '@vueuse/shared';
+import { useStorage } from '@vueuse/core';
 
-import { UserInfo, LoginInfo } from '@typings';
+import { AuthInfo, LoginInfo } from '@typings';
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<UserInfo>({
-    userName: 'mockedLoginUser',
+  const user = ref<AuthInfo>({
+    user: useStorage(
+      {
+        userName: 'mockedLoginUser',
+        mobile: '',
+      },
+      {}
+    ),
   });
   const userName = computed(() => user.value.userName);
   const isLoggedIn = computed(() => !!userName.value);

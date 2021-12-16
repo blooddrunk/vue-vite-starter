@@ -2,8 +2,8 @@
   <ul class="tw-list-none md:tw-w-1/2 tw-w-2/3 tw-m-auto tw-text-lg">
     <li
       v-for="item in menuList"
-      class="tw-px-2 tw-py-3 tw-border-b"
       :key="item.text"
+      class="tw-px-2 tw-py-3 tw-border-b"
     >
       <router-link
         class="tw-flex tw-items-center tw-justify-between tw-cursor-pointer"

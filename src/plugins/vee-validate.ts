@@ -31,4 +31,16 @@ export default async () => {
   defineRule('numeric', numeric);
   defineRule('min_value', min_value);
   defineRule('max_value', max_value);
+
+  defineRule('mobile', (value) => {
+    if (!value || !value.length) {
+      return true;
+    }
+
+    if (!/^(?:(?:\+|00)86)?1\d{10}$/.test(value)) {
+      return '请输入有效的手机号码';
+    }
+
+    return true;
+  });
 };

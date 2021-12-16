@@ -120,6 +120,8 @@
         "pinia",
         "vant/es",
         "vant/es/button/style/index",
+        "vant/es/tabbar-item/style/index",
+        "vant/es/tabbar/style/index",
         "vee-validate",
         "vue",
         "vue-echarts",

@@ -46,8 +46,20 @@ const props = withDefaults(defineProps<Props>(), {
 
 const label = props.showLabel ? props.label : undefined;
 
-const { listeners, errorMessage, value, validateStatus } = useFormField<any>({
+const { listeners, errorMessage, value, meta } = useFormField<any>({
   ...reactivePick(props, 'name', 'label', 'mode', 'validateOnMount'),
+});
+
+const validateStatus = computed(() => {
+  if (errorMessage.value) {
+    return 'error';
+  } else if (meta.pending) {
+    return 'validating';
+  } else if (meta.dirty) {
+    return 'success';
+  } else {
+    return '';
+  }
 });
 
 const fieldProps = computed(() => ({

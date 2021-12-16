@@ -4,6 +4,14 @@ export type LoginInfo = {
   captcha: string;
 };
 
-export type UserInfo = Partial<{
-  userName: string;
-}>;
+export type AuthInfo = {
+  user: Partial<{
+    userName: string;
+    mobile: string;
+  }>;
+};
+
+export type MobileLoginInfo = {
+  mobile: string;
+  authCode: string;
+};

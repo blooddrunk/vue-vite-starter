@@ -64,6 +64,7 @@ export default ({ mode }) => {
           // * icon-park
           (name) => {
             if (name.startsWith('Icon')) {
+              console.log(name);
               return {
                 importName: name.slice(4),
                 path: '@icon-park/vue-next',

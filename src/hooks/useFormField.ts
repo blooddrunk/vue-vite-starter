@@ -20,7 +20,7 @@ export const useFormField = <TValue = unknown>({
   validateOnMount = false,
   bindBlurEvent = true,
 }: UseFormFieldOption) => {
-  const { errorMessage, handleChange, meta, ...rest } = useField<TValue>(
+  const { errorMessage, handleChange, ...rest } = useField<TValue>(
     unref(name),
     undefined,
     {
@@ -54,26 +54,12 @@ export const useFormField = <TValue = unknown>({
     return validationListeners;
   });
 
-  const validateStatus = computed(() => {
-    if (errorMessage.value) {
-      return 'error';
-    } else if (meta.pending) {
-      return 'validating';
-    } else if (meta.dirty) {
-      return 'success';
-    } else {
-      return '';
-    }
-  });
-
   return {
     /** original useForm return */
     errorMessage,
     handleChange,
-    meta,
     ...rest,
 
     listeners,
-    validateStatus,
   };
 };
