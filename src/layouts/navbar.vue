@@ -1,5 +1,5 @@
 <template>
-  <main class="tw-h-screen tw-pt-[46px]">
+  <main class="tw-h-screen tw-bg-light tw-pt-[46px]">
     <van-nav-bar
       class="!tw-fixed tw-left-0 tw-top-0 tw-right-0"
       :title="`${$appName}${meta.title}`"

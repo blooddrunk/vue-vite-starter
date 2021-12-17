@@ -2,7 +2,7 @@
   <div>
     <a
       :class="buttonClass"
-      class="tw-max-w-40 tw-inline-flex tw-items-center tw-px-3 tw-py-1.5 tw-shadow tw-shadow-primary tw-rounded"
+      class="tw-max-w-40 tw-inline-flex tw-items-center tw-px-3 tw-py-1.5 tw-shadow tw-shadow-primary tw-rounded tw-bg-white"
       @click.prevent="togglePickerVisible()"
     >
       <span class="tw-truncate">{{ displayValue }}</span>

@@ -3,7 +3,7 @@
     --color-primary: theme('colors.emerald.400');
     --color-secondary: theme('colors.blue.400');
     --color-tertiary: theme('colors.green.400');
-    --color-light: theme('colors.slate.200');
+    --color-light: theme('colors.slate.100');
     --color-medium: theme('colors.slate.400');
     --color-dark: theme('colors.slate.600');
 
