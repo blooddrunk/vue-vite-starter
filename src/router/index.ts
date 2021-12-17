@@ -13,6 +13,7 @@ declare module 'vue-router' {
     layout?: 'default' | 'error' | 'empty';
     requiresAuth?: boolean;
     breadcrumb?: BreadcrumbItem | BreadcrumbItem[] | true;
+    title?: 'string';
   }
 }
 

@@ -37,7 +37,7 @@ export default async () => {
       return true;
     }
 
-    if (!/^(?:(?:\+|00)86)?1\d{10}$/.test(value)) {
+    if (!/^1\d{10}$/.test(value)) {
       return '请输入有效的手机号码';
     }
 

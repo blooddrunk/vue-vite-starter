@@ -1,17 +1,17 @@
 import { Router, RouteLocationRaw } from 'vue-router';
 
-import { useAuthStore } from '@/stores/auth';
+import { useMobileAuthStore } from '@/stores/mobile-auth';
 
 export default (router: Router) => {
   router.beforeEach((to) => {
-    if (to.name && String(to.name).startsWith('mobile')) {
+    if (!to.name || !String(to.name).startsWith('mobile')) {
       return;
     }
 
-    const auth = useAuthStore();
+    const auth = useMobileAuthStore();
 
     const isLoggedIn = auth.isLoggedIn;
-    const isInLoginPage = to.name === 'sign-in';
+    const isInLoginPage = to.name === 'login';
     const requiresAuth =
       !isLoggedIn &&
       (typeof to.meta.requiresAuth === 'undefined'
@@ -22,9 +22,9 @@ export default (router: Router) => {
       auth.logout();
     } else if (requiresAuth && !isLoggedIn) {
       return {
-        name: 'sign-in',
+        name: 'login',
         query: {
-          from: to.name || 'index',
+          from: to.name || 'mobile',
           ...to.query,
         },
       } as RouteLocationRaw;

@@ -1,5 +1,13 @@
 <template>
-  <div>catego111ry</div>
+  <article>
+    <div class="tw-flex tw-items-center tw-justify-between">
+      <AreaPicker></AreaPicker>
+
+      <van-badge content="10">
+        <IconShopping></IconShopping>
+      </van-badge>
+    </div>
+  </article>
 </template>
 
 <route lang="yaml">

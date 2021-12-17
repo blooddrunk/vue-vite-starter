@@ -3,28 +3,26 @@ import { ref, computed } from 'vue';
 import { useStorage } from '@vueuse/core';
 import { promiseTimeout } from '@vueuse/shared';
 
-import { AuthInfo, UserInfo, LoginInfo } from '@typings';
+import { MobileAuthInfo, MobileUserInfo, MobileLoginInfo } from '@typings';
 
-export const useAuthStore = defineStore('auth', () => {
-  const auth = ref<AuthInfo>({
-    user: useStorage('hsop_user', {
-      userName: 'mockedLoginUser',
+export const useMobileAuthStore = defineStore('mobile-auth', () => {
+  const auth = ref<MobileAuthInfo>({
+    user: useStorage('hsop_auth_mobile_user', {
       mobile: '13312331233',
     }),
   });
 
   const user = computed(() => auth.value.user);
-  const userName = computed(() => user.value.userName);
-  const isLoggedIn = computed(() => !!userName.value);
+  const mobile = computed(() => user.value.mobile);
+  const isLoggedIn = computed(() => !!mobile.value);
 
   const isLoginPending = ref(false);
   const loginError = ref<string>('');
   const hasLoginError = computed(() => !!loginError.value);
 
-  const isForcedOut = ref(false);
-
-  const login = async (payload: LoginInfo) => {
+  const login = async (payload: MobileLoginInfo) => {
     isLoginPending.value = true;
+    loginError.value = '';
 
     try {
       console.log(payload);
@@ -34,29 +32,29 @@ export const useAuthStore = defineStore('auth', () => {
 
       await promiseTimeout(1000);
 
-      if (payload.password !== 'admin') {
+      if (payload.authCode !== '123456') {
         throw new Error(`wrong auth info`);
       }
 
       auth.value.user = {
-        userName: payload.username,
+        mobile: payload.mobile,
       };
     } catch (error) {
       console.error(error);
-      loginError.value = (error as any).message || '发生未知错误';
+      loginError.value = (error as any).message;
     } finally {
       isLoginPending.value = false;
     }
   };
 
   const logout = () => {
-    auth.value.user = {} as UserInfo;
+    auth.value.user = {} as MobileUserInfo;
     loginError.value = '';
   };
 
   return {
     user,
-    userName,
+    mobile,
     isLoggedIn,
     loginError,
     hasLoginError,
@@ -64,7 +62,5 @@ export const useAuthStore = defineStore('auth', () => {
 
     login,
     logout,
-
-    isForcedOut,
   };
 });

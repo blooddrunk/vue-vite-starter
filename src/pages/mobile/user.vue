@@ -5,5 +5,4 @@
 <route lang="yaml">
 meta:
   layout: tabbar
-  requiresAuth: false
 </route>

@@ -6,8 +6,16 @@ export type LoginInfo = {
   captcha: string;
 };
 
+export type MobileLoginInfo = {
+  mobile: string;
+  authCode: string;
+};
+
 export type UserInfo = {
   userName: string;
+};
+
+export type MobileUserInfo = {
   mobile: string;
 };
 
@@ -15,7 +23,6 @@ export type AuthInfo = {
   user: RemovableRef<UserInfo>;
 };
 
-export type MobileLoginInfo = {
-  mobile: string;
-  authCode: string;
+export type MobileAuthInfo = {
+  user: RemovableRef<MobileUserInfo>;
 };

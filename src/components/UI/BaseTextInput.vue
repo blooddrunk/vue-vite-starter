@@ -27,11 +27,13 @@
       <input
         :id="name"
         ref="input"
-        v-model="value"
+        :value="value"
         :placeholder="placeholder"
         v-bind="$attrs"
         @focus="handleFocus"
         @blur="handleBlur"
+        @input="handleInput"
+        @change="handleChange"
       />
 
       <div v-if="$slots.append" class="tw-ml-auto tw-pl-1 tw-flex-shrink-0">
@@ -69,7 +71,6 @@ import {
   defineEmits,
   ref,
   computed,
-  watchEffect,
   useSlots,
 } from 'vue';
 
@@ -79,7 +80,6 @@ type Props = {
   name: string;
   label?: string;
   showLabel?: boolean;
-  modelValue?: string;
   placeholder?: string;
   showValidationError?: boolean;
   wrapperClass?: string;
@@ -88,7 +88,6 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {
   label: '',
   showLabel: false,
-  modelValue: '',
   placeholder: '',
   showValidationError: true,
   wrapperClass: undefined,
@@ -97,8 +96,8 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   (e: 'focus'): void;
   (e: 'blur'): void;
+  (e: 'input', value: string): string;
   (e: 'change', value: string): string;
-  (e: 'update:modelValue', value: string): string;
 }>();
 
 // tempalte ref
@@ -121,10 +120,14 @@ const handleBlur = (e: FocusEvent) => {
   isFocused.value = false;
   emit('blur');
 };
-
-watchEffect(() => {
-  emit('change', value.value);
-});
+const handleInput = (e: Event) => {
+  listeners.value['onUpdate:modelValue'](e);
+  emit('input', (e.target as HTMLInputElement).value);
+};
+const handleChange = (e: Event) => {
+  listeners.value.onChange(e);
+  emit('change', (e.target as HTMLInputElement).value);
+};
 
 const isLabelActive = computed(
   () => isFocused.value || (meta.dirty && value.value) || props.placeholder

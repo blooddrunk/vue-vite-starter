@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AppLogo: typeof import('./../components/AppLogo.vue')['default']
+    AreaPicker: typeof import('./../components/UI/AreaPicker.vue')['default']
     BaseChart: typeof import('./../components/UI/BaseChart.vue')['default']
     BaseCheckbox: typeof import('./../components/UI/Form/BaseCheckbox.vue')['default']
     BaseCheckboxButton: typeof import('./../components/UI/Form/BaseCheckboxButton.vue')['default']
@@ -18,6 +19,8 @@ declare module 'vue' {
     ElButton: typeof import('element-plus/es')['ElButton']
     HistChart: typeof import('./../components/modules/ECharts/HistChart.vue')['default']
     IconMoon: typeof import('@icon-park/vue-next')['Moon']
+    IconRight: typeof import('@icon-park/vue-next')['Right']
+    IconShopping: typeof import('@icon-park/vue-next')['Shopping']
     IconSun: typeof import('@icon-park/vue-next')['Sun']
     LineChart: typeof import('./../components/modules/ECharts/LineChart.vue')['default']
     MixedChart: typeof import('./../components/modules/ECharts/MixedChart.vue')['default']
@@ -30,8 +33,11 @@ declare module 'vue' {
     TheSidebar: typeof import('./../components/TheSidebar.vue')['default']
     TheSidebarItem: typeof import('./../components/TheSidebarItem.vue')['default']
     TheTabbar: typeof import('./../components/TheTabbar.vue')['default']
-    VanButton: typeof import('vant/es')['Button']
-    VanCheckbox: typeof import('vant/es')['Checkbox']
+    VanArea: typeof import('vant/es')['Area']
+    VanBadge: typeof import('vant/es')['Badge']
+    VanPopup: typeof import('vant/es')['Popup']
+    VanTabbar: typeof import('vant/es')['Tabbar']
+    VanTabbarItem: typeof import('vant/es')['TabbarItem']
   }
 }
 
