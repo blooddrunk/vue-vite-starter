@@ -14,6 +14,7 @@ declare module 'vue-router' {
     requiresAuth?: boolean;
     breadcrumb?: BreadcrumbItem | BreadcrumbItem[] | true;
     title?: 'string';
+    canNavBack?: boolean;
   }
 }
 

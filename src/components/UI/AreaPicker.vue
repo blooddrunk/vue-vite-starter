@@ -27,12 +27,21 @@
 </template>
 
 <script lang="ts" setup>
-import { withDefaults, defineProps, ref, computed, onMounted } from 'vue';
+import {
+  withDefaults,
+  defineProps,
+  defineEmits,
+  ref,
+  toRef,
+  computed,
+  onMounted,
+} from 'vue';
 import { useToggle } from '@vueuse/core';
 import { areaList } from '@vant/area-data';
 import type { AreaInstance } from 'vant';
 
 type Props = {
+  modelValue?: string;
   placeholder?: string;
 };
 
@@ -42,12 +51,17 @@ type Item = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
+  modelValue: '310000',
   placeholder: '省/市/区',
 });
 
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: string): string;
+}>();
+
+const value = toRef(props, 'modelValue');
 const isPickerVisible = ref(false);
 const togglePickerVisible = useToggle(isPickerVisible);
-const value = ref('330000');
 const selectedAreaList = ref<Item[]>([]);
 const isEmpty = computed(() => !selectedAreaList.value.length);
 ('');
@@ -61,8 +75,10 @@ const buttonClass = computed(() =>
 );
 
 const areaPicker = ref<AreaInstance>();
+const getCurrentArea = () => areaPicker.value?.getArea?.();
 onMounted(() => {
-  const currentArea = areaPicker.value?.getArea?.();
+  const currentArea = getCurrentArea();
+  console.log(currentArea);
   if (currentArea) {
     selectedAreaList.value = [
       { name: currentArea.province },
@@ -77,8 +93,11 @@ const handleCancel = () => {
 };
 
 const handleConfirm = (items: Item[]) => {
-  console.log(items);
   selectedAreaList.value = items;
+  const currentArea = getCurrentArea();
+  if (currentArea) {
+    emit('update:modelValue', currentArea.code);
+  }
   togglePickerVisible(false);
 };
 </script>

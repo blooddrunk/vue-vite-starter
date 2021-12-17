@@ -80,6 +80,7 @@ meta:
   layout: navbar
   requiresAuth: false
   title: HSOP用户协议
+  canNavBack: true
 </route>
 
 <script lang="ts" setup>

@@ -17,6 +17,7 @@ export type UserInfo = {
 
 export type MobileUserInfo = {
   mobile: string;
+  area?: string;
 };
 
 export type AuthInfo = {

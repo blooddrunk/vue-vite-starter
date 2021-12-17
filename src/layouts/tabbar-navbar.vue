@@ -3,7 +3,7 @@
     <van-nav-bar
       class="!tw-fixed tw-left-0 tw-top-0 tw-right-0"
       :title="meta.title"
-      left-arrow
+      :left-arrow="meta.canNavBack"
       @click-left="navBack"
     >
     </van-nav-bar>

@@ -13,7 +13,7 @@
         <van-cell
           v-for="item in productList"
           :key="item.id"
-          :title="item.email"
+          :title="item.title"
         />
       </van-list>
     </van-pull-refresh>
