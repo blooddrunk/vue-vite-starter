@@ -1,5 +1,5 @@
 <template>
-  <article class="tw-px-6 tw-pt-8 tw-pb-6">
+  <article>
     <section class="prose prose-xl">
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -79,7 +79,7 @@
 meta:
   layout: navbar
   requiresAuth: false
-  title: 隐私政策
+  title: HSOP隐私政策
 </route>
 
 <script lang="ts" setup>

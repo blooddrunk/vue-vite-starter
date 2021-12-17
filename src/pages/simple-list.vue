@@ -15,7 +15,7 @@
       </el-form-item>
     </el-form>
 
-    <PaginatedTable class="tw-mt-3" v-bind="tableProps">
+    <PaginatedTable class="tw-mt-3" v-bind="elementTableProps">
       <el-table-column
         prop="author"
         label="Author"
@@ -61,22 +61,23 @@ const { values: filter, handleSubmit } = useForm({
   },
 });
 
-const { fetchListAndReset, tableProps, isPending } = usePaginatedList({
-  paginationToQuery: {
-    rowsPerPage: 'hitsPerPage',
-  },
-
-  filter,
-
-  requestConfig: {
+const { fetchListAndReset, elementTableProps, isPending } = usePaginatedList(
+  {
     url: 'https://hn.algolia.com/api/v1/search',
-    __transformData: (data) => ({
+    __transformData: (data: any) => ({
       items: data?.hits,
       total: data?.nbHits,
     }),
     __needValidation: false,
   },
-});
+  {
+    paginationToQuery: {
+      rowsPerPage: 'hitsPerPage',
+    },
+
+    filter,
+  }
+);
 
 const handleSearch = handleSubmit(() => {
   fetchListAndReset();

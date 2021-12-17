@@ -235,20 +235,10 @@ export const setupRequestManager = (
 };
 
 export const createAxiosInstance = (extraOptions: AxiosRequestConfig) => {
-  const headers = {
-    common: {
+  const axiosOptions: AxiosRequestConfig = {
+    headers: {
       Accept: 'application/json, text/plain, */*',
     },
-    delete: {},
-    get: {},
-    head: {},
-    post: {},
-    put: {},
-    patch: {},
-  };
-
-  const axiosOptions: AxiosRequestConfig = {
-    headers,
   };
 
   // Create new axios instance

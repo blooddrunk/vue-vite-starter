@@ -1,5 +1,5 @@
 // import { provide, inject } from 'vue';
-import { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { defaultsDeep, isPlainObject } from 'lodash-es';
 
 import { createAxiosInstance, EnhancedAxiosInstance } from './enhance';
@@ -11,7 +11,9 @@ declare module 'axios' {
     __showProgress?: boolean;
     __needValidation?: boolean;
     __urlEncoded?: boolean;
-    __transformData?: boolean | ((data: any) => any);
+    __transformData?:
+      | boolean
+      | ((data: unknown, response: AxiosResponse) => unknown);
   }
 
   export interface AxiosInstance {
@@ -86,7 +88,7 @@ export const setupInterceptor = (enhancedAxios: EnhancedAxiosInstance) => {
 
     try {
       if (typeof __transformData === 'function') {
-        response.data = __transformData(response.data);
+        response.data = __transformData(response.data, response);
       } else if (__transformData === true) {
         response.data = defaultDataTransformer(response.data);
       }

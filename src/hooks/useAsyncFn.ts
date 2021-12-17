@@ -1,11 +1,10 @@
 import { ref, shallowRef, computed, Ref } from 'vue';
-import { noop, promiseTimeout } from '@vueuse/shared';
+import { noop } from '@vueuse/shared';
 
 export type UseAsyncFnOptions = {
   immediate?: boolean;
-  onError?: (e: unknown) => void;
   resetOnExecute?: boolean;
-  delay?: number;
+  onError?: (e: unknown) => void;
 };
 
 export const useAsyncFn = <T = any>(
@@ -13,21 +12,16 @@ export const useAsyncFn = <T = any>(
   initialData?: T,
   options: UseAsyncFnOptions = {}
 ) => {
-  const data = shallowRef(initialData) as Ref<T | undefined>;
+  const data = shallowRef(initialData);
   const isPending = ref(false);
   const isFinished = ref(false);
   const error = ref<Error | null | undefined>(null);
 
   const isSuccessful = computed(() => isFinished.value && !error.value);
 
-  const {
-    immediate = true,
-    onError = noop,
-    resetOnExecute = true,
-    delay = 0,
-  } = options;
+  const { immediate = false, onError = noop, resetOnExecute = true } = options;
 
-  const execute = async (delay = 0, ...args: any[]) => {
+  const execute = async (...args: any[]) => {
     if (resetOnExecute) {
       data.value = initialData;
     }
@@ -35,10 +29,6 @@ export const useAsyncFn = <T = any>(
     isPending.value = true;
     isFinished.value = false;
     error.value = null;
-
-    if (delay > 0) {
-      await promiseTimeout(delay);
-    }
 
     const __promise =
       typeof promise === 'function' ? promise(...args) : promise;
@@ -59,15 +49,16 @@ export const useAsyncFn = <T = any>(
   };
 
   if (immediate) {
-    execute(delay);
+    execute();
   }
 
   return {
+    data,
     isPending,
     isFinished,
     isSuccessful,
     error,
-    data,
+
     execute,
   };
 };

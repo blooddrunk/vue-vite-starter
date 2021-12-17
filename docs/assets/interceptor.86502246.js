@@ -1,0 +1,1 @@
+import{G as a,D as e}from"./index.30fefea8.js";function n(n,c){var{args:r=[],done:s,canceled:f}=c;if(n){var l=n.apply(null,r);a(l)?l.then((a=>{a?s():f&&f()})).catch(e):l?s():f&&f()}else s()}export{n as c};

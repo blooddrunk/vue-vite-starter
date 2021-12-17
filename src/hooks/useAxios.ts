@@ -14,7 +14,7 @@ export type UseAxiosOptions = {
 export const useAxios = <T = unknown>(
   requestConfig: MaybeRef<AxiosRequestConfig>,
   initialData: T,
-  { immediate = true, resetOnRequest = true, onError }: UseAxiosOptions = {}
+  { immediate = false, resetOnRequest = true, onError }: UseAxiosOptions = {}
 ) => {
   const data = shallowRef<T>(initialData);
   const isPending = ref(false);

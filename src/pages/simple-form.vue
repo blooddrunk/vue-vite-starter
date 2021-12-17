@@ -59,8 +59,7 @@ const useProduct = () => {
       url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
       __needValidation: false,
     },
-    [],
-    { immediate: true }
+    []
   );
 
   const addProduct = async (product: Product) => {

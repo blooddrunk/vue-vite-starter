@@ -1,0 +1,1 @@
+System.register(["./index-legacy.f573e181.js"],(function(e){"use strict";var n,t;return{setters:[function(e){n=e.G,t=e.D}],execute:function(){e("c",(function(e,c){var{args:r=[],done:s,canceled:a}=c;if(e){var i=e.apply(null,r);n(i)?i.then((e=>{e?s():a&&a()})).catch(t):i?s():a&&a()}else s()}))}}}));

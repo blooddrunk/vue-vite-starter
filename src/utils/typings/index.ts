@@ -3,6 +3,7 @@ import { Ref } from 'vue';
 export * from './misc';
 export * from './auth';
 export * from './element-plus';
+export * from './product';
 
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 

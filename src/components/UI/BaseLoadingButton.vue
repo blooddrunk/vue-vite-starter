@@ -34,9 +34,7 @@ const props = withDefaults(defineProps<Props>(), {
   plain: false,
 });
 
-const { isPending, execute } = useAsyncFn(props.action, null, {
-  immediate: false,
-});
+const { isPending, execute } = useAsyncFn(props.action, null);
 const handleButtonClick = async () => {
   if (props.confirmText) {
     try {

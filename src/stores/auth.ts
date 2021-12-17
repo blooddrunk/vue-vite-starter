@@ -27,7 +27,6 @@ export const useAuthStore = defineStore('auth', () => {
     isLoginPending.value = true;
 
     try {
-      console.log(payload);
       // const user = await axios.$post('/security/login', payload, {
       //   __needValidation: false,
       // });

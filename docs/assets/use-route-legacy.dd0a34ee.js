@@ -1,0 +1,1 @@
+System.register(["./vendor-legacy.0ffd2f3d.js"],(function(e){"use strict";var r;return{setters:[function(e){r=e.b1}],execute:function(){e("u",(function(){var e=r().proxy;return()=>function(e){var{to:r,url:t,replace:n,$router:o}=e;r&&o?o[n?"replace":"push"](r):t&&(n?location.replace(t):location.href=t)}(e)})),e("r",{to:[String,Object],url:String,replace:Boolean})}}}));

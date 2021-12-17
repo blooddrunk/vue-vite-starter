@@ -2,9 +2,10 @@
  * stolen from https://github.com/pikax/vue-composable
  */
 
-import { ref, computed, watch, Ref } from 'vue';
+import { ref, computed, watch } from 'vue';
 
 import { isNumeric } from '@/utils/misc';
+import { MaybeRef } from '@typings';
 
 const ensureNumber = (value: number | string) => {
   if (typeof value !== 'undefined' && !isNumeric(value)) {
@@ -23,9 +24,9 @@ const minmax = (value: number, min: number, max: number) => {
 };
 
 export type UsePaginationOptions = Partial<{
-  pageSize: number | Ref<number>;
-  total: number | Ref<number>;
-  currentPage: number | Ref<number>;
+  pageSize: MaybeRef<number>;
+  total: MaybeRef<number>;
+  currentPage: MaybeRef<number>;
 }>;
 
 export const usePagination = ({

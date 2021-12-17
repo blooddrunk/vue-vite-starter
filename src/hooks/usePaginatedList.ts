@@ -17,14 +17,13 @@ export type ListResult<T = any> = {
   total: number;
 };
 
-type UsePaginatedListOptions<TValue, TFilter> = Partial<{
-  filter: TFilter;
-  requestConfig: AxiosRequestConfig;
-  paginationToQuery: Partial<PaginationToQuery>;
-  initialItems: TValue[];
-  initialTotal: number;
-  initialPagination: Pagination;
-}>;
+type UsePaginatedListOptions<TValue, TFilter> = {
+  filter?: TFilter;
+  paginationToQuery?: Partial<PaginationToQuery>;
+  initialItems?: TValue[];
+  initialTotal?: number;
+  initialPagination?: Pagination;
+};
 
 const defaultPagination: Pagination = {
   page: 1,
@@ -36,24 +35,24 @@ const defaultPaginationToQuery: PaginationToQuery = {
   rowsPerPage: 'rowsPerPage',
 };
 
-const defaultRequestConfig: AxiosRequestConfig = {
-  __transformData: (data) => ({
-    items: data?.items || [],
-    total: data?.total || 0,
-  }),
-};
+const transformListData = <T = any>(data: ListResult<T>) => ({
+  items: data?.items || [],
+  total: data?.total || 0,
+});
 
 export const usePaginatedList = <
   TValue extends object = object,
   TFilter extends Record<string, any> = UnwrapRef<Record<string, any>>
->({
-  filter = {} as TFilter,
-  requestConfig,
-  paginationToQuery = defaultPaginationToQuery,
-  initialItems = [],
-  initialTotal = 0,
-  initialPagination = defaultPagination,
-}: UsePaginatedListOptions<TValue, TFilter> = {}) => {
+>(
+  requestConfig: AxiosRequestConfig,
+  {
+    filter = {} as TFilter,
+    paginationToQuery = defaultPaginationToQuery,
+    initialItems = [],
+    initialTotal = 0,
+    initialPagination = defaultPagination,
+  }: UsePaginatedListOptions<TValue, TFilter>
+) => {
   const __filter = ref(filter);
   const lastAppliedFilter = ref({} as TFilter);
   const pagination = ref(initialPagination);
@@ -63,13 +62,24 @@ export const usePaginatedList = <
     page: 1,
     ...pagination.value,
   }));
-  const __requestConfig = {
-    ...defaultRequestConfig,
-    ...requestConfig,
-  };
+  const items = computed(() => data.value?.items ?? []);
+  const total = computed(() => data.value?.total ?? 0);
+  const lastPage = computed(() =>
+    total.value
+      ? Math.ceil(total.value / (__pagination.value.rowsPerPage ?? 1))
+      : 1
+  );
+  const isFirstPage = computed(() => __pagination.value.page === 1);
+  const isLastPage = computed(() => __pagination.value.page === lastPage.value);
+
   const __mergedPaginationToQuery = {
     ...defaultPaginationToQuery,
     ...paginationToQuery,
+  };
+
+  const __requestConfig = {
+    __transformData: transformListData,
+    ...requestConfig,
   };
 
   const updatePagination = (newPagination: Partial<Pagination>) => {
@@ -82,6 +92,15 @@ export const usePaginatedList = <
   const resetPagination = () => {
     updatePagination({
       page: 1,
+    });
+  };
+
+  const nextPage = () => {
+    if (isLastPage.value) {
+      return;
+    }
+    updatePagination({
+      page: __pagination.value.page! + 1,
     });
   };
 
@@ -112,7 +131,9 @@ export const usePaginatedList = <
     };
   };
 
-  const { data, isPending, error, request } = useAxios<ListResult<TValue>>(
+  const { data, isPending, errorMessage, request } = useAxios<
+    ListResult<TValue>
+  >(
     getRequestConfig(),
     {
       items: initialItems,
@@ -124,9 +145,6 @@ export const usePaginatedList = <
       resetOnRequest: false,
     }
   );
-
-  const items = computed(() => data.value?.items ?? []);
-  const total = computed(() => data.value?.total ?? 0);
 
   watch(data, (value) => {
     if (!value || !value.items) {
@@ -140,14 +158,14 @@ export const usePaginatedList = <
     // apply filter first
     lastAppliedFilter.value = cloneDeep(unref(__filter));
 
-    request(getRequestConfig(newConfig));
+    return request(getRequestConfig(newConfig));
   };
 
   const fetchListAndReset = (newConfig?: AxiosRequestConfig) => {
     // avoid triggering watcher
     pagination.value.page = 1;
 
-    fetchList(newConfig);
+    return fetchList(newConfig);
   };
 
   watch(pagination, () => {
@@ -155,7 +173,7 @@ export const usePaginatedList = <
   });
 
   // for Element Table
-  const tableProps = computed(() => ({
+  const elementTableProps = computed(() => ({
     items: items.value,
     total: total.value,
     loading: isPending.value,
@@ -164,7 +182,7 @@ export const usePaginatedList = <
   }));
 
   return {
-    error,
+    errorMessage,
     filter: __filter,
     lastAppliedFilter: readonly(lastAppliedFilter),
     items,
@@ -173,10 +191,17 @@ export const usePaginatedList = <
 
     pagination,
     isListEmpty,
-    tableProps,
+    lastPage,
+    isFirstPage,
+    isLastPage,
+
+    // for Element Table only
+    elementTableProps,
 
     updatePagination,
     resetPagination,
+    nextPage,
+
     fetchList,
     fetchListAndReset,
   };

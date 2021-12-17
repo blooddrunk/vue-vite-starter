@@ -53,7 +53,6 @@ const computedPaginationProps = computed(() => ({
 }));
 
 const handlePageSizeChange = (rowsPerPage: number) => {
-  console.log('pageSize');
   props.updatePagination({
     rowsPerPage,
   });
