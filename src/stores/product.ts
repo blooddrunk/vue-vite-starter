@@ -1,41 +1,24 @@
 import { defineStore } from 'pinia';
-import { shallowRef, watch } from 'vue';
 
 import { useProductList } from '@/services';
-import { ProductItem } from '@typings';
 
 export const useProductStore = defineStore('product', () => {
   const {
-    items,
+    items: productList,
     isPending: isProductListLoading,
-    isFirstPage,
-    isLastPage,
+    pagination,
     errorMessage: fetchListErrorMessage,
-    nextPage,
-    fetchList,
-    fetchListAndReset,
+    fetchList: fetchProductList,
+    fetchListAndReset: fetchProductListAndReset,
   } = useProductList();
-  const productList = shallowRef<ProductItem[]>([]);
-
-  watch(
-    () => items.value,
-    (value) => {
-      if (isFirstPage.value) {
-        productList.value = [];
-      }
-      if (value.length) {
-        productList.value = productList.value.concat(value);
-      }
-    }
-  );
 
   return {
     productList,
     isProductListLoading,
-    isLastPage,
     fetchListErrorMessage,
-    nextPage,
-    fetchList,
-    fetchListAndReset,
+    isLastPage: pagination.isLastPage,
+    nextPage: pagination.nextPage,
+    fetchProductList,
+    fetchProductListAndReset,
   };
 });

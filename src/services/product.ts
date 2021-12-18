@@ -20,10 +20,11 @@ export const useProductList = () => {
       },
     },
     {
-      paginationToQuery: {
-        page: '_page',
-        rowsPerPage: '_limit',
-      },
+      transformPaginationToQuery: (pagination) => ({
+        _page: pagination.currentPage.value,
+        _limit: pagination.pageSize.value,
+      }),
+      infinite: true,
     }
   );
 };

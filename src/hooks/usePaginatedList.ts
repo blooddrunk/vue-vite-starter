@@ -1,14 +1,20 @@
-import { ref, computed, watch, readonly, UnwrapRef, unref } from 'vue';
+import {
+  ref,
+  computed,
+  watch,
+  readonly,
+  unref,
+  shallowRef,
+  UnwrapRef,
+} from 'vue';
 import { AxiosRequestConfig } from 'axios';
 import { cloneDeep, merge } from 'lodash-es';
 
 import { trimValues } from '@/utils/misc';
 import { useAxios } from '@/hooks/useAxios';
+import { usePagination, UsePaginationOptions } from '@/hooks/usePagination';
 
-export type Pagination = {
-  page?: number;
-  rowsPerPage?: number;
-};
+export type Pagination = ReturnType<typeof usePagination>;
 
 type PaginationToQuery = Record<keyof Pagination, string>;
 
@@ -21,19 +27,9 @@ type UsePaginatedListOptions<TValue, TFilter> = {
   filter?: TFilter;
   paginationToQuery?: Partial<PaginationToQuery>;
   initialItems?: TValue[];
-  initialTotal?: number;
-  initialPagination?: Pagination;
-};
-
-const defaultPagination: Pagination = {
-  page: 1,
-  rowsPerPage: 20,
-};
-
-const defaultPaginationToQuery: PaginationToQuery = {
-  page: 'page',
-  rowsPerPage: 'rowsPerPage',
-};
+  transformPaginationToQuery?: (pagination: Pagination) => Record<string, any>;
+  infinite?: boolean;
+} & UsePaginationOptions;
 
 const transformListData = <T = any>(data: ListResult<T>) => ({
   items: data?.items || [],
@@ -45,79 +41,33 @@ export const usePaginatedList = <
   TFilter extends Record<string, any> = UnwrapRef<Record<string, any>>
 >(
   requestConfig: AxiosRequestConfig,
-  {
-    filter = {} as TFilter,
-    paginationToQuery = defaultPaginationToQuery,
-    initialItems = [],
-    initialTotal = 0,
-    initialPagination = defaultPagination,
-  }: UsePaginatedListOptions<TValue, TFilter>
+  options: UsePaginatedListOptions<TValue, TFilter> = {}
 ) => {
+  const {
+    filter = {} as TFilter,
+    initialItems = [],
+    transformPaginationToQuery = (pagination) => ({
+      page: pagination.currentPage.value,
+      pageSize: pagination.pageSize.value,
+    }),
+    infinite = false,
+  } = options;
+
   const __filter = ref(filter);
   const lastAppliedFilter = ref({} as TFilter);
-  const pagination = ref(initialPagination);
 
-  const isListEmpty = computed(() => items.value.length === 0);
-  const __pagination = computed<Pagination>(() => ({
-    page: 1,
-    ...pagination.value,
-  }));
-  const items = computed(() => data.value?.items ?? []);
-  const total = computed(() => data.value?.total ?? 0);
-  const lastPage = computed(() =>
-    total.value
-      ? Math.ceil(total.value / (__pagination.value.rowsPerPage ?? 1))
-      : 1
-  );
-  const isFirstPage = computed(() => __pagination.value.page === 1);
-  const isLastPage = computed(() => __pagination.value.page === lastPage.value);
-
-  const __mergedPaginationToQuery = {
-    ...defaultPaginationToQuery,
-    ...paginationToQuery,
-  };
+  const pagination = usePagination(options);
 
   const __requestConfig = {
     __transformData: transformListData,
     ...requestConfig,
   };
 
-  const updatePagination = (newPagination: Partial<Pagination>) => {
-    pagination.value = {
-      ...pagination.value,
-      ...newPagination,
-    };
-  };
-
-  const resetPagination = () => {
-    updatePagination({
-      page: 1,
-    });
-  };
-
-  const nextPage = () => {
-    if (isLastPage.value) {
-      return;
-    }
-    updatePagination({
-      page: __pagination.value.page! + 1,
-    });
-  };
-
   // data fetch
   const getRequestConfig = (config?: AxiosRequestConfig) => {
-    const unwrappedPagination = unref(__pagination);
-    const paginationInPayload = {} as any;
-
-    paginationInPayload[__mergedPaginationToQuery.page] =
-      unwrappedPagination.page;
-
-    paginationInPayload[__mergedPaginationToQuery.rowsPerPage] =
-      unwrappedPagination.rowsPerPage;
-
     const payloadValues: Record<string, any> = {
       ...trimValues(unref(lastAppliedFilter)),
-      ...paginationInPayload,
+      ...transformPaginationToQuery(pagination),
     };
 
     const mergedConfig = merge({}, __requestConfig, config);
@@ -137,72 +87,83 @@ export const usePaginatedList = <
     getRequestConfig(),
     {
       items: initialItems,
-      total: initialTotal,
+      total: pagination.total.value,
     },
     {
       immediate: false,
-      // ! this is very important, cost me 45min to find out
+      // ! this is very important, cost me 45min to figure it out
       resetOnRequest: false,
     }
   );
 
+  const items = shallowRef<TValue[]>([]);
+
   watch(data, (value) => {
-    if (!value || !value.items) {
+    if (!value || !value.items || !Array.isArray(value.items)) {
       throw new Error(
         `[fetchList] expects response data to be an object with 'items' and 'total'(optional) as keys, do you forget to define a proper data transformer?`
       );
     }
+
+    if (infinite && !pagination.isFirstPage.value) {
+      items.value = items.value.concat(value.items);
+    } else {
+      items.value = value.items;
+    }
+
+    pagination.total.value = value.total || 0;
   });
 
-  const fetchList = (newConfig?: AxiosRequestConfig) => {
+  // ! make sure pagination is updated correctly before
+  const fetchList = () => {
     // apply filter first
     lastAppliedFilter.value = cloneDeep(unref(__filter));
 
-    return request(getRequestConfig(newConfig));
+    request(getRequestConfig());
   };
 
-  const fetchListAndReset = (newConfig?: AxiosRequestConfig) => {
-    // avoid triggering watcher
-    pagination.value.page = 1;
-
-    return fetchList(newConfig);
+  const fetchListAndReset = () => {
+    if (pagination.isFirstPage.value) {
+      fetchList();
+    } else {
+      pagination.currentPage.value = 1;
+    }
   };
 
-  watch(pagination, () => {
+  watch(pagination.currentPage, () => {
+    fetchList();
+  });
+  watch(pagination.pageSize, () => {
     fetchList();
   });
 
   // for Element Table
   const elementTableProps = computed(() => ({
     items: items.value,
-    total: total.value,
     loading: isPending.value,
-    pagination: pagination.value,
-    updatePagination,
+    total: pagination.total.value,
+    page: pagination.currentPage.value,
+    updatePage: pagination.jumpToPage,
+    pageSize: pagination.pageSize.value,
+    updatePageSize: (pageSize: number) => {
+      pagination.pageSize.value = pageSize;
+    },
   }));
 
   return {
-    errorMessage,
-    filter: __filter,
-    lastAppliedFilter: readonly(lastAppliedFilter),
     items,
-    total,
     isPending,
+    errorMessage,
 
     pagination,
-    isListEmpty,
-    lastPage,
-    isFirstPage,
-    isLastPage,
-
-    // for Element Table only
-    elementTableProps,
-
-    updatePagination,
-    resetPagination,
-    nextPage,
 
     fetchList,
     fetchListAndReset,
+
+    filter: __filter,
+    lastAppliedFilter: readonly(lastAppliedFilter),
+
+    // for Element Table only
+    elementTableProps,
   };
 };

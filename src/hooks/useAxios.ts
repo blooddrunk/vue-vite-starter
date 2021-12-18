@@ -1,6 +1,6 @@
 import { ref, shallowRef, computed, unref } from 'vue';
 import { AxiosRequestConfig, CancelTokenSource, AxiosResponse } from 'axios';
-import { isString } from 'lodash-es';
+import { merge, isString } from 'lodash-es';
 
 import { MaybeRef } from '@typings';
 import axios from '@/utils/axios';
@@ -11,7 +11,7 @@ export type UseAxiosOptions = {
   onError?: (e: unknown) => void;
 };
 
-export const useAxios = <T = unknown>(
+export const useAxios = <T = any>(
   requestConfig: MaybeRef<AxiosRequestConfig>,
   initialData: T,
   { immediate = false, resetOnRequest = true, onError }: UseAxiosOptions = {}
@@ -47,8 +47,8 @@ export const useAxios = <T = unknown>(
     }
   };
 
-  const request = async (newConfig?: MaybeRef<AxiosRequestConfig>) => {
-    const unwrappedConfig = unref(newConfig ?? unref(requestConfig));
+  const request = async (config?: MaybeRef<AxiosRequestConfig>) => {
+    const newConfig = merge({}, unref(requestConfig), unref(config));
 
     if (resetOnRequest) {
       data.value = initialData;
@@ -61,7 +61,7 @@ export const useAxios = <T = unknown>(
 
     const promise = axios.request<T>({
       cancelToken: lastCancelSource.token,
-      ...unwrappedConfig,
+      ...newConfig,
     });
     try {
       response.value = await promise;

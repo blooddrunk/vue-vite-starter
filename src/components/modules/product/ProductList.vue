@@ -39,9 +39,9 @@ const fetchData = () => {
 
 const handleRefresh = async () => {
   isRefreshing.value = true;
-  await product.fetchListAndReset();
+  await product.fetchProductListAndReset();
   isRefreshing.value = false;
 };
 
-product.fetchList();
+product.fetchProductList();
 </script>

@@ -71,11 +71,12 @@ const { fetchListAndReset, elementTableProps, isPending } = usePaginatedList(
     __needValidation: false,
   },
   {
-    paginationToQuery: {
-      rowsPerPage: 'hitsPerPage',
-    },
-
     filter,
+
+    transformPaginationToQuery: (pagination) => ({
+      page: pagination.currentPage.value,
+      hitsPerPage: pagination.pageSize.value,
+    }),
   }
 );
 

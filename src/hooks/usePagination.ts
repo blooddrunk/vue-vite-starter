@@ -30,7 +30,7 @@ export type UsePaginationOptions = Partial<{
 }>;
 
 export const usePagination = ({
-  pageSize: defaultPageSize = 10,
+  pageSize: defaultPageSize = 20,
   total: defaultTotal = 0,
   currentPage: defaultPage = 1,
 }: UsePaginationOptions = {}) => {
@@ -54,7 +54,7 @@ export const usePagination = ({
     },
   });
 
-  const lastPage = computed(() =>
+  const lastPagePage = computed(() =>
     total.value ? Math.ceil(total.value / pageSize.value) : 1
   );
   // public getter & setter
@@ -62,33 +62,36 @@ export const usePagination = ({
     get: () => _currentPage.value,
     set: (value) => {
       ensureNumber(value);
-      _currentPage.value = minmax(value, 1, lastPage.value);
+      _currentPage.value = minmax(value, 1, lastPagePage.value);
     },
   });
 
   const offset = computed(() =>
     Math.min((currentPage.value - 1) * pageSize.value, total.value)
   );
-  const isFirst = computed(() => currentPage.value === 1);
-  const isLast = computed(() => currentPage.value === lastPage.value);
+  const isFirstPage = computed(() => currentPage.value === 1);
+  const isLastPage = computed(() => currentPage.value === lastPagePage.value);
 
-  const prev = () => {
+  const prevPage = () => {
     --currentPage.value;
   };
-  const next = () => {
+  const nextPage = () => {
     ++currentPage.value;
   };
-  const first = () => {
+  const firstPage = () => {
     currentPage.value = 1;
   };
-  const last = () => {
-    currentPage.value = lastPage.value;
+  const lastPage = () => {
+    currentPage.value = lastPagePage.value;
+  };
+  const jumpToPage = (target: number) => {
+    currentPage.value = target;
   };
 
-  // lastPage may never be < currentPage
+  // lastPagePage may never be < currentPage
   watch([total, pageSize], () => {
-    if (currentPage.value > lastPage.value) {
-      currentPage.value = lastPage.value;
+    if (currentPage.value > lastPagePage.value) {
+      currentPage.value = lastPagePage.value;
     }
   });
 
@@ -98,15 +101,16 @@ export const usePagination = ({
     currentPage,
 
     //computed
-    lastPage,
+    lastPagePage,
     offset,
-    isFirst,
-    isLast,
+    isFirstPage,
+    isLastPage,
 
     // Functions
-    next,
-    prev,
-    first,
-    last,
+    nextPage,
+    prevPage,
+    firstPage,
+    lastPage,
+    jumpToPage,
   };
 };

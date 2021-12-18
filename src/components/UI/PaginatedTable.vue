@@ -7,12 +7,12 @@
     <el-pagination
       :class="$style.pager"
       class="tw-py-3"
-      v-bind="computedPaginationProps"
+      v-bind="__paginationProps"
       :total="total"
-      :page-size="pagination.rowsPerPage"
-      :current-page="pagination.page"
-      @update:page-size="handlePageSizeChange"
-      @update:current-page="handleCurrentPageChange"
+      :current-page="page"
+      :page-size="pageSize"
+      @update:current-page="updatePage"
+      @update:page-size="updatePageSize"
     >
       <slot name="pagination"></slot>
     </el-pagination>
@@ -23,15 +23,15 @@
 import { withDefaults, defineProps, computed } from 'vue';
 import { PaginationProps } from 'element-plus';
 
-import { Pagination } from '@/hooks/usePaginatedList';
-
 type Props = {
   items?: any[];
   loading?: boolean;
   total?: number;
-  pagination: Pagination;
   paginationProps?: Partial<PaginationProps>;
-  updatePagination: (pagination: Partial<Pagination>) => void;
+  page: number;
+  updatePage: (page: number) => void;
+  pageSize: number;
+  updatePageSize: (pageSize: number) => void;
 };
 
 const defaultPaginationProps: Partial<PaginationProps> = {
@@ -47,22 +47,10 @@ const props = withDefaults(defineProps<Props>(), {
   paginationProps: () => ({}),
 });
 
-const computedPaginationProps = computed(() => ({
+const __paginationProps = computed(() => ({
   ...defaultPaginationProps,
   ...props.paginationProps,
 }));
-
-const handlePageSizeChange = (rowsPerPage: number) => {
-  props.updatePagination({
-    rowsPerPage,
-  });
-};
-
-const handleCurrentPageChange = (page: number) => {
-  props.updatePagination({
-    page,
-  });
-};
 </script>
 
 <style lang="postcss" module>

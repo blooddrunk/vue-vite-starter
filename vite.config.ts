@@ -107,19 +107,6 @@ export default ({ mode }) => {
       OptimizationPersist(),
     ],
 
-    // css: {
-    //   preprocessorOptions: {
-    //     less: {
-    //       modifyVars: {
-    //         hack: `true; @import "${path.resolve(
-    //           __dirname,
-    //           './src/assets/vant/overwrite.less'
-    //         )}";`,
-    //       },
-    //     },
-    //   },
-    // },
-
     server: {
       host: '0.0.0.0',
       port: 3300,
