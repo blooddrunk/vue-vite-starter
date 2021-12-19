@@ -2,19 +2,16 @@
   <div>
     <van-pull-refresh v-model="isRefreshing" @refresh="handleRefresh">
       <van-list
-        v-model:loading="isProductListLoading"
+        v-model:loading="isItemsLoading"
         :finished="isLastPage"
         finished-text="没有更多了"
         :immediate-check="false"
         :error="hasError"
-        :error-text="fetchListErrorMessage"
+        :error-text="itemsLoadingErrorMessage"
         @load="fetchData"
       >
-        <van-cell
-          v-for="item in productList"
-          :key="item.id"
-          :title="item.title"
-        />
+        <ProductItem v-for="item in items" :key="item.id" :item="item">
+        </ProductItem>
       </van-list>
     </van-pull-refresh>
   </div>
@@ -27,11 +24,11 @@ import { storeToRefs } from 'pinia';
 import { useProductStore } from '@/stores/product';
 
 const product = useProductStore();
-const { productList, isProductListLoading, isLastPage, fetchListErrorMessage } =
+const { items, isItemsLoading, isLastPage, itemsLoadingErrorMessage } =
   storeToRefs(product);
 
 const isRefreshing = ref(false);
-const hasError = computed(() => !!fetchListErrorMessage.value);
+const hasError = computed(() => !!itemsLoadingErrorMessage.value);
 
 const fetchData = () => {
   product.nextPage();
@@ -39,9 +36,9 @@ const fetchData = () => {
 
 const handleRefresh = async () => {
   isRefreshing.value = true;
-  await product.fetchProductListAndReset();
+  await product.getItemsAndReset();
   isRefreshing.value = false;
 };
 
-product.fetchProductList();
+product.getItems();
 </script>

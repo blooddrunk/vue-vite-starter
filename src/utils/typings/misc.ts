@@ -19,3 +19,15 @@ export type MenuItem = {
   to?: RouteLocationRaw;
   children?: MenuItem[];
 };
+
+export type ProductItem = {
+  id: string;
+  title: string;
+  body: string;
+  price: number;
+  thumbnail: string;
+};
+
+export type CartItem = ProductItem & {
+  quantity: number;
+};

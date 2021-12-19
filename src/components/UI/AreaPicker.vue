@@ -78,7 +78,6 @@ const areaPicker = ref<AreaInstance>();
 const getCurrentArea = () => areaPicker.value?.getArea?.();
 onMounted(() => {
   const currentArea = getCurrentArea();
-  console.log(currentArea);
   if (currentArea) {
     selectedAreaList.value = [
       { name: currentArea.province },

@@ -87,7 +87,7 @@ import { Toast } from 'vant';
 import { useRouter } from 'vue-router';
 
 import { MobileLoginInfo } from '@typings';
-import { getAuthCode } from '@/services';
+import { fetchAuthCode } from '@/services';
 import { useMobileAuthStore } from '@/stores/mobile-auth';
 
 const { values, validateField, isSubmitting, handleSubmit } =
@@ -133,7 +133,7 @@ const handleAuthCodeRequest = async () => {
   }
 
   countdown.value = maxWaitSecs;
-  await getAuthCode(values.mobile);
+  await fetchAuthCode(values.mobile);
   resume();
 };
 

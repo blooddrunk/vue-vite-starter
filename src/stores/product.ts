@@ -4,21 +4,21 @@ import { useProductList } from '@/services';
 
 export const useProductStore = defineStore('product', () => {
   const {
-    items: productList,
-    isPending: isProductListLoading,
+    items,
+    isPending: isItemsLoading,
     pagination,
-    errorMessage: fetchListErrorMessage,
-    fetchList: fetchProductList,
-    fetchListAndReset: fetchProductListAndReset,
+    errorMessage: itemsLoadingErrorMessage,
+    fetchList: getItems,
+    fetchListAndReset: getItemsAndReset,
   } = useProductList();
 
   return {
-    productList,
-    isProductListLoading,
-    fetchListErrorMessage,
+    items,
+    isItemsLoading,
+    itemsLoadingErrorMessage,
     isLastPage: pagination.isLastPage,
     nextPage: pagination.nextPage,
-    fetchProductList,
-    fetchProductListAndReset,
+    getItems,
+    getItemsAndReset,
   };
 });

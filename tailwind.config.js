@@ -26,9 +26,11 @@ module.exports = {
           DEFAULT: 'var(--color-tertiary)',
         },
 
+        lighter: 'var(--color-lighter)',
         light: 'var(--color-light)',
         medium: 'var(--color-medium)',
         dark: 'var(--color-dark)',
+        darker: 'var(--color-darker)',
       },
 
       spacing: {

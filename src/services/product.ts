@@ -10,7 +10,7 @@ export const useProductList = () => {
       __needValidation: false,
       __transformData: (data, { headers }) => {
         return {
-          items: ((data as ProductItem[]) || []).map((item: ProductItem) => ({
+          items: ((data as ProductItem[]) || []).map((item) => ({
             ...item,
             price: random(2000),
             thumbnail: 'http://via.placeholder.com/640x240',
@@ -25,6 +25,7 @@ export const useProductList = () => {
         _limit: pagination.pageSize.value,
       }),
       infinite: true,
+      pageSize: 5,
     }
   );
 };
