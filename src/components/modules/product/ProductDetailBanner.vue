@@ -3,9 +3,10 @@
     <van-swipe-item v-for="(item, index) in displayItems" :key="item.url">
       <SimpleVideoPlayer
         v-if="item.isVideo"
-        class="tw-w-full tw-h-[320px]"
+        wrapper-class="tw-w-full tw-h-[320px]"
         :url="item.url"
         :active="activeIndex === index"
+        crossorigin="anonymous"
       ></SimpleVideoPlayer>
       <van-image
         v-else
@@ -17,7 +18,7 @@
 
     <template #indicator="{ active }">
       <div
-        class="tw-absolute tw-py-1 tw-px-2 tw-right-1 tw-bottom-1 tw-text-sm tw-text-white"
+        class="tw-absolute tw-px-2 tw-left-1/2 tw--translate-x-1/2 tw-bottom-2 tw-text-sm tw-text-white tw-text-center"
       >
         {{ active + 1 }}/{{ total }}
       </div>

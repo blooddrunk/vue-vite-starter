@@ -1,20 +1,40 @@
 <template>
-  <div class="tw-relative" @click="togglePlay">
+  <div
+    class="tw-relative tw-text-white"
+    :class="wrapperClass"
+    @click="togglePlay"
+  >
     <video
       ref="video"
-      crossorigin="anonymous"
       class="tw-w-full tw-h-full tw-bg-light"
       object-fit="cover"
+      v-bind="$attrs"
     ></video>
 
+    <a
+      v-if="playing"
+      class="tw-absolute tw-right-2 tw-bottom-2"
+      @click.prevent.stop="toggleMuted"
+    >
+      <IconVolumeMute v-if="muted" size="18"></IconVolumeMute>
+      <IconVolumeNotice v-else size="18"></IconVolumeNotice>
+    </a>
     <div
-      v-if="!playing"
+      v-else
       class="tw-absolute tw-inset-0 tw-bg-white/25 tw-flex tw-items-center tw-justify-center"
     >
       <IconPlay size="32"></IconPlay>
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  inheritAttrs: false,
+});
+</script>
 
 <script lang="ts" setup>
 import { withDefaults, defineProps, onMounted, ref, watch } from 'vue';
@@ -24,14 +44,16 @@ const props = withDefaults(
   defineProps<{
     url: string;
     active?: boolean;
+    wrapperClass?: string;
   }>(),
   {
     active: false,
+    wrapperClass: '',
   }
 );
 
 const video = ref<HTMLVideoElement>();
-const { playing, volume, onSourceError } = useMediaControls(video, {
+const { playing, muted } = useMediaControls(video, {
   src: props.url,
 });
 
@@ -39,13 +61,12 @@ const togglePlay = () => {
   playing.value = !playing.value;
 };
 
-onSourceError((error) => {
-  // TODO error dealing
-  console.error(error);
-});
+const toggleMuted = () => {
+  muted.value = !muted.value;
+};
 
 onMounted(() => {
-  volume.value = 0;
+  muted.value = true;
 
   watch(
     () => props.active,

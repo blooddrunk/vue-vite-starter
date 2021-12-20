@@ -24,6 +24,8 @@ declare module 'vue' {
     IconRight: typeof import('@icon-park/vue-next')['Right']
     IconShopping: typeof import('@icon-park/vue-next')['Shopping']
     IconSun: typeof import('@icon-park/vue-next')['Sun']
+    IconVolumeMute: typeof import('@icon-park/vue-next')['VolumeMute']
+    IconVolumeNotice: typeof import('@icon-park/vue-next')['VolumeNotice']
     LineChart: typeof import('./../components/modules/ECharts/LineChart.vue')['default']
     MixedChart: typeof import('./../components/modules/ECharts/MixedChart.vue')['default']
     PaginatedTable: typeof import('./../components/UI/PaginatedTable.vue')['default']

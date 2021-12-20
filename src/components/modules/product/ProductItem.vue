@@ -29,7 +29,7 @@
             size="small"
             type="primary"
             :disabled="cart.isItemAdding"
-            @click.prevent="addToCart"
+            @click.prevent.stop="addToCart"
           >
             <IconShopping size="16"></IconShopping>
           </van-button>
