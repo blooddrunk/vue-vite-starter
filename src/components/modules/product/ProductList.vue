@@ -10,7 +10,12 @@
         :error-text="itemsLoadingErrorMessage"
         @load="fetchData"
       >
-        <ProductItem v-for="item in items" :key="item.id" :item="item">
+        <ProductItem
+          v-for="item in itemsMaybeSkeleton"
+          :key="item.id"
+          :item="item"
+          :loading="shouldShowSkeleton"
+        >
         </ProductItem>
       </van-list>
     </van-pull-refresh>
@@ -20,15 +25,34 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 import { storeToRefs } from 'pinia';
+import { promiseTimeout } from '@vueuse/shared';
 
 import { useProductStore } from '@/stores/product';
+import type { ProductItem } from '@typings';
+
+const placeholderItems = [...Array(5).keys()].map((id) => ({
+  id: String(id),
+})) as ProductItem[];
 
 const product = useProductStore();
-const { items, isItemsLoading, isLastPage, itemsLoadingErrorMessage } =
-  storeToRefs(product);
+const {
+  items,
+  isItemsLoading,
+  isItemsEmpty,
+  isLastPage,
+  itemsLoadingErrorMessage,
+} = storeToRefs(product);
 
 const isRefreshing = ref(false);
 const hasError = computed(() => !!itemsLoadingErrorMessage.value);
+
+const shouldShowSkeleton = computed(
+  () => (isItemsEmpty.value && isItemsLoading.value) || isRefreshing.value
+);
+
+const itemsMaybeSkeleton = computed(() =>
+  shouldShowSkeleton.value ? placeholderItems : items.value
+);
 
 const fetchData = () => {
   product.nextPage();
@@ -37,6 +61,7 @@ const fetchData = () => {
 const handleRefresh = async () => {
   isRefreshing.value = true;
   await product.getItemsAndReset();
+  await promiseTimeout(200);
   isRefreshing.value = false;
 };
 

@@ -8,6 +8,7 @@ export const useProductStore = defineStore('product', () => {
     isPending: isItemsLoading,
     pagination,
     errorMessage: itemsLoadingErrorMessage,
+    isEmpty: isItemsEmpty,
     fetchList: getItems,
     fetchListAndReset: getItemsAndReset,
   } = fetchProductList();
@@ -15,6 +16,7 @@ export const useProductStore = defineStore('product', () => {
   return {
     items,
     isItemsLoading,
+    isItemsEmpty,
     itemsLoadingErrorMessage,
     isLastPage: pagination.isLastPage,
     nextPage: pagination.nextPage,

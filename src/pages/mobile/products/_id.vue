@@ -1,6 +1,6 @@
 <template>
   <article class="tw-h-full tw-relative tw-bg-white tw-pb-[56px]">
-    <ProductDetailBanner :items="data.bannerList"> </ProductDetailBanner>
+    <ProductDetailBanner :items="data.bannerImageList"> </ProductDetailBanner>
 
     <div class="tw-article tw-leading-normal">
       <van-skeleton title avatar :row="3" :loading="isPending">
@@ -55,7 +55,6 @@ import { defineProps, watch } from 'vue';
 import { Toast } from 'vant';
 
 import { fetchProductById } from '@/services';
-import { ProductItem } from '@typings';
 import { useCartStore } from '@/stores/cart';
 
 const props = defineProps<{
@@ -63,17 +62,6 @@ const props = defineProps<{
 }>();
 
 const { data, isPending, errorMessage, request } = fetchProductById();
-
-// watch(isPending, (value) => {
-//   if (value) {
-//     Toast.loading({
-//       message: '加载中...',
-//       forbidClick: true,
-//     });
-//   } else {
-//     Toast.clear();
-//   }
-// });
 
 watch(
   () => errorMessage.value,

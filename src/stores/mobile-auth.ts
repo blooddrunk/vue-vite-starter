@@ -34,7 +34,6 @@ export const useMobileAuthStore = defineStore('mobile-auth', () => {
     loginError.value = '';
 
     try {
-      console.log(payload);
       // const user = await axios.$post('/security/login', payload, {
       //   __needValidation: false,
       // });

@@ -119,12 +119,12 @@ export const usePaginatedList = <
     // apply filter first
     lastAppliedFilter.value = cloneDeep(unref(__filter));
 
-    request(getRequestConfig());
+    return request(getRequestConfig());
   };
 
   const fetchListAndReset = () => {
     if (pagination.isFirstPage.value) {
-      fetchList();
+      return fetchList();
     } else {
       pagination.currentPage.value = 1;
     }
@@ -154,6 +154,7 @@ export const usePaginatedList = <
     items,
     isPending,
     errorMessage,
+    isEmpty: computed(() => !items.value.length),
 
     pagination,
 

@@ -1,10 +1,11 @@
 <template>
-  <router-link :to="routeLocation">
+  <ProductItemSkeleton v-if="loading"></ProductItemSkeleton>
+  <router-link v-else :to="routeLocation">
     <figure
       class="tw-p-2 tw-mt-3 tw-bg-white tw-rounded-md tw-shadow tw-shadow-light"
     >
       <van-image
-        class="tw-h-32"
+        class="tw-w-full tw-h-32"
         :src="item.thumbnail"
         fit="cover"
         round
@@ -39,18 +40,21 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, watch } from 'vue';
+import { withDefaults, defineProps, watch } from 'vue';
 import { Toast } from 'vant';
 import { RouteLocationRaw } from 'vue-router';
 
-import { ProductItem } from '@typings';
+import type { ProductItem } from '@typings';
 import { useCartStore } from '@/stores/cart';
 
 type Props = {
   item: ProductItem;
+  loading?: boolean;
 };
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  loading: false,
+});
 
 const cart = useCartStore();
 watch(

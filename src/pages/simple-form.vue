@@ -68,7 +68,6 @@ const useProduct = () => {
         __needValidation: false,
       });
 
-      console.log(data);
       products.value.unshift(data);
     } catch (error) {
       console.error(error);

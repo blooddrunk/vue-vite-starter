@@ -2,7 +2,7 @@ import { random } from 'lodash-es';
 
 import { usePaginatedList } from '@/hooks/usePaginatedList';
 import { useAxios } from '@/hooks/useAxios';
-import { ProductItem } from '@typings';
+import type { ProductItem } from '@typings';
 
 export const fetchProductList = () => {
   return usePaginatedList<ProductItem>(
@@ -49,8 +49,16 @@ export const fetchProductById = () => {
           ...(data as ProductItem),
           price: random(2000),
           detailImage: 'http://via.placeholder.com/640x1080',
-          bannerImageList: [...Array(10).keys()].map(
-            () => `http://via.placeholder.com/640`
+          bannerImageList: [
+            {
+              url: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f1/Sintel_movie_4K.webm/Sintel_movie_4K.webm.1080p.vp9.webm',
+              isVideo: true,
+            },
+          ].concat(
+            [...Array(10).keys()].map(() => ({
+              url: `http://via.placeholder.com/640`,
+              isVideo: false,
+            }))
           ),
         }),
       }),
