@@ -54,13 +54,10 @@ const useProduct = () => {
     data: products,
     isPending: isProductLoading,
     request: fetchProducts,
-  } = useAxios<Product[]>(
-    {
-      url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
-      __needValidation: false,
-    },
-    []
-  );
+  } = useAxios<Product[]>([], {
+    url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
+    __needValidation: false,
+  });
 
   const addProduct = async (product: Product) => {
     try {

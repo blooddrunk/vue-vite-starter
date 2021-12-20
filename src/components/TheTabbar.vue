@@ -24,7 +24,7 @@
 import { shallowRef, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
-import { AllApplication, Dropbox, Me } from '@icon-park/vue-next';
+import { AllApplication, Dropbox, Shopping, Me } from '@icon-park/vue-next';
 
 const route = useRoute();
 const tabbarItems = shallowRef([
@@ -44,7 +44,14 @@ const tabbarItems = shallowRef([
     dot: false,
     badge: '',
   },
-
+  {
+    name: '购物车',
+    path: '/mobile/cart',
+    routeName: 'mobile-cart',
+    icon: Shopping,
+    dot: false,
+    badge: '',
+  },
   {
     name: '我的',
     path: '/mobile/user',

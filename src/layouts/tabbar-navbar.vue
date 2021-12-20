@@ -8,7 +8,7 @@
     >
     </van-nav-bar>
 
-    <div class="tw-h-full tw-overflow-y-auto tw-p-6">
+    <div class="tw-h-full tw-overflow-y-auto">
       <router-view></router-view>
     </div>
 

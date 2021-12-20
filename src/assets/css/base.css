@@ -1,7 +1,7 @@
 @layer base {
   :root {
     --color-primary: theme('colors.emerald.400');
-    --color-secondary: theme('colors.blue.400');
+    --color-secondary: theme('colors.amber.400');
     --color-tertiary: theme('colors.green.400');
     --color-lighter: theme('colors.slate.100');
     --color-light: theme('colors.slate.200');

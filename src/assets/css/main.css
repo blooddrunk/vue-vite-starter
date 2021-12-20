@@ -17,6 +17,7 @@
 @import 'tailwindcss/utilities';
 
 @import './base.css';
+@import './components.css';
 
 @import './element-plus.css';
 @import './vant.css';

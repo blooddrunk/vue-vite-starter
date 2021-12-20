@@ -1,4 +1,12 @@
-import { ref, shallowRef, computed, unref } from 'vue';
+import {
+  ref,
+  shallowRef,
+  computed,
+  unref,
+  Ref,
+  ComputedRef,
+  ShallowRef,
+} from 'vue';
 import { AxiosRequestConfig, CancelTokenSource, AxiosResponse } from 'axios';
 import { merge, isString } from 'lodash-es';
 
@@ -11,11 +19,52 @@ export type UseAxiosOptions = {
   onError?: (e: unknown) => void;
 };
 
-export const useAxios = <T = any>(
-  requestConfig: MaybeRef<AxiosRequestConfig>,
+export type UseAxiosReturn<T> = {
+  isPending: Ref<boolean>;
+  isFinished: Ref<boolean>;
+  isSuccessful: ComputedRef<boolean>;
+  error: Ref<unknown>;
+  errorMessage: ComputedRef<string>;
+  data: ShallowRef<T>;
+  response: Ref<T>;
+  request: (config?: MaybeRef<AxiosRequestConfig> | undefined) => Promise<T>;
+  cancel: (message?: string | undefined) => void;
+};
+
+export function useAxios<T = any>(initialData: T): UseAxiosReturn<T>;
+export function useAxios<T = any>(
   initialData: T,
-  { immediate = false, resetOnRequest = true, onError }: UseAxiosOptions = {}
-) => {
+  requestConfig: MaybeRef<AxiosRequestConfig>
+): UseAxiosReturn<T>;
+export function useAxios<T = any>(
+  initialData: T,
+  options: UseAxiosOptions
+): UseAxiosReturn<T>;
+export function useAxios<T = any>(
+  initialData: T,
+  requestConfig: MaybeRef<AxiosRequestConfig>,
+  options: UseAxiosOptions
+): UseAxiosReturn<T>;
+
+export function useAxios<T = any>(initialData: T, ...args: any[]) {
+  let initialConfig: AxiosRequestConfig = {};
+  let options: UseAxiosOptions = {};
+
+  if (args.length === 0) {
+    initialConfig = {};
+  } else if (args.length === 1) {
+    if ('url' in args[0]) {
+      initialConfig = args[0];
+    } else {
+      options = args[0];
+    }
+  } else if (args.length > 1) {
+    initialConfig = args[0];
+    options = args[1];
+  }
+
+  const { immediate = false, resetOnRequest = false, onError } = options;
+
   const data = shallowRef<T>(initialData);
   const isPending = ref(false);
   const isFinished = ref(false);
@@ -48,10 +97,13 @@ export const useAxios = <T = any>(
   };
 
   const request = async (config?: MaybeRef<AxiosRequestConfig>) => {
-    const newConfig = merge({}, unref(requestConfig), unref(config));
+    const newConfig = config
+      ? merge({}, unref(initialConfig), unref(config))
+      : unref(initialConfig);
 
     if (resetOnRequest) {
       data.value = initialData;
+      response.value = undefined;
     }
 
     lastCancelSource = axios.CancelToken.source();
@@ -103,4 +155,4 @@ export const useAxios = <T = any>(
     request,
     cancel,
   };
-};
+}

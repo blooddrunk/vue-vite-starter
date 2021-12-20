@@ -84,11 +84,11 @@ export const usePaginatedList = <
   const { data, isPending, errorMessage, request } = useAxios<
     ListResult<TValue>
   >(
-    getRequestConfig(),
     {
       items: initialItems,
       total: pagination.total.value,
     },
+    getRequestConfig(),
     {
       immediate: false,
       // ! this is very important, cost me 45min to figure it out

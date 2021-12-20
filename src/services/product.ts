@@ -1,9 +1,10 @@
 import { random } from 'lodash-es';
 
 import { usePaginatedList } from '@/hooks/usePaginatedList';
+import { useAxios } from '@/hooks/useAxios';
 import { ProductItem } from '@typings';
 
-export const useProductList = () => {
+export const fetchProductList = () => {
   return usePaginatedList<ProductItem>(
     {
       url: 'https://jsonplaceholder.typicode.com/posts',
@@ -28,4 +29,30 @@ export const useProductList = () => {
       pageSize: 5,
     }
   );
+};
+
+export const fetchProductById = () => {
+  const { data, isPending, errorMessage, request } = useAxios<ProductItem>(
+    {} as ProductItem,
+    {
+      __needValidation: false,
+    }
+  );
+  return {
+    data,
+    isPending,
+    errorMessage,
+    request: (id: string) =>
+      request({
+        url: `https://jsonplaceholder.typicode.com/posts/${id}`,
+        __transformData: (data) => ({
+          ...(data as ProductItem),
+          price: random(2000),
+          detailImage: 'http://via.placeholder.com/640x1080',
+          bannerImageList: [...Array(10).keys()].map(
+            () => `http://via.placeholder.com/640`
+          ),
+        }),
+      }),
+  };
 };

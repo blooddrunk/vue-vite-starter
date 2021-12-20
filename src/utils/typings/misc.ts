@@ -20,12 +20,19 @@ export type MenuItem = {
   children?: MenuItem[];
 };
 
+export type ProductMedia = {
+  url: string;
+  isVideo?: false;
+};
+
 export type ProductItem = {
   id: string;
   title: string;
   body: string;
   price: number;
   thumbnail: string;
+  bannerImageList?: ProductMedia[];
+  detailImage?: string;
 };
 
 export type CartItem = ProductItem & {

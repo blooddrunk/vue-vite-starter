@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { useProductList } from '@/services';
+import { fetchProductList } from '@/services';
 
 export const useProductStore = defineStore('product', () => {
   const {
@@ -10,7 +10,7 @@ export const useProductStore = defineStore('product', () => {
     errorMessage: itemsLoadingErrorMessage,
     fetchList: getItems,
     fetchListAndReset: getItemsAndReset,
-  } = useProductList();
+  } = fetchProductList();
 
   return {
     items,

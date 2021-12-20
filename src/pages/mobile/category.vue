@@ -1,5 +1,5 @@
 <template>
-  <article ref="wrapper">
+  <article ref="wrapper" class="tw-article">
     <van-sticky offset-top="46px" @change="handleStick">
       <div
         class="tw-flex tw-items-center tw-justify-between"
@@ -10,9 +10,7 @@
           @update:model-value="handleAreaChange"
         ></AreaPicker>
 
-        <van-badge :content="cart.quantity">
-          <IconShopping></IconShopping>
-        </van-badge>
+        <GoToCartButton></GoToCartButton>
       </div>
     </van-sticky>
 
@@ -30,10 +28,8 @@ meta:
 import { ref } from 'vue';
 
 import { useMobileAuthStore } from '@/stores/mobile-auth';
-import { useCartStore } from '@/stores/cart';
 
 const auth = useMobileAuthStore();
-const cart = useCartStore();
 
 const handleAreaChange = (area: string) => {
   auth.updateUser({

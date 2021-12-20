@@ -1,10 +1,9 @@
 <template>
-  <article>cart</article>
+  <article class="tw-article"></article>
 </template>
 
 <route lang="yaml">
 meta:
-  layout: empty
+  layout: tabbar-navbar
   title: 购物车
-  canNavBack: true
 </route>

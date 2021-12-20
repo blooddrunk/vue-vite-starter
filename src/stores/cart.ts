@@ -1,7 +1,12 @@
 import { defineStore } from 'pinia';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 
-import { fetchCartList } from '@/services';
+import {
+  fetchCartList,
+  addCartItem,
+  patchCartItem,
+  removeCartItem,
+} from '@/services';
 import { precisionFixed } from '@/utils/math';
 
 export const useCartStore = defineStore('cart', () => {
@@ -11,6 +16,33 @@ export const useCartStore = defineStore('cart', () => {
     errorMessage: itemsLoadingErrorMessage,
     request: getItems,
   } = fetchCartList();
+
+  const {
+    data: addedItem,
+    isPending: isItemAdding,
+    isSuccessful: isItemAddSuccessful,
+    errorMessage: itemAddingErrorMessage,
+    request: addItem,
+  } = addCartItem();
+  watch(isItemAddSuccessful, (value) => {
+    if (value) {
+      items.value = [...items.value, addedItem.value];
+    }
+  });
+
+  const {
+    data: patchedItem,
+    isPending: isItemPatching,
+    errorMessage: itemPatchingErrorMessage,
+    request: patchItem,
+  } = patchCartItem();
+
+  const {
+    data: removedItem,
+    isPending: isItemRemoving,
+    errorMessage: itemRemovingErrorMessage,
+    request: removeItem,
+  } = removeCartItem();
 
   const quantity = computed(() =>
     items.value.reduce((acc, item) => item.quantity + acc, 0)
@@ -26,8 +58,24 @@ export const useCartStore = defineStore('cart', () => {
     items,
     isItemsLoading,
     itemsLoadingErrorMessage,
+    getItems,
+
+    addedItem,
+    isItemAdding,
+    itemAddingErrorMessage,
+    addItem,
+
+    patchedItem,
+    isItemPatching,
+    itemPatchingErrorMessage,
+    patchItem,
+
+    removedItem,
+    isItemRemoving,
+    itemRemovingErrorMessage,
+    removeItem,
+
     quantity,
     totalPrice,
-    getItems,
   };
 });
