@@ -20,11 +20,11 @@ export const useCartStore = defineStore('cart', () => {
   const {
     data: addedItem,
     isPending: isItemAdding,
-    isSuccessful: isItemAddSuccessful,
+    isSuccessful: isItemAddedSuccessful,
     errorMessage: itemAddingErrorMessage,
     request: addItem,
   } = addCartItem();
-  watch(isItemAddSuccessful, (value) => {
+  watch(isItemAddedSuccessful, (value) => {
     if (value) {
       items.value = [...items.value, addedItem.value];
     }
@@ -54,10 +54,28 @@ export const useCartStore = defineStore('cart', () => {
     )
   );
 
+  const checkedItems = computed(() =>
+    items.value.filter((item) => item.checked)
+  );
+
+  const checkedQuantity = computed(() =>
+    checkedItems.value.reduce((acc, item) => item.quantity + acc, 0)
+  );
+
+  const checkedTotalPrice = computed(() =>
+    precisionFixed(
+      checkedItems.value.reduce(
+        (acc, item) => item.quantity * item.price + acc,
+        0
+      )
+    )
+  );
+
   return {
     items,
     isItemsLoading,
     itemsLoadingErrorMessage,
+    isItemsEmpty: computed(() => !items.value.length),
     getItems,
 
     addedItem,
@@ -77,5 +95,8 @@ export const useCartStore = defineStore('cart', () => {
 
     quantity,
     totalPrice,
+    checkedItems,
+    checkedQuantity,
+    checkedTotalPrice,
   };
 });

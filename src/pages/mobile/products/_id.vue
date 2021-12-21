@@ -4,12 +4,16 @@
 
     <div class="tw-article tw-leading-normal">
       <van-skeleton title avatar :row="3" :loading="isPending">
-        <p>
-          <span class="tw-text-primary tw-font-bold">{{ data.price }}</span>
-          <span class="tw-ml-1 tw-text-primary tw-text-xs">元/月</span>
-        </p>
-        <p class="tw-font-bold">{{ data.title }}</p>
-        <p class="tw-text-medium tw-text-sm">{{ data.body }}</p>
+        <div class="tw-space-y-3">
+          <p>
+            <span class="tw-text-primary tw-text-lg tw-font-bold">
+              {{ data.price }}
+            </span>
+            <span class="tw-ml-1 tw-text-primary tw-text-xs">元/月</span>
+          </p>
+          <p class="tw-font-bold">{{ data.title }}</p>
+          <p class="tw-text-medium tw-text-sm">{{ data.body }}</p>
+        </div>
       </van-skeleton>
     </div>
 
@@ -22,7 +26,7 @@
     </van-image>
 
     <footer
-      class="tw-h-[56px] tw-leading-[40px] tw-flex tw-items-center tw-px-4 tw-fixed tw-bottom-0 tw-left-0 tw-right-0 tw-shadow tw-shadow-primary tw-bg-white"
+      class="tw-h-[56px] tw-leading-[px] tw-flex tw-items-center tw-px-4 tw-fixed tw-bottom-0 tw-left-0 tw-right-0 tw-shadow tw-shadow-primary tw-bg-white"
     >
       <GoToCartButton></GoToCartButton>
 
@@ -44,7 +48,6 @@
 <route lang="yaml">
 meta:
   layout: navbar
-  requiresAuth: false
   title: 商品详情
   canNavBack: true
 props: true

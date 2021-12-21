@@ -24,13 +24,7 @@
       </div>
     </template>
   </van-swipe>
-  <van-image
-    v-else
-    class="tw-w-full tw-h-[320px]"
-    fit="cover"
-    src="http://via.placeholder.com/640"
-  >
-  </van-image>
+  <div v-else class="tw-w-full tw-h-[320px] tw-bg-light"></div>
 </template>
 
 <script lang="ts" setup>

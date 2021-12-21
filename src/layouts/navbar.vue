@@ -1,5 +1,8 @@
 <template>
-  <main class="tw-h-screen tw-bg-light tw-pt-[46px]">
+  <main
+    class="tw-h-screen tw-bg-light tw-pt-[46px]"
+    :class="hasTabbar && 'tw-pb-[50px]'"
+  >
     <van-nav-bar
       class="!tw-fixed tw-left-0 tw-top-0 tw-right-0"
       :title="meta.title"
@@ -11,11 +14,18 @@
     <div class="tw-h-full tw-overflow-y-auto">
       <router-view></router-view>
     </div>
+
+    <TheTabbar v-if="hasTabbar"></TheTabbar>
   </main>
 </template>
 
 <script lang="ts" setup>
+import { withDefaults, defineProps, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+
+withDefaults(defineProps<{ hasTabbar?: boolean }>(), {
+  hasTabbar: false,
+});
 
 const router = useRouter();
 const navBack = () => {
@@ -23,5 +33,5 @@ const navBack = () => {
 };
 
 const route = useRoute();
-const { meta } = route;
+const meta = computed(() => route.meta);
 </script>

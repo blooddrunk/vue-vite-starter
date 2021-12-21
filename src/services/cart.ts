@@ -1,22 +1,22 @@
 import { random } from 'lodash-es';
 
 import { useAxios } from '@/hooks/useAxios';
+import { precisionRound } from '@/utils/math';
 import { CartItem } from '@typings';
 
 export const fetchCartList = () => {
   return useAxios<CartItem[]>([] as CartItem[], {
     url: 'https://jsonplaceholder.typicode.com/posts',
     __needValidation: false,
-    __transformData: (data, { headers }) => {
-      return {
-        items: ((data as CartItem[]) || []).map((item) => ({
+    __transformData: (data) => {
+      return ((data as CartItem[]) || [])
+        .map((item) => ({
           ...item,
-          price: random(2000),
+          price: precisionRound(random(1, 500, true)),
           thumbnail: 'http://via.placeholder.com/240x240',
           quantity: random(1, 10),
-        })),
-        total: Number(headers['x-total-count']) || 0,
-      };
+        }))
+        .slice(0, 10);
     },
   });
 };
@@ -63,16 +63,15 @@ export const patchCartItem = () => {
 };
 
 export const removeCartItem = () => {
-  const { data, isPending, errorMessage, request } = useAxios<CartItem>(
-    {} as CartItem,
-    {
+  const { data, isPending, isSuccessful, errorMessage, request } =
+    useAxios<CartItem>({} as CartItem, {
       method: 'delete',
       __needValidation: false,
-    }
-  );
+    });
   return {
     data,
     isPending,
+    isSuccessful,
     errorMessage,
     request: (item: CartItem) =>
       request({

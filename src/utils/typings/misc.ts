@@ -12,6 +12,14 @@ export type BreadcrumbItem = {
   isVisible?: boolean;
 };
 
+export interface CustomRouteMeta {
+  layout?: 'default' | 'error' | 'empty';
+  requiresAuth?: boolean;
+  breadcrumb?: BreadcrumbItem | BreadcrumbItem[] | true;
+  title?: string;
+  canNavBack?: boolean;
+}
+
 export type MenuItem = {
   id: string;
   title: string;
@@ -37,4 +45,5 @@ export type ProductItem = {
 
 export type CartItem = ProductItem & {
   quantity: number;
+  checked?: boolean;
 };

@@ -4,18 +4,13 @@ import generatedRoutes from 'virtual:generated-pages';
 import { setupLayouts } from 'virtual:generated-layouts';
 
 import * as middlewareList from './middleware';
-import { BreadcrumbItem } from '@typings';
+import { CustomRouteMeta } from '@typings';
 
 export const routerHistory = createWebHashHistory(import.meta.env.BASE_URL);
 
 declare module 'vue-router' {
-  interface RouteMeta {
-    layout?: 'default' | 'error' | 'empty';
-    requiresAuth?: boolean;
-    breadcrumb?: BreadcrumbItem | BreadcrumbItem[] | true;
-    title?: 'string';
-    canNavBack?: boolean;
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface RouteMeta extends CustomRouteMeta {}
 }
 
 const routes = setupLayouts(generatedRoutes);

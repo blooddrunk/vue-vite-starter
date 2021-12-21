@@ -1,7 +1,11 @@
 <template>
   <div>
     <van-pull-refresh v-model="isRefreshing" @refresh="handleRefresh">
+      <div v-if="shouldShowEmptyPlaceholder" class="tw-pb-56">
+        <van-empty description="商品列表为空"></van-empty>
+      </div>
       <van-list
+        v-else
         v-model:loading="isItemsLoading"
         :finished="isLastPage"
         finished-text="没有更多了"
@@ -30,7 +34,7 @@ import { promiseTimeout } from '@vueuse/shared';
 import { useProductStore } from '@/stores/product';
 import type { ProductItem } from '@typings';
 
-const placeholderItems = [...Array(5).keys()].map((id) => ({
+const placeholderItems = [...Array(10).keys()].map((id) => ({
   id: String(id),
 })) as ProductItem[];
 
@@ -48,6 +52,10 @@ const hasError = computed(() => !!itemsLoadingErrorMessage.value);
 
 const shouldShowSkeleton = computed(
   () => (isItemsEmpty.value && isItemsLoading.value) || isRefreshing.value
+);
+
+const shouldShowEmptyPlaceholder = computed(
+  () => isItemsEmpty.value && !isItemsLoading.value
 );
 
 const itemsMaybeSkeleton = computed(() =>

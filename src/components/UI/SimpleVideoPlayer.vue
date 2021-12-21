@@ -6,7 +6,7 @@
   >
     <video
       ref="video"
-      class="tw-w-full tw-h-full tw-bg-light"
+      class="tw-w-full tw-h-full tw-bg-slate-300"
       object-fit="cover"
       v-bind="$attrs"
     ></video>
@@ -23,7 +23,8 @@
       v-else
       class="tw-absolute tw-inset-0 tw-bg-white/25 tw-flex tw-items-center tw-justify-center"
     >
-      <IconPlay size="32"></IconPlay>
+      <IconCaution v-if="hasError" size="32"></IconCaution>
+      <IconPlay v-else size="32"></IconPlay>
     </div>
   </div>
 </template>
@@ -53,11 +54,19 @@ const props = withDefaults(
 );
 
 const video = ref<HTMLVideoElement>();
-const { playing, muted } = useMediaControls(video, {
+const { playing, muted, onSourceError } = useMediaControls(video, {
   src: props.url,
 });
 
+const hasError = ref(false);
+onSourceError(() => {
+  hasError.value = true;
+});
+
 const togglePlay = () => {
+  if (hasError.value) {
+    return;
+  }
   playing.value = !playing.value;
 };
 

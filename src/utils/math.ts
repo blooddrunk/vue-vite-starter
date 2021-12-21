@@ -8,7 +8,7 @@ export const precisionRound = (number: number | string, precision = 2) => {
   return Math.round(Number.parseFloat(String(number)) * factor) / factor;
 };
 
-export const precisionFixed = (number: number | string, precision?: number) => {
+export const precisionFixed = (number: number | string, precision = 2) => {
   const result = precisionRound(number, precision);
   return result.toFixed(precision);
 };

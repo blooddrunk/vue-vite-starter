@@ -1,5 +1,5 @@
 <template>
-  <article class="tw-px-6 tw-pt-8 tw-pb-6">
+  <article class="tw-article">
     <section class="prose prose-xl">
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod

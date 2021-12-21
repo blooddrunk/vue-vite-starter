@@ -53,10 +53,14 @@ export function useAxios<T = any>(initialData: T, ...args: any[]) {
   if (args.length === 0) {
     initialConfig = {};
   } else if (args.length === 1) {
-    if ('url' in args[0]) {
-      initialConfig = args[0];
-    } else {
+    if (
+      ['immediate', 'resetOnRequest', 'onError'].some((key) =>
+        Object.prototype.hasOwnProperty.call(args[0], key)
+      )
+    ) {
       options = args[0];
+    } else {
+      initialConfig = args[0];
     }
   } else if (args.length > 1) {
     initialConfig = args[0];
