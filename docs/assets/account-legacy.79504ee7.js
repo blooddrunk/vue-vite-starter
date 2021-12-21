@@ -1,1 +1,0 @@
-System.register(["./index-legacy.6256bc4e.js","./vendor-legacy.df9808f5.js"],(function(e){"use strict";var n,t,c;return{setters:[function(e){n=e._},function(e){t=e.o,c=e.a}],execute:function(){var r={};const u={};"function"==typeof r&&r(u),e("default",n(u,[["render",function(e,n){return t(),c("h3",null,"Account")}]]))}}}));

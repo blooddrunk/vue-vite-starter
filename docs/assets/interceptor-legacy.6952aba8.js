@@ -1,1 +1,0 @@
-System.register(["./index-legacy.6bf7f23d.js"],(function(e){"use strict";var n,t;return{setters:[function(e){n=e.L,t=e.F}],execute:function(){e("c",(function(e,c){var{args:r=[],done:s,canceled:a}=c;if(e){var i=e.apply(null,r);n(i)?i.then((e=>{e?s():a&&a()})).catch(t):i?s():a&&a()}else s()}))}}}));

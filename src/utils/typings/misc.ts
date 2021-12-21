@@ -18,6 +18,7 @@ export interface CustomRouteMeta {
   breadcrumb?: BreadcrumbItem | BreadcrumbItem[] | true;
   title?: string;
   canNavBack?: boolean;
+  keepAlive?: boolean;
 }
 
 export type MenuItem = {
