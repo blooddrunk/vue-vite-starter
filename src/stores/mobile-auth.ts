@@ -6,6 +6,11 @@ import { promiseTimeout } from '@vueuse/shared';
 import { MobileAuthInfo, MobileUserInfo, MobileLoginInfo } from '@typings';
 
 export const useMobileAuthStore = defineStore('mobile-auth', () => {
+  const stagedLoginInfo = ref<MobileLoginInfo>({
+    mobile: '',
+    authCode: '',
+  });
+
   const auth = ref<MobileAuthInfo>({
     user: useStorage('hsop_auth_mobile_user', {
       mobile: '13312331233',
@@ -61,6 +66,7 @@ export const useMobileAuthStore = defineStore('mobile-auth', () => {
   };
 
   return {
+    stagedLoginInfo,
     user,
     mobile,
     area,

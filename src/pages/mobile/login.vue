@@ -60,13 +60,19 @@
       >
         <span class="">
           登录即代表同意
-          <router-link class="tw-text-primary" to="/mobile/user-agreement">
+          <a
+            class="tw-text-primary"
+            @click.prevent="stageAndLeave('mobile-user-agreement')"
+          >
             《用户协议》
-          </router-link>
+          </a>
           和
-          <router-link class="tw-text-primary" to="/mobile/privacy-policy">
+          <a
+            class="tw-text-primary"
+            @click.prevent="stageAndLeave('mobile-privacy-policy')"
+          >
             《隐私政策》
-          </router-link>
+          </a>
         </span>
       </van-checkbox>
     </footer>
@@ -90,6 +96,16 @@ import { MobileLoginInfo } from '@typings';
 import { fetchAuthCode } from '@/services';
 import { useMobileAuthStore } from '@/stores/mobile-auth';
 
+const auth = useMobileAuthStore();
+watch(
+  () => auth.loginError,
+  (error) => {
+    if (error) {
+      Toast.fail(error);
+    }
+  }
+);
+
 const { values, validateField, isSubmitting, handleSubmit } =
   useForm<MobileLoginInfo>({
     validationSchema: {
@@ -97,10 +113,15 @@ const { values, validateField, isSubmitting, handleSubmit } =
       authCode: 'required|numeric|max:6',
     },
     initialValues: {
-      mobile: '',
-      authCode: '',
+      mobile: auth.stagedLoginInfo.mobile,
+      authCode: auth.stagedLoginInfo.authCode,
     },
   });
+
+auth.$patch((state) => {
+  state.stagedLoginInfo.mobile = '';
+  state.stagedLoginInfo.authCode = '';
+});
 
 const maxWaitSecs = 10;
 const countdown = ref(maxWaitSecs);
@@ -143,17 +164,19 @@ const handleAnimationEnd = () => {
   checkboxClass.value = '';
 };
 
-const auth = useMobileAuthStore();
-watch(
-  () => auth.loginError,
-  (error) => {
-    if (error) {
-      Toast.fail(error);
-    }
-  }
-);
-
 const router = useRouter();
+
+const stageAndLeave = (name: string) => {
+  auth.$patch((state) => {
+    state.stagedLoginInfo.mobile = values.mobile;
+    state.stagedLoginInfo.authCode = values.authCode;
+  });
+
+  router.push({
+    name,
+  });
+};
+
 const handleLogin = handleSubmit(async (formValues) => {
   if (!isUserAgreementChecked.value) {
     Toast(`请先阅读并同意用户协议和隐私政策`);

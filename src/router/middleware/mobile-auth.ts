@@ -11,7 +11,7 @@ export default (router: Router) => {
     const auth = useMobileAuthStore();
 
     const isLoggedIn = auth.isLoggedIn;
-    const isInLoginPage = to.name === 'login';
+    const isInLoginPage = to.name === 'mobile-login';
     const requiresAuth =
       !isLoggedIn &&
       (typeof to.meta.requiresAuth === 'undefined'
