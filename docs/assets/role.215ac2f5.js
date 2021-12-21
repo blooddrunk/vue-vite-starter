@@ -1,1 +1,0 @@
-import{_ as o}from"./index.16358824.js";import{o as r,a}from"./vendor.a4ef30fa.js";var e={};const n={};"function"==typeof e&&e(n);var t=o(n,[["render",function(o,e){return r(),a("h3",null,"Role")}]]);export{t as default};

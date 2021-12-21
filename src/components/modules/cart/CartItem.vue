@@ -35,7 +35,12 @@
             <span class="tw-text-primary tw-font-bold">{{ item.price }}</span>
             <span class="tw-ml-1 tw-text-primary tw-text-xs">元/月</span>
 
-            <span v-if="readonly" class="tw-ml-auto"> x{{ __quantity }} </span>
+            <span
+              v-if="readonly"
+              class="tw-ml-auto tw-text-sm tw-font-semibold"
+            >
+              x{{ __quantity }}
+            </span>
             <van-stepper
               v-else
               v-model="__quantity"

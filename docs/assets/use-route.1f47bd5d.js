@@ -1,1 +1,0 @@
-import{b1 as r}from"./vendor.a4ef30fa.js";var e={to:[String,Object],url:String,replace:Boolean};function o(){var e=r().proxy;return()=>function(r){var{to:e,url:o,replace:a,$router:t}=r;e&&t?t[a?"replace":"push"](e):o&&(a?location.replace(o):location.href=o)}(e)}export{e as r,o as u};

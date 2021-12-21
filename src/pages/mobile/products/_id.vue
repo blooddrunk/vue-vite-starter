@@ -40,7 +40,11 @@
         加入购物车
       </van-button>
 
-      <van-button class="!tw-ml-3" type="primary" round> 立刻购买 </van-button>
+      <router-link to="/mobile/order">
+        <van-button class="!tw-ml-3" type="primary" round>
+          立刻购买
+        </van-button>
+      </router-link>
     </footer>
   </article>
 </template>

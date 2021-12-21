@@ -1,5 +1,5 @@
 @layer components {
   .tw-article {
-    @apply tw-p-6;
+    @apply tw-py-6 tw-px-3;
   }
 }

@@ -1,0 +1,1 @@
+import{_ as r}from"./index.a2230fa5.js";import{r as a,a as e,f as s,o}from"./vendor.cae3e354.js";const t={class:"tw-w-full tw-h-screen"};var n=r({},[["render",function(r,n){const f=a("router-view");return o(),e("div",t,[s(f)])}]]);export{n as default};

@@ -1,0 +1,1 @@
+import{L as a,F as e}from"./index.b05a476a.js";function n(n,c){var{args:r=[],done:s,canceled:l}=c;if(n){var o=n.apply(null,r);a(o)?o.then((a=>{a?s():l&&l()})).catch(e):o?s():l&&l()}else s()}export{n as c};

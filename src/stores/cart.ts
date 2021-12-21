@@ -58,6 +58,8 @@ export const useCartStore = defineStore('cart', () => {
     items.value.filter((item) => item.checked)
   );
 
+  const hasCheckedItems = computed(() => !!checkedItems.value.length);
+
   const checkedQuantity = computed(() =>
     checkedItems.value.reduce((acc, item) => item.quantity + acc, 0)
   );
@@ -96,6 +98,7 @@ export const useCartStore = defineStore('cart', () => {
     quantity,
     totalPrice,
     checkedItems,
+    hasCheckedItems,
     checkedQuantity,
     checkedTotalPrice,
   };

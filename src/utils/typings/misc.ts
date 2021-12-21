@@ -47,3 +47,9 @@ export type CartItem = ProductItem & {
   quantity: number;
   checked?: boolean;
 };
+
+export type Order = {
+  items: CartItem[];
+  remarks?: string;
+  serviceCharge?: number;
+};
