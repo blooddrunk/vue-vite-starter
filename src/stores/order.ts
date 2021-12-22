@@ -42,5 +42,6 @@ export const useOrderStore = defineStore('order', () => {
     isItemsLoading,
     itemsLoadingErrorMessage,
     isItemsEmpty: computed(() => !items.value.length),
+    getItems,
   };
 });

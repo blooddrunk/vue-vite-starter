@@ -1,3 +1,5 @@
+import { sample } from 'lodash-es';
+
 import { useAxios } from '@/hooks/useAxios';
 import { OrderInfo, OrderItem } from '@typings';
 
@@ -40,6 +42,7 @@ export const fetchOrderList = () => {
           ...item,
           orderNumber: String(Date.now()),
           orderTime: Date.now(),
+          orderStatus: sample(['已预约', '已下单', '已办理', '已撤单']),
         }))
         .slice(0, 10);
     },

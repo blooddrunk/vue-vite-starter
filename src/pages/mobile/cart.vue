@@ -22,15 +22,17 @@
         </strong>
       </span>
 
-      <van-button
-        class="!tw-ml-auto"
-        type="primary"
-        round
-        :disabled="!cart.hasCheckedItems"
-        @click="handleCheckout"
-      >
-        去结算({{ cart.checkedQuantity }})
-      </van-button>
+      <router-link v-slot="{ navigate }" custom to="/mobile/order">
+        <van-button
+          class="!tw-ml-auto"
+          type="primary"
+          round
+          :disabled="!cart.hasCheckedItems"
+          @click="navigate"
+        >
+          去结算({{ cart.checkedQuantity }})
+        </van-button>
+      </router-link>
     </footer>
   </article>
 </template>
@@ -44,7 +46,6 @@ meta:
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useRouter } from 'vue-router';
 
 import { useCartStore } from '@/stores/cart';
 
@@ -75,11 +76,4 @@ watch(isAllChecked, () => {
     state.items.forEach((item) => (item.checked = isAllChecked.value));
   });
 });
-
-const router = useRouter();
-const handleCheckout = () => {
-  router.push({
-    name: 'mobile-order',
-  });
-};
 </script>

@@ -86,6 +86,7 @@
         "@vueuse/shared",
         "axios",
         "consola",
+        "date-fns",
         "echarts/charts",
         "echarts/components",
         "echarts/core",

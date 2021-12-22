@@ -59,11 +59,12 @@ export type OrderInfo = {
   address: string;
 };
 
-export type OrderItem = OrderInfo & {
-  orderNumber: string;
-  orderStatus: string;
-  orderTime: number;
-  crmNumber?: string;
-  serviceTime?: number;
-  cancelReason?: string;
-};
+export type OrderItem = CartItem &
+  OrderInfo & {
+    orderNumber: string;
+    orderStatus: string;
+    orderTime: number;
+    crmNumber?: string;
+    serviceTime?: number;
+    cancelReason?: string;
+  };

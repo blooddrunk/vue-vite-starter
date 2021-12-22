@@ -1,30 +1,23 @@
 <template>
   <template v-if="loading">
-    <CartItemSkeleton
+    <OrderItemSkeleton
       v-for="item in placeholderItems"
       :key="item.id"
-    ></CartItemSkeleton>
+    ></OrderItemSkeleton>
   </template>
   <template v-else>
-    <CartItem
-      v-for="item in items"
-      :key="item.id"
-      v-model:checked="item.checked"
-      v-model:quantity="item.quantity"
-      :readonly="readonly"
-      :item="item"
-    >
-    </CartItem>
+    <OrderItem v-for="item in items" :key="item.orderNumber" :item="item">
+    </OrderItem>
   </template>
 </template>
 
 <script lang="ts" setup>
 import { withDefaults, defineProps } from 'vue';
-import type { CartItem } from '@typings';
+import type { OrderItem } from '@typings';
 
 withDefaults(
   defineProps<{
-    items: CartItem[];
+    items: OrderItem[];
     loading?: boolean;
     readonly?: boolean;
   }>(),
