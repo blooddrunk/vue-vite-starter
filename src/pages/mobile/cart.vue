@@ -27,7 +27,7 @@
         type="primary"
         round
         :disabled="!cart.hasCheckedItems"
-        @click="checkout"
+        @click="handleCheckout"
       >
         去结算({{ cart.checkedQuantity }})
       </van-button>
@@ -77,7 +77,7 @@ watch(isAllChecked, () => {
 });
 
 const router = useRouter();
-const checkout = () => {
+const handleCheckout = () => {
   router.push({
     name: 'mobile-order',
   });

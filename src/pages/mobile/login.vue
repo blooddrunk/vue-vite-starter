@@ -58,7 +58,7 @@
         icon-size="16px"
         @animationend="handleAnimationEnd"
       >
-        <span class="">
+        <span>
           登录即代表同意
           <a
             class="tw-text-primary"
@@ -113,8 +113,8 @@ const { values, validateField, isSubmitting, handleSubmit } =
       authCode: 'required|numeric|max:6',
     },
     initialValues: {
-      mobile: auth.stagedLoginInfo.mobile,
-      authCode: auth.stagedLoginInfo.authCode,
+      mobile: auth.stagedLoginInfo.mobile ?? '',
+      authCode: auth.stagedLoginInfo.authCode ?? '',
     },
   });
 
@@ -155,10 +155,13 @@ const handleAuthCodeRequest = async () => {
 
   countdown.value = maxWaitSecs;
   await fetchAuthCode(values.mobile);
+  Toast('验证码已发送');
   resume();
 };
 
-const isUserAgreementChecked = ref(false);
+const isUserAgreementChecked = ref(
+  auth.stagedLoginInfo.isUserAgreementChecked ?? false
+);
 const checkboxClass = ref('');
 const handleAnimationEnd = () => {
   checkboxClass.value = '';
@@ -170,6 +173,7 @@ const stageAndLeave = (name: string) => {
   auth.$patch((state) => {
     state.stagedLoginInfo.mobile = values.mobile;
     state.stagedLoginInfo.authCode = values.authCode;
+    state.stagedLoginInfo.isUserAgreementChecked = isUserAgreementChecked.value;
   });
 
   router.push({

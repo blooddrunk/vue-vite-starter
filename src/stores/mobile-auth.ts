@@ -6,9 +6,10 @@ import { promiseTimeout } from '@vueuse/shared';
 import { MobileAuthInfo, MobileUserInfo, MobileLoginInfo } from '@typings';
 
 export const useMobileAuthStore = defineStore('mobile-auth', () => {
-  const stagedLoginInfo = ref<MobileLoginInfo>({
+  const stagedLoginInfo = ref<Partial<MobileLoginInfo>>({
     mobile: '',
     authCode: '',
+    isUserAgreementChecked: false,
   });
 
   const auth = ref<MobileAuthInfo>({

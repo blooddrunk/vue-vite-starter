@@ -1,8 +1,9 @@
 <template>
-  <div>categor1y</div>
+  <article class="tw-article"></article>
 </template>
 
 <route lang="yaml">
 meta:
-  layout: tabbar
+  layout: tabbar-navbar
+  title: 我的订单
 </route>

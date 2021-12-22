@@ -1,16 +1,17 @@
-import { ref, shallowRef, computed, Ref } from 'vue';
+import { ref, shallowRef, computed, ShallowRef } from 'vue';
 import { noop } from '@vueuse/shared';
 
-export type UseAsyncFnOptions = {
+export type UseAsyncFnOptions<T = any> = {
   immediate?: boolean;
   resetOnExecute?: boolean;
+  onSuccess?: (data: T) => void;
   onError?: (e: unknown) => void;
 };
 
 export const useAsyncFn = <T = any>(
   promise: Promise<T> | ((...args: any[]) => Promise<T>),
   initialData?: T,
-  options: UseAsyncFnOptions = {}
+  options: UseAsyncFnOptions<T> = {}
 ) => {
   const data = shallowRef(initialData);
   const isPending = ref(false);
@@ -19,7 +20,12 @@ export const useAsyncFn = <T = any>(
 
   const isSuccessful = computed(() => isFinished.value && !error.value);
 
-  const { immediate = false, onError = noop, resetOnExecute = true } = options;
+  const {
+    immediate = false,
+    resetOnExecute = true,
+    onError = noop,
+    onSuccess = noop,
+  } = options;
 
   const execute = async (...args: any[]) => {
     if (resetOnExecute) {
@@ -36,6 +42,7 @@ export const useAsyncFn = <T = any>(
     try {
       const result = await __promise;
       data.value = result;
+      onSuccess(data.value);
 
       return result;
     } catch (e) {

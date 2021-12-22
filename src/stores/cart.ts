@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { computed, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 
 import {
   fetchCartList,
@@ -8,8 +8,14 @@ import {
   removeCartItem,
 } from '@/services';
 import { precisionFixed } from '@/utils/math';
+import { OrderInfo } from '@typings';
 
 export const useCartStore = defineStore('cart', () => {
+  const stagedOrderInfo = ref<Partial<OrderInfo>>({
+    remarks: '',
+    isServiceAgreementChecked: false,
+  });
+
   const {
     data: items,
     isPending: isItemsLoading,
@@ -74,6 +80,8 @@ export const useCartStore = defineStore('cart', () => {
   );
 
   return {
+    stagedOrderInfo,
+
     items,
     isItemsLoading,
     itemsLoadingErrorMessage,

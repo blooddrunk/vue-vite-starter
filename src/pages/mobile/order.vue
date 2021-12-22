@@ -5,11 +5,70 @@
       image="error"
       description="出错了"
     ></van-empty>
-    <CartList v-else :items="items" readonly></CartList>
+    <CartList
+      v-else
+      :items="items"
+      :loading="product.isItemsLoading"
+      readonly
+    ></CartList>
 
-    <van-cell-group class="tw-mt-6" inset>
-      <van-field label="备注"></van-field>
+    <van-cell-group class="!tw-mt-6 !tw-mx-0" inset>
+      <van-field
+        v-model="remarks"
+        label="订单备注"
+        maxlength="30"
+        placeholder="请填写备注信息（30字以内）"
+      ></van-field>
+
+      <van-cell title="商品金额">
+        <span>
+          ￥
+          <strong class="tw-font-semibold">
+            {{ totalPrice }}
+          </strong>
+        </span>
+      </van-cell>
+      <van-cell title="配送+安装费">
+        <span>
+          ￥
+          <strong class="tw-font-semibold"> -- </strong>
+        </span>
+      </van-cell>
     </van-cell-group>
+
+    <van-checkbox
+      v-model="isServiceAgreementChecked"
+      class="tw-mt-6 tw-text-xs tw-justify-center"
+      icon-size="16px"
+    >
+      我已认真阅读并同意
+      <router-link class="tw-text-primary" to="/mobile/service-agreement">
+        《服务协议》
+      </router-link>
+    </van-checkbox>
+
+    <footer
+      class="tw-h-[56px] tw-flex tw-items-center tw-px-4 tw-fixed tw-bottom-0 tw-left-0 tw-right-0 tw-shadow tw-shadow-primary tw-bg-white tw-text-sm"
+    >
+      <span>
+        合计： ￥
+        <strong class="tw-font-semibold">
+          {{ totalPrice }}
+        </strong>
+      </span>
+
+      <router-link v-slot="{ navigate }" custom to="/mobile/address">
+        <van-button
+          class="!tw-ml-auto"
+          type="primary"
+          round
+          :disabled="!isServiceAgreementChecked"
+          @click="navigate"
+        >
+          订单提交
+        </van-button>
+      </router-link>
+    </footer>
   </article>
 </template>
 
@@ -21,38 +80,81 @@ meta:
 </route>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouteQuery } from '@vueuse/router';
-import { useForm } from 'vee-validate';
+import { onBeforeRouteLeave } from 'vue-router';
 
 import { useProductStore } from '@/stores/product';
 import { useCartStore } from '@/stores/cart';
+import { useOrderStore } from '@/stores/order';
 import { CartItem } from '@typings';
 
-const directOrderId = useRouteQuery('id');
+const directOrderId = useRouteQuery('productId');
 
 const product = useProductStore();
 const cart = useCartStore();
+const order = useOrderStore();
 
-const items = computed<CartItem[]>(() => {
+if (product.isItemsEmpty) {
+  product.getItems();
+}
+
+const directOrderTarget = computed(() => {
   if (directOrderId.value) {
-    const targetProduct = product.items.find(
-      (item) => item.id === directOrderId.value
+    return product.items.find(
+      (item) => String(item.id) === directOrderId.value
     );
-    if (targetProduct) {
-      return [
-        {
-          ...targetProduct,
-          quantity: 1,
-        },
-      ];
-    }
+  }
+  return null;
+});
+const items = computed<CartItem[]>(() => {
+  if (directOrderTarget.value) {
+    return [
+      {
+        ...directOrderTarget.value,
+        quantity: 1,
+      },
+    ];
   } else {
     return cart.checkedItems;
   }
-
-  return [];
+});
+const isItemsEmpty = computed(() => !items.value.length);
+const totalPrice = computed(() => {
+  if (directOrderTarget.value) {
+    return directOrderTarget.value.price;
+  } else {
+    return cart.checkedTotalPrice;
+  }
 });
 
-const isItemsEmpty = computed(() => !items.value.length);
+const remarks = ref(cart.stagedOrderInfo.remarks ?? '');
+const isServiceAgreementChecked = ref(
+  cart.stagedOrderInfo.isServiceAgreementChecked ?? false
+);
+
+order.clearOrderInfo();
+
+onBeforeRouteLeave((to) => {
+  if (
+    ['mobile-service-agreement', 'mobile-address'].includes(to.name as string)
+  ) {
+    cart.$patch((state) => {
+      state.stagedOrderInfo.remarks = remarks.value;
+      state.stagedOrderInfo.isServiceAgreementChecked =
+        isServiceAgreementChecked.value;
+    });
+
+    if ('mobile-address' === (to.name as string)) {
+      order.updateOrderInfo({
+        items: items.value,
+      });
+    }
+  } else {
+    cart.$patch((state) => {
+      state.stagedOrderInfo.remarks = '';
+      state.stagedOrderInfo.isServiceAgreementChecked = false;
+    });
+  }
+});
 </script>

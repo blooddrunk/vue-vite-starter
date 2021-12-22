@@ -9,6 +9,7 @@ export type LoginInfo = {
 export type MobileLoginInfo = {
   mobile: string;
   authCode: string;
+  isUserAgreementChecked?: boolean;
 };
 
 export type UserInfo = {

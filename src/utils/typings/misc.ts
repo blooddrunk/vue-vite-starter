@@ -49,8 +49,21 @@ export type CartItem = ProductItem & {
   checked?: boolean;
 };
 
-export type Order = {
+export type OrderInfo = {
   items: CartItem[];
   remarks?: string;
   serviceCharge?: number;
+  isServiceAgreementChecked?: boolean;
+  contactPerson: string;
+  servicePhone: string;
+  address: string;
+};
+
+export type OrderItem = OrderInfo & {
+  orderNumber: string;
+  orderStatus: string;
+  orderTime: number;
+  crmNumber?: string;
+  serviceTime?: number;
+  cancelReason?: string;
 };

@@ -19,6 +19,7 @@
         ref="areaPicker"
         :value="value"
         :area-list="areaList"
+        :columns-placeholder="['请选择', '请选择', '请选择']"
         @cancel="handleCancel"
         @confirm="handleConfirm"
       ></van-area>
@@ -68,7 +69,10 @@ const isEmpty = computed(() => !selectedAreaList.value.length);
 const displayValue = computed(() =>
   isEmpty.value
     ? props.placeholder
-    : selectedAreaList.value.map((item) => item.name).join('/')
+    : selectedAreaList.value
+        .map((item) => item.name)
+        .filter((name) => !!name)
+        .join('/')
 );
 const buttonClass = computed(() =>
   isEmpty.value ? 'tw-text-medium' : 'tw-text-primary'
@@ -91,8 +95,9 @@ const handleCancel = () => {
   togglePickerVisible(false);
 };
 
+const normalizeAreaItems = (items: Item[]) => items.filter((item) => !!item);
 const handleConfirm = (items: Item[]) => {
-  selectedAreaList.value = items;
+  selectedAreaList.value = normalizeAreaItems(items);
   const currentArea = getCurrentArea();
   if (currentArea) {
     emit('update:modelValue', currentArea.code);

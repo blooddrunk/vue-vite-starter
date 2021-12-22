@@ -71,7 +71,7 @@
 <script lang="ts" setup>
 import { withDefaults, defineProps, defineEmits, watch } from 'vue';
 import { useVModel, debouncedWatch } from '@vueuse/core';
-import { Toast } from 'vant';
+import { Toast, Dialog } from 'vant';
 
 import type { CartItem } from '@typings';
 import { useCartStore } from '@/stores/cart';
@@ -118,9 +118,18 @@ debouncedWatch(
   }
 );
 const handleRemove = async () => {
-  const result = await cart.removeItem(props.item);
-  if (result) {
-    cart.items = cart.items.filter((item) => item.id !== props.item.id);
+  try {
+    await Dialog.confirm({
+      title: '提示',
+      message: '是否确认删除？',
+    });
+
+    const result = await cart.removeItem(props.item);
+    if (result) {
+      cart.items = cart.items.filter((item) => item.id !== props.item.id);
+    }
+  } catch (error) {
+    // * user cancel, do nothing
   }
 };
 </script>

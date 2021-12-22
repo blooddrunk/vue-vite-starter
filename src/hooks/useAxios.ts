@@ -13,9 +13,10 @@ import { merge, isString } from 'lodash-es';
 import { MaybeRef } from '@typings';
 import axios from '@/utils/axios';
 
-export type UseAxiosOptions = {
+export type UseAxiosOptions<T = any> = {
   immediate?: boolean;
   resetOnRequest?: boolean;
+  onSuccess?: (data?: T, response?: AxiosResponse<T>) => void;
   onError?: (e: unknown) => void;
 };
 
@@ -38,17 +39,17 @@ export function useAxios<T = any>(
 ): UseAxiosReturn<T>;
 export function useAxios<T = any>(
   initialData: T,
-  options: UseAxiosOptions
+  options: UseAxiosOptions<T>
 ): UseAxiosReturn<T>;
 export function useAxios<T = any>(
   initialData: T,
   requestConfig: MaybeRef<AxiosRequestConfig>,
-  options: UseAxiosOptions
+  options: UseAxiosOptions<T>
 ): UseAxiosReturn<T>;
 
 export function useAxios<T = any>(initialData: T, ...args: any[]) {
   let initialConfig: AxiosRequestConfig = {};
-  let options: UseAxiosOptions = {};
+  let options: UseAxiosOptions<T> = {};
 
   if (args.length === 0) {
     initialConfig = {};
@@ -67,7 +68,12 @@ export function useAxios<T = any>(initialData: T, ...args: any[]) {
     options = args[1];
   }
 
-  const { immediate = false, resetOnRequest = false, onError } = options;
+  const {
+    immediate = false,
+    resetOnRequest = false,
+    onSuccess,
+    onError,
+  } = options;
 
   const data = shallowRef<T>(initialData);
   const isPending = ref(false);
@@ -126,6 +132,10 @@ export function useAxios<T = any>(initialData: T, ...args: any[]) {
       lastCancelSource = null;
       isPending.value = false;
       isFinished.value = true;
+
+      if (onSuccess) {
+        onSuccess(data.value, response.value);
+      }
 
       return data.value;
     } catch (e) {

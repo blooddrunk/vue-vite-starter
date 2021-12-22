@@ -50,7 +50,7 @@ export default ({ mode }) => {
 
       Pages({
         extensions: ['vue'],
-        // nuxtStyle: true,
+        nuxtStyle: true,
       }),
 
       Layouts(),

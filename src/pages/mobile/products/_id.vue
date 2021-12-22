@@ -40,7 +40,7 @@
         加入购物车
       </van-button>
 
-      <router-link to="/mobile/order">
+      <router-link :to="checkoutRoute">
         <van-button class="!tw-ml-3" type="primary" round>
           立刻购买
         </van-button>
@@ -58,7 +58,7 @@ props: true
 </route>
 
 <script lang="ts" setup>
-import { defineProps, watch } from 'vue';
+import { defineProps, watch, computed } from 'vue';
 import { Toast } from 'vant';
 
 import { fetchProductById } from '@/services';
@@ -94,4 +94,11 @@ const addToCart = () => {
     quantity: 1,
   });
 };
+
+const checkoutRoute = computed(() => ({
+  name: 'mobile-order',
+  query: {
+    productId: props.id,
+  },
+}));
 </script>
