@@ -27,7 +27,10 @@ const order = useOrderStore();
 const { items, isItemsLoading, isItemsEmpty, itemsLoadingErrorMessage } =
   storeToRefs(order);
 
-order.getItems();
+// ! test code
+if (!__DEV__ || isItemsEmpty.value) {
+  order.getItems();
+}
 
 const hasError = computed(() => !!itemsLoadingErrorMessage.value);
 

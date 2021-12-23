@@ -1,4 +1,7 @@
 import { isNil, mapValues } from 'lodash-es';
+import { unref } from 'vue';
+
+import { MaybeRef } from '@typings';
 
 export const isClient = () => typeof window === 'object';
 
@@ -14,22 +17,23 @@ export const isNumericStrict = (num: string | number) =>
 export const isPromise = (promise: any) =>
   !!promise && typeof promise.then === 'function';
 
-export type GetFallbackDisplayForNonValueOption = Partial<{
+export type GetPlaceholderForNonValueOption = Partial<{
   fallback: string;
   isValueNumeric: boolean;
-  extraTestList: string[];
 }>;
-export const getFallbackDisplayForNonValue = (
-  value: any,
+export const getPlaceholderForNonValue = (
+  value: MaybeRef<string | number | any[] | null | undefined>,
   {
     fallback = '--',
     isValueNumeric = false,
-    extraTestList,
-  }: GetFallbackDisplayForNonValueOption = {}
+  }: GetPlaceholderForNonValueOption = {}
 ): { value: any; hasUsedFallback: boolean } => {
-  const shouldUseFallback =
-    (isValueNumeric ? !isNumeric(value) : isNil(value)) ||
-    (extraTestList && extraTestList.some((nonValue) => nonValue === value));
+  const unwrappedValue = unref(value);
+  const shouldUseFallback = Array.isArray(unwrappedValue)
+    ? unwrappedValue.length === 0
+    : isNil(unwrappedValue)
+    ? isValueNumeric
+    : !isNumeric(unwrappedValue);
   if (shouldUseFallback) {
     return {
       value: fallback,

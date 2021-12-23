@@ -1,5 +1,5 @@
 <template>
-  <article class="tw-article !tw-pb-[56px]">
+  <article class="tw-article tw-article_has-footer">
     <van-empty
       v-if="isItemsEmpty"
       image="error"
@@ -47,9 +47,7 @@
       </router-link>
     </van-checkbox>
 
-    <footer
-      class="tw-h-[56px] tw-flex tw-items-center tw-px-4 tw-fixed tw-bottom-0 tw-left-0 tw-right-0 tw-shadow tw-shadow-primary tw-bg-white tw-text-sm"
-    >
+    <PageFooter>
       <span>
         合计： ￥
         <strong class="tw-font-semibold">
@@ -68,7 +66,7 @@
           订单提交
         </van-button>
       </router-link>
-    </footer>
+    </PageFooter>
   </article>
 </template>
 
@@ -119,7 +117,9 @@ const items = computed<CartItem[]>(() => {
     return cart.checkedItems;
   }
 });
-const isItemsEmpty = computed(() => !items.value.length);
+const isItemsEmpty = computed(
+  () => !items.value.length && !product.isItemsEmpty
+);
 const totalPrice = computed(() => {
   if (directOrderTarget.value) {
     return directOrderTarget.value.price;

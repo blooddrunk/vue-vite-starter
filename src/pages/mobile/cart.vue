@@ -1,5 +1,5 @@
 <template>
-  <article class="tw-article !tw-pb-[calc(56px+1.5rem)]">
+  <article class="tw-article tw-article_has-footer">
     <div v-if="hasError">
       <van-empty image="error" description="出错了"></van-empty>
     </div>
@@ -8,9 +8,7 @@
     </div>
     <CartList v-else :items="items" :loading="shouldShowSkeleton"></CartList>
 
-    <footer
-      class="tw-h-[56px] tw-leading-[56px] tw-flex tw-items-center tw-px-4 tw-fixed tw-bottom-[50px] tw-left-0 tw-right-0 tw-shadow tw-shadow-primary tw-bg-white tw-text-sm"
-    >
+    <PageFooter class="tw-bottom-[50px]">
       <van-checkbox v-model="isAllChecked" icon-size="18px">
         全选
       </van-checkbox>
@@ -33,7 +31,7 @@
           去结算({{ cart.checkedQuantity }})
         </van-button>
       </router-link>
-    </footer>
+    </PageFooter>
   </article>
 </template>
 

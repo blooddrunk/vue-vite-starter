@@ -1,10 +1,6 @@
 <template>
   <van-swipe-cell :disabled="readonly">
-    <div
-      class="tw-p-2 tw-mt-3 tw-bg-white tw-rounded-md tw-shadow tw-shadow-light"
-    >
-      <slot name="header"></slot>
-
+    <div class="tw-p-2 tw-mt-3 tw-bg-white tw-rounded-md">
       <div class="tw-flex tw-items-center">
         <van-checkbox
           v-if="!readonly"
@@ -58,8 +54,6 @@
           </div>
         </div>
       </div>
-
-      <slot name="footer"></slot>
     </div>
 
     <template #right>

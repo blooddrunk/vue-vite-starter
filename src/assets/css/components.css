@@ -2,4 +2,8 @@
   .tw-article {
     @apply tw-py-6 tw-px-3;
   }
+
+  .tw-article_has-footer {
+    @apply tw-pb-[calc(56px+1.5rem)];
+  }
 }

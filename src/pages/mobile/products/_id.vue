@@ -25,9 +25,7 @@
     >
     </van-image>
 
-    <footer
-      class="tw-h-[56px] tw-leading-[px] tw-flex tw-items-center tw-px-4 tw-fixed tw-bottom-0 tw-left-0 tw-right-0 tw-shadow tw-shadow-primary tw-bg-white"
-    >
+    <PageFooter>
       <GoToCartButton></GoToCartButton>
 
       <van-button
@@ -45,7 +43,7 @@
           立刻购买
         </van-button>
       </router-link>
-    </footer>
+    </PageFooter>
   </article>
 </template>
 

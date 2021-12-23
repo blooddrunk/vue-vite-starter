@@ -1,6 +1,6 @@
 import {
-  getFallbackDisplayForNonValue,
-  GetFallbackDisplayForNonValueOption,
+  getPlaceholderForNonValue,
+  GetPlaceholderForNonValueOption,
 } from './misc';
 
 export const precisionRound = (number: number | string, precision = 2) => {
@@ -17,12 +17,12 @@ export type ToDisplayStringOption = Partial<{
   precision?: number;
   fixed?: boolean;
 }> &
-  GetFallbackDisplayForNonValueOption;
+  GetPlaceholderForNonValueOption;
 export const toDisplayString = (
   number: number | string,
   { precision = 2, fixed = false, ...rest }: ToDisplayStringOption = {}
 ) => {
-  const { value, hasUsedFallback } = getFallbackDisplayForNonValue(number, {
+  const { value, hasUsedFallback } = getPlaceholderForNonValue(number, {
     isValueNumeric: true,
     ...rest,
   });
@@ -40,7 +40,7 @@ export type ToCompactDisplayStringOption = Partial<{
   withSuffix: boolean;
   precision: number;
 }> &
-  GetFallbackDisplayForNonValueOption;
+  GetPlaceholderForNonValueOption;
 export const toCompactDisplayString = (
   number: number | string,
   {
@@ -53,7 +53,7 @@ export const toCompactDisplayString = (
     ...rest
   }: ToCompactDisplayStringOption = {}
 ) => {
-  const { value, hasUsedFallback } = getFallbackDisplayForNonValue(number, {
+  const { value, hasUsedFallback } = getPlaceholderForNonValue(number, {
     isValueNumeric: true,
     ...rest,
   });
@@ -90,12 +90,12 @@ export type ToPercentageOption = Partial<{
   multiplier: 1 | 100;
   symbol: string;
 }> &
-  GetFallbackDisplayForNonValueOption;
+  GetPlaceholderForNonValueOption;
 export const toPercentage = (
   number: number | string,
   { precision = 2, multiplier = 1, symbol = '%', ...rest } = {}
 ) => {
-  const { value, hasUsedFallback } = getFallbackDisplayForNonValue(number, {
+  const { value, hasUsedFallback } = getPlaceholderForNonValue(number, {
     isValueNumeric: true,
     ...rest,
   });
