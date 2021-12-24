@@ -1,0 +1,1 @@
+System.register(["./index-legacy.e2527bd7.js","./vendor-legacy.a2d7269a.js"],(function(e){"use strict";var n,t,r;return{setters:[function(e){n=e._},function(e){t=e.o,r=e.a}],execute:function(){var u={};const c={};"function"==typeof u&&u(c),e("default",n(c,[["render",function(e,n){return t(),r("h3",null,"Role")}]]))}}}));

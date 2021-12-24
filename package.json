@@ -106,6 +106,7 @@
         "vant/es/cell-group/style/index",
         "vant/es/cell/style/index",
         "vant/es/checkbox/style/index",
+        "vant/es/datetime-picker/style/index",
         "vant/es/dialog/style/index",
         "vant/es/empty/style/index",
         "vant/es/field/style/index",

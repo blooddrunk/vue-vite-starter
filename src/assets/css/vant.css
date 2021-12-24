@@ -13,3 +13,7 @@
     --van-field-error-message-color: theme('colors.red.500') !important;
   }
 }
+
+.van-address-edit__button {
+  @apply !tw-bg-primary !tw-border-primary;
+}

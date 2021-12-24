@@ -1,5 +1,5 @@
 import { useAxios } from '@/hooks/useAxios';
-import type { CustomizationInfo } from '@typings';
+import type { CustomizationInfo, CustomizationRequest } from '@typings';
 
 export const fetchCustomizationInfo = () => {
   const { data, isPending, errorMessage, request } =
@@ -28,6 +28,35 @@ export const fetchCustomizationInfo = () => {
             }))
           ),
         }),
+      }),
+  };
+};
+
+export const makeAppointment = (
+  onSuccess: () => void,
+  onError: (e: unknown) => void
+) => {
+  const { data, isPending, isSuccessful, errorMessage, request } =
+    useAxios<CustomizationRequest>(
+      {} as CustomizationRequest,
+      {
+        url: 'https://jsonplaceholder.typicode.com/posts',
+        method: 'post',
+        __needValidation: false,
+      },
+      {
+        onSuccess,
+        onError,
+      }
+    );
+  return {
+    data,
+    isPending,
+    isSuccessful,
+    errorMessage,
+    request: (item: CustomizationRequest) =>
+      request({
+        data: item,
       }),
   };
 };

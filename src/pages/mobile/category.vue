@@ -2,8 +2,11 @@
   <article ref="wrapper" class="tw-article">
     <van-sticky offset-top="46px" @change="handleStick">
       <div
-        class="tw-flex tw-items-center tw-justify-between"
-        :class="isSticky && 'tw-bg-white/75 tw--mx-6 tw-px-6 tw-py-3'"
+        class="tw-flex tw-items-center tw-justify-between tw-pr-2"
+        :class="
+          isSticky &&
+          'tw-bg-white/75 tw--mx-6 tw-pl-6 tw-pr-8 tw-py-3 tw-shadow-md'
+        "
       >
         <AreaPicker
           :model-value="auth.area"

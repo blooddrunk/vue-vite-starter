@@ -74,3 +74,10 @@ export type CustomizationInfo = {
   bannerImageList?: ProductMedia[];
   detailImage?: string;
 };
+
+export type CustomizationRequest = {
+  contactPerson: string;
+  servicePhone: string;
+  address: string;
+  serviceTime?: number;
+};

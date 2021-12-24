@@ -1,0 +1,1 @@
+import{_ as t}from"./index.a9a156c1.js";import{o as e,a as o,aq as r}from"./vendor.e60456f3.js";const a={class:"tw-h-[56px] tw-leading-[px] tw-flex tw-items-center tw-px-4 tw-fixed tw-bottom-0 tw-left-0 tw-right-0 tw-outline tw-outline-lighter tw-bg-white"};var s=t({},[["render",function(t,s){return e(),o("footer",a,[r(t.$slots,"default")])}]]);export{s as _};

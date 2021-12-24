@@ -1,0 +1,1 @@
+System.register(["./index-legacy.e2527bd7.js","./vendor-legacy.a2d7269a.js"],(function(e){"use strict";var t,n,r,c,s;return{setters:[function(e){t=e._},function(e){n=e.r,r=e.a,c=e.f,s=e.o}],execute:function(){const u={class:"tw-w-full tw-h-screen"};e("default",t({},[["render",function(e,t){const i=n("router-view");return s(),r("div",u,[c(i)])}]]))}}}));

@@ -1,5 +1,5 @@
 <template>
-  <van-badge class="tw-leading-none" :content="cart.quantity">
+  <van-badge class="tw-leading-none" :content="cart.quantity" max="99">
     <router-link to="/mobile/cart">
       <IconShopping size="18"></IconShopping>
     </router-link>

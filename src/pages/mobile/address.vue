@@ -1,10 +1,11 @@
 <template>
-  <div class="tw-article" :class="$style.address">
+  <div class="tw-article">
     <van-address-edit
       :area-list="areaList"
       :area-columns-placeholder="['请选择', '请选择', '请选择']"
       save-button-text="确认提交"
       detail-maxlength="50"
+      detail-rows="2"
       :validator="handleValidate"
       :is-saving="isPending"
       @save="handleSubmit"
@@ -61,13 +62,3 @@ const handleSubmit = (content: AddressEditInfo) => {
   request(order.orderInfo);
 };
 </script>
-
-<style lang="postcss" module>
-.address {
-  :global {
-    .van-address-edit__button {
-      @apply !tw-bg-primary !tw-border-primary;
-    }
-  }
-}
-</style>

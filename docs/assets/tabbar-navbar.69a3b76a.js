@@ -1,0 +1,1 @@
+import a from"./navbar.059e70bd.js";import{d as r,c as o,o as s}from"./vendor.e60456f3.js";import"./TheTabbar.418ca5c6.js";import"./index.84f5d824.js";import"./interceptor.f210eca8.js";const t=r({setup:r=>(r,t)=>(s(),o(a,{"has-tabbar":""}))});export{t as default};

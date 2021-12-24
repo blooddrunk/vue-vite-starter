@@ -1,0 +1,1 @@
+System.register([],(function(t){"use strict";return{execute:function(){const e=t("p",((t,e=2)=>{const r=Math.pow(10,e);return Math.round(Number.parseFloat(String(t))*r)/r}));t("a",((t,r=2)=>e(t,r).toFixed(r)))}}}));

@@ -91,7 +91,7 @@
     <van-action-sheet
       v-if="currentOrderItem"
       v-model:show="isCancelActionSheetVisible"
-      title="申请撤单"
+      description="申请撤单"
       :actions="cancelReasonList"
       close-on-click-action
       @select="handleCancel"

@@ -22,7 +22,7 @@
 
       <router-link v-slot="{ navigate }" custom to="/mobile/order">
         <van-button
-          class="!tw-ml-auto"
+          class="!tw-ml-auto tw-min-w-28"
           type="primary"
           round
           :disabled="!cart.hasCheckedItems"
