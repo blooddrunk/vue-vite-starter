@@ -17,3 +17,7 @@
 .van-address-edit__button {
   @apply !tw-bg-primary !tw-border-primary;
 }
+
+.van-button--primary {
+  @apply !tw-bg-primary;
+}
