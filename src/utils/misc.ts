@@ -8,6 +8,16 @@ export const isClient = () => typeof window === 'object';
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
 
+export const promiseTimeout = (
+  ms: number,
+  throwOnTimeout = false,
+  reason = 'Timeout'
+): Promise<void> =>
+  new Promise((resolve, reject) => {
+    if (throwOnTimeout) setTimeout(() => reject(reason), ms);
+    else setTimeout(resolve, ms);
+  });
+
 export const isNumeric = (num: string | number) =>
   !Number.isNaN(Number.parseFloat(String(num)));
 

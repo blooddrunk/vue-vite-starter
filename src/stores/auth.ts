@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { useStorage } from '@vueuse/core';
-import { promiseTimeout } from '@vueuse/shared';
+import { promiseTimeout } from '@/utils/misc';
 
 import { AuthInfo, UserInfo, LoginInfo } from '@typings';
 

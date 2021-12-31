@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 import { storeToRefs } from 'pinia';
-import { promiseTimeout } from '@vueuse/shared';
+import { promiseTimeout } from '@/utils/misc';
 
 import { useProductStore } from '@/stores/product';
 import type { ProductItem } from '@typings';

@@ -28,7 +28,9 @@ export type UseAxiosReturn<T> = {
   errorMessage: ComputedRef<string>;
   data: ShallowRef<T>;
   response: Ref<T>;
-  request: (config?: MaybeRef<AxiosRequestConfig> | undefined) => Promise<T>;
+  request: (
+    config?: MaybeRef<AxiosRequestConfig> | undefined
+  ) => Promise<boolean>;
   cancel: (message?: string | undefined) => void;
 };
 
@@ -106,7 +108,9 @@ export function useAxios<T = any>(initialData: T, ...args: any[]) {
     }
   };
 
-  const request = async (config?: MaybeRef<AxiosRequestConfig>) => {
+  const request = async (
+    config?: MaybeRef<AxiosRequestConfig>
+  ): Promise<boolean> => {
     const newConfig = config
       ? merge({}, unref(initialConfig), unref(config))
       : unref(initialConfig);
@@ -137,7 +141,7 @@ export function useAxios<T = any>(initialData: T, ...args: any[]) {
         onSuccess(data.value, response.value);
       }
 
-      return data.value;
+      return true;
     } catch (e) {
       console.error(e);
       error.value = e;
@@ -151,6 +155,8 @@ export function useAxios<T = any>(initialData: T, ...args: any[]) {
           onError(e);
         }
       }
+
+      return false;
     }
   };
 

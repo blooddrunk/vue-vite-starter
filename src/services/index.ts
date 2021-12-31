@@ -1,4 +1,4 @@
-import { promiseTimeout } from '@vueuse/shared';
+import { promiseTimeout } from '@/utils/misc';
 import { random } from 'lodash-es';
 
 export * from './product';

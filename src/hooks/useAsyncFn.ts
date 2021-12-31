@@ -1,5 +1,5 @@
-import { ref, shallowRef, computed, ShallowRef } from 'vue';
-import { noop } from '@vueuse/shared';
+import { ref, shallowRef, computed } from 'vue';
+import { noop } from '@/utils/misc';
 
 export type UseAsyncFnOptions<T = any> = {
   immediate?: boolean;
