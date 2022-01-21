@@ -1,12 +1,8 @@
 import VueEcharts from 'vue-echarts';
-import {
-  use,
-  registerTheme,
-  registerMap,
-  GeoJSONCompressed,
-} from 'echarts/core';
+import { use, registerTheme, registerMap } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { BarChart, LineChart, PieChart } from 'echarts/charts';
+import { BarChart, LineChart, PieChart, MapChart } from 'echarts/charts';
+import type { GeoJSONSourceInput } from 'echarts/types/src/coord/geo/geoTypes';
 import {
   DatasetComponent,
   GridComponent,
@@ -25,6 +21,7 @@ export default async (app: App) => {
     BarChart,
     LineChart,
     PieChart,
+    MapChart,
 
     DatasetComponent,
     GridComponent,
@@ -46,7 +43,7 @@ export default async (app: App) => {
 
   registerMap(
     'china',
-    (await import('./map/json/china.json')) as GeoJSONCompressed
+    (await import('./map/json/china.json')).default as GeoJSONSourceInput
   );
 
   app.component('ECharts', VueEcharts);

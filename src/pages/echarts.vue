@@ -7,6 +7,8 @@
     <MixedChart></MixedChart>
 
     <PieChart></PieChart>
+
+    <ChinaMap map="china"></ChinaMap>
   </div>
 </template>
 

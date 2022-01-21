@@ -1,5 +1,6 @@
 import { unref } from 'vue';
 import { EChartsCoreOption } from 'echarts/core';
+import type { GeoJSONCompressed } from 'echarts/types/src/coord/geo/geoTypes';
 import ECharts from 'vue-echarts';
 import { merge } from 'lodash-es';
 
@@ -10,7 +11,7 @@ export type VueEchartsComponent = InstanceType<typeof ECharts>;
 export const chartThemeList = ['primary'] as const;
 export type ChartTheme = typeof chartThemeList[number];
 
-export type CommonChartType = 'pie' | 'bar' | 'line' | 'scatter';
+export type CommonChartType = 'pie' | 'bar' | 'line' | 'scatter' | 'map';
 export type CommonChartProps = {
   autoResize?: boolean;
   dimensions?: EnhancedDimensionDefinition[];
@@ -19,6 +20,14 @@ export type CommonChartProps = {
   option: EChartsCoreOption;
   theme?: ChartTheme | Record<string, any>;
   type?: CommonChartType;
+};
+export type MapChartProps = {
+  autoResize?: boolean;
+  data: any[];
+  loading?: boolean;
+  option: EChartsCoreOption;
+  theme?: ChartTheme | Record<string, any>;
+  map?: string;
 };
 
 export type EnhancedDimensionDefinition =
@@ -107,3 +116,6 @@ export const normalizeSeries = (
     series,
   };
 };
+
+export const getRegionNameList = (geojson: GeoJSONCompressed) =>
+  geojson.features.map(({ properties }) => properties.name);

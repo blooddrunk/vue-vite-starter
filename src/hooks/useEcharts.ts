@@ -4,6 +4,7 @@ import { merge } from 'lodash-es';
 
 import {
   CommonChartProps,
+  MapChartProps,
   CommonChartType,
   VueEchartsComponent,
 } from '@/utils/chart';
@@ -55,9 +56,30 @@ export const useCartesianChart = (props: CommonChartProps) => {
   return defaultOption;
 };
 
+export const useMapChart = (props: MapChartProps) =>
+  computed<EChartsCoreOption>(() => ({
+    dataset: {
+      sourceHeader: false,
+      source: props.data,
+    },
+
+    series: {
+      type: 'map',
+      map: props.map,
+    },
+
+    tooltip: {
+      confine: true,
+    },
+  }));
+
 export const useEcharts = (props: CommonChartProps, type?: CommonChartType) => {
   const defaultOption =
-    type === 'pie' ? usePieChart(props) : useCartesianChart(props);
+    type === 'pie'
+      ? usePieChart(props)
+      : type === 'map'
+      ? useMapChart(props)
+      : useCartesianChart(props);
 
   const mergedOption = computed<EChartsCoreOption>(() =>
     merge({}, defaultOption.value, props.option)

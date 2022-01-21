@@ -112,4 +112,44 @@ export default {
       },
     },
   },
+  map: {
+    itemStyle: {
+      areaColor: '#bae6fd',
+      borderColor: '#f0f9ff',
+      borderWidth: 0.5,
+    },
+    label: {
+      color: '#000000',
+    },
+    emphasis: {
+      itemStyle: {
+        areaColor: '#0ea5e9',
+        borderColor: '#075985',
+        borderWidth: 1,
+      },
+      label: {
+        color: 'white',
+      },
+    },
+  },
+  geo: {
+    itemStyle: {
+      areaColor: '#bae6fd',
+      borderColor: '#f0f9ff',
+      borderWidth: 0.5,
+    },
+    label: {
+      color: '#000000',
+    },
+    emphasis: {
+      itemStyle: {
+        areaColor: '#0ea5e9',
+        borderColor: '#075985',
+        borderWidth: 1,
+      },
+      label: {
+        color: '#db2777',
+      },
+    },
+  },
 };
