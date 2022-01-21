@@ -1,5 +1,10 @@
 import VueEcharts from 'vue-echarts';
-import { use, registerTheme } from 'echarts/core';
+import {
+  use,
+  registerTheme,
+  registerMap,
+  GeoJSONCompressed,
+} from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { BarChart, LineChart, PieChart } from 'echarts/charts';
 import {
@@ -38,6 +43,11 @@ export default async (app: App) => {
     const themeName = chartThemeList[index];
     registerTheme(themeName, theme);
   });
+
+  registerMap(
+    'china',
+    (await import('./map/json/china.json')) as GeoJSONCompressed
+  );
 
   app.component('ECharts', VueEcharts);
 };
