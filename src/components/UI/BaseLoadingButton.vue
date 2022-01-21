@@ -29,7 +29,7 @@ type Props = {
 
 const props = withDefaults(defineProps<Props>(), {
   confirmText: '',
-  size: 'mini',
+  size: 'small',
   type: 'text',
   plain: false,
 });

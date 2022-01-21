@@ -1,4 +1,4 @@
-export type ElementPlusSize = 'medium' | 'small' | 'mini';
+export type ElementPlusSize = 'default' | 'small' | 'large';
 
 export type ElementPlusButtonType =
   | 'primary'
