@@ -1,18 +1,54 @@
 import VueEcharts from 'vue-echarts';
-import { use, registerTheme, registerMap } from 'echarts/core';
+import { use, registerTheme, registerMap, ComposeOption } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { BarChart, LineChart, PieChart, MapChart } from 'echarts/charts';
-import type { GeoJSONSourceInput } from 'echarts/types/src/coord/geo/geoTypes';
+import {
+  BarChart,
+  BarSeriesOption,
+  LineChart,
+  LineSeriesOption,
+  PieChart,
+  PieSeriesOption,
+  GaugeChart,
+  GaugeSeriesOption,
+  MapChart,
+  MapSeriesOption,
+} from 'echarts/charts';
 import {
   DatasetComponent,
+  DatasetComponentOption,
   GridComponent,
+  GridComponentOption,
   LegendComponent,
+  LegendComponentOption,
   TitleComponent,
+  TitleComponentOption,
   TooltipComponent,
+  TooltipComponentOption,
+  GeoComponent,
+  GeoComponentOption,
 } from 'echarts/components';
+// import * as echarts from 'echarts';
+import type { GeoJSONSourceInput } from 'echarts/types/src/coord/geo/geoTypes';
+
+import 'echarts-liquidfill';
+
 import { App } from 'vue';
 
 import { chartThemeList } from '@/utils/chart';
+
+export type ECOption = ComposeOption<
+  | BarSeriesOption
+  | LineSeriesOption
+  | PieSeriesOption
+  | GaugeSeriesOption
+  | MapSeriesOption
+  | GridComponentOption
+  | DatasetComponentOption
+  | LegendComponentOption
+  | TitleComponentOption
+  | TooltipComponentOption
+  | GeoComponentOption
+>;
 
 export default async (app: App) => {
   use([
@@ -21,6 +57,7 @@ export default async (app: App) => {
     BarChart,
     LineChart,
     PieChart,
+    GaugeChart,
     MapChart,
 
     DatasetComponent,
@@ -28,6 +65,7 @@ export default async (app: App) => {
     LegendComponent,
     TitleComponent,
     TooltipComponent,
+    GeoComponent,
   ]);
 
   const themeList = await Promise.all(
@@ -42,7 +80,7 @@ export default async (app: App) => {
   });
 
   registerMap(
-    'china',
+    'zj',
     (await import('./map/json/china.json')).default as GeoJSONSourceInput
   );
 

@@ -1,5 +1,5 @@
 import { unref } from 'vue';
-import { EChartsCoreOption } from 'echarts/core';
+import type { EChartsOption, SeriesOption } from 'echarts';
 import type { GeoJSONCompressed } from 'echarts/types/src/coord/geo/geoTypes';
 import ECharts from 'vue-echarts';
 import { merge } from 'lodash-es';
@@ -17,7 +17,7 @@ export type CommonChartProps = {
   dimensions?: EnhancedDimensionDefinition[];
   data: any[];
   loading?: boolean;
-  option: EChartsCoreOption;
+  option: EChartsOption;
   theme?: ChartTheme | Record<string, any>;
   type?: CommonChartType;
 };
@@ -25,7 +25,7 @@ export type MapChartProps = {
   autoResize?: boolean;
   data: any[];
   loading?: boolean;
-  option: EChartsCoreOption;
+  option: EChartsOption;
   theme?: ChartTheme | Record<string, any>;
   map?: string;
 };
@@ -36,27 +36,27 @@ export type EnhancedDimensionDefinition =
       displayName?: string;
       displayDimension?: string;
       isPercentage?: boolean;
-      seriesConfig?: Record<string, any>;
+      seriesConfig?: SeriesOption;
     }
   | string;
 export type NormalizedDimensionDefinition = {
   name: string;
   displayName?: string;
 };
-export type SimplifiedSeriesDefinition =
-  | {
-      type?: string;
-      encode: Record<string, string | number | (string | number)[]>;
-    }
-  | Record<string, any>;
+// export type SimplifiedSeriesDefinition =
+//   | {
+//       type?: string;
+//       encode: Record<string, string | number | (string | number)[]>;
+//     }
+//   | Record<string, any>;
 
 export const normalizeSeries = (
   enhancedDimensions: MaybeRef<EnhancedDimensionDefinition[]>,
-  type?: string,
+  type?: 'line' | 'bar' | 'scatter' | 'effectScatter',
   { hasCategoryDimension = true } = {}
 ) => {
   const dimensions: EnhancedDimensionDefinition[] = [];
-  const series: SimplifiedSeriesDefinition[] = [];
+  const series: SeriesOption[] = [];
 
   unref(enhancedDimensions).forEach((dimension, index) => {
     // first row is category dimension
@@ -91,7 +91,7 @@ export const normalizeSeries = (
       throw new Error(`series type of [${name}] is missing`);
     }
 
-    const seriesItem: SimplifiedSeriesDefinition = merge(
+    const seriesItem: SeriesOption = merge(
       {
         encode: {
           x: [0],
@@ -105,7 +105,9 @@ export const normalizeSeries = (
 
     if (maybePercentageDimension) {
       dimensions.push(maybePercentageDimension);
-      seriesItem.encode.tooltip = maybePercentageDimension;
+      if (seriesItem.encode) {
+        seriesItem.encode.tooltip = maybePercentageDimension;
+      }
     }
 
     series.push(seriesItem);

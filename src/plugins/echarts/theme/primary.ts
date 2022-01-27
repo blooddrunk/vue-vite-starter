@@ -56,21 +56,21 @@ export default {
     axisLine: {
       show: true,
       lineStyle: {
-        color: '#cccccc',
+        color: '#ffffff',
       },
     },
     axisTick: {
       show: false,
       lineStyle: {
-        color: '#cccccc',
+        color: '#ffffff',
       },
     },
     axisLabel: {
       show: true,
-      color: '#999999',
+      color: '#ffffff',
     },
     splitLine: {
-      show: true,
+      show: false,
       lineStyle: {
         color: ['#eeeeee'],
       },
@@ -86,7 +86,7 @@ export default {
     axisLine: {
       show: true,
       lineStyle: {
-        color: '#cccccc',
+        color: '#ffffff',
       },
     },
     axisTick: {
@@ -97,10 +97,10 @@ export default {
     },
     axisLabel: {
       show: true,
-      color: '#999999',
+      color: '#ffffff',
     },
     splitLine: {
-      show: true,
+      show: false,
       lineStyle: {
         color: ['#eeeeee'],
       },
@@ -114,41 +114,129 @@ export default {
   },
   map: {
     itemStyle: {
-      areaColor: '#bae6fd',
-      borderColor: '#f0f9ff',
-      borderWidth: 0.5,
-    },
-    label: {
-      color: '#000000',
+      areaColor: {
+        type: 'radial',
+        x: 0.5,
+        y: 0.5,
+        r: 2,
+        colorStops: [
+          {
+            offset: 0,
+            color: '#bae6fd',
+          },
+          {
+            offset: 1,
+            color: '#0369a1',
+          },
+        ],
+      },
+      borderWidth: 1,
+      borderColor: '#0e7490',
+      shadowColor: '#155e75',
+      shadowOffsetX: -3,
+      shadowOffsetY: 4,
+      shadowBlur: 10,
     },
     emphasis: {
-      itemStyle: {
-        areaColor: '#0ea5e9',
-        borderColor: '#075985',
-        borderWidth: 1,
+      label: {
+        color: '#ffffff',
       },
+      itemStyle: {
+        areaColor: {
+          type: 'radial',
+          x: 0.5,
+          y: 0.5,
+          r: 1,
+          colorStops: [
+            {
+              offset: 0,
+              color: '#0369a1',
+            },
+            {
+              offset: 1,
+              color: '#bae6fd',
+            },
+          ],
+        },
+        borderColor: '#0284c7',
+      },
+    },
+    select: {
       label: {
         color: 'white',
+        fontWeight: 600,
+      },
+      itemStyle: {
+        areaColor: '#0369a1',
+        borderColor: '#0e7490',
+        shadowColor: '#155e75',
+        shadowOffsetX: -2,
+        shadowOffsetY: 2,
+        shadowBlur: 10,
       },
     },
   },
   geo: {
     itemStyle: {
-      areaColor: '#bae6fd',
-      borderColor: '#f0f9ff',
-      borderWidth: 0.5,
-    },
-    label: {
-      color: '#000000',
+      areaColor: {
+        type: 'radial',
+        x: 0.5,
+        y: 0.5,
+        r: 2,
+        colorStops: [
+          {
+            offset: 0,
+            color: '#bae6fd',
+          },
+          {
+            offset: 1,
+            color: '#0369a1',
+          },
+        ],
+      },
+      borderWidth: 1,
+      borderColor: '#0e7490',
+      shadowColor: '#155e75',
+      shadowOffsetX: -3,
+      shadowOffsetY: 4,
+      shadowBlur: 10,
     },
     emphasis: {
-      itemStyle: {
-        areaColor: '#0ea5e9',
-        borderColor: '#075985',
-        borderWidth: 1,
-      },
       label: {
-        color: '#db2777',
+        color: '#ffffff',
+      },
+      itemStyle: {
+        areaColor: {
+          type: 'radial',
+          x: 0.5,
+          y: 0.5,
+          r: 1,
+          colorStops: [
+            {
+              offset: 0,
+              color: '#0369a1',
+            },
+            {
+              offset: 1,
+              color: '#bae6fd',
+            },
+          ],
+        },
+        borderColor: '#0284c7',
+      },
+    },
+    select: {
+      label: {
+        color: 'white',
+        fontWeight: 600,
+      },
+      itemStyle: {
+        areaColor: '#0369a1',
+        borderColor: '#0e7490',
+        shadowColor: '#155e75',
+        shadowOffsetX: -2,
+        shadowOffsetY: 2,
+        shadowBlur: 10,
       },
     },
   },

@@ -19,7 +19,7 @@ export type ToDisplayStringOption = Partial<{
 }> &
   GetPlaceholderForNonValueOption;
 export const toDisplayString = (
-  number: number | string,
+  number?: number | string,
   { precision = 2, fixed = false, ...rest }: ToDisplayStringOption = {}
 ) => {
   const { value, hasUsedFallback } = getPlaceholderForNonValue(number, {
@@ -42,7 +42,7 @@ export type ToCompactDisplayStringOption = Partial<{
 }> &
   GetPlaceholderForNonValueOption;
 export const toCompactDisplayString = (
-  number: number | string,
+  number?: number | string,
   {
     breakpoints = [
       [10_000, '万'],

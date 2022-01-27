@@ -8,6 +8,8 @@ import {
   CommonChartType,
   VueEchartsComponent,
 } from '@/utils/chart';
+// import type { ECOption } from '@/plugins/echarts';
+import { EChartsOption } from 'echarts';
 
 export const usePieChart = (props: CommonChartProps) =>
   computed<EChartsCoreOption>(() => ({
@@ -38,7 +40,7 @@ export const useCartesianChart = (props: CommonChartProps) => {
     })
   );
 
-  const defaultOption = computed<EChartsCoreOption>(() => ({
+  const defaultOption = computed<EChartsOption>(() => ({
     dataset: {
       sourceHeader: false,
       dimensions: props.dimensions,
@@ -58,15 +60,19 @@ export const useCartesianChart = (props: CommonChartProps) => {
 
 export const useMapChart = (props: MapChartProps) =>
   computed<EChartsCoreOption>(() => ({
-    dataset: {
-      sourceHeader: false,
-      source: props.data,
+    geo: {
+      map: props.map,
+      roam: false,
+      zoom: 1,
+      selectedMode: 'single',
+      regions: props.data,
     },
 
-    series: {
-      type: 'map',
-      map: props.map,
-    },
+    // series: {
+    //   type: 'map',
+    //   map: props.map,
+    //   data: props.data,
+    // },
 
     tooltip: {
       confine: true,
