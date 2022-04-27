@@ -62,11 +62,11 @@ export default ({ mode }) => {
 
         resolvers: [
           // * icon-park
-          (name) => {
-            if (name.startsWith('Icon')) {
+          (componentName) => {
+            if (componentName.startsWith('Icon')) {
               return {
-                importName: name.slice(4),
-                path: '@icon-park/vue-next',
+                name: componentName.slice(4),
+                from: '@icon-park/vue-next',
               };
             }
           },
