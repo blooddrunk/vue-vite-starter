@@ -20,9 +20,6 @@
 </template>
 
 <script lang="ts" setup>
-import { withDefaults, defineProps, computed } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-
 withDefaults(defineProps<{ hasTabbar?: boolean }>(), {
   hasTabbar: false,
 });

@@ -46,7 +46,7 @@ import { defineComponent } from 'vue';
 import { ElMessage } from 'element-plus';
 
 import { Product } from '@/components/ProductForm.vue';
-import { useAxios } from '@/hooks/useAxios';
+import { useAxios } from '@/composables/useAxios';
 import axios from '@/utils/axios';
 
 const useProduct = () => {

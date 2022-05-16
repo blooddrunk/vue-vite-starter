@@ -1,8 +1,6 @@
-// import { provide, inject } from 'vue';
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import type { AxiosRequestConfig, AxiosInstance } from 'axios';
 import { defaultsDeep, isPlainObject } from 'lodash-es';
 
-import { createAxiosInstance, EnhancedAxiosInstance } from './enhance';
 import { jsonToUrlParams } from '@/utils/misc';
 
 declare module 'axios' {
@@ -54,8 +52,8 @@ export const validateResponse = (response: ServerResponse) => {
 //   return data;
 // };
 
-export const setupInterceptor = (enhancedAxios: EnhancedAxiosInstance) => {
-  enhancedAxios.onRequest(({ __urlEncoded, ...config }) => {
+export const setupInterceptor = (instance: AxiosInstance) => {
+  instance.interceptors.request.use(({ __urlEncoded, ...config }) => {
     //TODO: deal with request config here
     const presetConfig: AxiosRequestConfig = { method: 'GET' };
 
@@ -72,7 +70,7 @@ export const setupInterceptor = (enhancedAxios: EnhancedAxiosInstance) => {
     return config;
   });
 
-  enhancedAxios.onResponse((response) => {
+  instance.onResponse((response) => {
     const {
       config: { __needValidation = true, __transformData = true },
     } = response;
@@ -100,7 +98,7 @@ export const setupInterceptor = (enhancedAxios: EnhancedAxiosInstance) => {
     return response;
   });
 
-  enhancedAxios.onError((error) => {
+  instance.onError((error) => {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
@@ -112,31 +110,70 @@ export const setupInterceptor = (enhancedAxios: EnhancedAxiosInstance) => {
   });
 };
 
+const setupProgress = (axiosInstance: EnhancedAxiosInstance) => {
+  let pendingRequests = 0;
+  let showProgress: boolean | undefined = true;
+
+  axiosInstance.onRequest((config) => {
+    showProgress = config.__showProgress;
+
+    if (showProgress !== false) {
+      if (pendingRequests === 0) {
+        Nprogress.start();
+      }
+
+      pendingRequests++;
+    }
+
+    return config;
+  });
+
+  axiosInstance.onResponse((response) => {
+    if (showProgress !== false) {
+      pendingRequests--;
+      if (pendingRequests <= 0) {
+        pendingRequests = 0;
+
+        Nprogress.done();
+      }
+    }
+
+    return response;
+  });
+
+  axiosInstance.onError((error) => {
+    if (showProgress === false) {
+      return;
+    }
+
+    pendingRequests--;
+
+    // if (Axios.isCancel(error)) {
+    //   return;
+    // }
+
+    if (pendingRequests <= 0) {
+      pendingRequests = 0;
+
+      Nprogress.done();
+    }
+  });
+
+  const onProgress = (event: ProgressEvent) => {
+    if (!pendingRequests) {
+      return;
+    }
+
+    const progress = event.loaded / (event.total * pendingRequests);
+    Nprogress.set(Math.min(1, progress));
+  };
+
+  axiosInstance.defaults.onUploadProgress = onProgress;
+  axiosInstance.defaults.onDownloadProgress = onProgress;
+};
+
 const axios = createAxiosInstance({
   baseURL: `${apiRoot}`,
 });
-
-setupInterceptor(axios);
-
-// TODO: necessary??
-// export const install = {
-//   install(app) {
-//     app.config.globalProperties.$axios = axios;
-//   },
-// };
-
-// const AxiosSymbol = Symbol('axios');
-
-// export const provideAxios = () => {
-//   provide(AxiosSymbol, axios);
-// };
-
-// export const injectAxios = () => {
-//   const injectedAxios = inject(AxiosSymbol);
-//   if (!injectedAxios) {
-//     throw new Error('No axios provided');
-//   }
-//   return injectedAxios;
-// };
 
 export default axios;

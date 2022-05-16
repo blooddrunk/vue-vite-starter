@@ -16,7 +16,7 @@
 import { defineProps, withDefaults } from 'vue';
 import { ElMessageBox } from 'element-plus';
 
-import { useAsyncFn } from '@/hooks/useAsyncFn';
+import { useAsyncFn } from '@/composables/useAsyncFn';
 import { ElementPlusSize, ElementPlusButtonType } from '@typings';
 
 type Props = {

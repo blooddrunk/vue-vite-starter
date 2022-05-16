@@ -74,7 +74,7 @@ import {
   useSlots,
 } from 'vue';
 
-import { useFormField } from '@/hooks/useFormField';
+import { useFormField } from '@/composables/useFormField';
 
 type Props = {
   name: string;

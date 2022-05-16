@@ -18,12 +18,10 @@
 <route lang="yaml">
 meta:
   requiresAuth: false
-  breadcrumb:
-    text: 'fsd'
 </route>
 
 <script setup lang="ts">
-const menuList = [
+const menuList = $ref([
   {
     text: 'Simple list',
     to: '/simple-list',
@@ -58,5 +56,5 @@ const menuList = [
     text: 'Mobile layout with vant',
     to: '/mobile',
   },
-];
+]);
 </script>

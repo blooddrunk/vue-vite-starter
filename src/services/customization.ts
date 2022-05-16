@@ -1,4 +1,4 @@
-import { useAxios } from '@/hooks/useAxios';
+import { useAxios } from '@/composables/useAxios';
 import type { CustomizationInfo, CustomizationRequest } from '@typings';
 
 export const fetchCustomizationInfo = () => {

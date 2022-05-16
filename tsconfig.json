@@ -12,9 +12,11 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["esnext", "dom"],
     "types": [
+      "vue/macros-global",
       "vite/client",
       "vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client",
+      "unplugin-icons/types/vue",
       "element-plus/global"
     ],
     "baseUrl": ".",

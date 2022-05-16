@@ -9,9 +9,14 @@
         >
           <span>Vue 3</span>
 
-          <el-button class="!tw-ml-3" type="text" @click="toggleIsDark">
-            <IconMoon v-if="isDark" :size="20"></IconMoon>
-            <IconSun v-else :size="20"></IconSun>
+          <el-button
+            class="!tw-ml-3 !tw-text-xl"
+            type="primary"
+            text
+            @click="toggleNightMode"
+          >
+            <icon-mdi-weather-night v-if="isDark"></icon-mdi-weather-night>
+            <icon-mdi-weather-sunny v-else :size="20"></icon-mdi-weather-sunny>
           </el-button>
         </h2>
       </router-link>
@@ -23,23 +28,10 @@
   </main>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { useDark, useToggle } from '@vueuse/core';
-
-export default defineComponent({
-  setup() {
-    const isDark = useDark({
-      valueDark: 'tw-dark',
-    });
-    const toggleIsDark = useToggle(isDark);
-
-    return {
-      isDark,
-      toggleIsDark: () => {
-        toggleIsDark();
-      },
-    };
-  },
+<script lang="ts" setup>
+const isDark = useDark({
+  valueDark: 'tw-dark',
 });
+const toggleIsDark = useToggle(isDark);
+const toggleNightMode = () => toggleIsDark();
 </script>

@@ -5,25 +5,32 @@ module.exports = {
 
   env: {
     browser: true,
-    es2021: true,
+    es2022: true,
     node: true,
+    'vue/setup-compiler-macros': true,
   },
 
   globals: {
     __DEV__: 'readonly',
+    $ref: 'readonly',
+    $computed: 'readonly',
+    $shallowRef: 'readonly',
+    $customRef: 'readonly',
+    $toRef: 'readonly',
   },
 
   extends: [
-    'plugin:vue/vue3-recommended',
     'eslint:recommended',
+    'plugin:vue/vue3-recommended',
     '@vue/typescript/recommended',
     'plugin:prettier/recommended',
+    './.eslintrc-auto-import.json',
   ],
 
   parser: 'vue-eslint-parser',
 
   parserOptions: {
-    ecmaVersion: 2021,
+    ecmaVersion: 'latest',
   },
 
   plugins: [],

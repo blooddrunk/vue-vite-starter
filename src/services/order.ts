@@ -1,6 +1,6 @@
 import { sample, random } from 'lodash-es';
 
-import { useAxios } from '@/hooks/useAxios';
+import { useAxios } from '@/composables/useAxios';
 import { OrderInfo, OrderItem, CartItem } from '@typings';
 import { precisionRound, precisionFixed } from '@/utils/math';
 

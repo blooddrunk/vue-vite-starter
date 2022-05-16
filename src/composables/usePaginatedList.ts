@@ -11,8 +11,11 @@ import { AxiosRequestConfig } from 'axios';
 import { cloneDeep, merge } from 'lodash-es';
 
 import { trimValues } from '@/utils/misc';
-import { useAxios } from '@/hooks/useAxios';
-import { usePagination, UsePaginationOptions } from '@/hooks/usePagination';
+import { useAxios } from '@/composables/useAxios';
+import {
+  usePagination,
+  UsePaginationOptions,
+} from '@/composables/usePagination';
 
 export type Pagination = ReturnType<typeof usePagination>;
 

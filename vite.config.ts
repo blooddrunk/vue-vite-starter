@@ -6,14 +6,14 @@ import Legacy from '@vitejs/plugin-legacy';
 import Pages from 'vite-plugin-pages';
 import Layouts from 'vite-plugin-vue-layouts';
 import Components from 'unplugin-vue-components/vite';
+import Icons from 'unplugin-icons/vite';
 import {
   ElementPlusResolver,
   VantResolver,
 } from 'unplugin-vue-components/resolvers';
-// import AutoImport from 'unplugin-auto-import/vite';
+import IconsResolver from 'unplugin-icons/resolver';
+import AutoImport from 'unplugin-auto-import/vite';
 import VueTypeImports from 'vite-plugin-vue-type-imports';
-import PackageConfig from 'vite-plugin-package-config';
-import OptimizationPersist from 'vite-plugin-optimize-persist';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -38,7 +38,9 @@ export default ({ mode }) => {
       /**
        * official plugins
        */
-      Vue(),
+      Vue({
+        reactivityTransform: true,
+      }),
       VueJsx(),
       Legacy({
         targets: ['defaults', 'not IE 11'],
@@ -61,50 +63,56 @@ export default ({ mode }) => {
         dts: './src/typings/components.d.ts',
 
         resolvers: [
-          // * icon-park
-          (componentName) => {
-            if (componentName.startsWith('Icon')) {
-              return {
-                name: componentName.slice(4),
-                from: '@icon-park/vue-next',
-              };
-            }
-          },
+          // ! icon-park, deprecated in favor of unplugin-icons
+          // (componentName) => {
+          //   if (componentName.startsWith('Icon')) {
+          //     return {
+          //       name: componentName.slice(4),
+          //       from: '@icon-park/vue-next',
+          //     };
+          //   }
+          // },
 
           ElementPlusResolver({
             importStyle: false,
           }),
 
           VantResolver(),
+
+          IconsResolver({
+            prefix: 'icon',
+            alias: {
+              park: 'icon-park',
+              fas: 'fa-solid',
+            },
+          }),
         ],
       }),
 
-      // AutoImport({
-      //   dts: './src/typings/auto-imports.d.ts',
-      // imports: [
-      //   'vue',
-      //   'vue-router',
-      //   '@vueuse/head',
-      //   '@vueuse/core',
-      //   'pinia',
-      //   'vee-validate',
-      // ],
+      Icons({ compiler: 'vue3' }),
 
-      //   resolvers: [
-      // * jsx
-      //     (name) => {
-      //       console.log(name);
-      //       if (name.endsWith('Chart')) {
-      //         return `./../components/UI/Chart/${name}`;
-      //       }
-      //     },
-      //   ],
-      // }),
+      AutoImport({
+        dts: './src/typings/auto-imports.d.ts',
+        imports: ['vue', 'vue-router', '@vueuse/head', '@vueuse/core'],
+
+        eslintrc: {
+          enabled: true, // Default `false`
+          filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
+          globalsPropValue: 'readonly', // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+        },
+
+        //   resolvers: [
+        // * jsx
+        //     (name) => {
+        //       console.log(name);
+        //       if (name.endsWith('Chart')) {
+        //         return `./../components/UI/Chart/${name}`;
+        //       }
+        //     },
+        //   ],
+      }),
 
       VueTypeImports(),
-
-      PackageConfig(),
-      OptimizationPersist(),
     ],
 
     server: {
