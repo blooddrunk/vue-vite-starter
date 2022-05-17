@@ -1,6 +1,6 @@
 import 'animate.css';
-import 'nprogress/nprogress.css';
-import '@icon-park/vue-next/styles/index.css';
+// import 'nprogress/nprogress.css';
+// import '@icon-park/vue-next/styles/index.css';
 
 import './assets/css/main.css';
 import 'vant/es/toast/style/index';

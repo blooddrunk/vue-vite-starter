@@ -1,5 +1,7 @@
-import type { AxiosRequestConfig, AxiosInstance } from 'axios';
+import type { AxiosRequestConfig, AxiosInstance, AxiosError } from 'axios';
+import { default as axiosDefault } from 'axios';
 import { defaultsDeep, isPlainObject } from 'lodash-es';
+import Nprogress from 'nprogress';
 
 import { jsonToUrlParams } from '@/utils/misc';
 
@@ -19,8 +21,6 @@ declare module 'axios' {
     cancelAll?: (reason: string) => void;
   }
 }
-
-const apiRoot = import.meta.env.VITE_API_ROOT;
 
 export const defaultDataTransformer = (data: unknown = {}) => data;
 
@@ -53,6 +53,19 @@ export const validateResponse = (response: ServerResponse) => {
 // };
 
 export const setupInterceptor = (instance: AxiosInstance) => {
+  const onError = (error: AxiosError) => {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      // const handled = validateStatus(error.response);
+      // if (typeof handled === 'string') {
+      //   error.message = handled;
+      // }
+    }
+
+    return Promise.reject(error);
+  };
+
   instance.interceptors.request.use(({ __urlEncoded, ...config }) => {
     //TODO: deal with request config here
     const presetConfig: AxiosRequestConfig = { method: 'GET' };
@@ -68,9 +81,9 @@ export const setupInterceptor = (instance: AxiosInstance) => {
     config = defaultsDeep(config, presetConfig);
 
     return config;
-  });
+  }, onError);
 
-  instance.onResponse((response) => {
+  instance.interceptors.response.use((response) => {
     const {
       config: { __needValidation = true, __transformData = true },
     } = response;
@@ -96,25 +109,30 @@ export const setupInterceptor = (instance: AxiosInstance) => {
     }
 
     return response;
-  });
-
-  instance.onError((error) => {
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      // const handled = validateStatus(error.response);
-      // if (typeof handled === 'string') {
-      //   error.message = handled;
-      // }
-    }
-  });
+  }, onError);
 };
 
-const setupProgress = (axiosInstance: EnhancedAxiosInstance) => {
+export const setupProgress = (instance: AxiosInstance) => {
   let pendingRequests = 0;
   let showProgress: boolean | undefined = true;
 
-  axiosInstance.onRequest((config) => {
+  const onError = (error: AxiosError) => {
+    if (showProgress === false) {
+      return;
+    }
+
+    pendingRequests--;
+
+    if (pendingRequests <= 0) {
+      pendingRequests = 0;
+
+      Nprogress.done();
+    }
+
+    return Promise.reject(error);
+  };
+
+  instance.interceptors.request.use((config) => {
     showProgress = config.__showProgress;
 
     if (showProgress !== false) {
@@ -126,9 +144,9 @@ const setupProgress = (axiosInstance: EnhancedAxiosInstance) => {
     }
 
     return config;
-  });
+  }, onError);
 
-  axiosInstance.onResponse((response) => {
+  instance.interceptors.response.use((response) => {
     if (showProgress !== false) {
       pendingRequests--;
       if (pendingRequests <= 0) {
@@ -139,25 +157,7 @@ const setupProgress = (axiosInstance: EnhancedAxiosInstance) => {
     }
 
     return response;
-  });
-
-  axiosInstance.onError((error) => {
-    if (showProgress === false) {
-      return;
-    }
-
-    pendingRequests--;
-
-    // if (Axios.isCancel(error)) {
-    //   return;
-    // }
-
-    if (pendingRequests <= 0) {
-      pendingRequests = 0;
-
-      Nprogress.done();
-    }
-  });
+  }, onError);
 
   const onProgress = (event: ProgressEvent) => {
     if (!pendingRequests) {
@@ -168,12 +168,15 @@ const setupProgress = (axiosInstance: EnhancedAxiosInstance) => {
     Nprogress.set(Math.min(1, progress));
   };
 
-  axiosInstance.defaults.onUploadProgress = onProgress;
-  axiosInstance.defaults.onDownloadProgress = onProgress;
+  instance.defaults.onUploadProgress = onProgress;
+  instance.defaults.onDownloadProgress = onProgress;
 };
 
-const axios = createAxiosInstance({
-  baseURL: `${apiRoot}`,
+const axios = axiosDefault.create({
+  baseURL: import.meta.env.VITE_API_ROOT,
+  headers: {
+    Accept: 'application/json, text/plain, */*',
+  },
 });
 
 export default axios;
