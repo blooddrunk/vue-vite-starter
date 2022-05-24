@@ -1,11 +1,11 @@
 <template>
   <aside :class="$style.sidebar">
-    <div class="tw-border-b tw-border-gray-100">
+    <div class="border-b border-gray-100">
       <el-tooltip
         :content="isSidebarCollapsed ? '展开' : '折叠'"
         placement="right"
       >
-        <el-button class="tw-w-full" type="text" @click="handleSidebarCollapse">
+        <el-button class="w-full" type="text" @click="handleSidebarCollapse">
           <IconMenuUnfold v-if="isSidebarCollapsed"></IconMenuUnfold>
           <IconMenuFold v-else></IconMenuFold>
         </el-button>
@@ -40,20 +40,20 @@ const defaultActiveName = computed(() => (route.name || '') as string);
 
 <style lang="postcss" module>
 .sidebar {
-  @apply tw-h-[var(--app-content-height)];
-  @apply tw-overflow-y-auto tw-border-r tw-border-gray-200;
+  @apply h-[var(--app-content-height)];
+  @apply overflow-y-auto border-r border-gray-200;
 
   :global {
     span.i-icon {
-      @apply tw-visible tw-w-auto tw-h-auto !important;
+      @apply visible w-auto h-auto !important;
     }
 
     .el-menu {
-      @apply tw-min-h-80;
-      @apply tw-border-none !important;
+      @apply min-h-80;
+      @apply border-none !important;
 
       &:not(.el-menu--collapse) {
-        @apply tw-w-56;
+        @apply w-56;
       }
     }
   }

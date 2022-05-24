@@ -1,6 +1,7 @@
-import { App } from 'vue';
 import ElementPlus from 'element-plus';
 
-export default (app: App) => {
+import type { UserPlugin } from '@typings';
+
+export const install: UserPlugin = (app) => {
   app.use(ElementPlus);
 };

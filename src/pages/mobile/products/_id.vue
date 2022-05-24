@@ -1,25 +1,25 @@
 <template>
-  <article class="tw-h-full tw-relative tw-bg-white tw-pb-[56px]">
+  <article class="h-full relative bg-white pb-[56px]">
     <ProductDetailBanner :items="data.bannerImageList"> </ProductDetailBanner>
 
-    <div class="tw-article tw-leading-normal">
+    <div class="article leading-normal">
       <van-skeleton title avatar :row="3" :loading="isPending">
-        <div class="tw-space-y-3">
+        <div class="space-y-3">
           <p>
-            <span class="tw-text-primary tw-text-lg tw-font-bold">
+            <span class="text-primary text-lg font-bold">
               {{ data.price }}
             </span>
-            <span class="tw-ml-1 tw-text-primary tw-text-xs">元/月</span>
+            <span class="ml-1 text-primary text-xs">元/月</span>
           </p>
-          <p class="tw-font-bold">{{ data.title }}</p>
-          <p class="tw-text-medium tw-text-sm">{{ data.body }}</p>
+          <p class="font-bold">{{ data.title }}</p>
+          <p class="text-medium text-sm">{{ data.body }}</p>
         </div>
       </van-skeleton>
     </div>
 
     <van-image
       v-if="data.detailImage"
-      class="tw-w-full"
+      class="w-full"
       fit="cover"
       :src="data.detailImage"
     >
@@ -29,7 +29,7 @@
       <GoToCartButton></GoToCartButton>
 
       <van-button
-        class="!tw-ml-auto"
+        class="!ml-auto"
         color="var(--color-secondary)"
         round
         :disabled="cart.isItemAdding"
@@ -39,9 +39,7 @@
       </van-button>
 
       <router-link :to="checkoutRoute">
-        <van-button class="!tw-ml-3" type="primary" round>
-          立刻购买
-        </van-button>
+        <van-button class="!ml-3" type="primary" round> 立刻购买 </van-button>
       </router-link>
     </PageFooter>
   </article>

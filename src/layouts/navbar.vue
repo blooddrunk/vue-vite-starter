@@ -1,17 +1,14 @@
 <template>
-  <main
-    class="tw-h-screen tw-bg-light tw-pt-[46px]"
-    :class="hasTabbar && 'tw-pb-[50px]'"
-  >
+  <main class="h-screen bg-light pt-[46px]" :class="hasTabbar && 'pb-[50px]'">
     <van-nav-bar
-      class="!tw-fixed tw-left-0 tw-top-0 tw-right-0"
+      class="!fixed left-0 top-0 right-0"
       :title="meta.title"
       :left-arrow="meta.canNavBack"
       @click-left="navBack"
     >
     </van-nav-bar>
 
-    <div class="tw-h-full tw-overflow-y-auto">
+    <div class="h-full overflow-y-auto">
       <router-view></router-view>
     </div>
 

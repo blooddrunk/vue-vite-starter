@@ -1,11 +1,11 @@
 <template>
-  <article class="tw-flex tw-flex-col tw-h-screen tw-pt-[15vh] tw-pb-8 tw-px-8">
+  <article class="flex flex-col h-screen pt-[15vh] pb-8 px-8">
     <header>
-      <h3 class="tw-py-3 tw-text-2xl tw-font-bold">手机快捷登录</h3>
-      <p class="tw-text-sm tw-text-medium">未注册过的手机号将自动创建账号</p>
+      <h3 class="py-3 text-2xl font-bold">手机快捷登录</h3>
+      <p class="text-sm text-medium">未注册过的手机号将自动创建账号</p>
     </header>
 
-    <form class="tw-mt-12" @submit.prevent>
+    <form class="mt-12" @submit.prevent>
       <BaseTextInput
         name="mobile"
         label="手机号"
@@ -28,9 +28,7 @@
       >
         <template #append>
           <a
-            :class="
-              isCountdownActive ? 'tw-text-slate-400/75' : 'tw-text-primary'
-            "
+            :class="isCountdownActive ? 'text-slate-400/75' : 'text-primary'"
             @click.prevent="handleAuthCodeRequest"
           >
             {{ authCodeButtonText }}
@@ -38,9 +36,9 @@
         </template>
       </BaseTextInput>
 
-      <div class="tw-mt-16 tw-text-center">
+      <div class="mt-16 text-center">
         <van-button
-          class="tw-w-11/12"
+          class="w-11/12"
           type="primary"
           round
           :loading="isSubmitting"
@@ -51,7 +49,7 @@
       </div>
     </form>
 
-    <footer class="tw-mt-auto tw-flex tw-justify-center tw-text-xs">
+    <footer class="mt-auto flex justify-center text-xs">
       <van-checkbox
         v-model="isUserAgreementChecked"
         :class="checkboxClass"
@@ -61,14 +59,14 @@
         <span>
           登录即代表同意
           <a
-            class="tw-text-primary"
+            class="text-primary"
             @click.prevent="stageAndLeave('mobile-user-agreement')"
           >
             《用户协议》
           </a>
           和
           <a
-            class="tw-text-primary"
+            class="text-primary"
             @click.prevent="stageAndLeave('mobile-privacy-policy')"
           >
             《隐私政策》

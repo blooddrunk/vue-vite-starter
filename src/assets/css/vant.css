@@ -15,13 +15,13 @@
 }
 
 .van-address-edit__button {
-  @apply !tw-bg-primary !tw-border-primary;
+  @apply !bg-primary !border-primary;
 }
 
 .van-button--primary {
-  @apply !tw-bg-primary;
+  @apply !bg-primary;
 }
 
 .van-button--danger {
-  @apply !tw-bg-red-500;
+  @apply !bg-red-500;
 }

@@ -1,12 +1,8 @@
 <template>
-  <ul class="tw-list-none md:tw-w-1/2 tw-w-2/3 tw-m-auto tw-text-lg">
-    <li
-      v-for="item in menuList"
-      :key="item.text"
-      class="tw-px-2 tw-py-3 tw-border-b"
-    >
+  <ul class="list-none md:w-1/2 w-2/3 m-auto text-lg">
+    <li v-for="item in menuList" :key="item.text" class="px-2 py-3 border-b">
       <router-link
-        class="tw-flex tw-items-center tw-justify-between tw-cursor-pointer"
+        class="flex items-center justify-between cursor-pointer"
         :to="item.to"
       >
         {{ item.text }}

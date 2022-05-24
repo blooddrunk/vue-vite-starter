@@ -9,7 +9,9 @@ import {
   max_value,
 } from '@vee-validate/rules';
 
-export default async () => {
+import type { UserPlugin } from '@typings';
+
+export const install: UserPlugin = async () => {
   const zh_CN = await import('@vee-validate/i18n/dist/locale/zh_CN.json');
 
   localize({

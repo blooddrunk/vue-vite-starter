@@ -4,7 +4,7 @@
 
     <el-table
       v-loading="isProductLoading"
-      class="tw-mt-3"
+      class="mt-3"
       :data="products"
       row-key="id"
     >
@@ -42,7 +42,6 @@ meta:
 </route>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
 import { ElMessage } from 'element-plus';
 
 import { Product } from '@/components/ProductForm.vue';
@@ -52,10 +51,9 @@ import axios from '@/utils/axios';
 const useProduct = () => {
   const {
     data: products,
-    isPending: isProductLoading,
-    request: fetchProducts,
-  } = useAxios<Product[]>([], {
-    url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
+    isLoading: isProductLoading,
+    execute: fetchProducts,
+  } = useAxios<Product[]>(`${import.meta.env.VITE_JSON_SERVER_PATH}products`, {
     __needValidation: false,
   });
 

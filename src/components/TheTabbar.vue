@@ -1,5 +1,5 @@
 <template>
-  <van-tabbar v-model="activeItem" class="!tw-fixed">
+  <van-tabbar v-model="activeItem" class="!fixed">
     <van-tabbar-item
       v-for="tab in tabbarItems"
       :key="tab.name"
@@ -11,10 +11,7 @@
       <span>{{ tab.name }}</span>
 
       <template #icon="{ active }">
-        <component
-          :is="tab.icon"
-          :class="active && 'tw-text-primary'"
-        ></component>
+        <component :is="tab.icon" :class="active && 'text-primary'"></component>
       </template>
     </van-tabbar-item>
   </van-tabbar>

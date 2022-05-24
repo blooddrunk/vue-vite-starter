@@ -1,15 +1,15 @@
 <template>
-  <div class="tw-flex">
-    <div class="tw-min-h-screen tw-w-full tw-flex tw-flex-col">
+  <div class="flex">
+    <div class="min-h-screen w-full flex flex-col">
       <TheHeading></TheHeading>
 
-      <div class="tw-flex-grow tw-flex tw-overflow-x-hidden">
+      <div class="flex-grow flex overflow-x-hidden">
         <TheSidebar></TheSidebar>
 
-        <main class="tw-flex-grow tw-p-4 xl:tw-p-8 2xl:tw-p-12 tw-bg-main">
+        <main class="flex-grow p-4 xl:p-8 2xl:p-12 bg-main">
           <TheBreadcrumb></TheBreadcrumb>
 
-          <section class="tw-p-3 xl:tw-p-6 2xl:tw-p-9 tw-bg-white tw-shadow-xl">
+          <section class="p-3 xl:p-6 2xl:p-9 bg-white shadow-xl">
             <router-view></router-view>
           </section>
         </main>

@@ -6,7 +6,7 @@
         v-if="item.icon"
         :size="18"
       ></component>
-      <span class="tw-ml-1.5">{{ item.title }}</span>
+      <span class="ml-1.5">{{ item.title }}</span>
     </template>
 
     <TheSidebarItem
@@ -22,7 +22,7 @@
       v-if="item.icon"
       :size="18"
     ></component>
-    <span class="tw-ml-1.5">{{ item.title }}</span>
+    <span class="ml-1.5">{{ item.title }}</span>
   </el-menu-item>
 </template>
 

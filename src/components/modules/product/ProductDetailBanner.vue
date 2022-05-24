@@ -3,14 +3,14 @@
     <van-swipe-item v-for="(item, index) in displayItems" :key="item.url">
       <SimpleVideoPlayer
         v-if="item.isVideo"
-        wrapper-class="tw-w-full tw-h-[320px]"
+        wrapper-class="w-full h-[320px]"
         :url="item.url"
         :active="activeIndex === index"
         crossorigin="anonymous"
       ></SimpleVideoPlayer>
       <van-image
         v-else
-        class="tw-w-full tw-h-[320px]"
+        class="w-full h-[320px]"
         :src="item.url"
         fit="cover"
       ></van-image>
@@ -18,13 +18,13 @@
 
     <template #indicator="{ active }">
       <div
-        class="tw-absolute tw-px-2 tw-left-1/2 tw--translate-x-1/2 tw-bottom-2 tw-text-sm tw-text-white tw-text-center"
+        class="absolute px-2 left-1/2 -translate-x-1/2 bottom-2 text-sm text-white text-center"
       >
         {{ active + 1 }}/{{ total }}
       </div>
     </template>
   </van-swipe>
-  <div v-else class="tw-w-full tw-h-[320px] tw-bg-light"></div>
+  <div v-else class="w-full h-[320px] bg-light"></div>
 </template>
 
 <script lang="ts" setup>

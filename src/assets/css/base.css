@@ -1,6 +1,6 @@
 @layer base {
   :root {
-    --color-primary: theme('colors.emerald.400');
+    --color-primary: theme('colors.emerald.500');
     --color-secondary: theme('colors.amber.400');
     --color-tertiary: theme('colors.green.400');
     --color-lighter: theme('colors.slate.100');
@@ -14,17 +14,17 @@
   }
 
   html {
-    @apply tw-font-sans tw-text-dark tw-antialiased;
-    @apply tw-overflow-hidden;
-    @apply selection:tw-bg-emerald-300 selection:tw-text-white;
+    @apply font-sans text-dark antialiased;
+    @apply overflow-hidden;
+    @apply selection:bg-emerald-300 selection:text-white;
   }
 
   ::-webkit-scrollbar {
-    @apply tw-hidden;
+    @apply hidden;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply tw-bg-primary tw-rounded-md;
+    @apply bg-primary rounded-md;
   }
 
   svg {

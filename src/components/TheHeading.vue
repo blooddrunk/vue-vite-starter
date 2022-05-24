@@ -3,19 +3,19 @@
     <AppLogo is-link></AppLogo>
 
     <el-dropdown size="medium" @command="handleCommand">
-      <div class="tw-flex tw-items-center tw-text-white">
+      <div class="flex items-center text-white">
         <IconMe :size="18"></IconMe>
-        <span class="tw-ml-1">{{ userName }}</span>
+        <span class="ml-1">{{ userName }}</span>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item command="password">
             修改密码
-            <IconKey class="tw-ml-1"> </IconKey>
+            <IconKey class="ml-1"> </IconKey>
           </el-dropdown-item>
           <el-dropdown-item command="logout">
             退出登录
-            <IconLogout class="tw-ml-1"> </IconLogout>
+            <IconLogout class="ml-1"> </IconLogout>
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>
@@ -50,7 +50,7 @@ const handleCommand = async (command: string) => {
 .heading {
   height: var(--app-header-height);
 
-  @apply tw-flex-shrink-0 tw-flex tw-items-center tw-justify-between tw-p-4;
-  @apply tw-bg-primary;
+  @apply flex-shrink-0 flex items-center justify-between p-4;
+  @apply bg-primary;
 }
 </style>

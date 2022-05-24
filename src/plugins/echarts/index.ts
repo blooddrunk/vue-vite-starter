@@ -29,11 +29,9 @@ import {
 } from 'echarts/components';
 // import * as echarts from 'echarts';
 import type { GeoJSONSourceInput } from 'echarts/types/src/coord/geo/geoTypes';
-
 import 'echarts-liquidfill';
 
-import { App } from 'vue';
-
+import type { UserPlugin } from '@typings';
 import { chartThemeList } from '@/utils/chart';
 
 export type ECOption = ComposeOption<
@@ -50,7 +48,7 @@ export type ECOption = ComposeOption<
   | GeoComponentOption
 >;
 
-export default async (app: App) => {
+export const install: UserPlugin = async (app) => {
   use([
     CanvasRenderer,
 

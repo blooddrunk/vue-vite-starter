@@ -1,29 +1,27 @@
 <template>
   <ProductItemSkeleton v-if="loading"></ProductItemSkeleton>
   <router-link v-else :to="routeLocation">
-    <figure
-      class="tw-p-2 tw-mt-3 tw-bg-white tw-rounded-md tw-shadow tw-shadow-light"
-    >
+    <figure class="p-2 mt-3 bg-white rounded-md shadow shadow-light">
       <van-image
-        class="tw-w-full tw-h-32"
+        class="w-full h-32"
         :src="item.thumbnail"
         fit="cover"
         round
         radius="8px"
       ></van-image>
-      <div class="tw-line-clamp-3 tw-break-all tw-text-medium">
-        <figcaption class="tw-inline tw-text-dark">
+      <div class="line-clamp-3 break-all text-medium">
+        <figcaption class="inline text-dark">
           {{ item.title }}
         </figcaption>
-        <span class="tw-ml-2 tw-text-xs tw-text-light">
+        <span class="ml-2 text-xs text-light">
           {{ item.body }}
         </span>
       </div>
-      <div class="tw-py-1 tw-flex tw-items-center">
-        <span class="tw-text-primary tw-font-bold">{{ item.price }}</span>
-        <span class="tw-ml-1 tw-text-primary tw-text-xs">元/月</span>
+      <div class="py-1 flex items-center">
+        <span class="text-primary font-bold">{{ item.price }}</span>
+        <span class="ml-1 text-primary text-xs">元/月</span>
 
-        <span class="tw-ml-auto">
+        <span class="ml-auto">
           <van-button
             round
             size="small"

@@ -3,7 +3,7 @@
     :class="[
       $style.input,
       wrapperClass,
-      showValidationError && 'tw-relative tw-mb-4',
+      showValidationError && 'relative mb-4',
     ]"
   >
     <div
@@ -36,18 +36,16 @@
         @change="handleChange"
       />
 
-      <div v-if="$slots.append" class="tw-ml-auto tw-pl-1 tw-flex-shrink-0">
+      <div v-if="$slots.append" class="ml-auto pl-1 flex-shrink-0">
         <slot name="append"></slot>
       </div>
     </div>
 
     <p
       v-if="showValidationError && errorMessage"
-      class="tw-absolute tw-top-full tw-left-0"
+      class="absolute top-full left-0"
     >
-      <span
-        class="tw-px-2 tw-text-xs tw-text-red-500 tw-font-medium tw-leading-none"
-      >
+      <span class="px-2 text-xs text-red-500 font-medium leading-none">
         <slot name="error" :error="errorMessage">
           {{ errorMessage }}
         </slot>
@@ -136,60 +134,60 @@ const isLabelActive = computed(
 
 <style lang="postcss" module>
 .input {
-  @apply tw-max-w-full tw-pt-5;
+  @apply max-w-full pt-5;
 
   & .control {
-    @apply tw-relative tw-flex tw-flex-grow tw-items-center tw-mb-1;
+    @apply relative flex flex-grow items-center mb-1;
 
     &:hover {
-      @apply tw-border-primary;
+      @apply border-primary;
     }
 
     &::before,
     &::after {
       content: '';
-      @apply tw-absolute tw-inset-x-0 tw-bottom-0;
-      @apply tw-transition tw-duration-300 tw-ease-out;
+      @apply absolute inset-x-0 bottom-0;
+      @apply transition duration-300 ease-out;
     }
 
     &::before {
-      @apply tw-border-b-thin tw-border-inherit;
+      @apply border-b-thin border-inherit;
     }
 
     &::after {
-      @apply tw-border-b-2 tw-border-inherit;
-      @apply tw-transform tw-scale-0;
+      @apply border-b-2 border-inherit;
+      @apply transform scale-0;
     }
   }
 
   & .controlActive {
     &::after {
-      @apply tw-transform tw-scale-100;
+      @apply transform scale-100;
     }
   }
 
   & label {
-    @apply tw-absolute tw-left-0;
-    @apply tw-h-6 tw-ml-2;
-    @apply tw-transition tw-origin-top-left tw-duration-500 tw-ease-in-out;
-    @apply tw-leading-6 tw-text-primary;
+    @apply absolute left-0;
+    @apply h-6 ml-2;
+    @apply transition origin-top-left duration-500 ease-in-out;
+    @apply leading-6 text-primary;
   }
 
   & .labelActive {
-    @apply tw-translate-y-[-1.5rem] tw-scale-75;
+    @apply translate-y-[-1.5rem] scale-75;
   }
 
   & input {
-    @apply tw-flex-grow;
-    @apply tw-w-full tw-p-2;
-    @apply tw-appearance-none tw-bg-transparent tw-leading-normal;
+    @apply flex-grow;
+    @apply w-full p-2;
+    @apply appearance-none bg-transparent leading-normal;
 
     &::placeholder {
-      @apply tw-text-medium;
+      @apply text-medium;
     }
 
     &:focus {
-      @apply tw-outline-none;
+      @apply outline-none;
     }
   }
 }

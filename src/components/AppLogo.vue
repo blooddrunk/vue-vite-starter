@@ -1,9 +1,9 @@
 <template>
-  <component :is="tag" class="tw-flex tw-items-center" :to="route">
+  <component :is="tag" class="flex items-center" :to="route">
     <img :class="classMap.logo" src="@/assets/logo.png" alt="logo" />
     <h1
       :class="classMap.text"
-      class="tw-ml-3 tw-text-white tw-font-semibold tw-tracking-wide"
+      class="ml-3 text-white font-semibold tracking-wide"
     >
       {{ $appName }}
     </h1>
@@ -28,12 +28,12 @@ const route = computed(() => (props.isLink ? '/' : undefined));
 const classMap = computed(() =>
   props.size === 'large'
     ? {
-        logo: 'tw-h-12 tw-w-12',
-        text: 'tw-text-5xl',
+        logo: 'h-12 w-12',
+        text: 'text-5xl',
       }
     : {
-        logo: 'tw-h-6 tw-w-6',
-        text: 'tw-text-2xl',
+        logo: 'h-6 w-6',
+        text: 'text-2xl',
       }
 );
 </script>

@@ -1,10 +1,10 @@
 <template>
   <router-link
-    class="tw-block tw-p-2 tw-mt-3 tw-bg-white tw-rounded-md tw-shadow tw-shadow-light"
+    class="block p-2 mt-3 bg-white rounded-md shadow shadow-light"
     :to="routeLocation"
   >
     <header
-      class="tw-pb-1.5 tw-mb-2.5 tw-flex tw-items-center tw-justify-between tw-border-b-thin tw-border-primary tw-text-sm tw-font-bold"
+      class="pb-1.5 mb-2.5 flex items-center justify-between border-b-thin border-primary text-sm font-bold"
     >
       <span>
         订单编号：
@@ -23,12 +23,12 @@
     >
     </CartItem>
 
-    <footer class="tw-flex tw-mt-3 tw-text-xs tw-text-semibold">
+    <footer class="flex mt-3 text-xs text-semibold">
       <span>
         {{ format(item.orderTime, 'yyyy-MM-dd HH:mm:ss') }}
       </span>
 
-      <span class="tw-ml-auto">
+      <span class="ml-auto">
         共计
         <strong>
           {{ item.quantity }}
@@ -60,10 +60,10 @@ const props = defineProps<Props>();
 const statusClass = computed(
   () =>
     ({
-      已预约: 'tw-text-blue-400',
-      已下单: 'tw-text-teal-400',
-      已办理: 'tw-text-green-500',
-      已撤单: 'tw-text-slate-300',
+      已预约: 'text-blue-400',
+      已下单: 'text-teal-400',
+      已办理: 'text-green-500',
+      已撤单: 'text-slate-300',
     }[props.item.orderStatus])
 );
 

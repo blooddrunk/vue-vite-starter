@@ -1,5 +1,5 @@
 <template>
-  <nav v-if="shouldShowBreadcrumb" class="tw-py-3">
+  <nav v-if="shouldShowBreadcrumb" class="py-3">
     <el-breadcrumb>
       <el-breadcrumb-item
         v-for="breadbrumb in visibleBreadcrumbs"

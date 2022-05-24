@@ -1,5 +1,5 @@
 <template>
-  <article class="tw-article tw-article_has-footer">
+  <article class="article article_has-footer">
     <van-empty
       v-if="isItemsEmpty"
       image="error"
@@ -12,7 +12,7 @@
       readonly
     ></CartList>
 
-    <van-cell-group class="!tw-mt-6 !tw-mx-0" inset>
+    <van-cell-group class="!mt-6 !mx-0" inset>
       <van-field
         v-model="remarks"
         label="订单备注"
@@ -23,7 +23,7 @@
       <van-cell title="商品金额">
         <span>
           ￥
-          <strong class="tw-font-semibold">
+          <strong class="font-semibold">
             {{ totalPrice }}
           </strong>
         </span>
@@ -31,18 +31,18 @@
       <van-cell title="配送+安装费">
         <span>
           ￥
-          <strong class="tw-font-semibold"> -- </strong>
+          <strong class="font-semibold"> -- </strong>
         </span>
       </van-cell>
     </van-cell-group>
 
     <van-checkbox
       v-model="isServiceAgreementChecked"
-      class="tw-mt-6 tw-text-xs tw-justify-center"
+      class="mt-6 text-xs justify-center"
       icon-size="16px"
     >
       我已认真阅读并同意
-      <router-link class="tw-text-primary" to="/mobile/service-agreement">
+      <router-link class="text-primary" to="/mobile/service-agreement">
         《服务协议》
       </router-link>
     </van-checkbox>
@@ -50,14 +50,14 @@
     <PageFooter>
       <span>
         合计： ￥
-        <strong class="tw-font-semibold">
+        <strong class="font-semibold">
           {{ totalPrice }}
         </strong>
       </span>
 
       <router-link v-slot="{ navigate }" custom to="/mobile/address">
         <van-button
-          class="!tw-ml-auto"
+          class="!ml-auto"
           type="primary"
           round
           :disabled="!isServiceAgreementChecked"

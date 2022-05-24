@@ -1,50 +1,43 @@
 <template>
   <van-swipe-cell :disabled="readonly">
-    <div class="tw-p-2 tw-mt-3 tw-bg-white tw-rounded-md">
-      <div class="tw-flex tw-items-center">
+    <div class="p-2 mt-3 bg-white rounded-md">
+      <div class="flex items-center">
         <van-checkbox
           v-if="!readonly"
           v-model="__checked"
-          class="tw-flex-shrink-0 tw-pr-1.5"
+          class="flex-shrink-0 pr-1.5"
           icon-size="18px"
         ></van-checkbox>
 
-        <div
-          class="tw-flex-grow tw-grid tw-grid-cols-7 tw-items-center tw-gap-3"
-        >
+        <div class="flex-grow grid grid-cols-7 items-center gap-3">
           <van-image
-            class="tw-col-span-2 tw-w-full tw-aspect-w-1 tw-aspect-h-1"
+            class="col-span-2 w-full aspect-w-1 aspect-h-1"
             :src="item.thumbnail"
             fit="cover"
             round
             radius="8px"
           ></van-image>
 
-          <div class="tw-col-span-5 tw-self-start">
-            <div
-              class="tw-line-clamp-3 tw-break-all tw-text-medium tw-leading-none"
-            >
-              <figcaption class="tw-inline tw-text-dark">
+          <div class="col-span-5 self-start">
+            <div class="line-clamp-3 break-all text-medium leading-none">
+              <figcaption class="inline text-dark">
                 {{ item.title }}
               </figcaption>
-              <span class="tw-ml-2 tw-text-xs tw-text-light">
+              <span class="ml-2 text-xs text-light">
                 {{ item.body }}
               </span>
             </div>
-            <div class="tw-mt-2 tw-flex tw-items-center">
-              <span class="tw-text-primary tw-font-bold">{{ item.price }}</span>
-              <span class="tw-ml-1 tw-text-primary tw-text-xs">元/月</span>
+            <div class="mt-2 flex items-center">
+              <span class="text-primary font-bold">{{ item.price }}</span>
+              <span class="ml-1 text-primary text-xs">元/月</span>
 
-              <span
-                v-if="readonly"
-                class="tw-ml-auto tw-text-sm tw-font-semibold"
-              >
+              <span v-if="readonly" class="ml-auto text-sm font-semibold">
                 x{{ __quantity }}
               </span>
               <van-stepper
                 v-else
                 v-model="__quantity"
-                class="tw-ml-auto"
+                class="ml-auto"
                 integer
                 min="1"
                 max="99"
@@ -61,7 +54,7 @@
         square
         text="删除"
         type="danger"
-        class="!tw-h-full"
+        class="!h-full"
         :loading="cart.isItemRemoving"
         @click="handleRemove"
       ></van-button>

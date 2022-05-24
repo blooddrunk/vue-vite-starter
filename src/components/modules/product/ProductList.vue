@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-pull-refresh v-model="isRefreshing" @refresh="handleRefresh">
-      <div v-if="shouldShowEmptyPlaceholder" class="tw-pb-56">
+      <div v-if="shouldShowEmptyPlaceholder" class="pb-56">
         <van-empty description="商品列表为空"></van-empty>
       </div>
       <van-list

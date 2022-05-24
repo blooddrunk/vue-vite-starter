@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-aspect-w-3 tw-aspect-h-1">
+  <div class="aspect-w-3 aspect-h-1">
     <BaseChart :data="dataSource" :option="option" type="pie"></BaseChart>
   </div>
 </template>

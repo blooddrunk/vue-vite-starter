@@ -43,6 +43,7 @@ export const usePaginatedList = <
   TValue extends object = object,
   TFilter extends Record<string, any> = UnwrapRef<Record<string, any>>
 >(
+  url: string,
   requestConfig: AxiosRequestConfig,
   options: UsePaginatedListOptions<TValue, TFilter> = {}
 ) => {
@@ -84,22 +85,15 @@ export const usePaginatedList = <
     };
   };
 
-  const { data, isPending, errorMessage, request } = useAxios<
-    ListResult<TValue>
-  >(
-    {
-      items: initialItems,
-      total: pagination.total.value,
-    },
+  const { data, isLoading, error, execute } = useAxios<ListResult<TValue>>(
+    url,
     getRequestConfig(),
     {
       immediate: false,
-      // ! this is very important, cost me 45min to figure it out
-      resetOnRequest: false,
     }
   );
 
-  const items = shallowRef<TValue[]>([]);
+  const items = shallowRef<TValue[]>(initialItems);
 
   watch(data, (value) => {
     if (!value || !value.items || !Array.isArray(value.items)) {
@@ -117,17 +111,16 @@ export const usePaginatedList = <
     pagination.total.value = value.total || 0;
   });
 
-  // ! make sure pagination is updated correctly before
-  const fetchList = () => {
+  const fetchList = (url?: string) => {
     // apply filter first
     lastAppliedFilter.value = cloneDeep(unref(__filter));
 
-    return request(getRequestConfig());
+    return execute(url, getRequestConfig());
   };
 
-  const fetchListAndReset = () => {
+  const fetchListAndReset = (url?: string) => {
     if (pagination.isFirstPage.value) {
-      return fetchList();
+      return fetchList(url);
     } else {
       pagination.currentPage.value = 1;
     }
@@ -143,7 +136,7 @@ export const usePaginatedList = <
   // for Element Table
   const elementTableProps = computed(() => ({
     items: items.value,
-    loading: isPending.value,
+    loading: isLoading.value,
     total: pagination.total.value,
     page: pagination.currentPage.value,
     updatePage: pagination.jumpToPage,
@@ -155,8 +148,8 @@ export const usePaginatedList = <
 
   return {
     items,
-    isPending,
-    errorMessage,
+    isLoading,
+    error,
     isEmpty: computed(() => !items.value.length),
 
     pagination,

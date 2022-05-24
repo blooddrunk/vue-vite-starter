@@ -1,28 +1,23 @@
 <template>
-  <div
-    :class="$style.root"
-    class="tw-h-screen tw-relative tw-flex tw-bg-primary"
-  >
-    <div
-      class="tw-flex-grow tw-hidden lg:tw-flex tw-flex-col tw-items-center tw-justify-center"
-    >
+  <div :class="$style.root" class="h-screen relative flex bg-primary">
+    <div class="flex-grow hidden lg:flex flex-col items-center justify-center">
       <AppLogo size="large"></AppLogo>
       <img
-        class="tw-mt-16"
+        class="mt-16"
         src="@/assets/images/login.png"
         alt="login background"
       />
     </div>
 
     <div :class="$style.formWrapper">
-      <AppLogo size="large" class="lg:tw-hidden tw-mb-20"></AppLogo>
+      <AppLogo size="large" class="lg:hidden mb-20"></AppLogo>
 
       <div
-        class="tw-py-6 tw-w-80 2xl:tw-w-88 tw-px-10 2xl:tw-px-14 tw-shadow tw-rounded-md tw-bg-white"
+        class="py-6 w-80 2xl:w-88 px-10 2xl:px-14 shadow rounded-md bg-white"
       >
         <header>
           <h3
-            class="tw-text-primary tw-font-semibold tw-text-xl tw-text-center tw-tracking-widiest"
+            class="text-primary font-semibold text-xl text-center tracking-widiest"
           >
             用户登录
           </h3>
@@ -35,7 +30,7 @@
         >
           <el-alert
             v-if="loginError"
-            class="tw-mt-6"
+            class="mt-6"
             :title="loginError"
             type="error"
             effect="dark"
@@ -44,7 +39,7 @@
           </el-alert>
         </transition>
 
-        <el-form class="tw-mt-6" status-icon @submit="onSubmit">
+        <el-form class="mt-6" status-icon @submit="onSubmit">
           <BaseInput
             name="username"
             label="用户名"
@@ -76,8 +71,8 @@
             </template>
           </BaseInput>
 
-          <div class="tw-grid tw-grid-cols-3 tw-gap-x-1">
-            <div class="tw-col-span-2">
+          <div class="grid grid-cols-3 gap-x-1">
+            <div class="col-span-2">
               <BaseInput
                 name="captcha"
                 label="验证码"
@@ -94,7 +89,7 @@
               </BaseInput>
             </div>
 
-            <div class="tw-h-[40px]">
+            <div class="h-[40px]">
               <transition
                 enter-active-class="animate__animated animate__fadeIn animate__faster"
                 leave-active-class="animate__animated animate__fadeOut animate__faster"
@@ -102,7 +97,7 @@
               >
                 <div
                   v-if="isCaptchaBroken"
-                  class="tw-h-full tw-flex tw-items-center tw-justify-center tw-text-yellow-300 tw-text-xs tw-cursor-pointer"
+                  class="h-full flex items-center justify-center text-yellow-300 text-xs cursor-pointer"
                   @click="fetchCaptcha"
                 >
                   加载失败
@@ -110,7 +105,7 @@
                 <img
                   v-else
                   ref="captchaRef"
-                  class="tw-rounded-sm tw-cursor-pointer tw-object-contain"
+                  class="rounded-sm cursor-pointer object-contain"
                   :src="captchaUrl"
                   alt="captcha"
                   @click="fetchCaptcha"
@@ -121,7 +116,7 @@
 
           <el-form-item>
             <el-button
-              class="tw-w-full"
+              class="w-full"
               type="primary"
               :disabled="isLoginButtonDisabled"
               :loading="isLoginPending"
@@ -280,13 +275,13 @@ watch(values, () => {
 
 .formWrapper {
   background-image: url(~assets/images/login.png);
-  @apply tw-flex-grow tw-flex tw-flex-col tw-items-center tw-justify-center;
-  @apply tw-bg-no-repeat tw-bg-center;
-  @apply lg:tw-bg-none;
+  @apply flex-grow flex flex-col items-center justify-center;
+  @apply bg-no-repeat bg-center;
+  @apply lg:bg-none;
 }
 
 .captcha {
   height: 36px;
-  @apply tw-rounded-sm tw-cursor-pointer tw-object-contain;
+  @apply rounded-sm cursor-pointer object-contain;
 }
 </style>

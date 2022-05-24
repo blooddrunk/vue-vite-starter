@@ -6,7 +6,7 @@
 
     <el-pagination
       :class="$style.pager"
-      class="tw-py-3"
+      class="py-3"
       v-bind="__paginationProps"
       :total="total"
       :current-page="page"
@@ -57,7 +57,7 @@ const __paginationProps = computed(() => ({
 .pager {
   :global {
     .el-pager {
-      @apply tw-pl-0;
+      @apply pl-0;
     }
   }
 }

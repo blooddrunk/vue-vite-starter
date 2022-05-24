@@ -1,5 +1,5 @@
 <template>
-  <article class="tw-article">
+  <article class="article">
     <div v-if="hasError">
       <van-empty image="error" description="出错了"></van-empty>
     </div>

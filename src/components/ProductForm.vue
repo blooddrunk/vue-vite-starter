@@ -1,24 +1,24 @@
 <template>
-  <div class="tw-max-w-lg tw-p-3 tw-shadow-md">
-    <h1 class="tw-py-2 tw-text-semibold tw-text-xl tw">Enter Product</h1>
+  <div class="max-w-lg p-3 shadow-md">
+    <h1 class="py-2 text-semibold text-xl tw">Enter Product</h1>
 
     <el-form status-icon @submit="onSubmit" @reset="onReset">
       <BaseInput name="name" label="Product Name" required>
         <template #label>
-          <span class="tw-text-teal-600">Product Name</span>
+          <span class="text-teal-600">Product Name</span>
         </template>
       </BaseInput>
 
       <BaseInput name="price" label="Price" required>
         <template #label>
-          <span class="tw-text-blue-600">Price</span>
+          <span class="text-blue-600">Price</span>
         </template>
 
         <template #prepend> $ </template>
       </BaseInput>
 
       <BaseNumberInput
-        class="tw-w-full"
+        class="w-full"
         name="inventory"
         label="Inventory"
         required
@@ -48,7 +48,7 @@
       >
       </BaseSelect>
 
-      <div class="tw-flex tw-justify-end tw-py-3">
+      <div class="flex justify-end py-3">
         <el-button native-type="reset">RESET</el-button>
         <el-button
           type="primary"

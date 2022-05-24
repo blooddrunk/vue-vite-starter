@@ -4,18 +4,13 @@
       <BaseInput name="query" label="Query" :show-label="false"></BaseInput>
 
       <el-form-item>
-        <el-button
-          native-type="submit"
-          type="primary"
-          :disabled="isPending"
-          :loading="isPending"
-        >
+        <el-button native-type="submit" type="primary" :loading="isLoading">
           QUERY
         </el-button>
       </el-form-item>
     </el-form>
 
-    <PaginatedTable class="tw-mt-3" v-bind="elementTableProps">
+    <PaginatedTable class="mt-3" v-bind="elementTableProps">
       <el-table-column
         prop="author"
         label="Author"
@@ -24,7 +19,7 @@
       <el-table-column prop="title" label="Title"></el-table-column>
       <el-table-column prop="url" label="Link">
         <template #default="{ row }">
-          <a class="tw-text-primary" :href="row.url" target="_blank">
+          <a class="text-primary" :href="row.url" target="_blank">
             {{ row.url }}
           </a>
         </template>
@@ -61,9 +56,9 @@ const { values: filter, handleSubmit } = useForm({
   },
 });
 
-const { fetchListAndReset, elementTableProps, isPending } = usePaginatedList(
+const { fetchListAndReset, elementTableProps, isLoading } = usePaginatedList(
+  'https://hn.algolia.com/api/v1/search',
   {
-    url: 'https://hn.algolia.com/api/v1/search',
     __transformData: (data: any) => ({
       items: data?.hits,
       total: data?.nbHits,

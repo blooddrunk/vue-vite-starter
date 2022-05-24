@@ -1,5 +1,5 @@
 <template>
-  <article class="tw-article tw-article_has-footer">
+  <article class="article article_has-footer">
     <div v-if="hasError">
       <van-empty image="error" description="出错了"></van-empty>
     </div>
@@ -8,21 +8,21 @@
     </div>
     <CartList v-else :items="items" :loading="shouldShowSkeleton"></CartList>
 
-    <PageFooter class="tw-bottom-[50px]">
+    <PageFooter class="bottom-[50px]">
       <van-checkbox v-model="isAllChecked" icon-size="18px">
         全选
       </van-checkbox>
 
-      <span class="tw-ml-3">
+      <span class="ml-3">
         合计： ￥
-        <strong class="tw-font-semibold">
+        <strong class="font-semibold">
           {{ cart.checkedTotalPrice }}
         </strong>
       </span>
 
       <router-link v-slot="{ navigate }" custom to="/mobile/order">
         <van-button
-          class="!tw-ml-auto tw-min-w-28"
+          class="!ml-auto min-w-28"
           type="primary"
           round
           :disabled="!cart.hasCheckedItems"

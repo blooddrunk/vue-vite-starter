@@ -1,12 +1,10 @@
 <template>
   <section>
-    <div class="tw-flex tw-flex-col tw-justify-center tw-items-center">
+    <div class="flex flex-col justify-center items-center">
       <div
-        class="tw-w-6 tw-h-6 tw-transition-all tw-duration-1000 tw-ease-in-out"
+        class="w-6 h-6 transition-all duration-1000 ease-in-out"
         :class="
-          isBoxIntersecting
-            ? 'tw-rounded-full tw-bg-pink-300 tw-shadow'
-            : 'tw-bg-green-300'
+          isBoxIntersecting ? 'rounded-full bg-pink-300 shadow' : 'bg-green-300'
         "
       ></div>
       <transition
@@ -19,13 +17,13 @@
 
     <div
       ref="scrollContainer"
-      class="tw-mt-6 tw-overflow-y-auto"
+      class="mt-6 overflow-y-auto"
       style="max-height: 20rem"
     >
-      <div class="tw-h-screen tw-flex tw-justify-center tw-items-end tw-p-6">
+      <div class="h-screen flex justify-center items-end p-6">
         <div
           v-intersect="intersect"
-          class="tw-w-40 tw-h-40 tw-p-6 tw-border-4 tw-border-blue-500 tw-border-opacity-75"
+          class="w-40 h-40 p-6 border-4 border-blue-500 border-opacity-75"
         ></div>
       </div>
     </div>

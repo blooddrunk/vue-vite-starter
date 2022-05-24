@@ -1,5 +1,5 @@
 <template>
-  <article class="tw-article tw-article_has-footer">
+  <article class="article article_has-footer">
     <van-empty
       v-if="shouldShowEmptyPlaceholder"
       image="error"
@@ -13,11 +13,11 @@
         readonly
       ></CartList>
 
-      <van-cell-group class="!tw-mt-6 !tw-mx-0" inset>
+      <van-cell-group class="!mt-6 !mx-0" inset>
         <van-cell title="商品金额">
           <span>
             ￥
-            <strong class="tw-font-semibold">
+            <strong class="font-semibold">
               {{
                 getPlaceholderForNonValue(currentOrderItem?.totalPrice).value
               }}
@@ -27,13 +27,13 @@
         <van-cell title="配送+安装费">
           <span>
             ￥
-            <strong class="tw-font-semibold"> -- </strong>
+            <strong class="font-semibold"> -- </strong>
           </span>
         </van-cell>
         <van-cell title="实付">
           <span>
             ￥
-            <strong class="tw-font-bold">
+            <strong class="font-bold">
               {{
                 getPlaceholderForNonValue(currentOrderItem?.totalPrice).value
               }}
@@ -42,11 +42,11 @@
         </van-cell>
       </van-cell-group>
 
-      <div class="tw-mt-3">
+      <div class="mt-3">
         <header>
-          <h3 class="tw-p-2 tw-text-sm tw-font-bold">订单信息</h3>
+          <h3 class="p-2 text-sm font-bold">订单信息</h3>
         </header>
-        <van-cell-group class="!tw-mx-0" inset>
+        <van-cell-group class="!mx-0" inset>
           <van-cell title="服务地址">
             {{ getPlaceholderForNonValue(currentOrderItem?.address).value }}
           </van-cell>
@@ -74,9 +74,9 @@
       </div>
     </template>
 
-    <PageFooter class="tw-justify-end">
+    <PageFooter class="justify-end">
       <van-button
-        class="tw-w-20"
+        class="w-20"
         type="danger"
         plain
         round

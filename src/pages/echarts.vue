@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-w-full">
+  <div class="w-full">
     <HistChart></HistChart>
 
     <LineChart></LineChart>

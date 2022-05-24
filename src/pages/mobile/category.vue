@@ -1,12 +1,9 @@
 <template>
-  <article ref="wrapper" class="tw-article">
+  <article ref="wrapper" class="article">
     <van-sticky offset-top="46px" @change="handleStick">
       <div
-        class="tw-flex tw-items-center tw-justify-between tw-pr-2"
-        :class="
-          isSticky &&
-          'tw-bg-white/75 tw--mx-6 tw-pl-6 tw-pr-8 tw-py-3 tw-shadow-md'
-        "
+        class="flex items-center justify-between pr-2"
+        :class="isSticky && 'bg-white/75 -mx-6 pl-6 pr-8 py-3 shadow-md'"
       >
         <AreaPicker
           :model-value="auth.area"
@@ -17,7 +14,7 @@
       </div>
     </van-sticky>
 
-    <ProductList class="tw-mt-4"></ProductList>
+    <ProductList class="mt-4"></ProductList>
   </article>
 </template>
 

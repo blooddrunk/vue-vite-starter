@@ -67,7 +67,6 @@ export const setupInterceptor = (instance: AxiosInstance) => {
   };
 
   instance.interceptors.request.use(({ __urlEncoded, ...config }) => {
-    //TODO: deal with request config here
     const presetConfig: AxiosRequestConfig = { method: 'GET' };
 
     if (__urlEncoded) {
@@ -178,5 +177,8 @@ const axios = axiosDefault.create({
     Accept: 'application/json, text/plain, */*',
   },
 });
+
+setupInterceptor(axios);
+setupProgress(axios);
 
 export default axios;

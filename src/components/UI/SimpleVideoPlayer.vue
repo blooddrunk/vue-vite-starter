@@ -1,19 +1,15 @@
 <template>
-  <div
-    class="tw-relative tw-text-white"
-    :class="wrapperClass"
-    @click="togglePlay"
-  >
+  <div class="relative text-white" :class="wrapperClass" @click="togglePlay">
     <video
       ref="video"
-      class="tw-w-full tw-h-full tw-bg-slate-300"
+      class="w-full h-full bg-slate-300"
       object-fit="cover"
       v-bind="$attrs"
     ></video>
 
     <a
       v-if="playing"
-      class="tw-absolute tw-right-2 tw-bottom-2"
+      class="absolute right-2 bottom-2"
       @click.prevent.stop="toggleMuted"
     >
       <IconVolumeMute v-if="muted" size="18"></IconVolumeMute>
@@ -21,7 +17,7 @@
     </a>
     <div
       v-else
-      class="tw-absolute tw-inset-0 tw-bg-white/25 tw-flex tw-items-center tw-justify-center"
+      class="absolute inset-0 bg-white/25 flex items-center justify-center"
     >
       <IconCaution v-if="hasError" size="32"></IconCaution>
       <IconPlay v-else size="32"></IconPlay>

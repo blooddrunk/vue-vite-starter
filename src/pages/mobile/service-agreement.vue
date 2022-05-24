@@ -1,5 +1,5 @@
 <template>
-  <article class="tw-article">
+  <article class="article">
     <section class="prose prose-xl">
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -67,8 +67,8 @@
       </p>
     </section>
 
-    <footer class="tw-mt-8 tw-text-center">
-      <van-button class="tw-w-11/12" type="primary" round @click="navBack">
+    <footer class="mt-8 text-center">
+      <van-button class="w-11/12" type="primary" round @click="navBack">
         我已阅读
       </van-button>
     </footer>

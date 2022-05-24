@@ -10,14 +10,20 @@ import { createApp } from 'vue';
 
 import App from './App.vue';
 import { router } from './router';
-import { install } from './install-plugins';
 
 const app = createApp(App);
 
 (async () => {
-  await install(app);
-
   app.use(router);
+
+  const plugins = [
+    ...Object.values(import.meta.globEager('./plugins/*/index.ts')),
+    ...Object.values(import.meta.globEager('./plugins/*.ts')),
+  ].map((i) => i.install?.(app));
+
+  console.log(plugins);
+
+  await Promise.all(plugins);
 
   router.isReady().then(() => app.mount('#app'));
 })();

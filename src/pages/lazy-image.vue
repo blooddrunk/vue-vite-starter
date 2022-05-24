@@ -1,23 +1,23 @@
 <template>
-  <div class="tw-flex">
-    <div class="tw-w-64 tw-mx-auto">
-      <h3 class="tw-p-3">aspect ratio = 1</h3>
+  <div class="flex">
+    <div class="w-64 mx-auto">
+      <h3 class="p-3">aspect ratio = 1</h3>
 
       <BaseImage
         v-for="imageUrl in imageList"
         :key="imageUrl"
-        class="tw-mb-3"
+        class="mb-3"
         :aspect-ratio="1"
         :src="imageUrl"
       ></BaseImage>
     </div>
-    <div class="tw-w-64 tw-mx-auto">
-      <h3 class="tw-p-3">original</h3>
+    <div class="w-64 mx-auto">
+      <h3 class="p-3">original</h3>
 
       <BaseImage
         v-for="imageUrl in imageList"
         :key="imageUrl"
-        class="tw-mb-3"
+        class="mb-3"
         :src="imageUrl"
       ></BaseImage>
     </div>

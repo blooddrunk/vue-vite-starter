@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-article">
+  <div class="article">
     <van-address-edit
       :area-list="areaList"
       :area-columns-placeholder="['请选择', '请选择', '请选择']"

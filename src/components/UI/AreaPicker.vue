@@ -2,11 +2,11 @@
   <div>
     <a
       :class="buttonClass"
-      class="tw-max-w-40 tw-inline-flex tw-items-center tw-px-3 tw-py-1.5 tw-shadow tw-shadow-primary tw-rounded tw-bg-white"
+      class="max-w-40 inline-flex items-center px-3 py-1.5 shadow shadow-primary rounded bg-white"
       @click.prevent="togglePickerVisible()"
     >
-      <span class="tw-truncate">{{ displayValue }}</span>
-      <IconRight class="tw-ml-2"></IconRight>
+      <span class="truncate">{{ displayValue }}</span>
+      <IconRight class="ml-2"></IconRight>
     </a>
 
     <van-popup
@@ -75,7 +75,7 @@ const displayValue = computed(() =>
         .join('/')
 );
 const buttonClass = computed(() =>
-  isEmpty.value ? 'tw-text-medium' : 'tw-text-primary'
+  isEmpty.value ? 'text-medium' : 'text-primary'
 );
 
 const areaPicker = ref<AreaInstance>();
