@@ -7,7 +7,5 @@
 </template>
 
 <script lang="ts" setup>
-import { useCartStore } from '@/stores/cart';
-
 const cart = useCartStore();
 </script>

@@ -15,8 +15,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
-import { useUIStore } from '@/stores/ui';
-
 const ui = useUIStore();
 const visibleBreadcrumbs = computed(() =>
   ui.breadcrumbList.filter((breadcrumb) => breadcrumb.isVisible !== false)

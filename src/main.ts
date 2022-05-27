@@ -1,5 +1,4 @@
 import 'animate.css';
-// import 'nprogress/nprogress.css';
 // import '@icon-park/vue-next/styles/index.css';
 
 import './assets/css/main.css';
@@ -13,17 +12,19 @@ import { router } from './router';
 
 const app = createApp(App);
 
+const installPlugins = async () => {
+  const modules = [
+    ...Object.entries(import.meta.globEager('./plugins/*/index.ts')),
+    ...Object.entries(import.meta.globEager('./plugins/*.ts')),
+  ].filter(([path]) => !path.split('/').pop()!.startsWith('_'));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  await Promise.all(modules.map(([_, m]) => m.install?.(app)));
+};
+
 (async () => {
   app.use(router);
 
-  const plugins = [
-    ...Object.values(import.meta.globEager('./plugins/*/index.ts')),
-    ...Object.values(import.meta.globEager('./plugins/*.ts')),
-  ].map((i) => i.install?.(app));
-
-  console.log(plugins);
-
-  await Promise.all(plugins);
+  await installPlugins();
 
   router.isReady().then(() => app.mount('#app'));
 })();

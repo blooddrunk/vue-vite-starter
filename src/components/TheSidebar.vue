@@ -27,8 +27,6 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
-import { useUIStore } from '@/stores/ui';
-
 const ui = useUIStore();
 const { isSidebarCollapsed, sidebarData } = storeToRefs(ui);
 

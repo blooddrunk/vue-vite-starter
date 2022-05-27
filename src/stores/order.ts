@@ -3,7 +3,6 @@ import { useStorage } from '@vueuse/core';
 import { computed } from 'vue';
 
 import { OrderInfo } from '@typings';
-import { fetchOrderList } from '@/services';
 
 const getDefaultOrderInfo = () => ({
   items: [],

@@ -1,11 +1,11 @@
 <template>
   <section>
-    <ProductForm :add-product="addProduct"></ProductForm>
+    <ProductForm :add-product="simpleFormStore.addProduct"></ProductForm>
 
     <el-table
-      v-loading="isProductLoading"
+      v-loading="simpleFormStore.isProductLoading"
       class="mt-3"
-      :data="products"
+      :data="simpleFormStore.products"
       row-key="id"
     >
       <el-table-column prop="id" label="ID" width="100"></el-table-column>
@@ -41,89 +41,17 @@ meta:
   requiresAuth: false
 </route>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ElMessage } from 'element-plus';
 
-import { Product } from '@/components/ProductForm.vue';
-import { useAxios } from '@/composables/useAxios';
-import axios from '@/utils/axios';
+import { Product } from '@typings';
 
-const useProduct = () => {
-  const {
-    data: products,
-    isLoading: isProductLoading,
-    execute: fetchProducts,
-  } = useAxios<Product[]>(`${import.meta.env.VITE_JSON_SERVER_PATH}products`, {
-    __needValidation: false,
-  });
+const simpleFormStore = useSimpleFormStore();
 
-  const addProduct = async (product: Product) => {
-    try {
-      const { data } = await axios.request<Product>({
-        url: `${import.meta.env.VITE_JSON_SERVER_PATH}products`,
-        method: 'post',
-        data: product,
-        __needValidation: false,
-      });
-
-      products.value.unshift(data);
-    } catch (error) {
-      console.error(error);
-      ElMessage.error((error as Error).message);
-    }
-  };
-
-  const removeProduct = async (target: Product) => {
-    if (!target.id) {
-      return;
-    }
-
-    try {
-      await axios.delete(
-        `${import.meta.env.VITE_JSON_SERVER_PATH}products/${target.id}`,
-        {
-          __needValidation: false,
-        }
-      );
-
-      products.value = products.value.filter(
-        (product) => product.id !== target.id
-      );
-    } catch (error) {
-      console.error(error);
-      ElMessage.error((error as Error).message);
-    }
-  };
-
-  return {
-    products,
-    isProductLoading,
-    addProduct,
-    removeProduct,
-    fetchProducts,
+const getDeleteAction = (row: Product) => {
+  return async () => {
+    await simpleFormStore.removeProduct(row);
+    ElMessage.success('Deleted successfully');
   };
 };
-
-export default defineComponent({
-  name: 'SimpleFormView',
-
-  setup() {
-    const { products, isProductLoading, addProduct, removeProduct } =
-      useProduct();
-
-    const getDeleteAction = (row: any) => {
-      return async () => {
-        await removeProduct(row);
-        ElMessage.success('Deleted successfully');
-      };
-    };
-
-    return {
-      products,
-      isProductLoading,
-      addProduct,
-      getDeleteAction,
-    };
-  },
-});
 </script>

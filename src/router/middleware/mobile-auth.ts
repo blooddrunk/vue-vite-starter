@@ -1,7 +1,5 @@
 import { Router, RouteLocationRaw } from 'vue-router';
 
-import { useMobileAuthStore } from '@/stores/mobile-auth';
-
 export default (router: Router) => {
   router.beforeEach((to) => {
     if (!to.name || !String(to.name).startsWith('mobile')) {

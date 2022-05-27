@@ -20,7 +20,6 @@ export default defineComponent({
 import { withDefaults, defineProps } from 'vue';
 
 import type { CommonChartProps } from '@/utils/chart';
-import { useEcharts } from '@/composables/useEcharts';
 
 const props = withDefaults(defineProps<CommonChartProps>(), {
   autoResize: true,

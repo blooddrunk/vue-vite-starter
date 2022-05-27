@@ -11,11 +11,7 @@ import { AxiosRequestConfig } from 'axios';
 import { cloneDeep, merge } from 'lodash-es';
 
 import { trimValues } from '@/utils/misc';
-import { useAxios } from '@/composables/useAxios';
-import {
-  usePagination,
-  UsePaginationOptions,
-} from '@/composables/usePagination';
+import type { UsePaginationOptions } from '@/composables/usePagination';
 
 export type Pagination = ReturnType<typeof usePagination>;
 
@@ -87,6 +83,10 @@ export const usePaginatedList = <
 
   const { data, isLoading, error, execute } = useAxios<ListResult<TValue>>(
     url,
+    {
+      items: [],
+      total: 0,
+    },
     getRequestConfig(),
     {
       immediate: false,

@@ -58,7 +58,6 @@ import { defineProps, watch, computed } from 'vue';
 import { Toast } from 'vant';
 
 import { fetchProductById } from '@/services';
-import { useCartStore } from '@/stores/cart';
 
 const props = defineProps<{
   id: string;

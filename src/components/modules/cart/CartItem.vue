@@ -68,7 +68,6 @@ import { useVModel, debouncedWatch } from '@vueuse/core';
 import { Toast, Dialog } from 'vant';
 
 import type { CartItem } from '@typings';
-import { useCartStore } from '@/stores/cart';
 
 type Props = {
   item: CartItem;

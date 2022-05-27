@@ -39,7 +39,7 @@ export default ({ mode }) => {
        * official plugins
        */
       Vue({
-        reactivityTransform: true,
+        // reactivityTransform: true,
       }),
       VueJsx(),
       Legacy({
@@ -93,8 +93,15 @@ export default ({ mode }) => {
 
       AutoImport({
         dts: './src/typings/auto-imports.d.ts',
-        imports: ['vue', 'vue-router', '@vueuse/head', '@vueuse/core'],
-
+        imports: [
+          'vue',
+          'vue-router',
+          '@vueuse/head',
+          '@vueuse/core',
+          'vue/macros',
+        ],
+        dirs: ['src/composables', 'src/stores', 'src/services'],
+        vueTemplate: true,
         eslintrc: {
           enabled: true, // Default `false`
           filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`

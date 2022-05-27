@@ -1,8 +1,9 @@
 import { Ref, App } from 'vue';
 
 export * from './auth';
-export * from './element-plus';
 export * from './misc';
+
+export * from './biz';
 
 export type MaybeRef<T> = T | Ref<T>;
 

@@ -92,7 +92,6 @@ import { useRouter } from 'vue-router';
 
 import { MobileLoginInfo } from '@typings';
 import { fetchAuthCode } from '@/services';
-import { useMobileAuthStore } from '@/stores/mobile-auth';
 
 const auth = useMobileAuthStore();
 watch(

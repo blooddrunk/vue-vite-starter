@@ -31,7 +31,6 @@ import { ref, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { promiseTimeout } from '@/utils/misc';
 
-import { useProductStore } from '@/stores/product';
 import type { ProductItem } from '@typings';
 
 const placeholderItems = [...Array(10).keys()].map((id) => ({

@@ -27,8 +27,6 @@ meta:
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import { useMobileAuthStore } from '@/stores/mobile-auth';
-
 const auth = useMobileAuthStore();
 
 const handleAreaChange = (area: string) => {

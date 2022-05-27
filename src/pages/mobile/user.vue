@@ -17,10 +17,8 @@ meta:
 </route>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
-
-import { useOrderStore } from '@/stores/order';
 
 const order = useOrderStore();
 

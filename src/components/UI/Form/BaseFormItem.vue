@@ -22,7 +22,7 @@ export default defineComponent({
 import { withDefaults, defineProps, useAttrs, computed } from 'vue';
 import { reactivePick } from '@vueuse/core';
 
-import { useFormField, ValidationMode } from '@/composables/useFormField';
+import type { ValidationMode } from '@/composables/useFormField';
 
 type Props = {
   name?: string;

@@ -14,16 +14,13 @@
 
 <script lang="ts" setup>
 import { defineProps, withDefaults } from 'vue';
-import { ElMessageBox } from 'element-plus';
-
-import { useAsyncFn } from '@/composables/useAsyncFn';
-import { ElementPlusSize, ElementPlusButtonType } from '@typings';
+import { ElMessageBox, ComponentSize, ButtonType } from 'element-plus';
 
 type Props = {
   action: () => Promise<void>;
   confirmText?: string;
-  size?: ElementPlusSize;
-  type?: ElementPlusButtonType;
+  size?: ComponentSize;
+  type?: ButtonType;
   plain?: boolean;
 };
 

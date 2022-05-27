@@ -28,7 +28,6 @@ import { useRouter } from 'vue-router';
 
 import type { AddressEditInfo } from 'vant';
 import { placeOrder } from '@/services';
-import { useOrderStore } from '@/stores/order';
 
 const router = useRouter();
 const order = useOrderStore();

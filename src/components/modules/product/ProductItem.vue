@@ -43,7 +43,6 @@ import { Toast } from 'vant';
 import { RouteLocationRaw } from 'vue-router';
 
 import type { ProductItem } from '@typings';
-import { useCartStore } from '@/stores/cart';
 
 type Props = {
   item: ProductItem;

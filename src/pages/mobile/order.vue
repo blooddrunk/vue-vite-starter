@@ -82,9 +82,6 @@ import { computed, ref } from 'vue';
 import { useRouteQuery } from '@vueuse/router';
 import { onBeforeRouteLeave } from 'vue-router';
 
-import { useProductStore } from '@/stores/product';
-import { useCartStore } from '@/stores/cart';
-import { useOrderStore } from '@/stores/order';
 import { CartItem } from '@typings';
 
 const directOrderId = useRouteQuery('productId');

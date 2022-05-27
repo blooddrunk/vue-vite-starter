@@ -2,7 +2,6 @@ import { menuLookup } from '@/utils/menu';
 
 import { Router } from 'vue-router';
 
-import { useUIStore } from '@/stores/ui';
 import { BreadcrumbItem } from '@typings';
 
 export default (router: Router) => {

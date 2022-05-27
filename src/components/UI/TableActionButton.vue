@@ -6,12 +6,11 @@
 
 <script lang="ts" setup>
 import { defineProps, computed } from 'vue';
-
-import { ElementPlusSize, ElementPlusButtonType } from '@typings';
+import { ComponentSize, ButtonType } from 'element-plus';
 
 type ButtonProps = Partial<{
-  size: ElementPlusSize;
-  type: ElementPlusButtonType;
+  size: ComponentSize;
+  type: ButtonType;
   plain: boolean;
 }>;
 

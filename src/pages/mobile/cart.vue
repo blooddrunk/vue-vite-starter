@@ -45,8 +45,6 @@ meta:
 import { computed, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 
-import { useCartStore } from '@/stores/cart';
-
 const cart = useCartStore();
 
 const { items, isItemsLoading, isItemsEmpty, itemsLoadingErrorMessage } =

@@ -111,7 +111,6 @@ props: true
 import { defineProps, computed, ref } from 'vue';
 import { Toast, Dialog, ActionSheetAction } from 'vant';
 
-import { useOrderStore } from '@/stores/order';
 import { getPlaceholderForNonValue } from '@/utils/misc';
 import { cancelOrder } from '@/services';
 

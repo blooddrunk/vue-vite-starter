@@ -1,4 +1,4 @@
-const isDev = process.env.MODE === 'development';
+require('@rushstack/eslint-patch/modern-module-resolution');
 
 module.exports = {
   root: true,
@@ -12,18 +12,17 @@ module.exports = {
 
   globals: {
     __DEV__: 'readonly',
-    $ref: 'readonly',
-    $computed: 'readonly',
-    $shallowRef: 'readonly',
-    $customRef: 'readonly',
-    $toRef: 'readonly',
+    // $ref: 'readonly',
+    // $computed: 'readonly',
+    // $shallowRef: 'readonly',
+    // $customRef: 'readonly',
+    // $toRef: 'readonly',
   },
 
   extends: [
-    'eslint:recommended',
-    'plugin:vue/vue3-recommended',
-    '@vue/typescript/recommended',
-    'plugin:prettier/recommended',
+    'plugin:vue/vue3-essential',
+    '@vue/eslint-config-typescript/recommended',
+    '@vue/eslint-config-prettier',
     './.eslintrc-auto-import.json',
   ],
 
@@ -36,9 +35,6 @@ module.exports = {
   plugins: [],
 
   rules: {
-    'no-console': isDev ? 'error' : 'off',
-    'no-debugger': isDev ? 'error' : 'off',
-
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',

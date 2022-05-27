@@ -153,7 +153,6 @@ import { useRouter, useRoute } from 'vue-router';
 import { useTimeoutFn } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 
-import { useAuthStore } from '@/stores/auth';
 import { LoginInfo } from '@typings';
 
 const auth = useAuthStore();

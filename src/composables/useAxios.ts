@@ -3,7 +3,6 @@
 import type { Ref, ShallowRef } from 'vue';
 import { ref, shallowRef } from 'vue';
 import { until } from '@vueuse/core';
-import { isString } from 'lodash-es';
 import type {
   AxiosError,
   AxiosInstance,
@@ -24,7 +23,7 @@ export interface UseAxiosReturn<T> {
   /**
    * Axios response data
    */
-  data: Ref<T | undefined>;
+  data: Ref<T>;
 
   /**
    * Indicates if the request has finished
@@ -55,55 +54,38 @@ export interface UseAxiosReturn<T> {
    * isAborted alias
    */
   isCanceled: Ref<boolean>;
-}
-export interface StrictUseAxiosReturn<T> extends UseAxiosReturn<T> {
+
   /**
    * Manually call the axios request
    */
-  execute: (url?: string, config?: AxiosRequestConfig) => void;
+  execute: (config?: AxiosRequestConfig) => void;
 }
-export interface EasyUseAxiosReturn<T> extends UseAxiosReturn<T> {
-  /**
-   * Manually call the axios request
-   */
-  execute: (url: string, config?: AxiosRequestConfig) => void;
-}
-export interface UseAxiosOptions<T> {
+
+export interface UseAxiosOptions {
   /**
    * Will automatically run axios request when `useAxios` is used
    *
    */
   immediate?: boolean;
-  initialData?: T;
 }
 
-type OverallUseAxiosReturn<T> = StrictUseAxiosReturn<T> | EasyUseAxiosReturn<T>;
 export function useAxios<T = any>(
-  url: string,
+  initialData: T,
   config?: AxiosRequestConfig,
-  options?: UseAxiosOptions<T>
-): StrictUseAxiosReturn<T> & PromiseLike<StrictUseAxiosReturn<T>>;
+  options?: UseAxiosOptions
+): UseAxiosReturn<T> & PromiseLike<UseAxiosReturn<T>>;
 export function useAxios<T = any>(
-  url: string,
+  initialData: T,
   instance?: AxiosInstance,
-  options?: UseAxiosOptions<T>
-): StrictUseAxiosReturn<T> & PromiseLike<StrictUseAxiosReturn<T>>;
+  options?: UseAxiosOptions
+): UseAxiosReturn<T> & PromiseLike<UseAxiosReturn<T>>;
 export function useAxios<T = any>(
-  url: string,
+  initialData: T,
   config: AxiosRequestConfig,
   instance: AxiosInstance,
-  options?: UseAxiosOptions<T>
-): StrictUseAxiosReturn<T> & PromiseLike<StrictUseAxiosReturn<T>>;
-export function useAxios<T = any>(
-  config?: AxiosRequestConfig
-): EasyUseAxiosReturn<T> & PromiseLike<EasyUseAxiosReturn<T>>;
-export function useAxios<T = any>(
-  instance?: AxiosInstance
-): EasyUseAxiosReturn<T> & PromiseLike<EasyUseAxiosReturn<T>>;
-export function useAxios<T = any>(
-  config?: AxiosRequestConfig,
-  instance?: AxiosInstance
-): EasyUseAxiosReturn<T> & PromiseLike<EasyUseAxiosReturn<T>>;
+  options?: UseAxiosOptions
+): UseAxiosReturn<T> & PromiseLike<UseAxiosReturn<T>>;
+
 /**
  * Wrapper for axios.
  *
@@ -113,43 +95,34 @@ export function useAxios<T = any>(
  */
 export function useAxios<T = any>(
   ...args: any[]
-): OverallUseAxiosReturn<T> & PromiseLike<OverallUseAxiosReturn<T>> {
-  const url: string | undefined =
-    typeof args[0] === 'string' ? args[0] : undefined;
-  const argsPlaceholder = isString(url) ? 1 : 0;
+): UseAxiosReturn<T> & PromiseLike<UseAxiosReturn<T>> {
+  const initialData: T = args[0];
   let defaultConfig: AxiosRequestConfig = {};
   let instance: AxiosInstance = axios;
-  let options: UseAxiosOptions<T> = { immediate: !!argsPlaceholder };
+  let options: UseAxiosOptions;
 
   const isAxiosInstance = (val: any) => !!val?.request;
 
-  if (args.length > 0 + argsPlaceholder) {
-    /**
-     * Unable to use `instanceof` here becuase of (https://github.com/axios/axios/issues/737)
-     * so instead we are checking if there is a `requset` on the object to see if it is an
-     * axios instance
-     */
-    if (isAxiosInstance(args[0 + argsPlaceholder]))
-      instance = args[0 + argsPlaceholder];
-    else defaultConfig = args[0 + argsPlaceholder];
+  if (args.length > 1) {
+    if (isAxiosInstance(args[1])) {
+      instance = args[1];
+    } else {
+      defaultConfig = args[1];
+    }
   }
 
-  if (args.length > 1 + argsPlaceholder) {
-    if (isAxiosInstance(args[1 + argsPlaceholder]))
-      instance = args[1 + argsPlaceholder];
-  }
-  if (
-    (args.length === 2 + argsPlaceholder &&
-      !isAxiosInstance(args[1 + argsPlaceholder])) ||
-    args.length === 3 + argsPlaceholder
-  )
+  if (args.length > 2) {
     options = args[args.length - 1];
+  } else {
+    options = { immediate: !!defaultConfig.url };
+  }
+
+  if (args.length === 4) {
+    instance = args[2];
+  }
 
   const response = shallowRef<AxiosResponse<T>>();
-  const data = shallowRef<T>();
-  if (typeof options.initialData !== 'undefined') {
-    data.value = options.initialData;
-  }
+  const data = shallowRef<T>(initialData);
   const isFinished = ref(false);
   const isLoading = ref(false);
   const isAborted = ref(false);

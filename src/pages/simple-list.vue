@@ -42,8 +42,6 @@ meta:
 import { useForm } from 'vee-validate';
 import { parseISO, format } from 'date-fns';
 
-import { usePaginatedList } from '@/composables/usePaginatedList';
-
 export type ListItem = {
   id: string;
   title: string | null;

@@ -72,8 +72,6 @@ import {
   useSlots,
 } from 'vue';
 
-import { useFormField } from '@/composables/useFormField';
-
 type Props = {
   name: string;
   label?: string;

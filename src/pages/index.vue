@@ -17,7 +17,7 @@ meta:
 </route>
 
 <script setup lang="ts">
-const menuList = $ref([
+const menuList = ref([
   {
     text: 'Simple list',
     to: '/simple-list',
@@ -31,16 +31,6 @@ const menuList = $ref([
   {
     text: 'ECharts',
     to: '/echarts',
-  },
-
-  {
-    text: 'Directive(Intersection Observer)',
-    to: '/directive-intersection-observer',
-  },
-
-  {
-    text: 'Lazy Image',
-    to: '/lazy-image',
   },
 
   {
