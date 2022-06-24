@@ -39,7 +39,6 @@ export const usePaginatedList = <
   TValue extends object = object,
   TFilter extends Record<string, any> = UnwrapRef<Record<string, any>>
 >(
-  url: string,
   requestConfig: AxiosRequestConfig,
   options: UsePaginatedListOptions<TValue, TFilter> = {}
 ) => {
@@ -82,7 +81,6 @@ export const usePaginatedList = <
   };
 
   const { data, isLoading, error, execute } = useAxios<ListResult<TValue>>(
-    url,
     {
       items: [],
       total: 0,
@@ -111,16 +109,16 @@ export const usePaginatedList = <
     pagination.total.value = value.total || 0;
   });
 
-  const fetchList = (url?: string) => {
+  const fetchList = (config?: AxiosRequestConfig) => {
     // apply filter first
     lastAppliedFilter.value = cloneDeep(unref(__filter));
 
-    return execute(url, getRequestConfig());
+    return execute(getRequestConfig(config));
   };
 
-  const fetchListAndReset = (url?: string) => {
+  const fetchListAndReset = (config?: AxiosRequestConfig) => {
     if (pagination.isFirstPage.value) {
-      return fetchList(url);
+      return fetchList(config);
     } else {
       pagination.currentPage.value = 1;
     }

@@ -11,6 +11,7 @@ import type {
   CancelTokenSource,
 } from 'axios';
 import axiosDefault from 'axios';
+import { merge } from 'lodash-es';
 
 import axios from '@/utils/axios';
 
@@ -58,7 +59,7 @@ export interface UseAxiosReturn<T> {
   /**
    * Manually call the axios request
    */
-  execute: (config?: AxiosRequestConfig) => void;
+  execute: <T>(config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>;
 }
 
 export interface UseAxiosOptions {
@@ -69,19 +70,19 @@ export interface UseAxiosOptions {
   immediate?: boolean;
 }
 
-export function useAxios<T = any>(
+export function useAxios<T = any, D = any>(
   initialData: T,
-  config?: AxiosRequestConfig,
+  config?: AxiosRequestConfig<D>,
   options?: UseAxiosOptions
 ): UseAxiosReturn<T> & PromiseLike<UseAxiosReturn<T>>;
-export function useAxios<T = any>(
+export function useAxios<T = any, D = any>(
   initialData: T,
   instance?: AxiosInstance,
   options?: UseAxiosOptions
 ): UseAxiosReturn<T> & PromiseLike<UseAxiosReturn<T>>;
-export function useAxios<T = any>(
+export function useAxios<T = any, D = any>(
   initialData: T,
-  config: AxiosRequestConfig,
+  config: AxiosRequestConfig<D>,
   instance: AxiosInstance,
   options?: UseAxiosOptions
 ): UseAxiosReturn<T> & PromiseLike<UseAxiosReturn<T>>;
@@ -141,37 +142,29 @@ export function useAxios<T = any>(
     isLoading.value = loading;
     isFinished.value = !loading;
   };
-  const execute: OverallUseAxiosReturn<T>['execute'] = (
-    executeUrl: string | AxiosRequestConfig | undefined = url,
-    config: AxiosRequestConfig = {}
-  ) => {
-    let _url = url ?? '';
-    let _config;
-    if (typeof executeUrl === 'string') {
-      _url = executeUrl;
-      _config = config;
-    } else {
-      _config = config;
-    }
+  const execute = async (config?: AxiosRequestConfig) => {
+    const _config = merge(
+      { cancelToken: cancelToken.token },
+      defaultConfig,
+      config
+    );
+
     loading(true);
-    return instance(_url, {
-      ...defaultConfig,
-      ..._config,
-      cancelToken: cancelToken.token,
-    })
-      .then((r: any) => {
-        response.value = r;
-        data.value = r.data;
-      })
-      .catch((e: any) => {
-        error.value = e;
-      })
-      .finally(() => {
-        loading(false);
-      });
+    try {
+      const r = await instance.request<T>(_config);
+      response.value = r;
+      data.value = r.data;
+
+      return r;
+    } catch (error: any) {
+      error.value = error;
+    } finally {
+      loading(false);
+    }
   };
-  if (options.immediate && url)
-    (execute as StrictUseAxiosReturn<T>['execute'])();
+  if (options.immediate && defaultConfig.url) {
+    execute();
+  }
 
   const result = {
     response,
@@ -188,9 +181,10 @@ export function useAxios<T = any>(
     isCanceled: isAborted,
     abort,
     execute,
-  } as OverallUseAxiosReturn<T>;
+  } as UseAxiosReturn<T>;
+
   function waitUntilFinished() {
-    return new Promise<OverallUseAxiosReturn<T>>((resolve, reject) => {
+    return new Promise<UseAxiosReturn<T>>((resolve, reject) => {
       until(isFinished)
         .toBe(true)
         .then(() => resolve(result))

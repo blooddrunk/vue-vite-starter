@@ -55,8 +55,8 @@ const { values: filter, handleSubmit } = useForm({
 });
 
 const { fetchListAndReset, elementTableProps, isLoading } = usePaginatedList(
-  'https://hn.algolia.com/api/v1/search',
   {
+    url: 'https://hn.algolia.com/api/v1/search',
     __transformData: (data: any) => ({
       items: data?.hits,
       total: data?.nbHits,
