@@ -17,11 +17,6 @@ module.exports = () => {
 
       // https://github.com/tailwindcss/tailwindcss
       tailwindcss: {},
-
-      // 'postcss-px-to-viewport': {
-      //   viewportWidth: 375,
-      //   selectorBlackList: [],
-      // },
     },
   };
 };

@@ -4,9 +4,7 @@
       <BaseInput name="query" label="Query" :show-label="false"></BaseInput>
 
       <el-form-item>
-        <el-button native-type="submit" type="primary" :loading="isLoading">
-          QUERY
-        </el-button>
+        <BaseSearchButton :loading="isLoading"></BaseSearchButton>
       </el-form-item>
     </el-form>
 
