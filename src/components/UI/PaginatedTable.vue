@@ -5,7 +5,6 @@
     </el-table>
 
     <el-pagination
-      :class="$style.pager"
       class="py-3"
       v-bind="__paginationProps"
       :total="total"
@@ -20,8 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { withDefaults, defineProps, computed } from 'vue';
-import { PaginationProps } from 'element-plus';
+import type { PaginationProps } from 'element-plus';
 
 type Props = {
   items?: any[];
@@ -52,13 +50,3 @@ const __paginationProps = computed(() => ({
   ...props.paginationProps,
 }));
 </script>
-
-<style lang="postcss" module>
-.pager {
-  :global {
-    .el-pager {
-      @apply pl-0;
-    }
-  }
-}
-</style>
