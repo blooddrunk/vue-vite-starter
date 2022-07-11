@@ -8,7 +8,7 @@
       </el-form-item>
     </el-form>
 
-    <PaginatedTable class="mt-3" v-bind="elementTableProps">
+    <BaseDataTable class="mt-3" v-bind="elementTableProps">
       <el-table-column
         prop="author"
         label="Author"
@@ -27,7 +27,7 @@
           {{ formatDate(row.created_at) }}
         </template>
       </el-table-column>
-    </PaginatedTable>
+    </BaseDataTable>
   </section>
 </template>
 
