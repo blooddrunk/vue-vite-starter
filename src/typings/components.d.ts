@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     BaseCheckbox: typeof import('./../components/UI/Form/BaseCheckbox.vue')['default']
     BaseCheckboxButton: typeof import('./../components/UI/Form/BaseCheckboxButton.vue')['default']
     BaseCheckboxGroup: typeof import('./../components/UI/Form/BaseCheckboxGroup.vue')['default']
+    BaseDataTable: typeof import('./../components/UI/BaseDataTable.vue')['default']
     BaseFormItem: typeof import('./../components/UI/Form/BaseFormItem.vue')['default']
     BaseInput: typeof import('./../components/UI/Form/BaseInput.vue')['default']
     BaseLoadingButton: typeof import('./../components/UI/BaseLoadingButton.vue')['default']
@@ -21,6 +22,7 @@ declare module '@vue/runtime-core' {
     BaseSearchButton: typeof import('./../components/UI/BaseSearchButton.vue')['default']
     BaseSelect: typeof import('./../components/UI/Form/BaseSelect.vue')['default']
     BaseTextInput: typeof import('./../components/UI/BaseTextInput.vue')['default']
+    BaseVirtualTable: typeof import('./../components/UI/BaseVirtualTable.vue')['default']
     CartItem: typeof import('./../components/modules/cart/CartItem.vue')['default']
     CartItemSkeleton: typeof import('./../components/modules/cart/CartItemSkeleton.vue')['default']
     CartList: typeof import('./../components/modules/cart/CartList.vue')['default']
@@ -60,7 +62,6 @@ declare module '@vue/runtime-core' {
     TheSidebarItem: typeof import('./../components/TheSidebarItem.vue')['default']
     TheTabbar: typeof import('./../components/TheTabbar.vue')['default']
   }
-
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
