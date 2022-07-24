@@ -100,7 +100,7 @@ export default ({ mode }) => {
           '@vueuse/core',
           'vue/macros',
         ],
-        dirs: ['./src/composables/**', './src/stores', './src/services'],
+        dirs: ['./src/composables', './src/stores', './src/services'],
         vueTemplate: true,
         eslintrc: {
           enabled: true, // Default `false`
