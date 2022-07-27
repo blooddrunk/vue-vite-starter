@@ -40,7 +40,7 @@ meta:
 import { useForm } from 'vee-validate';
 import { parseISO, format } from 'date-fns';
 
-export type ListItem = {
+type ListItem = {
   id: string;
   title: string | null;
   url?: string | null;
@@ -52,24 +52,25 @@ const { values: filter, handleSubmit } = useForm({
   },
 });
 
-const { fetchListAndReset, elementTableProps, isLoading } = usePaginatedList(
-  {
-    url: 'https://hn.algolia.com/api/v1/search',
-    __transformData: (data: any) => ({
-      items: data?.hits,
-      total: data?.nbHits,
-    }),
-    __needValidation: false,
-  },
-  {
-    filter,
+const { fetchListAndReset, elementTableProps, isLoading } =
+  usePaginatedList<ListItem>(
+    {
+      url: 'https://hn.algolia.com/api/v1/search',
+      __transformData: (data: any) => ({
+        items: data?.hits,
+        total: data?.nbHits,
+      }),
+      __needValidation: false,
+    },
+    {
+      filter,
 
-    transformPaginationToQuery: (pagination) => ({
-      page: pagination.currentPage.value,
-      hitsPerPage: pagination.pageSize.value,
-    }),
-  }
-);
+      transformPaginationToQuery: (pagination) => ({
+        page: pagination.currentPage.value,
+        hitsPerPage: pagination.pageSize.value,
+      }),
+    }
+  );
 
 const handleSearch = handleSubmit(() => {
   fetchListAndReset();

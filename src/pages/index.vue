@@ -24,6 +24,11 @@ const menuList = ref([
   },
 
   {
+    text: 'Virtual list',
+    to: '/virtual-list',
+  },
+
+  {
     text: 'Simple Form',
     to: '/simple-form',
   },

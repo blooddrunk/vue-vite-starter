@@ -100,7 +100,7 @@ export default ({ mode }) => {
           '@vueuse/core',
           'vue/macros',
         ],
-        dirs: ['./src/composables', './src/stores', './src/services'],
+        dirs: ['./src/composables/**', './src/stores/**', './src/services/**'],
         vueTemplate: true,
         eslintrc: {
           enabled: true, // Default `false`
@@ -124,7 +124,7 @@ export default ({ mode }) => {
 
     server: {
       host: '0.0.0.0',
-      port: 3300,
+      port: 3100,
 
       proxy: {
         '^/json/.*': {
