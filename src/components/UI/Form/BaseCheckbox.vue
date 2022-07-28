@@ -1,7 +1,7 @@
 <template>
   <BaseFormItem v-bind="$attrs">
-    <template #default="props">
-      <el-checkbox v-bind="props">
+    <template #default="slotProps">
+      <el-checkbox v-bind="slotProps">
         <template v-for="(_, slotName) in $slots" #[slotName]>
           <slot :name="slotName"></slot>
         </template>

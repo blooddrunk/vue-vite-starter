@@ -2,7 +2,12 @@
   <div class="max-w-lg p-3 shadow-md">
     <h1 class="py-2 text-semibold text-xl tw">Enter Product</h1>
 
-    <el-form status-icon @submit="onSubmit" @reset="onReset">
+    <el-form
+      status-icon
+      label-width="130px"
+      @submit="onSubmit"
+      @reset="onReset"
+    >
       <BaseInput name="name" label="Product Name" required>
         <template #label>
           <span class="text-teal-600">Product Name</span>
@@ -29,24 +34,33 @@
       >
       </BaseNumberInput>
 
-      <BaseCheckbox name="terms" label="Terms" :show-label="false" required>
-        Agree to terms and conditions
-      </BaseCheckbox>
-
       <BaseCheckboxGroup
         name="tags"
         label="Tags"
         :items="tagList"
       ></BaseCheckboxGroup>
 
-      <BaseSelect
+      <BaseSelectLegacy
         name="location"
         label="Location"
         :items="locationList"
         clearable
         placeholder="Location"
       >
+      </BaseSelectLegacy>
+
+      <BaseSelect
+        name="location2"
+        label="Location2"
+        :options="locationList"
+        clearable
+        placeholder="Location with virtualized select"
+      >
       </BaseSelect>
+
+      <BaseCheckbox name="terms" label="Terms" :show-label="false" required>
+        Agree to terms and conditions
+      </BaseCheckbox>
 
       <div class="flex justify-end py-3">
         <el-button native-type="reset">RESET</el-button>
@@ -67,9 +81,13 @@
 import { useForm } from 'vee-validate';
 
 import { Product } from '@typings';
+import { ElMessage } from 'element-plus';
 
 const props = defineProps<{
   addProduct: (p: Product) => void;
+}>();
+const emit = defineEmits<{
+  (e: 'submitted', value: Product): void;
 }>();
 
 const validationSchema = {
@@ -79,6 +97,7 @@ const validationSchema = {
   terms: 'required',
   tags: 'required',
   location: 'required',
+  location2: 'required',
 };
 
 const { meta, isSubmitting, handleSubmit, resetForm } = useForm<Product>({
@@ -90,13 +109,22 @@ const { meta, isSubmitting, handleSubmit, resetForm } = useForm<Product>({
     terms: false,
     tags: ['book'],
     location: '',
+    location2: '',
   },
 });
 
 const invalid = computed(() => !meta.value.valid && meta.value.dirty);
 
 const onSubmit = handleSubmit(async (values) => {
-  await props.addProduct(values);
+  try {
+    await props.addProduct(values);
+    emit('submitted', values);
+  } catch (error: any) {
+    ElMessage({
+      message: error.message,
+      type: 'error',
+    });
+  }
 });
 
 const onReset = (e: Event) => {

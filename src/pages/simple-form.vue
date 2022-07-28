@@ -1,6 +1,9 @@
 <template>
   <section>
-    <ProductForm :add-product="simpleFormStore.addProduct"></ProductForm>
+    <ProductForm
+      :add-product="simpleFormStore.addProduct"
+      @submitted="handleSubmit"
+    ></ProductForm>
 
     <el-table
       v-loading="simpleFormStore.isProductLoading"
@@ -53,5 +56,9 @@ const getDeleteAction = (row: Product) => {
     await simpleFormStore.removeProduct(row);
     ElMessage.success('Deleted successfully');
   };
+};
+
+const handleSubmit = () => {
+  simpleFormStore.fetchProducts();
 };
 </script>

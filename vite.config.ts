@@ -108,15 +108,11 @@ export default ({ mode }) => {
           globalsPropValue: 'readonly', // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
         },
 
-        //   resolvers: [
-        // * jsx
-        //     (name) => {
-        //       console.log(name);
-        //       if (name.endsWith('Chart')) {
-        //         return `./../components/UI/Chart/${name}`;
-        //       }
-        //     },
-        //   ],
+        // resolvers: [
+        //   ElementPlusResolver({
+        //     importStyle: false,
+        //   }),
+        // ],
       }),
 
       VueTypeImports(),

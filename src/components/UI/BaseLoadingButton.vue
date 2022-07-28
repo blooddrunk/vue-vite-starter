@@ -7,14 +7,16 @@
     :plain="plain"
     @click="handleButtonClick"
   >
-    <slot v-if="isPending" name="loading"> </slot>
+    <slot v-if="isPending && hasLoadingSlot" name="loading"> </slot>
     <slot v-else></slot>
   </el-button>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, withDefaults } from 'vue';
 import { ElMessageBox, ComponentSize, ButtonType } from 'element-plus';
+
+const slots = useSlots();
+const hasLoadingSlot = computed(() => !!slots.loading);
 
 type Props = {
   action: () => Promise<void>;

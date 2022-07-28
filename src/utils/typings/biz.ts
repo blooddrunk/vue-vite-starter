@@ -6,4 +6,5 @@ export type Product = {
   terms?: boolean;
   tags?: string[];
   location?: string;
+  location2?: string;
 };
