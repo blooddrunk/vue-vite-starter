@@ -53,6 +53,7 @@ declare module '@vue/runtime-core' {
     IconMdiWeatherNight: typeof import('~icons/mdi/weather-night')['default']
     IconMdiWeatherSunny: typeof import('~icons/mdi/weather-sunny')['default']
     LineChart: typeof import('./../components/modules/ECharts/LineChart.vue')['default']
+    LiquidFill: typeof import('./../components/modules/ECharts/LiquidFill.vue')['default']
     MixedChart: typeof import('./../components/modules/ECharts/MixedChart.vue')['default']
     OrderItem: typeof import('./../components/modules/order/OrderItem.vue')['default']
     OrderItemSkeleton: typeof import('./../components/modules/order/OrderItemSkeleton.vue')['default']

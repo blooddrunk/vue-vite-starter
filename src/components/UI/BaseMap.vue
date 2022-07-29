@@ -9,16 +9,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-
 export default defineComponent({
   inheritAttrs: false,
 });
 </script>
 
 <script lang="ts" setup>
-import { withDefaults, defineProps } from 'vue';
-
 import type { MapChartProps } from '@/utils/chart';
 
 const props = withDefaults(defineProps<MapChartProps>(), {
@@ -28,4 +24,8 @@ const props = withDefaults(defineProps<MapChartProps>(), {
 });
 
 const { chartRef, mergedOption } = useEcharts(props, 'map');
+
+defineExpose({
+  chartRef,
+});
 </script>
