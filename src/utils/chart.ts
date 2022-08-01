@@ -1,6 +1,7 @@
 import { unref } from 'vue';
-import type { EChartsOption, SeriesOption } from 'echarts';
 import type { GeoJSONCompressed } from 'echarts/types/src/coord/geo/geoTypes';
+import type { EChartsOption, SeriesOption } from 'echarts';
+// import type { SeriesEncodeOptionMixin } from 'echarts/types/src/util/types';
 import ECharts from 'vue-echarts';
 import { merge } from 'lodash-es';
 
@@ -43,12 +44,6 @@ export type NormalizedDimensionDefinition = {
   name: string;
   displayName?: string;
 };
-// export type SimplifiedSeriesDefinition =
-//   | {
-//       type?: string;
-//       encode: Record<string, string | number | (string | number)[]>;
-//     }
-//   | Record<string, any>;
 
 export const normalizeSeries = (
   enhancedDimensions: MaybeRef<EnhancedDimensionDefinition[]>,
@@ -91,7 +86,7 @@ export const normalizeSeries = (
       throw new Error(`series type of [${name}] is missing`);
     }
 
-    const seriesItem: SeriesOption = merge(
+    const seriesItem: any = merge(
       {
         encode: {
           x: [0],

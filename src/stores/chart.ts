@@ -2,7 +2,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 
 import { StoreKeys } from '@/services/chart';
 
-export const useChartStore = defineStore('main', () => {
+export const useChartStore = defineStore('chart', () => {
   const { data: store, execute: fetchData } = useDataByCity();
 
   const currentCity = useStorage<StoreKeys>('city', '杭州市');

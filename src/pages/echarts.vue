@@ -8,6 +8,8 @@
 
     <PieChart></PieChart>
 
+    <LiquidFill></LiquidFill>
+
     <ChinaMap map="china"></ChinaMap>
   </div>
 </template>

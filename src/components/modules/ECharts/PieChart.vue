@@ -1,37 +1,80 @@
 <template>
-  <div class="aspect-w-3 aspect-h-1">
-    <BaseChart :data="dataSource" :option="option" type="pie"></BaseChart>
+  <div class="relative">
+    <div class="aspect-w-3 aspect-h-1">
+      <BaseChart :data="data" :option="chartOption" type="pie"></BaseChart>
+    </div>
+
+    <div class="text-lg 3xl:2xl text-primary font-semibold">
+      <div
+        class="absolute left-[40%] top-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+        昨日
+      </div>
+      <div class="absolute left-3/4 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        今日
+      </div>
+    </div>
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import type { EChartsOption, PieSeriesOption } from 'echarts';
 
-const random = () => {
-  return Math.round(300 + Math.random() * 700) / 10;
+const chartStore = useChartStore();
+
+const data = computed(() => {
+  return chartStore.data?.c2 ?? [];
+});
+
+const defaultSeries: PieSeriesOption = {
+  type: 'pie',
+  radius: ['25%', '45%'],
+  label: {
+    color: 'inherit',
+    formatter: '{d}%',
+  },
+  labelLine: {
+    show: false,
+    length: 4,
+    length2: 0,
+  },
 };
 
-const dataSource = ref(
-  ['Matcha Latte', 'Milk Tea', 'Cheese Cocoa', 'Walnut Brownie'].map(
-    (product) => ({
-      product,
-      '2015': random(),
-      '2015Tooltip': `${random()}!`,
-      '2016': random(),
-      '2016_Percentage': `${random()}%`,
-      '2017': random(),
-    })
-  )
-);
-
-const option = {
-  legend: {},
-  series: {
-    radius: ['20%', '40%'],
-    encode: {
-      itemName: 'product',
-      value: '2015',
-    },
+const chartOption: EChartsOption = {
+  grid: {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
   },
+  legend: {
+    show: true,
+    left: 15,
+    top: 'center',
+    orient: 'vertical',
+    // itemWidth: 16,
+    // itemHeight: 8,
+  },
+  tooltip: {
+    show: false,
+  },
+  series: [
+    {
+      ...defaultSeries,
+      center: ['40%', '50%'],
+      encode: {
+        itemName: 'label1',
+        value: 'value1',
+      },
+    },
+    {
+      ...defaultSeries,
+      center: ['75%', '50%'],
+      encode: {
+        itemName: 'label1',
+        value: 'value2',
+      },
+    },
+  ],
 };
 </script>
