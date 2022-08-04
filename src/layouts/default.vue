@@ -16,8 +16,8 @@
           text
           @click="toggleNightMode"
         >
-          <icon-mdi-weather-night v-if="isDark"></icon-mdi-weather-night>
-          <icon-mdi-weather-sunny v-else :size="20"></icon-mdi-weather-sunny>
+          <IconMdiWeatherNight v-if="isDark"></IconMdiWeatherNight>
+          <IconMdiWeatherSunny v-else></IconMdiWeatherSunny>
         </el-button>
       </header>
 

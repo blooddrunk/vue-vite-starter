@@ -85,6 +85,7 @@ export default ({ mode }) => {
               park: 'icon-park',
               fas: 'fa-solid',
             },
+            enabledCollections: ['mdi'],
           }),
         ],
       }),

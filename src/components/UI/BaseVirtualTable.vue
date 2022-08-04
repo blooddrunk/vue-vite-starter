@@ -8,7 +8,7 @@
       <div
         class="absolute inset-0 grid place-content-center z-50 transition bg-white/80 dark:bg-slate-800/95"
       >
-        <icon-mdi-loading class="animate-spin"></icon-mdi-loading>
+        <IconMdiLoading class="animate-spin"></IconMdiLoading>
       </div>
     </template>
   </el-table-v2>

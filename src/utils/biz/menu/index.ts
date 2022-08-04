@@ -1,4 +1,5 @@
 import { MenuItem } from '@typings';
+import admin from './admin';
 
 export const createMenuLookup = (menuList: MenuItem[]) => {
   const lookup: Record<string, MenuItem> = {};
@@ -23,29 +24,6 @@ export const createMenuLookup = (menuList: MenuItem[]) => {
   return lookup;
 };
 
-export const menuList: MenuItem[] = [
-  { id: 'dashboard', title: '首页', icon: 'dashboard' },
-  {
-    id: 'admin',
-    title: '系统管理',
-    icon: 'config',
-    children: [
-      {
-        id: 'admin-account',
-        title: '账号管理',
-        to: {
-          name: 'admin-account',
-        },
-      },
-      {
-        id: 'admin-role',
-        title: '角色管理',
-        to: {
-          name: 'admin-role',
-        },
-      },
-    ],
-  },
-];
+export const menuList = [...admin];
 
 export const menuLookup = createMenuLookup(menuList);

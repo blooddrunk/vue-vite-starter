@@ -5,9 +5,14 @@
         :content="isSidebarCollapsed ? '展开' : '折叠'"
         placement="right"
       >
-        <el-button class="w-full" type="text" @click="handleSidebarCollapse">
-          <IconMenuUnfold v-if="isSidebarCollapsed"></IconMenuUnfold>
-          <IconMenuFold v-else></IconMenuFold>
+        <el-button
+          class="w-full"
+          link
+          type="primary"
+          @click="handleSidebarCollapse"
+        >
+          <IconMdiMenu v-if="isSidebarCollapsed"></IconMdiMenu>
+          <IconMdiMenuOpen v-else></IconMdiMenuOpen>
         </el-button>
       </el-tooltip>
     </div>
@@ -23,8 +28,6 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
 const ui = useUIStore();

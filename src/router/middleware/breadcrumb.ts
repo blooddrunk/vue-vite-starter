@@ -1,4 +1,4 @@
-import { menuLookup } from '@/utils/menu';
+import { menuLookup } from '@/utils/biz/menu';
 
 import { Router } from 'vue-router';
 

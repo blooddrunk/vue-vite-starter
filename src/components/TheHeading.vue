@@ -4,18 +4,18 @@
 
     <el-dropdown size="medium" @command="handleCommand">
       <div class="flex items-center text-white">
-        <IconMe :size="18"></IconMe>
+        <IconMdiAccount class="text-[1.3em]"></IconMdiAccount>
         <span class="ml-1">{{ userName }}</span>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item command="password">
             修改密码
-            <IconKey class="ml-1"> </IconKey>
+            <IconMdiKey class="ml-1"> </IconMdiKey>
           </el-dropdown-item>
           <el-dropdown-item command="logout">
             退出登录
-            <IconLogout class="ml-1"> </IconLogout>
+            <IconMdiLogout class="ml-1"> </IconMdiLogout>
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>

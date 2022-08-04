@@ -1,8 +1,6 @@
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
-import { useToggle } from '@vueuse/core';
+import { defineStore, acceptHMRUpdate } from 'pinia';
 
-import { menuList } from '@/utils/menu';
+import { menuList } from '@/utils/biz/menu';
 import { BreadcrumbItem, MenuItem } from '@typings';
 
 export type UIState = {
@@ -26,3 +24,7 @@ export const useUIStore = defineStore('ui', () => {
     sidebarData,
   };
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useUIStore, import.meta.hot));
+}

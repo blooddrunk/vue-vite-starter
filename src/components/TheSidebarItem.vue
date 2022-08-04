@@ -1,11 +1,7 @@
 <template>
   <el-sub-menu v-if="hasChildren" index="item.id">
     <template #title>
-      <component
-        :is="getIconComponentName(item.icon)"
-        v-if="item.icon"
-        :size="18"
-      ></component>
+      <Icon v-if="item.icon" :icon="getIcon(item.icon)"></Icon>
       <span class="ml-1.5">{{ item.title }}</span>
     </template>
 
@@ -17,50 +13,34 @@
   </el-sub-menu>
 
   <el-menu-item v-else :index="item.id" @click="handleItemClick(item)">
-    <component
-      :is="getIconComponentName(item.icon)"
-      v-if="item.icon"
-      :size="18"
-    ></component>
+    <Icon v-if="item.icon" :icon="getIcon(item.icon)"></Icon>
     <span class="ml-1.5">{{ item.title }}</span>
   </el-menu-item>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, PropType } from 'vue';
-import { useRouter } from 'vue-router';
+<script lang="ts" setup>
+import { icons } from '@iconify-json/mdi';
+import { getIconData } from '@iconify/utils';
+import type { IconifyJSON } from '@iconify/types';
+import { Icon } from '@iconify/vue';
 
 import { MenuItem } from '@typings';
 
-export default defineComponent({
-  name: 'TheSidebarItem',
+const props = defineProps<{
+  item: MenuItem;
+}>();
 
-  props: {
-    item: {
-      type: Object as PropType<MenuItem>,
-      required: true,
-    },
-  },
+const hasChildren = computed(() => !!props.item.children?.length);
 
-  setup(props) {
-    const hasChildren = computed(() => !!props.item.children?.length);
+const router = useRouter();
+const handleItemClick = (item: MenuItem) => {
+  if (item.to) {
+    router.push(item.to);
+  } else {
+    console.warn(`No route config found for '${item.id}'`);
+  }
+};
 
-    const router = useRouter();
-    const handleItemClick = (item: MenuItem) => {
-      if (item.to) {
-        router.push(item.to);
-      } else {
-        console.warn(`No route config found for '${item.id}'`);
-      }
-    };
-
-    const getIconComponentName = (shortname: string) => `icon-${shortname}`;
-
-    return {
-      hasChildren,
-      handleItemClick,
-      getIconComponentName,
-    };
-  },
-});
+const getIcon = (shortname: string) =>
+  getIconData(icons as IconifyJSON, shortname);
 </script>
