@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="w-full space-y-8">
     <HistChart></HistChart>
 
     <LineChart></LineChart>
@@ -8,9 +8,13 @@
 
     <PieChart></PieChart>
 
+    <GaugeChart></GaugeChart>
+
     <LiquidFill></LiquidFill>
 
-    <ChinaMap map="china"></ChinaMap>
+    <ChinaMap></ChinaMap>
+
+    <InteractiveMap></InteractiveMap>
   </div>
 </template>
 

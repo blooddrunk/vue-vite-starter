@@ -2,7 +2,7 @@
   <ECharts
     ref="chartRef"
     :autoresize="autoResize"
-    :theme="theme"
+    :theme="currentTheme"
     :option="mergedOption"
     v-bind="$attrs"
   ></ECharts>
@@ -24,4 +24,10 @@ const props = withDefaults(defineProps<CommonChartProps>(), {
 });
 
 const { chartRef, mergedOption } = useEcharts(props, props.type);
+
+/**
+ * ! this will not work
+ */
+const isDark = useDark();
+const currentTheme = computed(() => (isDark.value ? 'dark' : props.theme));
 </script>

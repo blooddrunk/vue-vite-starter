@@ -56,18 +56,18 @@ export default {
     axisLine: {
       show: true,
       lineStyle: {
-        color: '#ffffff',
+        color: '#94a3b8',
       },
     },
     axisTick: {
       show: false,
       lineStyle: {
-        color: '#ffffff',
+        color: '#94a3b8',
       },
     },
     axisLabel: {
       show: true,
-      color: '#ffffff',
+      color: '#94a3b8',
     },
     splitLine: {
       show: false,
@@ -86,7 +86,7 @@ export default {
     axisLine: {
       show: true,
       lineStyle: {
-        color: '#ffffff',
+        color: '#94a3b8',
       },
     },
     axisTick: {
@@ -97,7 +97,7 @@ export default {
     },
     axisLabel: {
       show: true,
-      color: '#ffffff',
+      color: '#94a3b8',
     },
     splitLine: {
       show: false,
@@ -139,7 +139,7 @@ export default {
     },
     emphasis: {
       label: {
-        color: '#ffffff',
+        color: '#94a3b8',
       },
       itemStyle: {
         areaColor: {
@@ -203,7 +203,7 @@ export default {
     },
     emphasis: {
       label: {
-        color: '#ffffff',
+        color: '#94a3b8',
       },
       itemStyle: {
         areaColor: {

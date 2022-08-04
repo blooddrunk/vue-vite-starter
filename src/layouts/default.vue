@@ -1,5 +1,7 @@
 <template>
-  <main class="h-screen p-6 overflow-y-auto dark:bg-gray-800 dark:text-white">
+  <main
+    class="h-screen py-6 px-8 3xl:px-10 overflow-y-auto dark:bg-gray-800 dark:text-white"
+  >
     <section class="flex flex-col items-center pt-20">
       <header class="flex items-center">
         <router-link to="/">

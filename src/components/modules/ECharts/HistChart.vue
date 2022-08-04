@@ -1,12 +1,14 @@
 <template>
-  <div class="aspect-w-4 aspect-h-1">
-    <BaseChart
-      :dimensions="dimensions"
-      :data="dataSource"
-      :option="option"
-      type="bar"
-    ></BaseChart>
-  </div>
+  <BorderedCard title="Bar">
+    <div class="aspect-w-4 aspect-h-1">
+      <BaseChart
+        :dimensions="dimensions"
+        :data="dataSource"
+        :option="option"
+        type="bar"
+      ></BaseChart>
+    </div>
+  </BorderedCard>
 </template>
 
 <script lang="ts" setup>

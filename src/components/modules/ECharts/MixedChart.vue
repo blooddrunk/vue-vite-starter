@@ -1,54 +1,132 @@
 <template>
-  <div class="aspect-w-4 aspect-h-1">
-    <BaseChart
-      :dimensions="dimensions"
-      :data="dataSource"
-      :option="option"
-    ></BaseChart>
-  </div>
+  <BorderedCard title="Mixed">
+    <div class="aspect-w-3 aspect-h-1">
+      <BaseChart
+        :dimensions="dimensions"
+        :data="data"
+        :option="option"
+        type="bar"
+      ></BaseChart>
+    </div>
+  </BorderedCard>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { zipWith } from 'lodash-es';
+import type { EChartsOption } from 'echarts';
+
 import { normalizeSeries } from '@/utils/chart';
+import { toPercentage, toCompactDisplayString } from '@/utils/math';
+import { C2Item } from '@/services/chart';
 
-const random = () => {
-  return Math.round(300 + Math.random() * 700) / 10;
-};
+const chartStore = useChartStore();
 
-const { dimensions, series } = normalizeSeries([
-  'product',
-  {
-    name: '2015',
-    displayName: '2015年',
-    displayDimension: '2015Tooltip',
-    seriesConfig: { type: 'bar' },
-  },
-  {
-    name: '2016',
-    displayName: '二零一六',
-    isPercentage: true,
-    seriesConfig: { type: 'bar' },
-  },
-  { name: '2017', seriesConfig: { type: 'line', yAxisIndex: 1 } },
-]);
-
-const dataSource = ref(
-  ['Matcha Latte', 'Milk Tea', 'Cheese Cocoa', 'Walnut Brownie'].map(
-    (product) => ({
-      product,
-      '2015': random(),
-      '2015Tooltip': `${random()}!`,
-      '2016': random(),
-      '2016_Percentage': `${random()}%`,
-      '2017': random(),
-    })
-  )
+const { dimensions, series } = normalizeSeries(
+  [
+    'label1',
+    {
+      name: 'value1',
+      seriesConfig: {
+        // label: {
+        //   show: true,
+        //   color: '#f472b6',
+        //   position: 'insideTop',
+        //   shadowColor: 'red',
+        //   shadowBlur: 6,
+        // },
+        barWidth: 20,
+        itemStyle: {
+          borderRadius: [6, 6, 0, 0],
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: '#f472b6',
+              },
+              {
+                offset: 1,
+                color: '#6366f1',
+              },
+            ],
+          },
+        },
+      },
+    },
+    {
+      name: 'value2',
+      seriesConfig: {
+        type: 'line',
+        yAxisIndex: 1,
+        label: {
+          show: true,
+          color: 'white',
+          formatter: (params) => {
+            const data = params.data as C2Item;
+            return `{value1|${toCompactDisplayString(
+              data.value1
+            )}}/{value2|${toPercentage(data.value2)}}`;
+          },
+          rich: {
+            value1: {
+              color: '#38bdf8',
+            },
+            value2: {
+              color: '#0e7490',
+            },
+          },
+        },
+        itemStyle: {
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: '#0d9488',
+              },
+              {
+                offset: 1,
+                color: '#22c55e',
+              },
+            ],
+          },
+        },
+      },
+    },
+  ],
+  'bar'
 );
 
-const option = {
+const option: EChartsOption = {
+  tooltip: {},
+  yAxis: [
+    {
+      axisLabel: {
+        formatter: (value: any) => toCompactDisplayString(value),
+      },
+    },
+    {
+      axisLabel: {
+        formatter: '{value}%',
+      },
+    },
+  ],
   series,
-  legend: {},
-  yAxis: [{}, {}],
 };
+
+const data = computed(() => {
+  const rawData = chartStore.data?.r2 ?? [];
+  return zipWith(rawData, ['0~2台', '3~5台', '6~9台', '10+'], (a, b) => ({
+    label1: b,
+    ...a,
+  }));
+});
 </script>

@@ -1,28 +1,30 @@
 <template>
-  <div class="p-2 grid grid-cols-4 2xl:gap-2 gap-1">
-    <div
-      v-for="item in data"
-      :key="item.label1"
-      class="aspect-w-1 aspect-h-1 w-full relative"
-    >
-      <ECharts
-        ref="chartRef"
-        autoresize
-        :option="getChartOption(item)"
-      ></ECharts>
-
+  <BorderedCard title="LiquidFill">
+    <div class="p-2 grid grid-cols-4 2xl:gap-2 gap-1">
       <div
-        class="absolute inset-0 flex flex-col items-center justify-center text-2xl 3xl:text-3xl"
+        v-for="item in data"
+        :key="item.label1"
+        class="aspect-w-1 aspect-h-1 w-full relative"
       >
-        <div class="text-emerald-800 font-semibold">
-          {{ toCompactDisplayString(item.value2) }}
-        </div>
-        <div class="2x:mt-3 mt-2 text-cyan-200">
-          {{ toPercentage(item.value1) }}
+        <ECharts
+          ref="chartRef"
+          autoresize
+          :option="getChartOption(item)"
+        ></ECharts>
+
+        <div
+          class="absolute inset-0 flex flex-col items-center justify-center text-2xl 3xl:text-3xl"
+        >
+          <div class="text-emerald-800 font-semibold">
+            {{ toCompactDisplayString(item.value2) }}
+          </div>
+          <div class="2x:mt-3 mt-2 text-cyan-200">
+            {{ toPercentage(item.value1) }}
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </BorderedCard>
 </template>
 
 <script setup lang="ts">
