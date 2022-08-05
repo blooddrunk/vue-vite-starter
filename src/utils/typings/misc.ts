@@ -16,6 +16,6 @@ export type MenuItem = {
   id: string;
   title: string;
   icon?: string;
-  to?: RouteLocationRaw;
+  route?: RouteLocationRaw;
   children?: MenuItem[];
 };

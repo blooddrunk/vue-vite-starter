@@ -9,7 +9,9 @@
     "format": "prettier --write \"**/*.{js,ts,jsx,tsx,vue,scss,css,json}\""
   },
   "dependencies": {
+    "@iconify-json/mdi": "^1.1.29",
     "@iconify/utils": "^2.0.0-beta.4",
+    "@iconify/types": "^1.1.0",
     "@iconify/vue": "^3.2.1",
     "@vant/area-data": "^1.3.1",
     "@vee-validate/i18n": "^4.6.2",
@@ -40,8 +42,6 @@
     "vue-router": "^4.1.3"
   },
   "devDependencies": {
-    "@iconify-json/mdi": "^1.1.29",
-    "@iconify/types": "^1.1.0",
     "@rushstack/eslint-patch": "^1.1.4",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/line-clamp": "^0.4.0",

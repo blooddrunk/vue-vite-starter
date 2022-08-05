@@ -1,7 +1,12 @@
 <template>
   <el-sub-menu v-if="hasChildren" index="item.id">
     <template #title>
-      <Icon v-if="item.icon" :icon="getIcon(item.icon)"></Icon>
+      <Icon
+        v-if="item.icon"
+        :icon="getIcon(item.icon)"
+        width="1.2em"
+        height="1.2em"
+      ></Icon>
       <span class="ml-1.5">{{ item.title }}</span>
     </template>
 
@@ -13,7 +18,12 @@
   </el-sub-menu>
 
   <el-menu-item v-else :index="item.id" @click="handleItemClick(item)">
-    <Icon v-if="item.icon" :icon="getIcon(item.icon)"></Icon>
+    <Icon
+      v-if="item.icon"
+      :icon="getIcon(item.icon)"
+      width="1.2em"
+      height="1.2em"
+    ></Icon>
     <span class="ml-1.5">{{ item.title }}</span>
   </el-menu-item>
 </template>
@@ -34,8 +44,8 @@ const hasChildren = computed(() => !!props.item.children?.length);
 
 const router = useRouter();
 const handleItemClick = (item: MenuItem) => {
-  if (item.to) {
-    router.push(item.to);
+  if (item.route) {
+    router.push(item.route);
   } else {
     console.warn(`No route config found for '${item.id}'`);
   }

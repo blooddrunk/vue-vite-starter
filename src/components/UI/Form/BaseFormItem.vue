@@ -1,10 +1,10 @@
 <template>
   <el-form-item
+    :class="{ 'is-required': required }"
     :label="label"
     :label-width="labelWidth"
     :error="errorMessage"
     :validate-status="validateStatus"
-    :required="required"
   >
     <slot v-bind="fieldProps"></slot>
   </el-form-item>

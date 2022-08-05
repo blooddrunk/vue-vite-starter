@@ -1,18 +1,26 @@
-import { MenuItem } from '@typings';
-import admin from './admin';
+import type { MenuItem } from '@typings';
+import type { SystemValue } from '@/stores/ui';
+import defaultMenuList from './default';
 
-export const createMenuLookup = (menuList: MenuItem[]) => {
-  const lookup: Record<string, MenuItem> = {};
+export const createMenuLookup = (menuList: MenuItem[], system: SystemValue) => {
+  const byId = {} as Record<string, MenuItem>;
+  const byRoute = {} as Record<string, MenuItem>;
 
-  const traverse = (list: MenuItem[]) =>
-    list.forEach((item) => {
+  const traverse = (tree: MenuItem[]) =>
+    tree.forEach((item) => {
       if (!item.id) {
         throw new Error(`Menu item must have a 'id' field: ${item}`);
       }
 
-      lookup[item.id] = {
+      const newItem = {
         ...item,
+        system,
       };
+
+      byId[item.id] = { ...newItem };
+      if (item.route) {
+        byRoute[item.route] = { ...newItem };
+      }
 
       if (item.children && item.children.length) {
         traverse(item.children);
@@ -21,9 +29,12 @@ export const createMenuLookup = (menuList: MenuItem[]) => {
 
   traverse(menuList);
 
-  return lookup;
+  return {
+    byId,
+    byRoute,
+  };
 };
 
-export const menuList = [...admin];
+export const menuList = [...defaultMenuList];
 
-export const menuLookup = createMenuLookup(menuList);
+export const menuLookup = createMenuLookup(menuList, 'default');

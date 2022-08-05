@@ -6,7 +6,7 @@
         placement="right"
       >
         <el-button
-          class="w-full"
+          class="w-full !h-[var(--el-menu-item-height)]"
           link
           type="primary"
           @click="handleSidebarCollapse"
@@ -45,10 +45,6 @@ const defaultActiveName = computed(() => (route.name || '') as string);
   @apply overflow-y-auto border-r border-gray-200;
 
   :global {
-    span.i-icon {
-      @apply visible w-auto h-auto !important;
-    }
-
     .el-menu {
       @apply min-h-80;
       @apply border-none !important;

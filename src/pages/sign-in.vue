@@ -1,5 +1,7 @@
 <template>
-  <div :class="$style.root" class="h-screen relative flex bg-primary">
+  <div
+    class="h-screen relative flex bg-primary bg-[radial-gradient(var(--color-primary),var(--color-tertiary))]"
+  >
     <div class="flex-grow hidden lg:flex flex-col items-center justify-center">
       <AppLogo size="large"></AppLogo>
       <img
@@ -9,7 +11,9 @@
       />
     </div>
 
-    <div :class="$style.formWrapper">
+    <div
+      class="flex-grow flex flex-col items-center justify-center bg-[url('~assets/images/login.png')] bg-no-repeat bg-center lg:bg-none"
+    >
       <AppLogo size="large" class="lg:hidden mb-20"></AppLogo>
 
       <div
@@ -50,7 +54,7 @@
           >
             <template #prefix>
               <div class="el-input__icon">
-                <IconUser></IconUser>
+                <IconMdiAccount></IconMdiAccount>
               </div>
             </template>
           </BaseInput>
@@ -66,7 +70,7 @@
           >
             <template #prefix>
               <div class="el-input__icon">
-                <IconLock></IconLock>
+                <IconMdiLockOpen></IconMdiLockOpen>
               </div>
             </template>
           </BaseInput>
@@ -83,7 +87,7 @@
               >
                 <template #prefix>
                   <div class="el-input__icon">
-                    <IconPic></IconPic>
+                    <IconMdiImage></IconMdiImage>
                   </div>
                 </template>
               </BaseInput>
@@ -129,7 +133,9 @@
                 @after-enter="handleLoginSuccess"
                 @enter-cancelled="handleLoginSuccess"
               >
-                <IconCheckOne v-if="isLoggedIn"></IconCheckOne>
+                <IconMdiCheckCircleOutline
+                  v-if="isLoggedIn"
+                ></IconMdiCheckCircleOutline>
                 <span v-else>{{ loginButtonText }}</span>
               </transition>
             </el-button>
@@ -263,24 +269,3 @@ watch(values, () => {
   }
 });
 </script>
-
-<style lang="postcss" module>
-.root {
-  background-image: radial-gradient(
-    var(--color-primary),
-    var(--color-tertiary)
-  );
-}
-
-.formWrapper {
-  background-image: url(~assets/images/login.png);
-  @apply flex-grow flex flex-col items-center justify-center;
-  @apply bg-no-repeat bg-center;
-  @apply lg:bg-none;
-}
-
-.captcha {
-  height: 36px;
-  @apply rounded-sm cursor-pointer object-contain;
-}
-</style>
