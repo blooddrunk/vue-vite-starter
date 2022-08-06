@@ -19,7 +19,7 @@
 
     <el-menu :default-active="defaultActiveName" :collapse="isSidebarCollapsed">
       <TheSidebarItem
-        v-for="menu in sidebarData"
+        v-for="menu in currentMenuList"
         :key="menu.id"
         :item="menu"
       ></TheSidebarItem>
@@ -31,7 +31,7 @@
 import { storeToRefs } from 'pinia';
 
 const ui = useUIStore();
-const { isSidebarCollapsed, sidebarData } = storeToRefs(ui);
+const { isSidebarCollapsed, currentMenuList } = storeToRefs(ui);
 
 const handleSidebarCollapse = () => ui.toggleIsSidebarCollapsed();
 

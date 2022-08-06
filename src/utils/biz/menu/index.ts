@@ -1,5 +1,6 @@
-import type { MenuItem } from '@typings';
-import type { SystemValue } from '@/stores/ui';
+import { mergeWith } from 'lodash-es';
+
+import type { SystemValue, MenuItem } from '@/stores/ui';
 import defaultMenuList from './default';
 
 export const createMenuLookup = (menuList: MenuItem[], system: SystemValue) => {
@@ -19,7 +20,7 @@ export const createMenuLookup = (menuList: MenuItem[], system: SystemValue) => {
 
       byId[item.id] = { ...newItem };
       if (item.route) {
-        byRoute[item.route] = { ...newItem };
+        byRoute[item.route.toString()] = { ...newItem };
       }
 
       if (item.children && item.children.length) {
@@ -35,6 +36,43 @@ export const createMenuLookup = (menuList: MenuItem[], system: SystemValue) => {
   };
 };
 
-export const menuList = [...defaultMenuList];
+export const getFirstNavigableMenu = (
+  menuList: MenuItem[]
+): MenuItem | null | undefined => {
+  for (const item of menuList) {
+    if (item.route) {
+      return item;
+    } else if (item.children) {
+      return getFirstNavigableMenu(item.children);
+    } else {
+      return null;
+    }
+  }
+};
 
-export const menuLookup = createMenuLookup(menuList, 'default');
+export const getRouteOfMenuItem = (item: MenuItem) => {
+  if (item && item.route && item.id) {
+    if (typeof item.route !== 'string') {
+      throw new Error(`[route] property of menu item must be route name`);
+    }
+    return { name: item.route };
+  }
+
+  return null;
+};
+
+export const allMenuList = [...defaultMenuList];
+
+export const menuLookup = mergeWith(
+  {},
+  createMenuLookup(defaultMenuList, 'default'),
+  (objValue, srcValue) => {
+    if (Array.isArray(objValue)) {
+      return objValue.concat(srcValue);
+    }
+  }
+);
+
+export const menuPerSystem: { [Key in SystemValue]: MenuItem[] } = {
+  default: defaultMenuList,
+};

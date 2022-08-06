@@ -34,7 +34,7 @@ import { getIconData } from '@iconify/utils';
 import type { IconifyJSON } from '@iconify/types';
 import { Icon } from '@iconify/vue';
 
-import { MenuItem } from '@typings';
+import type { MenuItem } from '@/stores/ui';
 
 const props = defineProps<{
   item: MenuItem;

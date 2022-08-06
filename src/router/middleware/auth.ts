@@ -6,9 +6,10 @@ export default (router: Router) => {
       return;
     }
 
-    const auth = useAuthStore();
+    const authStore = useAuthStore();
+    const uiStore = useUIStore();
 
-    const isLoggedIn = auth.isLoggedIn;
+    const isLoggedIn = authStore.isLoggedIn;
     const isInLoginPage = to.name === 'sign-in';
     const requiresAuth =
       !isLoggedIn &&
@@ -16,9 +17,22 @@ export default (router: Router) => {
         ? true
         : !!to.meta.requiresAuth);
 
-    if (isInLoginPage && isLoggedIn) {
-      auth.logout();
-    } else if (requiresAuth && !isLoggedIn) {
+    if (isLoggedIn) {
+      if (isInLoginPage) {
+        authStore.logout();
+      } else {
+        // TODO: fetch user menu
+
+        const menuLookup = uiStore.menuLookupByRoute;
+        const systemOfRoute = menuLookup[to.name as string]
+          ? menuLookup[to.name as string].system
+          : '';
+
+        uiStore.switchSystem(
+          systemOfRoute || uiStore.firstAvailableSystem.value
+        );
+      }
+    } else if (requiresAuth) {
       return {
         name: 'sign-in',
         query: {

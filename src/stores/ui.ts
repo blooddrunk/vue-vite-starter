@@ -1,21 +1,28 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
+import { RouteLocationRaw } from 'vue-router';
 
-import { menuList, menuLookup } from '@/utils/biz/menu';
-import type { BreadcrumbItem, MenuItem } from '@typings';
+import {
+  getFirstNavigableMenu,
+  menuLookup as rawMenuLookup,
+  menuPerSystem as rawMenuPerSystem,
+} from '@/utils/biz/menu';
+
+export type BreadcrumbItem = {
+  text: string;
+  to?: RouteLocationRaw;
+  isVisible?: boolean;
+};
 
 const availableSystemList = [{ label: '默认系统', value: 'default' }] as const;
 export type SystemList = typeof availableSystemList;
 export type SystemValue = typeof availableSystemList[number]['value'];
-
-export type UIState = {
-  breadcrumbList: BreadcrumbItem[];
-
-  isSidebarCollapsed: boolean;
-  sidebarData: MenuItem[];
-
-  systemList: SystemList;
-  currentSystem: string;
-  currentMenuList: MenuItem[];
+export type MenuItem = {
+  id: string;
+  title: string;
+  icon?: string;
+  route?: RouteLocationRaw;
+  children?: MenuItem[];
+  system: SystemValue;
 };
 
 export const useUIStore = defineStore('ui', () => {
@@ -23,28 +30,55 @@ export const useUIStore = defineStore('ui', () => {
 
   const isSidebarCollapsed = ref(false);
   const toggleIsSidebarCollapsed = useToggle(isSidebarCollapsed);
-  const sidebarData = ref<MenuItem[]>(menuList);
+
+  const currentMenuList = shallowRef<MenuItem[]>([]);
+  const menuLookup = shallowRef(rawMenuLookup);
+  const menuPerSystem = shallowRef(rawMenuPerSystem);
+  const menuLookupById = computed(() => menuLookup.value.byId);
+  const menuLookupByRoute = computed(() => menuLookup.value.byRoute);
+  const firstNavigableMenu = computed(() => {
+    const target = getFirstNavigableMenu(currentMenuList.value);
+    if (target) {
+      return menuLookupByRoute.value[target.route!.toString()];
+    }
+    return null;
+  });
 
   const systemList = ref<SystemList>(availableSystemList);
   const currentSystem = ref('');
-  const currentMenuList = ref<MenuItem[]>();
-
   const systemValueList = computed(() =>
     systemList.value.map((item) => item.value)
   );
   const isSystemSole = computed(() => systemValueList.value.length <= 1);
+  const firstAvailableSystem = computed(() => systemList.value[0]);
+
+  const switchSystem = (system: SystemValue) => {
+    currentSystem.value = system;
+    currentMenuList.value = menuPerSystem.value[system];
+  };
+
+  const clearSystem = () => {
+    currentSystem.value = '';
+    currentMenuList.value = [];
+  };
 
   return {
     breadcrumbList,
 
     isSidebarCollapsed,
     toggleIsSidebarCollapsed,
-    sidebarData,
+
+    currentMenuList,
+    menuLookupById,
+    menuLookupByRoute,
+    firstNavigableMenu,
 
     systemList,
     currentSystem,
-    currentMenuList,
     isSystemSole,
+    firstAvailableSystem,
+    switchSystem,
+    clearSystem,
   };
 });
 
