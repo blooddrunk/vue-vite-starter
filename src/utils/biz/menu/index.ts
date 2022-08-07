@@ -20,7 +20,7 @@ export const createMenuLookup = (menuList: MenuItem[], system: SystemValue) => {
 
       byId[item.id] = { ...newItem };
       if (item.route) {
-        byRoute[item.route.toString()] = { ...newItem };
+        byRoute[item.route] = { ...newItem };
       }
 
       if (item.children && item.children.length) {

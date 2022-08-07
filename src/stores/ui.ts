@@ -20,7 +20,7 @@ export type MenuItem = {
   id: string;
   title: string;
   icon?: string;
-  route?: RouteLocationRaw;
+  route?: string;
   children?: MenuItem[];
   system: SystemValue;
 };
@@ -28,7 +28,7 @@ export type MenuItem = {
 export const useUIStore = defineStore('ui', () => {
   const breadcrumbList = ref<BreadcrumbItem[]>([]);
 
-  const isSidebarCollapsed = ref(false);
+  const isSidebarCollapsed = useStorage('is_sidebar_collapsed', false);
   const toggleIsSidebarCollapsed = useToggle(isSidebarCollapsed);
 
   const currentMenuList = shallowRef<MenuItem[]>([]);
@@ -69,6 +69,7 @@ export const useUIStore = defineStore('ui', () => {
     toggleIsSidebarCollapsed,
 
     currentMenuList,
+    menuLookup,
     menuLookupById,
     menuLookupByRoute,
     firstNavigableMenu,

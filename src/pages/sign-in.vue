@@ -45,7 +45,7 @@
 
         <el-form class="mt-6" status-icon @submit="onSubmit">
           <BaseInput
-            name="username"
+            name="userName"
             label="用户名"
             :show-label="false"
             required
@@ -204,14 +204,14 @@ watchEffect(() => {
 
 /** form handling*/
 const validationSchema = {
-  username: 'required',
+  userName: 'required',
   password: 'required',
   captcha: 'required',
 };
 const { values, meta, isSubmitting, handleSubmit } = useForm<LoginInfo>({
   validationSchema,
   initialValues: {
-    username: '',
+    userName: '',
     password: '',
     captcha: '',
   },
@@ -250,7 +250,6 @@ const handleLoginSuccess = async () => {
     return;
   }
 
-  auth.isForcedOut = false;
   isLoginTransitionFinished.value = true;
   stopTransitionCounting();
 

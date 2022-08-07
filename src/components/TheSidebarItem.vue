@@ -45,7 +45,9 @@ const hasChildren = computed(() => !!props.item.children?.length);
 const router = useRouter();
 const handleItemClick = (item: MenuItem) => {
   if (item.route) {
-    router.push(item.route);
+    router.push({
+      name: item.route,
+    });
   } else {
     console.warn(`No route config found for '${item.id}'`);
   }

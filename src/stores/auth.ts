@@ -1,50 +1,51 @@
 import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
-import { useStorage } from '@vueuse/core';
-import { promiseTimeout } from '@/utils/misc';
+import { pick, keyBy } from 'lodash';
 
 import { AuthInfo, UserInfo, LoginInfo } from '@typings';
 
 export const useAuthStore = defineStore('auth', () => {
+  const uiStore = useUIStore();
+
   const auth = ref<AuthInfo>({
-    user: useStorage('hsop_user', {
-      userName: 'mockedLoginUser',
-      mobile: '13312331233',
+    user: useStorage('some_app_user', {
+      userName: 'admin',
+      menuList: ['dashboard', 'admin-account', 'admin-role'],
     }),
   });
 
   const user = computed(() => auth.value.user);
   const userName = computed(() => user.value.userName);
   const isLoggedIn = computed(() => !!userName.value);
+  const permittedMenuMapById = computed(() =>
+    pick(uiStore.menuLookupById, user.value.menuList)
+  );
+  const permittedMenuList = computed(() =>
+    Object.values(permittedMenuMapById.value)
+  );
+  const permittedMenuMapByRoute = computed(() =>
+    keyBy(permittedMenuList.value, 'route')
+  );
 
-  const isLoginPending = ref(false);
-  const loginError = ref<string>('');
+  const updateUser = (payload: Partial<UserInfo>) => {
+    auth.value.user = {
+      ...auth.value.user,
+      ...payload,
+    };
+  };
+
+  const {
+    data,
+    isLoading: isLoginPending,
+    loginRequest,
+    error: loginError,
+  } = useLogin();
+
   const hasLoginError = computed(() => !!loginError.value);
-
-  const isForcedOut = ref(false);
-
   const login = async (payload: LoginInfo) => {
-    isLoginPending.value = true;
+    await loginRequest(payload);
 
-    try {
-      // const user = await axios.$post('/security/login', payload, {
-      //   __needValidation: false,
-      // });
-
-      await promiseTimeout(1000);
-
-      if (payload.password !== 'admin') {
-        throw new Error(`wrong auth info`);
-      }
-
-      auth.value.user = {
-        userName: payload.username,
-      };
-    } catch (error) {
-      console.error(error);
-      loginError.value = (error as any).message || '发生未知错误';
-    } finally {
-      isLoginPending.value = false;
+    if (data.value) {
+      updateUser(data.value);
     }
   };
 
@@ -61,9 +62,12 @@ export const useAuthStore = defineStore('auth', () => {
     hasLoginError,
     isLoginPending,
 
+    permittedMenuList,
+    permittedMenuMapById,
+    permittedMenuMapByRoute,
+
+    updateUser,
     login,
     logout,
-
-    isForcedOut,
   };
 });

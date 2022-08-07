@@ -5,7 +5,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, computed } from 'vue';
 import { ComponentSize, ButtonType } from 'element-plus';
 
 type ButtonProps = Partial<{

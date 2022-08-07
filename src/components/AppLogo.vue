@@ -11,8 +11,6 @@
 </template>
 
 <script lang="ts" setup>
-import { withDefaults, defineProps, computed } from 'vue';
-
 type Props = {
   size?: 'normal' | 'large';
   isLink?: boolean;
