@@ -83,8 +83,7 @@ export const install: UserPlugin = async (app) => {
   );
   registerMap(
     'zhejiang',
-    (await import('./map/json/province/zhejiang.json'))
-      .default as GeoJSONSourceInput
+    (await import('./map/json/zhejiang.json')).default as GeoJSONSourceInput
   );
 
   app.component('ECharts', VueEcharts);

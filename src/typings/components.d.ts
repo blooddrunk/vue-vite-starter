@@ -91,6 +91,16 @@ declare module '@vue/runtime-core' {
     TheSidebar: typeof import('./../components/TheSidebar.vue')['default']
     TheSidebarItem: typeof import('./../components/TheSidebarItem.vue')['default']
     TheTabbar: typeof import('./../components/TheTabbar.vue')['default']
+    VanArea: typeof import('vant/es')['Area']
+    VanBadge: typeof import('vant/es')['Badge']
+    VanButton: typeof import('vant/es')['Button']
+    VanEmpty: typeof import('vant/es')['Empty']
+    VanImage: typeof import('vant/es')['Image']
+    VanList: typeof import('vant/es')['List']
+    VanPopup: typeof import('vant/es')['Popup']
+    VanPullRefresh: typeof import('vant/es')['PullRefresh']
+    VanSkeleton: typeof import('vant/es')['Skeleton']
+    VanSticky: typeof import('vant/es')['Sticky']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']
