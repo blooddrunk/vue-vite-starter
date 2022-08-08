@@ -8,3 +8,9 @@ meta:
   breadcrumb:
     text: 'Admin'
 </route>
+
+<script lang="ts" setup>
+useFirstNavigableMenu('admin', {
+  immediatelyRedirect: true,
+});
+</script>

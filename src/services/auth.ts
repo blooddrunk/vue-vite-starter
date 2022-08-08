@@ -22,8 +22,8 @@ export const useLogin = () => {
         userName: payload.userName,
         menuList:
           payload.userName === 'admin'
-            ? ['dashboard', 'admin-account', 'admin-role']
-            : ['dashboard', 'admin-role'],
+            ? ['dashboard', 'admin', 'admin-account', 'admin-role']
+            : ['dashboard', 'admin', 'admin-role'],
       };
       return data.value;
     } catch (e: any) {

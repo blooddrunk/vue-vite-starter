@@ -1,4 +1,5 @@
 import { mergeWith } from 'lodash-es';
+import type { RouteLocationRaw } from 'vue-router';
 
 import type { SystemValue, MenuItem } from '@/stores/ui';
 import defaultMenuList from './default';
@@ -50,7 +51,9 @@ export const getFirstNavigableMenu = (
   }
 };
 
-export const getRouteOfMenuItem = (item: MenuItem) => {
+export const getRouteOfMenuItem = (
+  item?: MenuItem | null
+): RouteLocationRaw | null => {
   if (item && item.route && item.id) {
     if (typeof item.route !== 'string') {
       throw new Error(`[route] property of menu item must be route name`);

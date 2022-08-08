@@ -11,9 +11,10 @@
     </template>
 
     <TheSidebarItem
-      v-for="child in item.children"
+      v-for="child in filter(item.children)"
       :key="child.id"
       :item="child"
+      :filter="filter"
     ></TheSidebarItem>
   </el-sub-menu>
 
@@ -38,6 +39,7 @@ import type { MenuItem } from '@/stores/ui';
 
 const props = defineProps<{
   item: MenuItem;
+  filter: (items?: MenuItem[]) => MenuItem[];
 }>();
 
 const hasChildren = computed(() => !!props.item.children?.length);

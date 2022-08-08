@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import generatedRoutes from 'virtual:generated-pages';
 import { setupLayouts } from 'virtual:generated-layouts';
 
-import { BreadcrumbItem } from '@typings';
+import type { BreadcrumbItem } from '@/stores/ui';
 import * as middlewareList from './middleware';
 
 export const routerHistory = createWebHashHistory(import.meta.env.BASE_URL);

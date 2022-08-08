@@ -39,7 +39,7 @@ export const useUIStore = defineStore('ui', () => {
   const firstNavigableMenu = computed(() => {
     const target = getFirstNavigableMenu(currentMenuList.value);
     if (target) {
-      return menuLookupByRoute.value[target.route!.toString()];
+      return menuLookupByRoute.value[target.route!];
     }
     return null;
   });

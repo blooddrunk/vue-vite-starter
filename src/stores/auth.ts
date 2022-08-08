@@ -9,22 +9,26 @@ export const useAuthStore = defineStore('auth', () => {
   const auth = ref<AuthInfo>({
     user: useStorage('some_app_user', {
       userName: 'admin',
-      menuList: ['dashboard', 'admin-account', 'admin-role'],
+      menuList: ['dashboard', 'admin', 'admin-account', 'admin-role'],
     }),
   });
 
   const user = computed(() => auth.value.user);
   const userName = computed(() => user.value.userName);
   const isLoggedIn = computed(() => !!userName.value);
-  const permittedMenuMapById = computed(() =>
+  const permittedMenuLookupById = computed(() =>
     pick(uiStore.menuLookupById, user.value.menuList)
   );
   const permittedMenuList = computed(() =>
-    Object.values(permittedMenuMapById.value)
+    Object.values(permittedMenuLookupById.value)
   );
-  const permittedMenuMapByRoute = computed(() =>
-    keyBy(permittedMenuList.value, 'route')
+  const permittedMenuLookupByRoute = computed(() =>
+    keyBy(
+      permittedMenuList.value.filter((item) => !!item.route),
+      'route'
+    )
   );
+  const firstPermittedMenu = computed(() => permittedMenuList.value[0] ?? null);
 
   const updateUser = (payload: Partial<UserInfo>) => {
     auth.value.user = {
@@ -62,9 +66,9 @@ export const useAuthStore = defineStore('auth', () => {
     hasLoginError,
     isLoginPending,
 
-    permittedMenuList,
-    permittedMenuMapById,
-    permittedMenuMapByRoute,
+    permittedMenuLookupById,
+    permittedMenuLookupByRoute,
+    firstPermittedMenu,
 
     updateUser,
     login,

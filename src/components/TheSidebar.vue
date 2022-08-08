@@ -19,9 +19,10 @@
 
     <el-menu :default-active="defaultActiveName" :collapse="isSidebarCollapsed">
       <TheSidebarItem
-        v-for="menu in currentMenuList"
+        v-for="menu in filterPermittedMenu(currentMenuList)"
         :key="menu.id"
         :item="menu"
+        :filter="filterPermittedMenu"
       ></TheSidebarItem>
     </el-menu>
   </aside>
@@ -30,13 +31,24 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
 
-const ui = useUIStore();
-const { isSidebarCollapsed, currentMenuList } = storeToRefs(ui);
+import type { MenuItem } from '@/stores/ui';
 
-const handleSidebarCollapse = () => ui.toggleIsSidebarCollapsed();
+const uiStore = useUIStore();
+const { isSidebarCollapsed, currentMenuList, menuLookupByRoute } =
+  storeToRefs(uiStore);
+const handleSidebarCollapse = () => uiStore.toggleIsSidebarCollapsed();
 
 const route = useRoute();
-const defaultActiveName = computed(() => (route.name || '') as string);
+const defaultActiveName = computed(() => {
+  const matched = menuLookupByRoute.value[route.name as string];
+  return matched ? matched.id : '';
+});
+
+const authStore = useAuthStore();
+const filterPermittedMenu = (items?: MenuItem[]) =>
+  items
+    ? items.filter((item) => !!authStore.permittedMenuLookupById[item.id])
+    : [];
 </script>
 
 <style lang="postcss" module>

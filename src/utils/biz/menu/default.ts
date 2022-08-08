@@ -10,6 +10,7 @@ export default [
   {
     id: 'admin',
     title: '系统管理',
+    route: 'admin',
     icon: 'cogs',
     children: [
       {
