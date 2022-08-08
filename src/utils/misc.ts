@@ -2,6 +2,7 @@ import { isNil, mapValues } from 'lodash-es';
 import { unref } from 'vue';
 
 import { MaybeRef } from '@typings';
+import { match } from 'assert';
 
 export const isClient = () => typeof window === 'object';
 
@@ -84,3 +85,8 @@ export const trimValues = (filter: Record<string, any>) =>
 
     return value;
   });
+
+export const getFileNameOfResource = (path: string) => {
+  const matches = path.match(/([^\/]+)(?=\.\w+$)/);
+  return matches ? matches[0] : '';
+};

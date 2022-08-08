@@ -30,9 +30,11 @@ import {
 // import * as echarts from 'echarts';
 import type { GeoJSONSourceInput } from 'echarts/types/src/coord/geo/geoTypes';
 import 'echarts-liquidfill';
+import { mapKeys } from 'lodash-es';
 
 import type { UserPlugin } from '@typings';
 import { chartThemeList } from '@/utils/chart';
+import { getFileNameOfResource } from '@/utils/misc';
 
 export type ECOption = ComposeOption<
   | BarSeriesOption
@@ -77,13 +79,16 @@ export const install: UserPlugin = async (app) => {
     registerTheme(themeName, theme);
   });
 
+  const mapModules = import.meta.glob('./map/*.json');
+  console.log(mapKeys(mapModules, (value, key) => getFileNameOfResource(key)));
+
   registerMap(
     'china',
-    (await import('./map/json/china.json')).default as GeoJSONSourceInput
+    (await import('./map/china.json')).default as GeoJSONSourceInput
   );
   registerMap(
     'zhejiang',
-    (await import('./map/json/zhejiang.json')).default as GeoJSONSourceInput
+    (await import('./map/zhejiang.json')).default as GeoJSONSourceInput
   );
 
   app.component('ECharts', VueEcharts);
