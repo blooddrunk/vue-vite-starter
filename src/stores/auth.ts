@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { defineStore, acceptHMRUpdate } from 'pinia';
 import { pick, keyBy } from 'lodash';
 
 import { AuthInfo, UserInfo, LoginInfo } from '@typings';
@@ -43,7 +43,6 @@ export const useAuthStore = defineStore('auth', () => {
     loginRequest,
     error: loginError,
   } = useLogin();
-
   const hasLoginError = computed(() => !!loginError.value);
   const login = async (payload: LoginInfo) => {
     await loginRequest(payload);
@@ -75,3 +74,7 @@ export const useAuthStore = defineStore('auth', () => {
     logout,
   };
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useAuthStore, import.meta.hot));
+}

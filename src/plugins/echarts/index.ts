@@ -1,5 +1,6 @@
 import VueEcharts from 'vue-echarts';
-import { use, registerTheme, registerMap, ComposeOption } from 'echarts/core';
+import { use, registerTheme, registerMap } from 'echarts/core';
+import type { ComposeOption } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import {
   BarChart,
@@ -30,11 +31,10 @@ import {
 // import * as echarts from 'echarts';
 import type { GeoJSONSourceInput } from 'echarts/types/src/coord/geo/geoTypes';
 import 'echarts-liquidfill';
-import { mapKeys } from 'lodash-es';
+import type { JsonObject } from 'type-fest';
 
 import type { UserPlugin } from '@typings';
-import { chartThemeList } from '@/utils/chart';
-import { getFileNameOfResource } from '@/utils/misc';
+import { createNamedEntryForGlobImport } from '@/utils/misc';
 
 export type ECOption = ComposeOption<
   | BarSeriesOption
@@ -68,28 +68,47 @@ export const install: UserPlugin = async (app) => {
     GeoComponent,
   ]);
 
-  const themeList = await Promise.all(
-    chartThemeList.map((theme) =>
-      import(`./theme/${theme}.ts`).then((module) => module.default)
-    )
-  );
-
-  themeList.forEach((theme, index) => {
-    const themeName = chartThemeList[index];
-    registerTheme(themeName, theme);
+  /**
+   * register themes
+   * TODO: static theme type
+   */
+  const themeModules = import.meta.glob<JsonObject>('./theme/*.ts', {
+    import: 'default',
+  });
+  createNamedEntryForGlobImport(themeModules).forEach(async ([key, m]) => {
+    registerTheme(key, await m());
   });
 
-  const mapModules = import.meta.glob('./map/*.json');
-  console.log(mapKeys(mapModules, (value, key) => getFileNameOfResource(key)));
+  /**
+   * register maps
+   * TODO: static map type
+   */
+  const mapModules = import.meta.glob<GeoJSONSourceInput>('./map/*.json', {
+    import: 'default',
+  });
+  createNamedEntryForGlobImport(mapModules).forEach(async ([key, m]) => {
+    registerMap(key, await m());
+  });
 
-  registerMap(
-    'china',
-    (await import('./map/china.json')).default as GeoJSONSourceInput
-  );
-  registerMap(
-    'zhejiang',
-    (await import('./map/zhejiang.json')).default as GeoJSONSourceInput
-  );
+  // const themeList = await Promise.all(
+  //   chartThemeList.map((theme) =>
+  //     import(`./theme/${theme}.ts`).then((module) => module.default)
+  //   )
+  // );
+
+  // themeList.forEach((theme, index) => {
+  //   const themeName = chartThemeList[index];
+  //   registerTheme(themeName, theme);
+  // });
+
+  // registerMap(
+  //   'china',
+  //   (await import('./map/china.json')).default as GeoJSONSourceInput
+  // );
+  // registerMap(
+  //   'zhejiang',
+  //   (await import('./map/zhejiang.json')).default as GeoJSONSourceInput
+  // );
 
   app.component('ECharts', VueEcharts);
 };

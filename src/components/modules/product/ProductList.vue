@@ -1,9 +1,14 @@
 <template>
   <div>
     <van-pull-refresh v-model="isRefreshing" @refresh="handleRefresh">
-      <div v-if="shouldShowEmptyPlaceholder" class="pb-56">
-        <van-empty description="商品列表为空"></van-empty>
-      </div>
+      <template v-if="shouldShowEmptyPlaceholder">
+        <div v-if="hasError">
+          <van-empty image="error" description="出错了"></van-empty>
+        </div>
+        <div v-else>
+          <van-empty description="商品列表为空"></van-empty>
+        </div>
+      </template>
       <van-list
         v-else
         v-model:loading="isItemsLoading"

@@ -9,9 +9,9 @@ export const fetchProductList = () => {
     {
       url: 'https://jsonplaceholder.typicode.com/posts',
       __needValidation: false,
-      __transformData: (data, { headers }) => {
+      __transformData: (data: ProductItem[], { headers }) => {
         return {
-          items: ((data as ProductItem[]) || []).map((item) => ({
+          items: (data || []).map((item) => ({
             ...item,
             price: random(2000),
             thumbnail: 'http://via.placeholder.com/640x240',
@@ -32,7 +32,7 @@ export const fetchProductList = () => {
 };
 
 export const fetchProductById = () => {
-  const { data, isPending, errorMessage, request } = useAxios<ProductItem>(
+  const { data, isLoading, execute } = useAxios<ProductItem>(
     {} as ProductItem,
     {
       __needValidation: false,
@@ -40,10 +40,9 @@ export const fetchProductById = () => {
   );
   return {
     data,
-    isPending,
-    errorMessage,
-    request: (id: string) =>
-      request({
+    isLoading,
+    execute: (id: string) =>
+      execute({
         url: `https://jsonplaceholder.typicode.com/posts/${id}`,
         __transformData: (data) => ({
           ...(data as ProductItem),

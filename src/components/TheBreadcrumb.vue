@@ -2,24 +2,30 @@
   <nav v-if="shouldShowBreadcrumb" class="py-3">
     <el-breadcrumb>
       <el-breadcrumb-item
-        v-for="breadbrumb in visibleBreadcrumbs"
-        :key="breadbrumb.text"
-        :to="breadbrumb.to"
+        v-for="breadcrumb in visibleBreadcrumbs"
+        :key="breadcrumb.title"
+        :to="getRoute(breadcrumb.route)"
       >
-        {{ breadbrumb.text }}
+        {{ breadcrumb.title }}
       </el-breadcrumb-item>
     </el-breadcrumb>
   </nav>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+const uiStore = useUIStore();
+const authStore = useAuthStore();
 
-const ui = useUIStore();
 const visibleBreadcrumbs = computed(() =>
-  ui.breadcrumbList.filter((breadcrumb) => breadcrumb.isVisible !== false)
+  uiStore.breadcrumbList.filter((breadcrumb) => breadcrumb.isVisible !== false)
 );
 const shouldShowBreadcrumb = computed(
   () => visibleBreadcrumbs.value.length > 0
 );
+const getRoute = (name?: string) =>
+  name
+    ? authStore.permittedMenuLookupByRoute[name]
+      ? { name }
+      : undefined
+    : undefined;
 </script>

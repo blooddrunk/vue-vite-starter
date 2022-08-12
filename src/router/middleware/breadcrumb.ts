@@ -1,12 +1,10 @@
-import { menuLookup } from '@/utils/biz/menu';
-
 import { Router } from 'vue-router';
 
-import { BreadcrumbItem } from '@typings';
+import { BreadcrumbItem } from '@/stores/ui';
 
 export default (router: Router) => {
   router.beforeEach((to) => {
-    const ui = useUIStore();
+    const uiStore = useUIStore();
     const { matched } = to;
     let breadcrumbList: BreadcrumbItem[] = [];
 
@@ -17,11 +15,11 @@ export default (router: Router) => {
     } else if (meta.breadcrumb) {
       breadcrumbList = matched.reduce<BreadcrumbItem[]>((acc, record) => {
         if (record.meta?.breadcrumb === true) {
-          const matchedMenu = menuLookup[record.name as string];
+          const matchedMenu = uiStore.menuLookupByRoute[record.name as string];
           if (matchedMenu) {
             acc.push({
-              to: matchedMenu.to,
-              text: matchedMenu.title,
+              route: matchedMenu.route,
+              title: matchedMenu.title,
             });
           } else {
             console.warn(
@@ -38,6 +36,6 @@ export default (router: Router) => {
       }, []);
     }
 
-    ui.breadcrumbList = breadcrumbList;
+    uiStore.breadcrumbList = breadcrumbList;
   });
 };

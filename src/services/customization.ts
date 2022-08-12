@@ -2,16 +2,17 @@ import { useAxios } from '@/composables/useAxios';
 import type { CustomizationInfo, CustomizationRequest } from '@typings';
 
 export const fetchCustomizationInfo = () => {
-  const { data, isPending, errorMessage, request } =
-    useAxios<CustomizationInfo>({} as CustomizationInfo, {
+  const { data, isLoading, execute } = useAxios<CustomizationInfo>(
+    {} as CustomizationInfo,
+    {
       __needValidation: false,
-    });
+    }
+  );
   return {
     data,
-    isPending,
-    errorMessage,
-    request: () =>
-      request({
+    isLoading,
+    execute: () =>
+      execute({
         url: `https://jsonplaceholder.typicode.com/posts`,
         __transformData: (data) => ({
           ...(data as CustomizationInfo),
@@ -32,30 +33,20 @@ export const fetchCustomizationInfo = () => {
   };
 };
 
-export const makeAppointment = (
-  onSuccess: () => void,
-  onError: (e: unknown) => void
-) => {
-  const { data, isPending, isSuccessful, errorMessage, request } =
-    useAxios<CustomizationRequest>(
-      {} as CustomizationRequest,
-      {
-        url: 'https://jsonplaceholder.typicode.com/posts',
-        method: 'post',
-        __needValidation: false,
-      },
-      {
-        onSuccess,
-        onError,
-      }
-    );
+export const makeAppointment = () => {
+  const { data, isLoading, execute } = useAxios<CustomizationRequest>(
+    {} as CustomizationRequest,
+    {
+      url: 'https://jsonplaceholder.typicode.com/posts',
+      method: 'post',
+      __needValidation: false,
+    }
+  );
   return {
     data,
-    isPending,
-    isSuccessful,
-    errorMessage,
-    request: (item: CustomizationRequest) =>
-      request({
+    isLoading,
+    execute: (item: CustomizationRequest) =>
+      execute({
         data: item,
       }),
   };

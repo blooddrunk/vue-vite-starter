@@ -84,24 +84,12 @@ meta:
 </route>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue';
 import { useForm } from 'vee-validate';
-import { useIntervalFn } from '@vueuse/core';
 import { Toast } from 'vant';
-import { useRouter } from 'vue-router';
 
 import { MobileLoginInfo } from '@typings';
-import { fetchAuthCode } from '@/services';
 
-const auth = useMobileAuthStore();
-watch(
-  () => auth.loginError,
-  (error) => {
-    if (error) {
-      Toast.fail(error);
-    }
-  }
-);
+const authStore = useMobileAuthStore();
 
 const { values, validateField, isSubmitting, handleSubmit } =
   useForm<MobileLoginInfo>({
@@ -110,12 +98,12 @@ const { values, validateField, isSubmitting, handleSubmit } =
       authCode: 'required|numeric|max:6',
     },
     initialValues: {
-      mobile: auth.stagedLoginInfo.mobile ?? '',
-      authCode: auth.stagedLoginInfo.authCode ?? '',
+      mobile: authStore.stagedLoginInfo.mobile ?? '',
+      authCode: authStore.stagedLoginInfo.authCode ?? '',
     },
   });
 
-auth.$patch((state) => {
+authStore.$patch((state) => {
   state.stagedLoginInfo.mobile = '';
   state.stagedLoginInfo.authCode = '';
 });
@@ -157,7 +145,7 @@ const handleAuthCodeRequest = async () => {
 };
 
 const isUserAgreementChecked = ref(
-  auth.stagedLoginInfo.isUserAgreementChecked ?? false
+  authStore.stagedLoginInfo.isUserAgreementChecked ?? false
 );
 const checkboxClass = ref('');
 const handleAnimationEnd = () => {
@@ -167,7 +155,7 @@ const handleAnimationEnd = () => {
 const router = useRouter();
 
 const stageAndLeave = (name: string) => {
-  auth.$patch((state) => {
+  authStore.$patch((state) => {
     state.stagedLoginInfo.mobile = values.mobile;
     state.stagedLoginInfo.authCode = values.authCode;
     state.stagedLoginInfo.isUserAgreementChecked = isUserAgreementChecked.value;
@@ -187,9 +175,9 @@ const handleLogin = handleSubmit(async (formValues) => {
     checkboxClass.value = '';
   }
 
-  await auth.login(formValues);
+  await authStore.login(formValues);
 
-  if (auth.isLoggedIn) {
+  if (authStore.isLoggedIn) {
     router.replace({ name: 'mobile' });
   }
 });

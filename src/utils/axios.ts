@@ -11,14 +11,7 @@ declare module 'axios' {
     __showProgress?: boolean;
     __needValidation?: boolean;
     __urlEncoded?: boolean;
-    __transformData?:
-      | boolean
-      | ((data: unknown, response: AxiosResponse) => unknown);
-  }
-
-  export interface AxiosInstance {
-    cancel?: (requestId: string, reason: string) => void;
-    cancelAll?: (reason: string) => void;
+    __transformData?: boolean | ((data: any, response: AxiosResponse) => any);
   }
 }
 
@@ -27,7 +20,7 @@ export const defaultDataTransformer = (data: unknown = {}) => data;
 export type ServerResponse = {
   errcode: number;
   errmsg: string;
-  data: unknown;
+  data: any;
 };
 
 // biz logic

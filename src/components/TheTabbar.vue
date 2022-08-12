@@ -21,7 +21,10 @@
 import { shallowRef, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
-import { AllApplication, Dropbox, Shopping, Me } from '@icon-park/vue-next';
+import IconMdiApps from '~icons/mdi/apps';
+import IconMdiGiftOpen from '~icons/mdi/gift-open';
+import IconMdiCart from '~icons/mdi/cart';
+import IconMdiAccount from '~icons/mdi/account';
 
 const route = useRoute();
 const tabbarItems = shallowRef([
@@ -29,7 +32,7 @@ const tabbarItems = shallowRef([
     name: '分类',
     path: '/mobile/category',
     routeName: 'mobile-category',
-    icon: AllApplication,
+    icon: IconMdiApps,
     dot: false,
     badge: '',
   },
@@ -37,7 +40,7 @@ const tabbarItems = shallowRef([
     name: '定制',
     path: '/mobile/customization',
     routeName: 'mobile-customization',
-    icon: Dropbox,
+    icon: IconMdiGiftOpen,
     dot: false,
     badge: '',
   },
@@ -45,7 +48,7 @@ const tabbarItems = shallowRef([
     name: '购物车',
     path: '/mobile/cart',
     routeName: 'mobile-cart',
-    icon: Shopping,
+    icon: IconMdiCart,
     dot: false,
     badge: '',
   },
@@ -53,7 +56,7 @@ const tabbarItems = shallowRef([
     name: '我的',
     path: '/mobile/user',
     routeName: 'mobile-user',
-    icon: Me,
+    icon: IconMdiAccount,
     dot: false,
     badge: '',
   },

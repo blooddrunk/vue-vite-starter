@@ -112,7 +112,6 @@ import { defineProps, computed, ref } from 'vue';
 import { Toast, Dialog, ActionSheetAction } from 'vant';
 
 import { getPlaceholderForNonValue } from '@/utils/misc';
-import { cancelOrder } from '@/services';
 
 const props = defineProps<{
   id: string;

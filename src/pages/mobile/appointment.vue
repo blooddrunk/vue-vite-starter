@@ -43,7 +43,6 @@ meta:
 </route>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
 import { format } from 'date-fns';
 
 import { areaList } from '@vant/area-data';
@@ -51,7 +50,6 @@ import { Toast } from 'vant';
 import { useRouter } from 'vue-router';
 
 import type { AddressEditInfo } from 'vant';
-import { makeAppointment } from '@/services';
 import { CustomizationRequest } from '@typings';
 
 const router = useRouter();

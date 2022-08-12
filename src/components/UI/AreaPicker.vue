@@ -6,7 +6,7 @@
       @click.prevent="togglePickerVisible()"
     >
       <span class="truncate">{{ displayValue }}</span>
-      <IconRight class="ml-2"></IconRight>
+      <IconMdiChevronRight class="ml-2"></IconMdiChevronRight>
     </a>
 
     <van-popup

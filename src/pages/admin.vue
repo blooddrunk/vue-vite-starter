@@ -6,7 +6,7 @@
 meta:
   layout: sidebar
   breadcrumb:
-    text: 'Admin'
+    title: 'Admin'
 </route>
 
 <script lang="ts" setup>

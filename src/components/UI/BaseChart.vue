@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<CommonChartProps>(), {
 const { chartRef, mergedOption } = useEcharts(props, props.type);
 
 /**
- * ! this will not work
+ * ! this will not work reactively
  */
 const isDark = useDark();
 const currentTheme = computed(() => (isDark.value ? 'dark' : props.theme));

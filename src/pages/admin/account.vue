@@ -6,5 +6,5 @@
 meta:
   layout: sidebar
   breadcrumb:
-    text: 'Account'
+    title: 'Account'
 </route>

@@ -47,7 +47,7 @@ export default {
     lineStyle: {
       width: 3,
     },
-    symbolSize: '8',
+    symbolSize: 8,
     symbol: 'emptyCircle',
     smooth: true,
   },

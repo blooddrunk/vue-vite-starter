@@ -1,6 +1,4 @@
-import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
-import { useStorage } from '@vueuse/core';
+import { defineStore, acceptHMRUpdate } from 'pinia';
 import { promiseTimeout } from '@/utils/misc';
 
 import { MobileAuthInfo, MobileUserInfo, MobileLoginInfo } from '@typings';
@@ -24,10 +22,6 @@ export const useMobileAuthStore = defineStore('mobile-auth', () => {
   const area = computed(() => user.value.area);
   const isLoggedIn = computed(() => !!mobile.value);
 
-  const isLoginPending = ref(false);
-  const loginError = ref<string>('');
-  const hasLoginError = computed(() => !!loginError.value);
-
   const updateUser = (payload: Partial<MobileUserInfo>) => {
     auth.value.user = {
       ...auth.value.user,
@@ -35,29 +29,18 @@ export const useMobileAuthStore = defineStore('mobile-auth', () => {
     };
   };
 
+  const {
+    data,
+    isLoading: isLoginPending,
+    loginRequest,
+    error: loginError,
+  } = useMobileLogin();
+  const hasLoginError = computed(() => !!loginError.value);
   const login = async (payload: MobileLoginInfo) => {
-    isLoginPending.value = true;
-    loginError.value = '';
+    await loginRequest(payload);
 
-    try {
-      // const user = await axios.$post('/security/login', payload, {
-      //   __needValidation: false,
-      // });
-
-      await promiseTimeout(1000);
-
-      if (payload.authCode !== '123456') {
-        throw new Error(`wrong auth info`);
-      }
-
-      updateUser({
-        mobile: payload.mobile,
-      });
-    } catch (error) {
-      console.error(error);
-      loginError.value = (error as any).message;
-    } finally {
-      isLoginPending.value = false;
+    if (data.value) {
+      updateUser(data.value);
     }
   };
 
@@ -81,3 +64,7 @@ export const useMobileAuthStore = defineStore('mobile-auth', () => {
     logout,
   };
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useMobileAuthStore, import.meta.hot));
+}

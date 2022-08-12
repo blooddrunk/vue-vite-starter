@@ -4,7 +4,7 @@
     --color-secondary: theme('colors.amber.400');
     --color-tertiary: theme('colors.green.400');
     --color-lighter: theme('colors.slate.100');
-    --color-light: theme('colors.slate.200');
+    --color-light: theme('colors.slate.300');
     --color-medium: theme('colors.slate.400');
     --color-dark: theme('colors.slate.500');
     --color-darker: theme('colors.slate.600');

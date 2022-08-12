@@ -1,5 +1,4 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import { RouteLocationRaw } from 'vue-router';
 
 import {
   getFirstNavigableMenu,
@@ -8,8 +7,8 @@ import {
 } from '@/utils/biz/menu';
 
 export type BreadcrumbItem = {
-  text: string;
-  to?: RouteLocationRaw;
+  title: string;
+  route?: string;
   isVisible?: boolean;
 };
 

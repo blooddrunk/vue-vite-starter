@@ -9,8 +9,8 @@ import { MaybeRef } from '@typings';
 
 export type VueEchartsComponent = InstanceType<typeof ECharts>;
 
-export const chartThemeList = ['primary'] as const;
-export type ChartTheme = typeof chartThemeList[number] | 'dark';
+export const chartThemeList = ['primary', 'secondary', 'dark'] as const;
+export type ChartTheme = typeof chartThemeList[number];
 
 export type CommonChartType = 'pie' | 'bar' | 'line' | 'scatter' | 'map';
 export type CommonChartProps = {

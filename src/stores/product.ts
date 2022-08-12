@@ -1,11 +1,9 @@
-import { defineStore } from 'pinia';
-
-import { fetchProductList } from '@/services';
+import { defineStore, acceptHMRUpdate } from 'pinia';
 
 export const useProductStore = defineStore('product', () => {
   const {
     items,
-    isPending: isItemsLoading,
+    isLoading: isItemsLoading,
     pagination,
     errorMessage: itemsLoadingErrorMessage,
     isEmpty: isItemsEmpty,
@@ -24,3 +22,7 @@ export const useProductStore = defineStore('product', () => {
     getItemsAndReset,
   };
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useProductStore, import.meta.hot));
+}

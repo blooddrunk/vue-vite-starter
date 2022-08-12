@@ -5,5 +5,5 @@
 <route lang="yaml">
 meta:
   breadcrumb:
-    text: 'Home'
+    title: 'Home'
 </route>

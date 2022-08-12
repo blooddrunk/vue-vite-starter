@@ -80,7 +80,9 @@ export const usePaginatedList = <
     };
   };
 
-  const { data, isLoading, error, execute } = useAxios<ListResult<TValue>>(
+  const { data, isLoading, error, errorMessage, execute } = useAxios<
+    ListResult<TValue>
+  >(
     {
       items: [],
       total: 0,
@@ -148,6 +150,7 @@ export const usePaginatedList = <
     items,
     isLoading,
     error,
+    errorMessage,
     isEmpty: computed(() => !items.value.length),
 
     pagination,

@@ -24,10 +24,8 @@ meta:
 <script lang="ts" setup>
 import { areaList } from '@vant/area-data';
 import { Toast } from 'vant';
-import { useRouter } from 'vue-router';
 
 import type { AddressEditInfo } from 'vant';
-import { placeOrder } from '@/services';
 
 const router = useRouter();
 const order = useOrderStore();

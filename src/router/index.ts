@@ -1,9 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import generatedRoutes from 'virtual:generated-pages';
+import type { Router } from 'vue-router';
+import generatedRoutes from '~pages';
 import { setupLayouts } from 'virtual:generated-layouts';
 
 import type { BreadcrumbItem } from '@/stores/ui';
-import * as middlewareList from './middleware';
 
 export const routerHistory = createWebHashHistory(import.meta.env.BASE_URL);
 
@@ -25,11 +25,15 @@ const router = createRouter({
   routes,
 });
 
-let middlewareName: keyof typeof middlewareList;
-for (middlewareName in middlewareList) {
-  const middleware = middlewareList[middlewareName];
-
-  middleware(router);
-}
+const middlewareModules = import.meta.glob<(router: Router) => void>(
+  './middleware/*.ts',
+  {
+    import: 'default',
+    eager: true,
+  }
+);
+Object.values(middlewareModules).forEach((m) => {
+  m(router);
+});
 
 export { router };

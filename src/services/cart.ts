@@ -1,6 +1,5 @@
 import { random } from 'lodash-es';
 
-import { useAxios } from '@/composables/useAxios';
 import { precisionRound } from '@/utils/math';
 import { CartItem } from '@typings';
 
@@ -22,38 +21,31 @@ export const fetchCartList = () => {
 };
 
 export const addCartItem = () => {
-  const { data, isPending, isSuccessful, errorMessage, request } =
-    useAxios<CartItem>({} as CartItem, {
-      url: 'https://jsonplaceholder.typicode.com/posts',
-      method: 'post',
-      __needValidation: false,
-    });
+  const { data, isLoading, execute } = useAxios<CartItem>({} as CartItem, {
+    url: 'https://jsonplaceholder.typicode.com/posts',
+    method: 'post',
+    __needValidation: false,
+  });
   return {
     data,
-    isPending,
-    isSuccessful,
-    errorMessage,
-    request: (item: CartItem) =>
-      request({
+    isLoading,
+    execute: (item: CartItem) =>
+      execute({
         data: item,
       }),
   };
 };
 
 export const patchCartItem = () => {
-  const { data, isPending, errorMessage, request } = useAxios<CartItem>(
-    {} as CartItem,
-    {
-      method: 'patch',
-      __needValidation: false,
-    }
-  );
+  const { data, isLoading, execute } = useAxios<CartItem>({} as CartItem, {
+    method: 'patch',
+    __needValidation: false,
+  });
   return {
     data,
-    isPending,
-    errorMessage,
-    request: (item: CartItem) =>
-      request({
+    isLoading,
+    execute: (item: CartItem) =>
+      execute({
         url: `https://jsonplaceholder.typicode.com/posts/${item.id}`,
         data: {
           quantity: item.quantity,
@@ -63,18 +55,15 @@ export const patchCartItem = () => {
 };
 
 export const removeCartItem = () => {
-  const { data, isPending, isSuccessful, errorMessage, request } =
-    useAxios<CartItem>({} as CartItem, {
-      method: 'delete',
-      __needValidation: false,
-    });
+  const { data, isLoading, execute } = useAxios<CartItem>({} as CartItem, {
+    method: 'delete',
+    __needValidation: false,
+  });
   return {
     data,
-    isPending,
-    isSuccessful,
-    errorMessage,
-    request: (item: CartItem) =>
-      request({
+    isLoading,
+    execute: (item: CartItem) =>
+      execute({
         url: `https://jsonplaceholder.typicode.com/posts/${item.id}`,
       }),
   };

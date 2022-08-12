@@ -29,7 +29,7 @@
             :disabled="cart.isItemAdding"
             @click.prevent.stop="addToCart"
           >
-            <IconShopping size="16"></IconShopping>
+            <IconMdiCartPlus></IconMdiCartPlus>
           </van-button>
         </span>
       </div>
@@ -38,7 +38,6 @@
 </template>
 
 <script lang="ts" setup>
-import { withDefaults, defineProps, watch } from 'vue';
 import { Toast } from 'vant';
 import { RouteLocationRaw } from 'vue-router';
 
@@ -54,19 +53,16 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const cart = useCartStore();
-watch(
-  () => cart.itemAddingErrorMessage,
-  (value) => {
-    if (value) {
-      Toast(value);
-    }
-  }
-);
+
 const addToCart = () => {
-  cart.addItem({
-    ...props.item,
-    quantity: 1,
-  });
+  try {
+    cart.addItem({
+      ...props.item,
+      quantity: 1,
+    });
+  } catch (error: any) {
+    Toast(error.message);
+  }
 };
 
 const routeLocation: RouteLocationRaw = {

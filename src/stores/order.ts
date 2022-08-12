@@ -1,6 +1,4 @@
-import { defineStore } from 'pinia';
-import { useStorage } from '@vueuse/core';
-import { computed } from 'vue';
+import { defineStore, acceptHMRUpdate } from 'pinia';
 
 import { OrderInfo } from '@typings';
 
@@ -27,9 +25,8 @@ export const useOrderStore = defineStore('order', () => {
 
   const {
     data: items,
-    isPending: isItemsLoading,
-    errorMessage: itemsLoadingErrorMessage,
-    request: getItems,
+    isLoading: isItemsLoading,
+    execute: getItems,
   } = fetchOrderList();
 
   return {
@@ -39,8 +36,11 @@ export const useOrderStore = defineStore('order', () => {
 
     items,
     isItemsLoading,
-    itemsLoadingErrorMessage,
     isItemsEmpty: computed(() => !items.value.length),
     getItems,
   };
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useOrderStore, import.meta.hot));
+}

@@ -4,30 +4,17 @@ import { useAxios } from '@/composables/useAxios';
 import { OrderInfo, OrderItem, CartItem } from '@typings';
 import { precisionRound, precisionFixed } from '@/utils/math';
 
-export const placeOrder = (
-  onSuccess: () => void,
-  onError: (e: unknown) => void
-) => {
-  const { data, isPending, isSuccessful, errorMessage, request } =
-    useAxios<OrderInfo>(
-      {} as OrderInfo,
-      {
-        url: 'https://jsonplaceholder.typicode.com/posts',
-        method: 'post',
-        __needValidation: false,
-      },
-      {
-        onSuccess,
-        onError,
-      }
-    );
+export const placeOrder = () => {
+  const { data, isLoading, execute } = useAxios<OrderInfo>({} as OrderInfo, {
+    url: 'https://jsonplaceholder.typicode.com/posts',
+    method: 'post',
+    __needValidation: false,
+  });
   return {
     data,
-    isPending,
-    isSuccessful,
-    errorMessage,
-    request: (item: OrderInfo) =>
-      request({
+    isLoading,
+    execute: (item: OrderInfo) =>
+      execute({
         data: item,
       }),
   };
@@ -63,30 +50,17 @@ export const fetchOrderList = () => {
   });
 };
 
-export const cancelOrder = (
-  onSuccess: () => void,
-  onError: (e: unknown) => void
-) => {
-  const { data, isPending, isSuccessful, errorMessage, request } =
-    useAxios<OrderItem>(
-      {} as OrderItem,
-      {
-        url: 'https://jsonplaceholder.typicode.com/posts',
-        method: 'post',
-        __needValidation: false,
-      },
-      {
-        onSuccess,
-        onError,
-      }
-    );
+export const cancelOrder = () => {
+  const { data, isLoading, execute } = useAxios<OrderItem>({} as OrderItem, {
+    url: 'https://jsonplaceholder.typicode.com/posts',
+    method: 'post',
+    __needValidation: false,
+  });
   return {
     data,
-    isPending,
-    isSuccessful,
-    errorMessage,
-    request: (item: OrderItem) =>
-      request({
+    isLoading,
+    execute: (item: OrderItem) =>
+      execute({
         data: item,
       }),
   };

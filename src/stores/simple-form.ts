@@ -1,4 +1,3 @@
-import { useAddProduct, useRemoveProduct } from '@/services/simple-form';
 import { acceptHMRUpdate, defineStore } from 'pinia';
 
 import type { Product } from '@typings';

@@ -1,6 +1,6 @@
 // see https://vueuse.org/integrations/useAxios/
 
-import type { Ref, ShallowRef } from 'vue';
+import type { ComputedRef, Ref, ShallowRef } from 'vue';
 import { ref, shallowRef } from 'vue';
 import { until } from '@vueuse/core';
 import type {
@@ -45,6 +45,7 @@ export interface UseAxiosReturn<T> {
    * Any errors that may have occurred
    */
   error: ShallowRef<AxiosError<T> | undefined>;
+  errorMessage: ComputedRef<string | undefined>;
 
   /**
    * Aborts the current request
@@ -150,6 +151,7 @@ export function useAxios<T = any>(
     );
 
     loading(true);
+    error.value = undefined;
     try {
       const r = await instance.request<T>(_config);
       response.value = r;
@@ -170,6 +172,7 @@ export function useAxios<T = any>(
     response,
     data,
     error,
+    errorMessage: computed(() => error.value?.message),
     finished: isFinished,
     loading: isLoading,
     isFinished,

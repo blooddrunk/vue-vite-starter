@@ -35,7 +35,7 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
-  const fetchAuthCode: typeof import('../services/index')['fetchAuthCode']
+  const fetchAuthCode: typeof import('../services/auth')['fetchAuthCode']
   const fetchCartList: typeof import('../services/cart')['fetchCartList']
   const fetchCustomizationInfo: typeof import('../services/customization')['fetchCustomizationInfo']
   const fetchOrderList: typeof import('../services/order')['fetchOrderList']
@@ -130,6 +130,7 @@ declare global {
   const useAsyncQueue: typeof import('@vueuse/core')['useAsyncQueue']
   const useAsyncState: typeof import('@vueuse/core')['useAsyncState']
   const useAttrs: typeof import('vue')['useAttrs']
+  const useAuthCode: typeof import('../services/auth')['useAuthCode']
   const useAuthStore: typeof import('../stores/auth')['useAuthStore']
   const useAxios: typeof import('../composables/useAxios')['useAxios']
   const useBase64: typeof import('@vueuse/core')['useBase64']
@@ -207,6 +208,7 @@ declare global {
   const useMemoize: typeof import('@vueuse/core')['useMemoize']
   const useMemory: typeof import('@vueuse/core')['useMemory']
   const useMobileAuthStore: typeof import('../stores/mobile-auth')['useMobileAuthStore']
+  const useMobileLogin: typeof import('../services/auth')['useMobileLogin']
   const useMounted: typeof import('@vueuse/core')['useMounted']
   const useMouse: typeof import('@vueuse/core')['useMouse']
   const useMouseInElement: typeof import('@vueuse/core')['useMouseInElement']
@@ -342,7 +344,7 @@ declare module '@vue/runtime-core' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
-    readonly fetchAuthCode: UnwrapRef<typeof import('../services/index')['fetchAuthCode']>
+    readonly fetchAuthCode: UnwrapRef<typeof import('../services/auth')['fetchAuthCode']>
     readonly fetchCartList: UnwrapRef<typeof import('../services/cart')['fetchCartList']>
     readonly fetchCustomizationInfo: UnwrapRef<typeof import('../services/customization')['fetchCustomizationInfo']>
     readonly fetchOrderList: UnwrapRef<typeof import('../services/order')['fetchOrderList']>
@@ -437,6 +439,7 @@ declare module '@vue/runtime-core' {
     readonly useAsyncQueue: UnwrapRef<typeof import('@vueuse/core')['useAsyncQueue']>
     readonly useAsyncState: UnwrapRef<typeof import('@vueuse/core')['useAsyncState']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
+    readonly useAuthCode: UnwrapRef<typeof import('../services/auth')['useAuthCode']>
     readonly useAuthStore: UnwrapRef<typeof import('../stores/auth')['useAuthStore']>
     readonly useAxios: UnwrapRef<typeof import('../composables/useAxios')['useAxios']>
     readonly useBase64: UnwrapRef<typeof import('@vueuse/core')['useBase64']>
@@ -514,6 +517,7 @@ declare module '@vue/runtime-core' {
     readonly useMemoize: UnwrapRef<typeof import('@vueuse/core')['useMemoize']>
     readonly useMemory: UnwrapRef<typeof import('@vueuse/core')['useMemory']>
     readonly useMobileAuthStore: UnwrapRef<typeof import('../stores/mobile-auth')['useMobileAuthStore']>
+    readonly useMobileLogin: UnwrapRef<typeof import('../services/auth')['useMobileLogin']>
     readonly useMounted: UnwrapRef<typeof import('@vueuse/core')['useMounted']>
     readonly useMouse: UnwrapRef<typeof import('@vueuse/core')['useMouse']>
     readonly useMouseInElement: UnwrapRef<typeof import('@vueuse/core')['useMouseInElement']>

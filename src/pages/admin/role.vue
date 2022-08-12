@@ -6,8 +6,7 @@
 meta:
   layout: sidebar
   breadcrumb:
-    - text: 'Custom'
-      to:
-        name: 'admin-account'
-    - text: 'Breadcrumb'
+    - title: 'Custom'
+      route: 'admin-account'
+    - title: 'Breadcrumb'
 </route>
