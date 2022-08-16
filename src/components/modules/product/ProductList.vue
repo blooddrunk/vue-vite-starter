@@ -32,13 +32,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { promiseTimeout } from '@/utils/misc';
 
 import type { ProductItem } from '@typings';
 
-const placeholderItems = [...Array(10).keys()].map((id) => ({
+const placeholderItems = [...Array(3).keys()].map((id) => ({
   id: String(id),
 })) as ProductItem[];
 

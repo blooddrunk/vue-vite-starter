@@ -26,6 +26,7 @@ export const useOrderStore = defineStore('order', () => {
   const {
     data: items,
     isLoading: isItemsLoading,
+    error,
     execute: getItems,
   } = fetchOrderList();
 
@@ -35,6 +36,7 @@ export const useOrderStore = defineStore('order', () => {
     clearOrderInfo,
 
     items,
+    error,
     isItemsLoading,
     isItemsEmpty: computed(() => !items.value.length),
     getItems,

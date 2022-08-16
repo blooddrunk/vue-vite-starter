@@ -1,5 +1,5 @@
 <template>
-  <main class="h-screen bg-light pt-[46px]" :class="hasTabbar && 'pb-[50px]'">
+  <main class="h-screen bg-lighter pt-[46px]" :class="hasTabbar && 'pb-[50px]'">
     <van-nav-bar
       class="!fixed left-0 top-0 right-0"
       :title="meta.title"

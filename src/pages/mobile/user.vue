@@ -22,15 +22,14 @@ import { storeToRefs } from 'pinia';
 
 const order = useOrderStore();
 
-const { items, isItemsLoading, isItemsEmpty, itemsLoadingErrorMessage } =
-  storeToRefs(order);
+const { items, isItemsLoading, isItemsEmpty, error } = storeToRefs(order);
 
 // ! test code
 if (!__DEV__ || isItemsEmpty.value) {
   order.getItems();
 }
 
-const hasError = computed(() => !!itemsLoadingErrorMessage.value);
+const hasError = computed(() => !!error.value);
 
 const shouldShowSkeleton = computed(
   () => isItemsEmpty.value && isItemsLoading.value

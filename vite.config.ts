@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import { loadEnv } from 'vite';
 import Vue from '@vitejs/plugin-vue';
 import VueJsx from '@vitejs/plugin-vue-jsx';
@@ -13,7 +14,32 @@ import {
 } from 'unplugin-vue-components/resolvers';
 import IconsResolver from 'unplugin-icons/resolver';
 import AutoImport from 'unplugin-auto-import/vite';
+import type { Resolver } from 'unplugin-auto-import/types';
 import VueTypeImports from 'vite-plugin-vue-type-imports';
+import fg from 'fast-glob';
+
+const myComponentMap = new Map<string, string>();
+// const files = await fg(
+//   dirs.flatMap(i => [
+//     i,
+//     ...filePatterns.map(p => join(i, p))
+//   ]),
+//   {
+//     absolute: true,
+//     cwd: options?.cwd || process.cwd(),
+//     onlyFiles: true,
+//     followSymbolicLinks: true
+//   }
+// ).then(r => r.sort().filter(fileFilter))
+const MyComponentResolver: Resolver = (name: string) => {
+  const filePath = path.resolve(__dirname, `src/components/${name}.vue`);
+  if (fs.existsSync(filePath)) {
+    return {
+      name,
+      from: filePath,
+    };
+  }
+};
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -104,16 +130,22 @@ export default ({ mode }) => {
         dirs: ['./src/composables/**', './src/stores/**', './src/services/**'],
         vueTemplate: true,
         eslintrc: {
-          enabled: true, // Default `false`
-          filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
-          globalsPropValue: 'readonly', // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+          enabled: true,
+          filepath: './.eslintrc-auto-import.json',
+          globalsPropValue: 'readonly',
         },
 
-        // resolvers: [
-        //   ElementPlusResolver({
-        //     importStyle: false,
-        //   }),
-        // ],
+        resolvers: [
+          // * use wisely
+          // IconsResolver({
+          //   prefix: 'icon',
+          //   alias: {
+          //     park: 'icon-park',
+          //     fas: 'fa-solid',
+          //   },
+          //   enabledCollections: ['mdi'],
+          // }),
+        ],
       }),
 
       VueTypeImports(),
