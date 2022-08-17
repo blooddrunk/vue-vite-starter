@@ -3,7 +3,7 @@ import { random } from 'lodash-es';
 import { precisionRound } from '@/utils/math';
 import { CartItem } from '@typings';
 
-export const fetchCartList = () => {
+export const useCartList = () => {
   return useAxios<CartItem[]>([] as CartItem[], {
     url: 'https://jsonplaceholder.typicode.com/posts',
     __needValidation: false,
@@ -21,14 +21,13 @@ export const fetchCartList = () => {
 };
 
 export const addCartItem = () => {
-  const { data, isLoading, execute } = useAxios<CartItem>({} as CartItem, {
+  const { execute, ...rest } = useAxios<CartItem>({} as CartItem, {
     url: 'https://jsonplaceholder.typicode.com/posts',
     method: 'post',
     __needValidation: false,
   });
   return {
-    data,
-    isLoading,
+    ...rest,
     execute: (item: CartItem) =>
       execute({
         data: item,
@@ -37,13 +36,12 @@ export const addCartItem = () => {
 };
 
 export const patchCartItem = () => {
-  const { data, isLoading, execute } = useAxios<CartItem>({} as CartItem, {
+  const { execute, ...rest } = useAxios<CartItem>({} as CartItem, {
     method: 'patch',
     __needValidation: false,
   });
   return {
-    data,
-    isLoading,
+    ...rest,
     execute: (item: CartItem) =>
       execute({
         url: `https://jsonplaceholder.typicode.com/posts/${item.id}`,
@@ -55,13 +53,12 @@ export const patchCartItem = () => {
 };
 
 export const removeCartItem = () => {
-  const { data, isLoading, execute } = useAxios<CartItem>({} as CartItem, {
+  const { execute, ...rest } = useAxios<CartItem>({} as CartItem, {
     method: 'delete',
     __needValidation: false,
   });
   return {
-    data,
-    isLoading,
+    ...rest,
     execute: (item: CartItem) =>
       execute({
         url: `https://jsonplaceholder.typicode.com/posts/${item.id}`,

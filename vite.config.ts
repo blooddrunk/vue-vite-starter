@@ -1,5 +1,4 @@
 import path from 'path';
-import fs from 'fs';
 import { loadEnv } from 'vite';
 import Vue from '@vitejs/plugin-vue';
 import VueJsx from '@vitejs/plugin-vue-jsx';
@@ -16,30 +15,36 @@ import IconsResolver from 'unplugin-icons/resolver';
 import AutoImport from 'unplugin-auto-import/vite';
 import type { Resolver } from 'unplugin-auto-import/types';
 import VueTypeImports from 'vite-plugin-vue-type-imports';
-import fg from 'fast-glob';
+// import fg from 'fast-glob';
+// import consola from 'consola';
 
-const myComponentMap = new Map<string, string>();
-// const files = await fg(
-//   dirs.flatMap(i => [
-//     i,
-//     ...filePatterns.map(p => join(i, p))
-//   ]),
-//   {
-//     absolute: true,
-//     cwd: options?.cwd || process.cwd(),
-//     onlyFiles: true,
-//     followSymbolicLinks: true
-//   }
 // ).then(r => r.sort().filter(fileFilter))
-const MyComponentResolver: Resolver = (name: string) => {
-  const filePath = path.resolve(__dirname, `src/components/${name}.vue`);
-  if (fs.existsSync(filePath)) {
-    return {
-      name,
-      from: filePath,
-    };
-  }
-};
+// const MyComponentResolver: Resolver = async (name: string) => {
+//   // const filePath = path.resolve(__dirname, `src/components/${name}.vue`);
+//   // if (fs.existsSync(filePath)) {
+//   //   return {
+//   //     name,
+//   //     from: filePath,
+//   //   };
+//   // }
+
+//   if (!name.match(/^My[A-Z]/)) {
+//     return;
+//   }
+
+//   const fileName = name.slice(2);
+//   const files = await fg(`./src/components/**/${fileName}.vue`, {
+//     absolute: true,
+//   });
+//   if (files.length) {
+//     console.log(files);
+//     if (files.length > 1) {
+//       consola.warn(`More than one entry found for component "${name}"：`);
+//       consola.warn(files);
+//     }
+//     return files[0];
+//   }
+// };
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -145,6 +150,7 @@ export default ({ mode }) => {
           //   },
           //   enabledCollections: ['mdi'],
           // }),
+          // MyComponentResolver,
         ],
       }),
 

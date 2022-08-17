@@ -36,7 +36,6 @@ declare global {
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const fetchAuthCode: typeof import('../services/auth')['fetchAuthCode']
-  const fetchCartList: typeof import('../services/cart')['fetchCartList']
   const fetchCustomizationInfo: typeof import('../services/customization')['fetchCustomizationInfo']
   const fetchOrderList: typeof import('../services/order')['fetchOrderList']
   const fetchProductById: typeof import('../services/product')['fetchProductById']
@@ -140,6 +139,7 @@ declare global {
   const useBroadcastChannel: typeof import('@vueuse/core')['useBroadcastChannel']
   const useBrowserLocation: typeof import('@vueuse/core')['useBrowserLocation']
   const useCached: typeof import('@vueuse/core')['useCached']
+  const useCartList: typeof import('../services/cart')['useCartList']
   const useCartStore: typeof import('../stores/cart')['useCartStore']
   const useCartesianChart: typeof import('../composables/useEcharts')['useCartesianChart']
   const useChartStore: typeof import('../stores/chart')['useChartStore']
@@ -345,7 +345,6 @@ declare module '@vue/runtime-core' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly fetchAuthCode: UnwrapRef<typeof import('../services/auth')['fetchAuthCode']>
-    readonly fetchCartList: UnwrapRef<typeof import('../services/cart')['fetchCartList']>
     readonly fetchCustomizationInfo: UnwrapRef<typeof import('../services/customization')['fetchCustomizationInfo']>
     readonly fetchOrderList: UnwrapRef<typeof import('../services/order')['fetchOrderList']>
     readonly fetchProductById: UnwrapRef<typeof import('../services/product')['fetchProductById']>
@@ -449,6 +448,7 @@ declare module '@vue/runtime-core' {
     readonly useBroadcastChannel: UnwrapRef<typeof import('@vueuse/core')['useBroadcastChannel']>
     readonly useBrowserLocation: UnwrapRef<typeof import('@vueuse/core')['useBrowserLocation']>
     readonly useCached: UnwrapRef<typeof import('@vueuse/core')['useCached']>
+    readonly useCartList: UnwrapRef<typeof import('../services/cart')['useCartList']>
     readonly useCartStore: UnwrapRef<typeof import('../stores/cart')['useCartStore']>
     readonly useCartesianChart: UnwrapRef<typeof import('../composables/useEcharts')['useCartesianChart']>
     readonly useChartStore: UnwrapRef<typeof import('../stores/chart')['useChartStore']>

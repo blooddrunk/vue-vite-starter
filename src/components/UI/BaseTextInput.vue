@@ -61,15 +61,6 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import {
-  withDefaults,
-  defineProps,
-  defineEmits,
-  ref,
-  computed,
-  useSlots,
-} from 'vue';
-
 type Props = {
   name: string;
   label?: string;

@@ -24,6 +24,11 @@ export type ProductItem = {
   detailImage?: string;
 };
 
+export type StagedOrderInfo = {
+  remark?: string;
+  isServiceAgreementChecked: boolean;
+};
+
 export type CartItem = ProductItem & {
   quantity: number;
   checked?: boolean;

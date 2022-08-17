@@ -19,13 +19,14 @@
         :error-text="itemsLoadingErrorMessage"
         @load="fetchData"
       >
-        <ProductItem
+        <component
+          :is="productItemOrSkeleton"
           v-for="item in itemsMaybeSkeleton"
           :key="item.id"
           :item="item"
           :loading="shouldShowSkeleton"
         >
-        </ProductItem>
+        </component>
       </van-list>
     </van-pull-refresh>
   </div>
@@ -36,10 +37,8 @@ import { storeToRefs } from 'pinia';
 import { promiseTimeout } from '@/utils/misc';
 
 import type { ProductItem } from '@typings';
-
-const placeholderItems = [...Array(3).keys()].map((id) => ({
-  id: String(id),
-})) as ProductItem[];
+import MyProductItem from './ProductItem.vue';
+import MyProductItemSkeleton from './ProductItemSkeleton.vue';
 
 const product = useProductStore();
 const {
@@ -56,13 +55,17 @@ const hasError = computed(() => !!itemsLoadingErrorMessage.value);
 const shouldShowSkeleton = computed(
   () => (isItemsEmpty.value && isItemsLoading.value) || isRefreshing.value
 );
-
 const shouldShowEmptyPlaceholder = computed(
   () => isItemsEmpty.value && !isItemsLoading.value
 );
-
+const placeholderItems = [...Array(3).keys()].map((id) => ({
+  id: String(id),
+})) as ProductItem[];
 const itemsMaybeSkeleton = computed(() =>
   shouldShowSkeleton.value ? placeholderItems : items.value
+);
+const productItemOrSkeleton = computed(() =>
+  shouldShowSkeleton.value ? MyProductItemSkeleton : MyProductItem
 );
 
 const fetchData = () => {

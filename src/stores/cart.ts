@@ -1,42 +1,45 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
+import { cloneDeep } from 'lodash-es';
 
 import { precisionFixed } from '@/utils/math';
-import { OrderInfo } from '@typings';
+import type { StagedOrderInfo, CartItem } from '@typings';
 
 export const useCartStore = defineStore('cart', () => {
-  const stagedOrderInfo = ref<Partial<OrderInfo>>({
-    remarks: '',
+  const stagedOrderInfo = useStorage<StagedOrderInfo>('staged_order_info', {
+    remark: '',
     isServiceAgreementChecked: false,
   });
 
+  const items = ref<CartItem[]>([]);
   const {
-    data: items,
+    data,
     isLoading: isItemsLoading,
     errorMessage: itemsLoadingErrorMessage,
     execute: getItems,
-  } = fetchCartList();
+  } = useCartList();
 
   const {
     data: addedItem,
     isLoading: isItemAdding,
     execute: addItem,
+    error: itemAddingError,
   } = addCartItem();
-  watch(items, (value) => {
-    if (value) {
-      items.value = [...items.value, addedItem.value];
-    }
+  watch(data, (value) => {
+    items.value = cloneDeep(value ?? []);
   });
 
   const {
     data: patchedItem,
     isLoading: isItemPatching,
     execute: patchItem,
+    error: itemPatchingError,
   } = patchCartItem();
 
   const {
     data: removedItem,
     isLoading: isItemRemoving,
     execute: removeItem,
+    error: itemRemovingError,
   } = removeCartItem();
 
   const quantity = computed(() =>
@@ -64,6 +67,9 @@ export const useCartStore = defineStore('cart', () => {
       )
     )
   );
+  const isAllItemsChecked = computed(
+    () => items.value.length === checkedItems.value.length
+  );
 
   return {
     stagedOrderInfo,
@@ -77,14 +83,17 @@ export const useCartStore = defineStore('cart', () => {
     addedItem,
     isItemAdding,
     addItem,
+    itemAddingError,
 
     patchedItem,
     isItemPatching,
     patchItem,
+    itemPatchingError,
 
     removedItem,
     isItemRemoving,
     removeItem,
+    itemRemovingError,
 
     quantity,
     totalPrice,
@@ -92,6 +101,7 @@ export const useCartStore = defineStore('cart', () => {
     hasCheckedItems,
     checkedQuantity,
     checkedTotalPrice,
+    isAllItemsChecked,
   };
 });
 

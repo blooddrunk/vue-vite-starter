@@ -4,7 +4,7 @@
       <div class="flex items-center">
         <van-checkbox
           v-if="!readonly"
-          v-model="__checked"
+          v-model="_checked"
           class="flex-shrink-0 pr-1.5"
           icon-size="18px"
         ></van-checkbox>
@@ -32,11 +32,11 @@
               <span class="ml-1 text-primary text-xs">元/月</span>
 
               <span v-if="readonly" class="ml-auto text-sm font-semibold">
-                x{{ __quantity }}
+                x{{ quantity }}
               </span>
               <van-stepper
                 v-else
-                v-model="__quantity"
+                v-model="_quantity"
                 class="ml-auto"
                 integer
                 min="1"
@@ -63,7 +63,6 @@
 </template>
 
 <script lang="ts" setup>
-import { withDefaults, defineProps, defineEmits, watch } from 'vue';
 import { useVModel, debouncedWatch } from '@vueuse/core';
 import { Toast, Dialog } from 'vant';
 
@@ -87,20 +86,22 @@ const emit = defineEmits<{
   (e: 'update:quantity', quantity: number): void;
 }>();
 
-const __checked = useVModel(props, 'checked', emit);
-const __quantity = useVModel(props, 'quantity', emit);
+const _checked = useVModel(props, 'checked', emit);
+const _quantity = useVModel(props, 'quantity', emit);
 
 const cart = useCartStore();
+
 watch(
-  () => cart.itemPatchingErrorMessage || cart.itemRemovingErrorMessage,
+  () => cart.itemPatchingError || cart.itemRemovingError,
   (value) => {
     if (value) {
-      Toast(value);
+      Toast.fail(value.message);
     }
   }
 );
+
 debouncedWatch(
-  __quantity,
+  _quantity,
   () => {
     cart.patchItem(props.item);
   },
@@ -115,8 +116,8 @@ const handleRemove = async () => {
       message: '是否确认删除？',
     });
 
-    const result = await cart.removeItem(props.item);
-    if (result) {
+    await cart.removeItem(props.item);
+    if (!cart.itemRemovingError) {
       cart.items = cart.items.filter((item) => item.id !== props.item.id);
     }
   } catch (error) {

@@ -1,6 +1,5 @@
 <template>
-  <ProductItemSkeleton v-if="loading"></ProductItemSkeleton>
-  <router-link v-else :to="routeLocation">
+  <router-link :to="routeLocation">
     <figure class="p-2 mt-3 bg-white rounded-md shadow shadow-light">
       <van-image
         class="w-full h-32"
@@ -45,23 +44,19 @@ import type { ProductItem } from '@typings';
 
 type Props = {
   item: ProductItem;
-  loading?: boolean;
 };
 
-const props = withDefaults(defineProps<Props>(), {
-  loading: false,
-});
+const props = defineProps<Props>();
 
 const cart = useCartStore();
 
-const addToCart = () => {
-  try {
-    cart.addItem({
-      ...props.item,
-      quantity: 1,
-    });
-  } catch (error: any) {
-    Toast(error.message);
+const addToCart = async () => {
+  await cart.addItem({
+    ...props.item,
+    quantity: 1,
+  });
+  if (cart.itemAddingError) {
+    Toast.fail(cart.itemAddingError.message);
   }
 };
 

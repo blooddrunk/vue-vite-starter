@@ -66,10 +66,20 @@ if (!__DEV__ || isItemsEmpty.value) {
 }
 
 const isAllChecked = ref(false);
-
-watch(isAllChecked, () => {
-  cart.$patch((state) => {
-    state.items.forEach((item) => (item.checked = isAllChecked.value));
-  });
+watch(isAllChecked, (checked) => {
+  if (checked || (!checked && cart.isAllItemsChecked)) {
+    cart.$patch((state) => {
+      state.items.forEach((item) => {
+        item.checked = checked;
+      });
+    });
+  }
 });
+watch(
+  () => cart.isAllItemsChecked,
+  (value) => {
+    isAllChecked.value = value;
+  },
+  { immediate: true }
+);
 </script>
