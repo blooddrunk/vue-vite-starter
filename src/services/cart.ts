@@ -7,8 +7,8 @@ export const useCartList = () => {
   return useAxios<CartItem[]>([] as CartItem[], {
     url: 'https://jsonplaceholder.typicode.com/posts',
     __needValidation: false,
-    __transformData: (data) => {
-      return ((data as CartItem[]) || [])
+    __transformData: (data: CartItem[]) => {
+      return (data || [])
         .map((item) => ({
           ...item,
           price: precisionRound(random(1, 500, true)),
