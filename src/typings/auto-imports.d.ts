@@ -35,9 +35,7 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
-  const fetchAuthCode: typeof import('../services/auth')['fetchAuthCode']
   const fetchCustomizationInfo: typeof import('../services/customization')['fetchCustomizationInfo']
-  const fetchOrderList: typeof import('../services/order')['fetchOrderList']
   const fetchProductById: typeof import('../services/product')['fetchProductById']
   const fetchProductList: typeof import('../services/product')['fetchProductList']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
@@ -221,6 +219,7 @@ declare global {
   const useObjectUrl: typeof import('@vueuse/core')['useObjectUrl']
   const useOffsetPagination: typeof import('@vueuse/core')['useOffsetPagination']
   const useOnline: typeof import('@vueuse/core')['useOnline']
+  const useOrderList: typeof import('../services/order')['useOrderList']
   const useOrderStore: typeof import('../stores/order')['useOrderStore']
   const usePageLeave: typeof import('@vueuse/core')['usePageLeave']
   const usePaginatedList: typeof import('../composables/usePaginatedList')['usePaginatedList']
@@ -344,9 +343,7 @@ declare module '@vue/runtime-core' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
-    readonly fetchAuthCode: UnwrapRef<typeof import('../services/auth')['fetchAuthCode']>
     readonly fetchCustomizationInfo: UnwrapRef<typeof import('../services/customization')['fetchCustomizationInfo']>
-    readonly fetchOrderList: UnwrapRef<typeof import('../services/order')['fetchOrderList']>
     readonly fetchProductById: UnwrapRef<typeof import('../services/product')['fetchProductById']>
     readonly fetchProductList: UnwrapRef<typeof import('../services/product')['fetchProductList']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
@@ -530,6 +527,7 @@ declare module '@vue/runtime-core' {
     readonly useObjectUrl: UnwrapRef<typeof import('@vueuse/core')['useObjectUrl']>
     readonly useOffsetPagination: UnwrapRef<typeof import('@vueuse/core')['useOffsetPagination']>
     readonly useOnline: UnwrapRef<typeof import('@vueuse/core')['useOnline']>
+    readonly useOrderList: UnwrapRef<typeof import('../services/order')['useOrderList']>
     readonly useOrderStore: UnwrapRef<typeof import('../stores/order')['useOrderStore']>
     readonly usePageLeave: UnwrapRef<typeof import('@vueuse/core')['usePageLeave']>
     readonly usePaginatedList: UnwrapRef<typeof import('../composables/usePaginatedList')['usePaginatedList']>

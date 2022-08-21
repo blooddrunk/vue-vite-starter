@@ -28,7 +28,9 @@
       >
         <template #append>
           <a
-            :class="isCountdownActive ? 'text-slate-400/75' : 'text-primary'"
+            :class="
+              shouldDisableFetchAuthCode ? 'text-slate-400/75' : 'text-primary'
+            "
             @click.prevent="handleAuthCodeRequest"
           >
             {{ authCodeButtonText }}
@@ -128,18 +130,22 @@ const authCodeButtonText = computed(() =>
   isCountdownActive.value ? `${countdown.value}s后重新获取` : '获取验证码'
 );
 
+const { isLoading: isAuthCodeLoading, execute: fetchAuthCode } = useAuthCode();
+const shouldDisableFetchAuthCode = computed(
+  () => isAuthCodeLoading.value || isCountdownActive.value
+);
 const handleAuthCodeRequest = async () => {
   const { valid } = await validateField('mobile');
   if (!valid) {
     return;
   }
 
-  if (isCountdownActive.value) {
+  if (shouldDisableFetchAuthCode.value) {
     return;
   }
 
   countdown.value = maxWaitSecs;
-  await fetchAuthCode(values.mobile);
+  await fetchAuthCode();
   Toast('验证码已发送');
   resume();
 };
@@ -153,6 +159,7 @@ const handleAnimationEnd = () => {
 };
 
 const router = useRouter();
+const route = useRoute();
 
 const stageAndLeave = (name: string) => {
   authStore.$patch((state) => {
@@ -177,8 +184,13 @@ const handleLogin = handleSubmit(async (formValues) => {
 
   await authStore.login(formValues);
 
+  if (authStore.loginError) {
+    Toast.fail(authStore.loginError);
+  }
+
   if (authStore.isLoggedIn) {
-    router.replace({ name: 'mobile' });
+    const { query } = route;
+    router.replace((query.from as string) || '/');
   }
 });
 </script>

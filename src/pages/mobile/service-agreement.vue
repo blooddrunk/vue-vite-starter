@@ -1,6 +1,6 @@
 <template>
-  <article class="article">
-    <section class="prose prose-xl">
+  <article class="article article_has-footer leading-normal">
+    <section class="prose md:prose-lg lg:prose-xl">
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Sollicitudin tempor
@@ -67,11 +67,11 @@
       </p>
     </section>
 
-    <footer class="mt-8 text-center">
+    <PageFooter class="justify-center">
       <van-button class="w-11/12" type="primary" round @click="navBack">
         我已阅读
       </van-button>
-    </footer>
+    </PageFooter>
   </article>
 </template>
 

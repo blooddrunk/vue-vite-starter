@@ -21,7 +21,3 @@
 .van-button--primary {
   @apply !bg-primary;
 }
-
-.van-button--danger {
-  @apply !bg-red-500;
-}

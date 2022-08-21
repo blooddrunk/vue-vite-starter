@@ -5,14 +5,13 @@ import { OrderInfo, OrderItem, CartItem } from '@typings';
 import { precisionRound, precisionFixed } from '@/utils/math';
 
 export const placeOrder = () => {
-  const { data, isLoading, execute } = useAxios<OrderInfo>({} as OrderInfo, {
+  const { execute, ...rest } = useAxios<OrderInfo>({} as OrderInfo, {
     url: 'https://jsonplaceholder.typicode.com/posts',
     method: 'post',
     __needValidation: false,
   });
   return {
-    data,
-    isLoading,
+    ...rest,
     execute: (item: OrderInfo) =>
       execute({
         data: item,
@@ -20,8 +19,8 @@ export const placeOrder = () => {
   };
 };
 
-export const fetchOrderList = () => {
-  return useAxios<OrderItem[]>([] as OrderItem[], {
+export const useOrderList = () => {
+  return useAxios<OrderItem[]>([], {
     url: 'https://jsonplaceholder.typicode.com/posts',
     __needValidation: false,
     __transformData: (data) => {
@@ -51,14 +50,13 @@ export const fetchOrderList = () => {
 };
 
 export const cancelOrder = () => {
-  const { data, isLoading, execute } = useAxios<OrderItem>({} as OrderItem, {
+  const { execute, ...rest } = useAxios<OrderItem>({} as OrderItem, {
     url: 'https://jsonplaceholder.typicode.com/posts',
     method: 'post',
     __needValidation: false,
   });
   return {
-    data,
-    isLoading,
+    ...rest,
     execute: (item: OrderItem) =>
       execute({
         data: item,

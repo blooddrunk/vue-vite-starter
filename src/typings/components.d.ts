@@ -96,6 +96,7 @@ declare module '@vue/runtime-core' {
     TheSidebar: typeof import('./../components/TheSidebar.vue')['default']
     TheSidebarItem: typeof import('./../components/TheSidebarItem.vue')['default']
     TheTabbar: typeof import('./../components/TheTabbar.vue')['default']
+    VanActionSheet: typeof import('vant/es')['ActionSheet']
     VanArea: typeof import('vant/es')['Area']
     VanBadge: typeof import('vant/es')['Badge']
     VanButton: typeof import('vant/es')['Button']

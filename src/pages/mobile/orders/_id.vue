@@ -130,7 +130,7 @@ const shouldShowEmptyPlaceholder = computed(
   () => !currentOrderItem.value && !order.isItemsLoading
 );
 
-const { isPending: isCancelPending, request: onOrderCancel } = cancelOrder(
+const { isLoading: isCancelPending, execute: onOrderCancel } = cancelOrder(
   () => {
     Toast('撤单成功');
   },

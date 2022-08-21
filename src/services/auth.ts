@@ -1,4 +1,3 @@
-import { random } from 'lodash-es';
 import type {
   UserInfo,
   LoginInfo,
@@ -48,12 +47,19 @@ export const useLogin = () => {
   };
 };
 
-export const fetchAuthCode = async (mobile: string) => {
-  await promiseTimeout(1000);
-  return random(1000);
-};
+export const useAuthCode = () => {
+  const isLoading = ref(false);
+  const execute = async () => {
+    isLoading.value = true;
+    await promiseTimeout(1000);
+    isLoading.value = false;
+  };
 
-export const useAuthCode = () => {};
+  return {
+    isLoading,
+    execute,
+  };
+};
 
 export const useMobileLogin = () => {
   const data = ref<MobileUserInfo>();

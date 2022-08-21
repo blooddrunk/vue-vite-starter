@@ -13,7 +13,7 @@ import {
 } from 'unplugin-vue-components/resolvers';
 import IconsResolver from 'unplugin-icons/resolver';
 import AutoImport from 'unplugin-auto-import/vite';
-import type { Resolver } from 'unplugin-auto-import/types';
+// import type { Resolver } from 'unplugin-auto-import/types';
 import VueTypeImports from 'vite-plugin-vue-type-imports';
 // import fg from 'fast-glob';
 // import consola from 'consola';

@@ -28,7 +28,7 @@ export const useOrderStore = defineStore('order', () => {
     isLoading: isItemsLoading,
     error,
     execute: getItems,
-  } = fetchOrderList();
+  } = useOrderList();
 
   return {
     orderInfo,

@@ -27,7 +27,7 @@ withDefaults(
   }
 );
 
-const placeholderItems = [...Array(5).keys()].map((id) => ({
+const placeholderItems = [...Array(3).keys()].map((id) => ({
   id: String(id),
 }));
 </script>
