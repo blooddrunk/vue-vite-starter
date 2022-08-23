@@ -4,7 +4,7 @@ import { usePaginatedList } from '@/composables/usePaginatedList';
 import { useAxios } from '@/composables/useAxios';
 import type { ProductItem } from '@typings';
 
-export const fetchProductList = () => {
+export const useProductList = () => {
   return usePaginatedList<ProductItem>(
     {
       url: 'https://jsonplaceholder.typicode.com/posts',
@@ -31,16 +31,12 @@ export const fetchProductList = () => {
   );
 };
 
-export const fetchProductById = () => {
-  const { data, isLoading, execute } = useAxios<ProductItem>(
-    {} as ProductItem,
-    {
-      __needValidation: false,
-    }
-  );
+export const useProductDetail = () => {
+  const { execute, ...rest } = useAxios<ProductItem>({} as ProductItem, {
+    __needValidation: false,
+  });
   return {
-    data,
-    isLoading,
+    ...rest,
     execute: (id: string) =>
       execute({
         url: `https://jsonplaceholder.typicode.com/posts/${id}`,

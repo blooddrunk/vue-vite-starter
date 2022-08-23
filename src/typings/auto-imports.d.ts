@@ -35,9 +35,6 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
-  const fetchCustomizationInfo: typeof import('../services/customization')['fetchCustomizationInfo']
-  const fetchProductById: typeof import('../services/product')['fetchProductById']
-  const fetchProductList: typeof import('../services/product')['fetchProductList']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const h: typeof import('vue')['h']
@@ -149,6 +146,7 @@ declare global {
   const useCssVar: typeof import('@vueuse/core')['useCssVar']
   const useCssVars: typeof import('vue')['useCssVars']
   const useCurrentElement: typeof import('@vueuse/core')['useCurrentElement']
+  const useCustomizationDetail: typeof import('../services/customization')['useCustomizationDetail']
   const useCycleList: typeof import('@vueuse/core')['useCycleList']
   const useDark: typeof import('@vueuse/core')['useDark']
   const useDataByCity: typeof import('../services/chart')['useDataByCity']
@@ -233,6 +231,8 @@ declare global {
   const usePreferredDark: typeof import('@vueuse/core')['usePreferredDark']
   const usePreferredLanguages: typeof import('@vueuse/core')['usePreferredLanguages']
   const usePreferredReducedMotion: typeof import('@vueuse/core')['usePreferredReducedMotion']
+  const useProductDetail: typeof import('../services/product')['useProductDetail']
+  const useProductList: typeof import('../services/product')['useProductList']
   const useProductStore: typeof import('../stores/product')['useProductStore']
   const useRafFn: typeof import('@vueuse/core')['useRafFn']
   const useRefHistory: typeof import('@vueuse/core')['useRefHistory']
@@ -343,9 +343,6 @@ declare module '@vue/runtime-core' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
-    readonly fetchCustomizationInfo: UnwrapRef<typeof import('../services/customization')['fetchCustomizationInfo']>
-    readonly fetchProductById: UnwrapRef<typeof import('../services/product')['fetchProductById']>
-    readonly fetchProductList: UnwrapRef<typeof import('../services/product')['fetchProductList']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
@@ -457,6 +454,7 @@ declare module '@vue/runtime-core' {
     readonly useCssVar: UnwrapRef<typeof import('@vueuse/core')['useCssVar']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useCurrentElement: UnwrapRef<typeof import('@vueuse/core')['useCurrentElement']>
+    readonly useCustomizationDetail: UnwrapRef<typeof import('../services/customization')['useCustomizationDetail']>
     readonly useCycleList: UnwrapRef<typeof import('@vueuse/core')['useCycleList']>
     readonly useDark: UnwrapRef<typeof import('@vueuse/core')['useDark']>
     readonly useDataByCity: UnwrapRef<typeof import('../services/chart')['useDataByCity']>
@@ -541,6 +539,8 @@ declare module '@vue/runtime-core' {
     readonly usePreferredDark: UnwrapRef<typeof import('@vueuse/core')['usePreferredDark']>
     readonly usePreferredLanguages: UnwrapRef<typeof import('@vueuse/core')['usePreferredLanguages']>
     readonly usePreferredReducedMotion: UnwrapRef<typeof import('@vueuse/core')['usePreferredReducedMotion']>
+    readonly useProductDetail: UnwrapRef<typeof import('../services/product')['useProductDetail']>
+    readonly useProductList: UnwrapRef<typeof import('../services/product')['useProductList']>
     readonly useProductStore: UnwrapRef<typeof import('../stores/product')['useProductStore']>
     readonly useRafFn: UnwrapRef<typeof import('@vueuse/core')['useRafFn']>
     readonly useRefHistory: UnwrapRef<typeof import('@vueuse/core')['useRefHistory']>

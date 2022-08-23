@@ -108,7 +108,6 @@ props: true
 </route>
 
 <script lang="ts" setup>
-import { defineProps, computed, ref } from 'vue';
 import { Toast, Dialog, ActionSheetAction } from 'vant';
 
 import { getPlaceholderForNonValue } from '@/utils/misc';
@@ -130,14 +129,7 @@ const shouldShowEmptyPlaceholder = computed(
   () => !currentOrderItem.value && !order.isItemsLoading
 );
 
-const { isLoading: isCancelPending, execute: onOrderCancel } = cancelOrder(
-  () => {
-    Toast('撤单成功');
-  },
-  (e) => {
-    Toast((e as Error).message);
-  }
-);
+const { isLoading: isCancelPending, execute: onOrderCancel } = cancelOrder();
 
 const currentCancelReasonIndex = ref(-1);
 const cancelReasonList = computed<ActionSheetAction[]>(() =>
@@ -176,9 +168,13 @@ const handleCancel = async (action: ActionSheetAction, index: number) => {
     });
 
     currentCancelReasonIndex.value = index;
-    console.log(action);
 
-    onOrderCancel(currentOrderItem.value!);
+    const { error } = await onOrderCancel(currentOrderItem.value!);
+    if (error.value) {
+      Toast.fail(error.value.message);
+    } else {
+      Toast('撤单成功');
+    }
   } catch (error) {
     // * user cancel, do nothing
   }

@@ -3,7 +3,7 @@
     <ProductDetailBanner :items="data.bannerImageList"> </ProductDetailBanner>
 
     <div class="article leading-normal">
-      <van-skeleton title avatar :row="3" :loading="isPending">
+      <van-skeleton title avatar :row="3" :loading="isLoading">
         <div class="space-y-3">
           <p>
             <span class="text-primary text-lg font-bold">
@@ -38,8 +38,16 @@
         加入购物车
       </van-button>
 
-      <router-link :to="checkoutRoute">
-        <van-button class="!ml-3" type="primary" round> 立刻购买 </van-button>
+      <router-link v-slot="{ navigate }" custom :to="checkoutRoute">
+        <van-button
+          class="!ml-3"
+          type="primary"
+          round
+          :disabled="isLoading"
+          @click="navigate"
+        >
+          立刻购买
+        </van-button>
       </router-link>
     </PageFooter>
   </article>
@@ -54,40 +62,24 @@ props: true
 </route>
 
 <script lang="ts" setup>
-import { defineProps, watch, computed } from 'vue';
 import { Toast } from 'vant';
-
-import { fetchProductById } from '@/services';
 
 const props = defineProps<{
   id: string;
 }>();
 
-const { data, isPending, errorMessage, request } = fetchProductById();
-
-watch(
-  () => errorMessage.value,
-  (value) => {
-    Toast.fail(value);
-  }
-);
-
-request(props.id);
+const { data, isLoading, execute } = useProductDetail();
+execute(props.id);
 
 const cart = useCartStore();
-watch(
-  () => cart.itemAddingErrorMessage,
-  (value) => {
-    if (value) {
-      Toast(value);
-    }
-  }
-);
-const addToCart = () => {
-  cart.addItem({
+const addToCart = async () => {
+  const { error } = await cart.addItem({
     ...data.value,
     quantity: 1,
   });
+  if (error.value) {
+    Toast.fail(error.value.message);
+  }
 };
 
 const checkoutRoute = computed(() => ({

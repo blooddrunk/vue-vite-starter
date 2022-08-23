@@ -1,16 +1,15 @@
 import { useAxios } from '@/composables/useAxios';
 import type { CustomizationInfo, CustomizationRequest } from '@typings';
 
-export const fetchCustomizationInfo = () => {
-  const { data, isLoading, execute } = useAxios<CustomizationInfo>(
+export const useCustomizationDetail = () => {
+  const { execute, ...rest } = useAxios<CustomizationInfo>(
     {} as CustomizationInfo,
     {
       __needValidation: false,
     }
   );
   return {
-    data,
-    isLoading,
+    ...rest,
     execute: () =>
       execute({
         url: `https://jsonplaceholder.typicode.com/posts`,

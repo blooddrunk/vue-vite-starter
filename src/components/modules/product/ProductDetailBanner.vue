@@ -1,43 +1,58 @@
 <template>
   <van-swipe v-if="items.length" @change="handleSliderChange">
     <van-swipe-item v-for="(item, index) in displayItems" :key="item.url">
-      <SimpleVideoPlayer
-        v-if="item.isVideo"
-        wrapper-class="w-full h-[320px]"
-        :url="item.url"
-        :active="activeIndex === index"
-        crossorigin="anonymous"
-      ></SimpleVideoPlayer>
-      <van-image
-        v-else
-        class="w-full h-[320px]"
-        :src="item.url"
-        fit="cover"
-      ></van-image>
+      <div
+        :class="
+          layout === 'square'
+            ? 'aspect-w-1 aspect-h-1'
+            : 'aspect-w-16 aspect-h-9'
+        "
+      >
+        <SimpleVideoPlayer
+          v-if="item.isVideo"
+          :wrapper-class="mediaClass"
+          :url="item.url"
+          :active="activeIndex === index"
+          crossorigin="anonymous"
+        ></SimpleVideoPlayer>
+        <a v-else @click.prevent="navigateTo(item.externalLink)">
+          <van-image
+            :class="mediaClass"
+            :src="item.url"
+            fit="cover"
+          ></van-image>
+        </a>
+      </div>
     </van-swipe-item>
 
     <template #indicator="{ active }">
       <div
-        class="absolute px-2 left-1/2 -translate-x-1/2 bottom-2 text-sm text-white text-center"
+        class="absolute px-2 bottom-2 left-1/2 -translate-x-1/2 text-sm text-white text-center rounded-full bg-zinc-500/70"
       >
         {{ active + 1 }}/{{ total }}
       </div>
     </template>
   </van-swipe>
-  <div v-else class="w-full h-[320px] bg-light"></div>
+  <div
+    v-else
+    class="w-full bg-light"
+    :class="
+      layout === 'square' ? 'aspect-w-1 aspect-h-1' : 'aspect-w-16 aspect-h-9'
+    "
+  ></div>
 </template>
 
 <script lang="ts" setup>
-import { withDefaults, defineProps, ref, computed } from 'vue';
-
-import { ProductMedia } from '@typings';
+import type { ProductMedia } from '@typings';
 
 const props = withDefaults(
   defineProps<{
     items: ProductMedia[];
+    layout?: 'square' | 'rect';
   }>(),
   {
     items: () => [],
+    layout: 'square',
   }
 );
 
@@ -48,4 +63,12 @@ const handleSliderChange = (index: number) => {
 
 const displayItems = computed(() => props.items.slice(0, 9));
 const total = computed(() => displayItems.value.length);
+
+const mediaClass = 'max-w-full h-full !absolute inset-0';
+
+const navigateTo = (url?: string) => {
+  if (url) {
+    window.open(url, '_blank');
+  }
+};
 </script>

@@ -28,16 +28,6 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  withDefaults,
-  defineProps,
-  defineEmits,
-  ref,
-  toRef,
-  computed,
-  onMounted,
-} from 'vue';
-import { useToggle } from '@vueuse/core';
 import { areaList } from '@vant/area-data';
 import type { AreaInstance } from 'vant';
 

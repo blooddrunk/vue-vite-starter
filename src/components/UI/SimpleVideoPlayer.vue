@@ -2,7 +2,7 @@
   <div class="relative text-white" :class="wrapperClass" @click="togglePlay">
     <video
       ref="video"
-      class="w-full h-full bg-slate-300"
+      class="w-full h-full object-contain object-center bg-zinc-200"
       object-fit="cover"
       v-bind="$attrs"
     ></video>
@@ -12,31 +12,26 @@
       class="absolute right-2 bottom-2"
       @click.prevent.stop="toggleMuted"
     >
-      <IconVolumeMute v-if="muted" size="18"></IconVolumeMute>
-      <IconVolumeNotice v-else size="18"></IconVolumeNotice>
+      <IconMdiVolumeOff v-if="muted"></IconMdiVolumeOff>
+      <IconMdiVolumeSource v-else></IconMdiVolumeSource>
     </a>
     <div
       v-else
-      class="absolute inset-0 bg-white/25 flex items-center justify-center"
+      class="absolute inset-0 bg-zinc-200/75 flex items-center justify-center"
     >
-      <IconCaution v-if="hasError" size="32"></IconCaution>
-      <IconPlay v-else size="32"></IconPlay>
+      <IconMdiAlert v-if="hasError" class="text-[1.4em]"></IconMdiAlert>
+      <IconMdiPlay v-else class="text-[1.4em]"></IconMdiPlay>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-
 export default defineComponent({
   inheritAttrs: false,
 });
 </script>
 
 <script lang="ts" setup>
-import { withDefaults, defineProps, onMounted, ref, watch } from 'vue';
-import { useMediaControls } from '@vueuse/core';
-
 const props = withDefaults(
   defineProps<{
     url: string;

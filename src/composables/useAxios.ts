@@ -60,7 +60,7 @@ export interface UseAxiosReturn<T> {
   /**
    * Manually call the axios request
    */
-  execute: <T>(config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>;
+  execute: <T>(config?: AxiosRequestConfig) => PromiseLike<UseAxiosReturn<T>>;
 }
 
 export interface UseAxiosOptions {
@@ -76,7 +76,7 @@ export function useAxios<T = any, D = any>(
   config?: AxiosRequestConfig<D>,
   options?: UseAxiosOptions
 ): UseAxiosReturn<T> & PromiseLike<UseAxiosReturn<T>>;
-export function useAxios<T = any, D = any>(
+export function useAxios<T = any>(
   initialData: T,
   instance?: AxiosInstance,
   options?: UseAxiosOptions
@@ -143,6 +143,17 @@ export function useAxios<T = any>(
     isLoading.value = loading;
     isFinished.value = !loading;
   };
+  const waitUntilFinished = () =>
+    new Promise<UseAxiosReturn<T>>((resolve, reject) => {
+      until(isFinished)
+        .toBe(true)
+        .then(() => resolve(result))
+        .catch(reject);
+    });
+  const then: PromiseLike<UseAxiosReturn<T>>['then'] = (
+    onFulfilled,
+    onRejected
+  ) => waitUntilFinished().then(onFulfilled, onRejected);
   const execute = async (config?: AxiosRequestConfig) => {
     const _config = merge(
       { cancelToken: cancelToken.token },
@@ -156,13 +167,13 @@ export function useAxios<T = any>(
       const r = await instance.request<T>(_config);
       response.value = r;
       data.value = r.data;
-
-      return r;
     } catch (error: any) {
       error.value = error;
     } finally {
       loading(false);
     }
+
+    return { then };
   };
   if (options.immediate && defaultConfig.url) {
     execute();
@@ -186,19 +197,8 @@ export function useAxios<T = any>(
     execute,
   } as UseAxiosReturn<T>;
 
-  function waitUntilFinished() {
-    return new Promise<UseAxiosReturn<T>>((resolve, reject) => {
-      until(isFinished)
-        .toBe(true)
-        .then(() => resolve(result))
-        .catch((error) => reject(error));
-    });
-  }
-
   return {
     ...result,
-    then(onFulfilled, onRejected) {
-      return waitUntilFinished().then(onFulfilled, onRejected);
-    },
+    then,
   };
 }

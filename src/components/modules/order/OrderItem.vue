@@ -45,9 +45,8 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, computed } from 'vue';
 import { format } from 'date-fns';
-import { RouteLocationRaw } from 'vue-router';
+import type { RouteLocationRaw } from 'vue-router';
 
 import type { OrderItem } from '@typings';
 

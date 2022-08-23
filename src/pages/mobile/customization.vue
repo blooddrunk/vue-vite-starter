@@ -10,7 +10,7 @@
     >
     </van-image>
 
-    <PageFooter class="bottom-[50px] justify-center">
+    <PageFooter class="!bottom-[50px] justify-center">
       <router-link v-slot="{ navigate }" custom to="/mobile/appointment">
         <van-button class="w-11/12" type="primary" round @click="navigate">
           立即预约
@@ -21,11 +21,9 @@
 </template>
 
 <script lang="ts" setup>
-import { fetchCustomizationInfo } from '@/services';
+const { data, execute } = useCustomizationDetail();
 
-const { data, request } = fetchCustomizationInfo();
-
-request();
+execute();
 </script>
 
 <route lang="yaml">

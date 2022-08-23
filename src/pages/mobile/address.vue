@@ -7,7 +7,7 @@
       detail-maxlength="50"
       detail-rows="2"
       :validator="handleValidate"
-      :is-saving="isPending"
+      :is-saving="isLoading"
       @save="handleSubmit"
     >
     </van-address-edit>
@@ -37,25 +37,23 @@ const handleValidate = (name: string, value: string) => {
   return '';
 };
 
-const { isPending, request } = placeOrder(
-  () => {
+const { isLoading, execute } = placeOrder();
+const handleSubmit = async (content: AddressEditInfo) => {
+  order.updateOrderInfo({
+    contactPerson: content.name,
+    servicePhone: content.tel,
+    address: `${content.province} ${content.country} ${content.county} ${content.addressDetail}`,
+  });
+  const { error } = await execute(order.orderInfo);
+  if (error.value) {
+    Toast.fail(error.value.message);
+  } else {
     Toast.success({
       message: '下单成功!',
       onClose: () => {
         router.push('/mobile/user');
       },
     });
-  },
-  (e) => {
-    Toast((e as Error).message);
   }
-);
-const handleSubmit = (content: AddressEditInfo) => {
-  order.updateOrderInfo({
-    contactPerson: content.name,
-    servicePhone: content.tel,
-    address: `${content.province} ${content.country} ${content.county} ${content.addressDetail}`,
-  });
-  request(order.orderInfo);
 };
 </script>

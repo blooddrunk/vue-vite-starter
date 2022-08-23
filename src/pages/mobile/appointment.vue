@@ -6,7 +6,7 @@
       save-button-text="确认提交"
       detail-maxlength="50"
       :validator="handleValidate"
-      :is-saving="isPending"
+      :is-saving="isLoading"
       @save="handleSubmit"
     >
       <van-field
@@ -90,25 +90,23 @@ const handleServiceTimeChange = (value: Date) => {
   isTimePickerVisible.value = false;
 };
 
-const { isPending, request } = makeAppointment(
-  () => {
+const { isLoading, execute } = makeAppointment();
+const handleSubmit = async (content: AddressEditInfo) => {
+  const payload: CustomizationRequest = {
+    contactPerson: content.name,
+    servicePhone: content.tel,
+    address: `${content.province} ${content.country} ${content.county} ${content.addressDetail}`,
+  };
+  const { error } = await execute(payload);
+  if (error.value) {
+    Toast.fail(error.value.message);
+  } else {
     Toast.success({
       message: '预约成功!',
       onClose: () => {
         router.push('/mobile/user');
       },
     });
-  },
-  (e) => {
-    Toast((e as Error).message);
   }
-);
-const handleSubmit = (content: AddressEditInfo) => {
-  const payload: CustomizationRequest = {
-    contactPerson: content.name,
-    servicePhone: content.tel,
-    address: `${content.province} ${content.country} ${content.county} ${content.addressDetail}`,
-  };
-  request(payload);
 };
 </script>

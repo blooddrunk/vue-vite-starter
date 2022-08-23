@@ -19,7 +19,6 @@
 </template>
 
 <script lang="ts" setup>
-import { withDefaults, defineProps } from 'vue';
 import type { CartItem } from '@typings';
 
 withDefaults(

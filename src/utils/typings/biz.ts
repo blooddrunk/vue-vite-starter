@@ -12,6 +12,7 @@ export type Product = {
 export type ProductMedia = {
   url: string;
   isVideo?: false;
+  externalLink?: string;
 };
 
 export type ProductItem = {

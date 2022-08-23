@@ -19,9 +19,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue';
-
-import { CommonSelectOption } from '@typings';
+import type { CommonSelectOption } from '@typings';
 
 type Props = {
   items: CommonSelectOption[];

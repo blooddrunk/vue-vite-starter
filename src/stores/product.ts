@@ -9,7 +9,7 @@ export const useProductStore = defineStore('product', () => {
     isEmpty: isItemsEmpty,
     fetchList: getItems,
     fetchListAndReset: getItemsAndReset,
-  } = fetchProductList();
+  } = useProductList();
 
   return {
     items,
