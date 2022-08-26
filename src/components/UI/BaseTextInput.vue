@@ -138,7 +138,7 @@ const isLabelActive = computed(
     }
 
     &::before {
-      @apply border-b-thin border-inherit;
+      @apply border-b border-inherit;
     }
 
     &::after {

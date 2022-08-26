@@ -60,10 +60,6 @@ module.exports = {
         main: theme('colors.gray.100'),
       }),
 
-      borderWidth: {
-        thin: 'thin',
-      },
-
       fontFamily: {
         sans: ['Microsoft YaHei', ...defaultTheme.fontFamily.sans],
       },

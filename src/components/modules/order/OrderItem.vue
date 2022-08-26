@@ -4,7 +4,7 @@
     :to="routeLocation"
   >
     <header
-      class="pb-1.5 mb-2.5 flex items-center justify-between border-b-thin border-primary text-sm font-bold"
+      class="pb-1.5 mb-2.5 flex items-center justify-between border-b border-primary text-sm font-bold"
     >
       <span>
         订单编号：
