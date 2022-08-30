@@ -1,13 +1,13 @@
 <template>
   <el-button
-    :loading="isPending"
-    :disabled="isPending"
+    :loading="isLoading"
+    :disabled="isLoading"
     :size="size"
     :type="type"
     :plain="plain"
     @click="handleButtonClick"
   >
-    <slot v-if="isPending && hasLoadingSlot" name="loading"> </slot>
+    <slot v-if="isLoading && hasLoadingSlot" name="loading"> </slot>
     <slot v-else></slot>
   </el-button>
 </template>
@@ -33,7 +33,9 @@ const props = withDefaults(defineProps<Props>(), {
   plain: false,
 });
 
-const { isPending, execute } = useAsyncFn(props.action, null);
+const { isLoading, execute } = useAsyncState<any>(props.action, null, {
+  immediate: false,
+});
 const handleButtonClick = async () => {
   if (props.confirmText) {
     try {

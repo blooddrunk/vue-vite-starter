@@ -227,6 +227,7 @@
     "usePointer": "readonly",
     "usePointerSwipe": "readonly",
     "usePreferredColorScheme": "readonly",
+    "usePreferredContrast": "readonly",
     "usePreferredDark": "readonly",
     "usePreferredLanguages": "readonly",
     "usePreferredReducedMotion": "readonly",
