@@ -169,8 +169,9 @@ export function useAxios<T = any, D = any>(
       const r = await instance.request<T>(_config);
       response.value = r;
       data.value = r.data;
-    } catch (error: any) {
-      error.value = error;
+    } catch (e: any) {
+      error.value = e;
+      console.error(error.value);
     } finally {
       loading(false);
     }

@@ -85,6 +85,7 @@ export const setupInterceptor = (instance: AxiosInstance) => {
         response.data = validateResponse(response.data as ServerResponse);
       } catch (error) {
         (error as any).config = response.config;
+        console.error(error);
         throw error;
       }
     }
