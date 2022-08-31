@@ -43,7 +43,7 @@
           </el-alert>
         </transition>
 
-        <el-form class="mt-6" status-icon @submit="onSubmit">
+        <el-form class="mt-6" status-icon size="large" @submit="onSubmit">
           <BaseInput
             name="userName"
             label="用户名"
@@ -93,7 +93,7 @@
               </BaseInput>
             </div>
 
-            <div class="h-[40px]">
+            <div class="h-[38px]">
               <transition
                 enter-active-class="animate__animated animate__fadeIn animate__faster"
                 leave-active-class="animate__animated animate__fadeOut animate__faster"
@@ -173,17 +173,15 @@ const clearError = () => {
 };
 
 /** captcha handling */
+const getCaptchaUrl = () =>
+  `/hjq-prov/api/webend/randowCodeImg?_r=${Date.now()}`;
 const isCaptchaBroken = ref(false);
-const captchaUrl = ref('');
+const captchaUrl = ref(getCaptchaUrl());
 const captchaRef = ref<HTMLImageElement>();
-const setCaptchaUrl = () => {
-  captchaUrl.value = `/captcha?_r=${Date.now()}`;
-};
-setCaptchaUrl();
 const fetchCaptcha = () => {
-  setCaptchaUrl();
+  isCaptchaBroken.value = false;
+  captchaUrl.value = getCaptchaUrl();
 };
-
 onMounted(() => {
   if (captchaRef.value) {
     captchaRef.value.onload = () => {
@@ -195,13 +193,11 @@ onMounted(() => {
     };
   }
 });
-
 watchEffect(() => {
   if (hasLoginError.value) {
     fetchCaptcha();
   }
 });
-
 /** form handling*/
 const validationSchema = {
   userName: 'required',
@@ -215,6 +211,11 @@ const { values, meta, isSubmitting, handleSubmit } = useForm<LoginInfo>({
     password: '',
     captcha: '',
   },
+});
+watch(values, () => {
+  if (hasLoginError.value) {
+    clearError();
+  }
 });
 const invalid = computed(() => !meta.value.valid && meta.value.dirty);
 const isLoginButtonDisabled = computed(
@@ -261,10 +262,4 @@ const handleLoginSuccess = async () => {
 
   fetchCaptcha();
 };
-
-watch(values, () => {
-  if (hasLoginError.value) {
-    clearError();
-  }
-});
 </script>

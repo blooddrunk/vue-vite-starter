@@ -1,20 +1,15 @@
 <template>
   <aside :class="$style.sidebar">
     <div class="border-b border-gray-100">
-      <el-tooltip
-        :content="isSidebarCollapsed ? '展开' : '折叠'"
-        placement="right"
+      <el-button
+        class="w-full !h-[var(--el-menu-item-height)]"
+        link
+        type="primary"
+        @click="handleSidebarCollapse"
       >
-        <el-button
-          class="w-full !h-[var(--el-menu-item-height)]"
-          link
-          type="primary"
-          @click="handleSidebarCollapse"
-        >
-          <IconMdiMenu v-if="isSidebarCollapsed"></IconMdiMenu>
-          <IconMdiMenuOpen v-else></IconMdiMenuOpen>
-        </el-button>
-      </el-tooltip>
+        <IconMdiMenu v-if="isSidebarCollapsed"></IconMdiMenu>
+        <IconMdiMenuOpen v-else></IconMdiMenuOpen>
+      </el-button>
     </div>
 
     <el-menu :default-active="defaultActiveName" :collapse="isSidebarCollapsed">

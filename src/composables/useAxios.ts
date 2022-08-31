@@ -15,7 +15,7 @@ import { merge } from 'lodash-es';
 
 import axios from '@/utils/axios';
 
-export interface UseAxiosReturn<T> {
+export interface UseAxiosReturn<T, D = any> {
   /**
    * Axios Response
    */
@@ -60,7 +60,9 @@ export interface UseAxiosReturn<T> {
   /**
    * Manually call the axios request
    */
-  execute: <T>(config?: AxiosRequestConfig) => PromiseLike<UseAxiosReturn<T>>;
+  execute: (
+    config?: AxiosRequestConfig<D>
+  ) => PromiseLike<UseAxiosReturn<T, D>>;
 }
 
 export interface UseAxiosOptions {
@@ -75,7 +77,7 @@ export function useAxios<T = any, D = any>(
   initialData: T,
   config?: AxiosRequestConfig<D>,
   options?: UseAxiosOptions
-): UseAxiosReturn<T> & PromiseLike<UseAxiosReturn<T>>;
+): UseAxiosReturn<T, D> & PromiseLike<UseAxiosReturn<T, D>>;
 export function useAxios<T = any>(
   initialData: T,
   instance?: AxiosInstance,
@@ -86,7 +88,7 @@ export function useAxios<T = any, D = any>(
   config: AxiosRequestConfig<D>,
   instance: AxiosInstance,
   options?: UseAxiosOptions
-): UseAxiosReturn<T> & PromiseLike<UseAxiosReturn<T>>;
+): UseAxiosReturn<T, D> & PromiseLike<UseAxiosReturn<T, D>>;
 
 /**
  * Wrapper for axios.
@@ -95,9 +97,9 @@ export function useAxios<T = any, D = any>(
  * @param url
  * @param config
  */
-export function useAxios<T = any>(
+export function useAxios<T = any, D = any>(
   ...args: any[]
-): UseAxiosReturn<T> & PromiseLike<UseAxiosReturn<T>> {
+): UseAxiosReturn<T, D> & PromiseLike<UseAxiosReturn<T, D>> {
   const initialData: T = args[0];
   let defaultConfig: AxiosRequestConfig = {};
   let instance: AxiosInstance = axios;
@@ -144,13 +146,13 @@ export function useAxios<T = any>(
     isFinished.value = !loading;
   };
   const waitUntilFinished = () =>
-    new Promise<UseAxiosReturn<T>>((resolve, reject) => {
+    new Promise<UseAxiosReturn<T, D>>((resolve, reject) => {
       until(isFinished)
         .toBe(true)
         .then(() => resolve(result))
         .catch(reject);
     });
-  const then: PromiseLike<UseAxiosReturn<T>>['then'] = (
+  const then: PromiseLike<UseAxiosReturn<T, D>>['then'] = (
     onFulfilled,
     onRejected
   ) => waitUntilFinished().then(onFulfilled, onRejected);
@@ -195,7 +197,7 @@ export function useAxios<T = any>(
     isCanceled: isAborted,
     abort,
     execute,
-  } as UseAxiosReturn<T>;
+  } as UseAxiosReturn<T, D>;
 
   return {
     ...result,
