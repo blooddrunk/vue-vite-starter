@@ -96,12 +96,12 @@ export const setupInterceptor = (instance: AxiosInstance) => {
       } else if (__transformData === true) {
         response.data = defaultDataTransformer(response.data);
       }
+
+      return response;
     } catch (error) {
       (error as any).config = response.config;
       throw error;
     }
-
-    return response;
   }, onError);
 };
 
