@@ -1,11 +1,19 @@
 <template>
   <div>
-    <el-table ref="table" v-loading="loading" :data="items" v-bind="$attrs">
+    <el-table
+      ref="table"
+      v-loading="loading"
+      :data="items"
+      border
+      stripe
+      header-cell-class-name="!bg-sky-100 bg-opacity-75 text-primary"
+      v-bind="$attrs"
+    >
       <slot></slot>
     </el-table>
 
     <el-pagination
-      class="py-3"
+      class="!py-3"
       v-bind="__paginationProps"
       :total="total"
       :current-page="page"

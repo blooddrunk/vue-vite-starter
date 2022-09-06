@@ -1,4 +1,4 @@
-import { isNil, mapValues, mapKeys } from 'lodash-es';
+import { isNil, mapValues, mapKeys, omit } from 'lodash-es';
 import { unref } from 'vue';
 
 import { MaybeRef } from '@typings';
@@ -125,4 +125,39 @@ export const createNamedEntryForGlobImport = <M>(
     getFileNameOfResource(key)
   );
   return Object.entries(modulesWithFileNameAsKey);
+};
+
+export const flattenTree = <
+  T extends Record<string, any> = any,
+  C extends keyof T = 'children'
+>(
+  tree: T[],
+  childrenKey: C = 'children' as C
+) => {
+  const result: (Omit<T, C> & {
+    children: Omit<T, C>[];
+    isLeaf: boolean;
+  })[] = [];
+
+  const traverse = (subTree: T[]) => {
+    subTree.forEach((item) => {
+      const children = item[childrenKey] as T[];
+      const rest = omit(item, [childrenKey]);
+
+      const hasChildren = !!(children && children.length);
+      result.push({
+        ...rest,
+        isLeaf: !hasChildren,
+        children: children || [],
+      });
+
+      if (hasChildren) {
+        traverse(children);
+      }
+    });
+  };
+
+  traverse(tree || []);
+
+  return result;
 };

@@ -1,7 +1,8 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { pick, keyBy } from 'lodash';
 
-import { AuthInfo, UserInfo, LoginInfo } from '@typings';
+import type { AuthInfo, UserInfo, LoginInfo } from '@typings';
+import type { MenuItem } from '@/stores/ui';
 
 export const useAuthStore = defineStore('auth', () => {
   const uiStore = useUIStore();
@@ -15,20 +16,8 @@ export const useAuthStore = defineStore('auth', () => {
 
   const user = computed(() => auth.value.user);
   const userName = computed(() => user.value.userName);
+  const isAdmin = computed(() => userName.value === 'admin');
   const isLoggedIn = computed(() => !!userName.value);
-  const permittedMenuLookupById = computed(() =>
-    pick(uiStore.menuLookupById, user.value.menuList)
-  );
-  const permittedMenuList = computed(() =>
-    Object.values(permittedMenuLookupById.value)
-  );
-  const permittedMenuLookupByRoute = computed(() =>
-    keyBy(
-      permittedMenuList.value.filter((item) => !!item.route),
-      'route'
-    )
-  );
-  const firstPermittedMenu = computed(() => permittedMenuList.value[0] ?? null);
 
   const updateUser = (payload: Partial<UserInfo>) => {
     auth.value.user = {
@@ -57,9 +46,29 @@ export const useAuthStore = defineStore('auth', () => {
     loginError.value = '';
   };
 
+  const permittedMenuLookupById = computed(() =>
+    isAdmin.value
+      ? uiStore.menuLookupById
+      : (pick(
+          uiStore.menuLookupById,
+          (user.value.menuList || []).concat(uiStore.whitelistedMenuIdList)
+        ) as Record<string, MenuItem>)
+  );
+  const permittedMenuList = computed(() =>
+    Object.values(permittedMenuLookupById.value)
+  );
+  const permittedMenuLookupByRoute = computed(() =>
+    keyBy(
+      permittedMenuList.value.filter((item) => !!item.route),
+      'route'
+    )
+  );
+  const firstPermittedMenu = computed(() => permittedMenuList.value[0] ?? null);
+
   return {
     user,
     userName,
+    isAdmin,
     isLoggedIn,
     loginError,
     hasLoginError,

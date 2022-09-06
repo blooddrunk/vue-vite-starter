@@ -19,7 +19,7 @@ export default (router: Router) => {
           if (matchedMenu) {
             acc.push({
               route: matchedMenu.route,
-              title: matchedMenu.title,
+              title: matchedMenu.title ?? '未命名',
             });
           } else {
             console.warn(

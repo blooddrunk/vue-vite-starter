@@ -176,6 +176,7 @@ declare global {
   const useFileDialog: typeof import('@vueuse/core')['useFileDialog']
   const useFileSystemAccess: typeof import('@vueuse/core')['useFileSystemAccess']
   const useFirstNavigableMenu: typeof import('../composables/useFirstNavigableMenu')['useFirstNavigableMenu']
+  const useFirstNavigableRoute: typeof import('../composables/useFirstNavigableRoute')['useFirstNavigableRoute']
   const useFocus: typeof import('@vueuse/core')['useFocus']
   const useFocusWithin: typeof import('@vueuse/core')['useFocusWithin']
   const useFormField: typeof import('../composables/useFormField')['useFormField']
@@ -227,6 +228,7 @@ declare global {
   const usePointer: typeof import('@vueuse/core')['usePointer']
   const usePointerSwipe: typeof import('@vueuse/core')['usePointerSwipe']
   const usePreferredColorScheme: typeof import('@vueuse/core')['usePreferredColorScheme']
+  const usePreferredContrast: typeof import('@vueuse/core')['usePreferredContrast']
   const usePreferredDark: typeof import('@vueuse/core')['usePreferredDark']
   const usePreferredLanguages: typeof import('@vueuse/core')['usePreferredLanguages']
   const usePreferredReducedMotion: typeof import('@vueuse/core')['usePreferredReducedMotion']
@@ -483,6 +485,7 @@ declare module '@vue/runtime-core' {
     readonly useFileDialog: UnwrapRef<typeof import('@vueuse/core')['useFileDialog']>
     readonly useFileSystemAccess: UnwrapRef<typeof import('@vueuse/core')['useFileSystemAccess']>
     readonly useFirstNavigableMenu: UnwrapRef<typeof import('../composables/useFirstNavigableMenu')['useFirstNavigableMenu']>
+    readonly useFirstNavigableRoute: UnwrapRef<typeof import('../composables/useFirstNavigableRoute')['useFirstNavigableRoute']>
     readonly useFocus: UnwrapRef<typeof import('@vueuse/core')['useFocus']>
     readonly useFocusWithin: UnwrapRef<typeof import('@vueuse/core')['useFocusWithin']>
     readonly useFormField: UnwrapRef<typeof import('../composables/useFormField')['useFormField']>
@@ -534,6 +537,7 @@ declare module '@vue/runtime-core' {
     readonly usePointer: UnwrapRef<typeof import('@vueuse/core')['usePointer']>
     readonly usePointerSwipe: UnwrapRef<typeof import('@vueuse/core')['usePointerSwipe']>
     readonly usePreferredColorScheme: UnwrapRef<typeof import('@vueuse/core')['usePreferredColorScheme']>
+    readonly usePreferredContrast: UnwrapRef<typeof import('@vueuse/core')['usePreferredContrast']>
     readonly usePreferredDark: UnwrapRef<typeof import('@vueuse/core')['usePreferredDark']>
     readonly usePreferredLanguages: UnwrapRef<typeof import('@vueuse/core')['usePreferredLanguages']>
     readonly usePreferredReducedMotion: UnwrapRef<typeof import('@vueuse/core')['usePreferredReducedMotion']>

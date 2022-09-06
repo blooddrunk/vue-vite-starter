@@ -1,19 +1,27 @@
-import { MenuItem } from '@/stores/ui';
+import type { MenuItem } from '@/stores/ui';
 import { getFirstNavigableMenu, getRouteOfMenuItem } from '@/utils/biz/menu';
 
 // TODO: narrow route name type
 export type UseFirstNavigableMenuOptions = {
   withPermission?: boolean;
   lookupByRoute?: boolean;
-  immediatelyRedirect?: boolean;
 };
+
+export type UseFirstNavigableMenuReturn = {
+  menuItem: ReturnType<typeof getFirstNavigableMenu>;
+  targetRoute: ReturnType<typeof getRouteOfMenuItem>;
+};
+
 export type UseFirstNavigableMenu = {
-  (menuList: MenuItem[], options?: UseFirstNavigableMenuOptions): ReturnType<
-    typeof getFirstNavigableMenu
-  >;
-  (parentRouteName: string, options?: UseFirstNavigableMenuOptions): ReturnType<
-    typeof getFirstNavigableMenu
-  >;
+  (options?: UseFirstNavigableMenuOptions): UseFirstNavigableMenuReturn;
+  (
+    menuList: MenuItem[],
+    options?: UseFirstNavigableMenuOptions
+  ): UseFirstNavigableMenuReturn;
+  (
+    parentRouteName: string,
+    options?: UseFirstNavigableMenuOptions
+  ): UseFirstNavigableMenuReturn;
 };
 
 export const useFirstNavigableMenu: UseFirstNavigableMenu = (
@@ -21,22 +29,24 @@ export const useFirstNavigableMenu: UseFirstNavigableMenu = (
 ) => {
   let options: UseFirstNavigableMenuOptions = {
     withPermission: true,
-    lookupByRoute: false,
-    immediatelyRedirect: false,
+    lookupByRoute: true,
   };
   if (args.length === 2) {
     options = { ...options, ...args[1] };
+  } else if (args.length === 1) {
+    if (!Array.isArray(args[0]) && typeof args[0] !== 'string') {
+      options = {
+        ...options,
+        ...args[0],
+      };
+    }
   }
 
-  let menuList: MenuItem[];
-  if (typeof args[0] === 'string') {
-    const route = useRoute();
-    if (route.name !== args[0]) {
-      return null;
-    }
+  const authStore = useAuthStore();
 
+  let menuList: MenuItem[] | null = null;
+  if (typeof args[0] === 'string') {
     const uiStore = useUIStore();
-    const authStore = useAuthStore();
 
     let menuLookup: Record<string, MenuItem>;
     if (options.withPermission) {
@@ -60,21 +70,17 @@ export const useFirstNavigableMenu: UseFirstNavigableMenu = (
     } else {
       throw new Error(`Failed to retrieve children for route '${args[0]}'`);
     }
-  } else {
+  } else if (Array.isArray(args[0])) {
     menuList = args[0];
   }
 
-  const menuItem = getFirstNavigableMenu(menuList);
-  if (options.immediatelyRedirect) {
-    const route = getRouteOfMenuItem(menuItem);
-    if (route) {
-      const router = useRouter();
-      router.push(route);
-      return menuItem;
-    } else {
-      throw new Error(`Failed to navigate with menu '${menuItem}'`);
-    }
-  } else {
-    return menuItem;
-  }
+  const menuItem = menuList
+    ? getFirstNavigableMenu(menuList)
+    : authStore.firstPermittedMenu;
+  const targetRoute = getRouteOfMenuItem(menuItem);
+
+  return {
+    menuItem,
+    targetRoute,
+  };
 };

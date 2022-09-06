@@ -4,7 +4,9 @@ import {
   getFirstNavigableMenu,
   menuLookup as rawMenuLookup,
   menuPerSystem as rawMenuPerSystem,
+  allMenuList,
 } from '@/utils/biz/menu';
+import { flattenTree } from '@/utils/misc';
 
 export type BreadcrumbItem = {
   title: string;
@@ -17,11 +19,12 @@ export type SystemList = typeof availableSystemList;
 export type SystemValue = typeof availableSystemList[number]['value'];
 export type MenuItem = {
   id: string;
-  title: string;
+  title?: string;
   icon?: string;
   route?: string;
   children?: MenuItem[];
   system: SystemValue;
+  isVisible?: boolean;
 };
 
 export const useUIStore = defineStore('ui', () => {
@@ -42,6 +45,14 @@ export const useUIStore = defineStore('ui', () => {
     }
     return null;
   });
+  const menuList = shallowRef(flattenTree(allMenuList));
+  const menuIdList = computed(() => menuList.value.map((item) => item.id));
+  const whitelistedMenuList = computed(() =>
+    menuList.value.filter((item) => item.id.startsWith('__whitelisted_'))
+  );
+  const whitelistedMenuIdList = computed(() =>
+    whitelistedMenuList.value.map((item) => item.id)
+  );
 
   const systemList = ref<SystemList>(availableSystemList);
   const currentSystem = ref('');
@@ -72,6 +83,10 @@ export const useUIStore = defineStore('ui', () => {
     menuLookupById,
     menuLookupByRoute,
     firstNavigableMenu,
+    menuList,
+    menuIdList,
+    whitelistedMenuList,
+    whitelistedMenuIdList,
 
     systemList,
     currentSystem,

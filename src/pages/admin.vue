@@ -6,11 +6,9 @@
 meta:
   layout: sidebar
   breadcrumb:
-    title: 'Admin'
+    title: '系统管理'
 </route>
 
 <script lang="ts" setup>
-useFirstNavigableMenu('admin', {
-  immediatelyRedirect: true,
-});
+useFirstNavigableRoute('admin');
 </script>
