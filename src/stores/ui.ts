@@ -1,7 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 
 import {
-  getFirstNavigableMenu,
+  getFirstNavigableMenu as _getFirstNavigableMenu,
   menuLookup as rawMenuLookup,
   menuPerSystem as rawMenuPerSystem,
   allMenuList,
@@ -38,13 +38,6 @@ export const useUIStore = defineStore('ui', () => {
   const menuPerSystem = shallowRef(rawMenuPerSystem);
   const menuLookupById = computed(() => menuLookup.value.byId);
   const menuLookupByRoute = computed(() => menuLookup.value.byRoute);
-  const firstNavigableMenu = computed(() => {
-    const target = getFirstNavigableMenu(currentMenuList.value);
-    if (target) {
-      return menuLookupByRoute.value[target.route!];
-    }
-    return null;
-  });
   const menuList = shallowRef(flattenTree(allMenuList));
   const menuIdList = computed(() => menuList.value.map((item) => item.id));
   const whitelistedMenuList = computed(() =>
@@ -53,6 +46,20 @@ export const useUIStore = defineStore('ui', () => {
   const whitelistedMenuIdList = computed(() =>
     whitelistedMenuList.value.map((item) => item.id)
   );
+  const getFirstNavigableMenu = ({
+    excludeRoutes,
+  }: { excludeRoutes?: string[] } = {}) => {
+    const target = _getFirstNavigableMenu(currentMenuList.value, {
+      excludeRoutes,
+    });
+    if (target) {
+      return menuLookupByRoute.value[target.route!];
+    }
+    return null;
+  };
+  const firstNavigableMenu = computed(() => {
+    return getFirstNavigableMenu();
+  });
 
   const systemList = ref<SystemList>(availableSystemList);
   const currentSystem = ref('');
@@ -82,11 +89,12 @@ export const useUIStore = defineStore('ui', () => {
     menuLookup,
     menuLookupById,
     menuLookupByRoute,
-    firstNavigableMenu,
     menuList,
     menuIdList,
     whitelistedMenuList,
     whitelistedMenuIdList,
+    firstNavigableMenu,
+    getFirstNavigableMenu,
 
     systemList,
     currentSystem,

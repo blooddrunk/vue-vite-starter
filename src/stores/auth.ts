@@ -63,7 +63,23 @@ export const useAuthStore = defineStore('auth', () => {
       'route'
     )
   );
-  const firstPermittedMenu = computed(() => permittedMenuList.value[0] ?? null);
+  const getFirstPermittedMenu = ({
+    excludeIds,
+    excludeRoutes,
+  }: { excludeIds?: string[]; excludeRoutes?: string[] } = {}) => {
+    for (const item of permittedMenuList.value) {
+      if (
+        (excludeRoutes && excludeRoutes.includes(item.route!)) ||
+        (excludeIds && excludeIds.includes(item.id))
+      ) {
+        continue;
+      } else if (item.route) {
+        return item;
+      }
+    }
+    return null;
+  };
+  const firstPermittedMenu = computed(() => getFirstPermittedMenu());
 
   return {
     user,
@@ -77,6 +93,7 @@ export const useAuthStore = defineStore('auth', () => {
     permittedMenuLookupById,
     permittedMenuLookupByRoute,
     firstPermittedMenu,
+    getFirstPermittedMenu,
 
     updateUser,
     login,

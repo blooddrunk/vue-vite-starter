@@ -5,6 +5,7 @@ import { getFirstNavigableMenu, getRouteOfMenuItem } from '@/utils/biz/menu';
 export type UseFirstNavigableMenuOptions = {
   withPermission?: boolean;
   lookupByRoute?: boolean;
+  excludedRoutes?: string[];
 };
 
 export type UseFirstNavigableMenuReturn = {
@@ -43,11 +44,10 @@ export const useFirstNavigableMenu: UseFirstNavigableMenu = (
   }
 
   const authStore = useAuthStore();
+  const uiStore = useUIStore();
 
   let menuList: MenuItem[] | null = null;
   if (typeof args[0] === 'string') {
-    const uiStore = useUIStore();
-
     let menuLookup: Record<string, MenuItem>;
     if (options.withPermission) {
       menuLookup = options.lookupByRoute
@@ -74,13 +74,19 @@ export const useFirstNavigableMenu: UseFirstNavigableMenu = (
     menuList = args[0];
   }
 
+  const excludeOption = {
+    excludeRoutes: options.excludedRoutes,
+  };
   const menuItem = menuList
-    ? getFirstNavigableMenu(menuList)
-    : authStore.firstPermittedMenu;
+    ? getFirstNavigableMenu(menuList, excludeOption)
+    : options.withPermission
+    ? authStore.getFirstPermittedMenu(excludeOption)
+    : uiStore.getFirstNavigableMenu(excludeOption);
   const targetRoute = getRouteOfMenuItem(menuItem);
 
   return {
     menuItem,
+    menuList,
     targetRoute,
   };
 };

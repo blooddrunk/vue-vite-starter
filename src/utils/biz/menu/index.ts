@@ -1,5 +1,5 @@
 import { mergeWith } from 'lodash-es';
-import type { RouteLocationRaw } from 'vue-router';
+import type { RouteLocationNamedRaw } from 'vue-router';
 
 import type { SystemValue, MenuItem } from '@/stores/ui';
 import defaultMenuList from './default';
@@ -38,11 +38,18 @@ export const createMenuLookup = (menuList: MenuItem[], system: SystemValue) => {
 };
 
 export const getFirstNavigableMenu = (
-  menuList: MenuItem[]
+  menuList: MenuItem[],
+  { excludeRoutes }: { excludeRoutes?: string[] } = {}
 ): MenuItem | null | undefined => {
   for (const item of menuList) {
     if (item.route) {
-      return item;
+      if (excludeRoutes) {
+        if (!excludeRoutes.includes(item.route)) {
+          return item;
+        }
+      } else {
+        return item;
+      }
     } else if (item.children) {
       return getFirstNavigableMenu(item.children);
     } else {
@@ -53,7 +60,7 @@ export const getFirstNavigableMenu = (
 
 export const getRouteOfMenuItem = (
   item?: MenuItem | null
-): RouteLocationRaw | null => {
+): RouteLocationNamedRaw | null => {
   if (item && item.route && item.id) {
     if (typeof item.route !== 'string') {
       throw new Error(`[route] property of menu item must be route name`);
