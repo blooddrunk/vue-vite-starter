@@ -4,6 +4,7 @@ import generatedRoutes from '~pages';
 import { setupLayouts } from 'virtual:generated-layouts';
 
 import type { BreadcrumbItem } from '@/stores/ui';
+import { createNamedEntryForGlobImport } from '@/utils/misc';
 
 export const routerHistory = createWebHashHistory(import.meta.env.BASE_URL);
 
@@ -32,7 +33,8 @@ const middlewareModules = import.meta.glob<(router: Router) => void>(
     eager: true,
   }
 );
-Object.values(middlewareModules).forEach((m) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+createNamedEntryForGlobImport(middlewareModules).forEach(([_, m]) => {
   m(router);
 });
 

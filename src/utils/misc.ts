@@ -118,13 +118,15 @@ export const getFileNameOfResource = (path: string) => {
   return matches ? matches[0] : '';
 };
 
-export const createNamedEntryForGlobImport = <M>(
-  modules: Record<string, () => Promise<M>>
+export const createNamedEntryForGlobImport = <M, Eager extends boolean = true>(
+  modules: Record<string, Eager extends true ? M : () => Promise<M>>
 ) => {
   const modulesWithFileNameAsKey = mapKeys(modules, (value, key) =>
     getFileNameOfResource(key)
   );
-  return Object.entries(modulesWithFileNameAsKey);
+  return Object.entries(modulesWithFileNameAsKey).filter(
+    ([fileName]) => !fileName.startsWith('_')
+  );
 };
 
 export const flattenTree = <

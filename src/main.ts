@@ -9,20 +9,21 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import { router } from './router';
 import type { UserPlugin } from '@typings';
+import { createNamedEntryForGlobImport } from '@/utils/misc';
 
 const app = createApp(App);
 
 const installPlugins = async () => {
-  const modules = Object.entries(
-    import.meta.glob<{ install: UserPlugin }>(
-      ['./plugins/*/index.ts', './plugins/*.ts'],
-      {
-        eager: true,
-      }
-    )
-  ).filter(([path]) => !path.split('/').pop()!.startsWith('_'));
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  await Promise.all(modules.map(([_, m]) => m.install?.(app)));
+  const modules = import.meta.glob<{ install: UserPlugin }>(
+    ['./plugins/*/index.ts', './plugins/*.ts'],
+    {
+      eager: true,
+    }
+  );
+  await Promise.all(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    createNamedEntryForGlobImport(modules).map(([_, m]) => m.install?.(app))
+  );
 };
 
 (async () => {

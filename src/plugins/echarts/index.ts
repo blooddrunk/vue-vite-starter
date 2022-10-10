@@ -75,9 +75,11 @@ export const install: UserPlugin = async (app) => {
   const themeModules = import.meta.glob<JsonObject>('./theme/*.ts', {
     import: 'default',
   });
-  createNamedEntryForGlobImport(themeModules).forEach(async ([key, m]) => {
-    registerTheme(key, await m());
-  });
+  createNamedEntryForGlobImport<JsonObject, false>(themeModules).forEach(
+    async ([key, m]) => {
+      registerTheme(key, await m());
+    }
+  );
 
   /**
    * register maps
@@ -86,9 +88,11 @@ export const install: UserPlugin = async (app) => {
   const mapModules = import.meta.glob<GeoJSONSourceInput>('./map/*.json', {
     import: 'default',
   });
-  createNamedEntryForGlobImport(mapModules).forEach(async ([key, m]) => {
-    registerMap(key, await m());
-  });
+  createNamedEntryForGlobImport<GeoJSONSourceInput, false>(mapModules).forEach(
+    async ([key, m]) => {
+      registerMap(key, await m());
+    }
+  );
 
   // const themeList = await Promise.all(
   //   chartThemeList.map((theme) =>

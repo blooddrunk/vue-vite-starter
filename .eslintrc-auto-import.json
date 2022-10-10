@@ -137,6 +137,7 @@
     "useCartesianChart": "readonly",
     "useChartStore": "readonly",
     "useClipboard": "readonly",
+    "useCloned": "readonly",
     "useColorMode": "readonly",
     "useConfirmDialog": "readonly",
     "useCounter": "readonly",

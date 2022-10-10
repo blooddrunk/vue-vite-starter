@@ -138,6 +138,7 @@ declare global {
   const useCartesianChart: typeof import('../composables/useEcharts')['useCartesianChart']
   const useChartStore: typeof import('../stores/chart')['useChartStore']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
+  const useCloned: typeof import('@vueuse/core')['useCloned']
   const useColorMode: typeof import('@vueuse/core')['useColorMode']
   const useConfirmDialog: typeof import('@vueuse/core')['useConfirmDialog']
   const useCounter: typeof import('@vueuse/core')['useCounter']
@@ -447,6 +448,7 @@ declare module '@vue/runtime-core' {
     readonly useCartesianChart: UnwrapRef<typeof import('../composables/useEcharts')['useCartesianChart']>
     readonly useChartStore: UnwrapRef<typeof import('../stores/chart')['useChartStore']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
+    readonly useCloned: UnwrapRef<typeof import('@vueuse/core')['useCloned']>
     readonly useColorMode: UnwrapRef<typeof import('@vueuse/core')['useColorMode']>
     readonly useConfirmDialog: UnwrapRef<typeof import('@vueuse/core')['useConfirmDialog']>
     readonly useCounter: UnwrapRef<typeof import('@vueuse/core')['useCounter']>

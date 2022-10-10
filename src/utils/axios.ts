@@ -1,4 +1,9 @@
-import type { AxiosRequestConfig, AxiosInstance, AxiosError } from 'axios';
+import type {
+  AxiosRequestConfig,
+  AxiosInstance,
+  AxiosError,
+  AxiosProgressEvent,
+} from 'axios';
 import { default as axiosDefault } from 'axios';
 import { defaultsDeep, isPlainObject } from 'lodash-es';
 import Nprogress from 'nprogress';
@@ -152,12 +157,12 @@ export const setupProgress = (instance: AxiosInstance) => {
     return response;
   }, onError);
 
-  const onProgress = (event: ProgressEvent) => {
+  const onProgress = (event: AxiosProgressEvent) => {
     if (!pendingRequests) {
       return;
     }
 
-    const progress = event.loaded / (event.total * pendingRequests);
+    const progress = event.loaded / (event.total ?? 0 * pendingRequests) || 0;
     Nprogress.set(Math.min(1, progress));
   };
 

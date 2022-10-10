@@ -14,7 +14,10 @@ export type BreadcrumbItem = {
   isVisible?: boolean;
 };
 
-const availableSystemList = [{ label: '默认系统', value: 'default' }] as const;
+const availableSystemList = [
+  { label: '默认系统', value: 'main' },
+  { label: '系统二', value: 'secondary' },
+] as const;
 export type SystemList = typeof availableSystemList;
 export type SystemValue = typeof availableSystemList[number]['value'];
 export type MenuItem = {

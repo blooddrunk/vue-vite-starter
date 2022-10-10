@@ -6,7 +6,7 @@
       :data="items"
       border
       stripe
-      header-cell-class-name="!bg-sky-100 bg-opacity-75 text-primary"
+      header-cell-class-name="!bg-emerald-100 bg-opacity-75 text-primary"
       v-bind="$attrs"
     >
       <slot></slot>
