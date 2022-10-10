@@ -72,6 +72,7 @@ export const getRouteOfMenuItem = (
 };
 
 const menuModules = import.meta.glob<MenuItem[]>(['./system/*.ts'], {
+  import: 'default',
   eager: true,
 });
 
