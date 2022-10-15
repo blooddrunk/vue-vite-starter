@@ -204,6 +204,7 @@ declare global {
   const useMediaQuery: typeof import('@vueuse/core')['useMediaQuery']
   const useMemoize: typeof import('@vueuse/core')['useMemoize']
   const useMemory: typeof import('@vueuse/core')['useMemory']
+  const useMenuStore: typeof import('../stores/menu')['useMenuStore']
   const useMobileAuthStore: typeof import('../stores/mobile-auth')['useMobileAuthStore']
   const useMobileLogin: typeof import('../services/auth')['useMobileLogin']
   const useMounted: typeof import('@vueuse/core')['useMounted']
@@ -514,6 +515,7 @@ declare module '@vue/runtime-core' {
     readonly useMediaQuery: UnwrapRef<typeof import('@vueuse/core')['useMediaQuery']>
     readonly useMemoize: UnwrapRef<typeof import('@vueuse/core')['useMemoize']>
     readonly useMemory: UnwrapRef<typeof import('@vueuse/core')['useMemory']>
+    readonly useMenuStore: UnwrapRef<typeof import('../stores/menu')['useMenuStore']>
     readonly useMobileAuthStore: UnwrapRef<typeof import('../stores/mobile-auth')['useMobileAuthStore']>
     readonly useMobileLogin: UnwrapRef<typeof import('../services/auth')['useMobileLogin']>
     readonly useMounted: UnwrapRef<typeof import('@vueuse/core')['useMounted']>

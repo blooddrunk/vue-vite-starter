@@ -1,8 +1,8 @@
 import { mergeWith } from 'lodash-es';
 import type { RouteLocationNamedRaw } from 'vue-router';
 
-import type { SystemValue, MenuItem } from '@/stores/ui';
-import { createNamedEntryForGlobImport } from '@/utils/misc';
+import type { SystemValue, MenuItem } from '@/stores/menu';
+import { createNamedMapForGlobImport } from '@/utils/misc';
 
 export const createMenuLookup = (menuList: MenuItem[], system: SystemValue) => {
   const byId = {} as Record<string, MenuItem>;
@@ -71,10 +71,12 @@ export const getRouteOfMenuItem = (
   return null;
 };
 
-const menuModules = import.meta.glob<MenuItem[]>(['./system/*.ts'], {
-  import: 'default',
-  eager: true,
-});
+const menuModules = createNamedMapForGlobImport(
+  import.meta.glob<MenuItem[]>(['./system/*.ts'], {
+    import: 'default',
+    eager: true,
+  })
+);
 
 export const allMenuList = Object.values(menuModules).flat();
 

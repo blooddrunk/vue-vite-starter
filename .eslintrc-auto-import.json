@@ -203,6 +203,7 @@
     "useMediaQuery": "readonly",
     "useMemoize": "readonly",
     "useMemory": "readonly",
+    "useMenuStore": "readonly",
     "useMobileAuthStore": "readonly",
     "useMobileLogin": "readonly",
     "useMounted": "readonly",

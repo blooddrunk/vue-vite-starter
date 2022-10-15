@@ -18,7 +18,7 @@ export default (router: Router) => {
     }
 
     const authStore = useAuthStore();
-    const uiStore = useUIStore();
+    const menuStore = useMenuStore();
 
     const isLoggedIn = authStore.isLoggedIn;
     const isInLoginPage = to.name === 'sign-in';
@@ -35,7 +35,7 @@ export default (router: Router) => {
 
         const fallbackMenu = authStore.firstPermittedMenu;
         const menuLookup = authStore.permittedMenuLookupByRoute;
-        const allMenuLookup = uiStore.menuLookupByRoute;
+        const allMenuLookup = menuStore.menuLookupByRoute;
 
         const targetMenu = allMenuLookup[to.name as string];
         const systemOfRoute = targetMenu ? targetMenu.system : '';
@@ -44,8 +44,8 @@ export default (router: Router) => {
 
         let hasNoPermissionAtAll = false;
         if (isCurrentRouteAvailable) {
-          uiStore.switchSystem(
-            systemOfRoute || uiStore.firstAvailableSystem.value
+          menuStore.switchSystem(
+            systemOfRoute || menuStore.firstAvailableSystem.value
           );
         } else if (fallbackMenu) {
           notifyPermission(

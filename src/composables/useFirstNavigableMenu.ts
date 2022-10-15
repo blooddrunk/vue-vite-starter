@@ -1,4 +1,4 @@
-import type { MenuItem } from '@/stores/ui';
+import type { MenuItem } from '@/stores/menu';
 import { getFirstNavigableMenu, getRouteOfMenuItem } from '@/utils/biz/menu';
 
 // TODO: narrow route name type
@@ -44,7 +44,7 @@ export const useFirstNavigableMenu: UseFirstNavigableMenu = (
   }
 
   const authStore = useAuthStore();
-  const uiStore = useUIStore();
+  const menuStore = useMenuStore();
 
   let menuList: MenuItem[] | null = null;
   if (typeof args[0] === 'string') {
@@ -55,8 +55,8 @@ export const useFirstNavigableMenu: UseFirstNavigableMenu = (
         : authStore.permittedMenuLookupById;
     } else {
       menuLookup = options.lookupByRoute
-        ? uiStore.menuLookupByRoute
-        : uiStore.menuLookupById;
+        ? menuStore.menuLookupByRoute
+        : menuStore.menuLookupById;
     }
 
     const parent = menuLookup[args[0]];
@@ -81,7 +81,7 @@ export const useFirstNavigableMenu: UseFirstNavigableMenu = (
     ? getFirstNavigableMenu(menuList, excludeOption)
     : options.withPermission
     ? authStore.getFirstPermittedMenu(excludeOption)
-    : uiStore.getFirstNavigableMenu(excludeOption);
+    : menuStore.getFirstNavigableMenu(excludeOption);
   const targetRoute = getRouteOfMenuItem(menuItem);
 
   return {

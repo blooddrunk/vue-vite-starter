@@ -21,8 +21,10 @@ const installPlugins = async () => {
     }
   );
   await Promise.all(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    createNamedEntryForGlobImport(modules).map(([_, m]) => m.install?.(app))
+    createNamedEntryForGlobImport(modules).map(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ([_, m]) => m.install?.(app)
+    )
   );
 };
 

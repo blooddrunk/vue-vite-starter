@@ -1,4 +1,4 @@
-import type { MenuItem } from '@/stores/ui';
+import type { MenuItem } from '@/stores/menu';
 
 export default [
   {

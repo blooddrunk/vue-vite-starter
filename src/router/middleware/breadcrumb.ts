@@ -5,6 +5,8 @@ import { BreadcrumbItem } from '@/stores/ui';
 export default (router: Router) => {
   router.beforeEach((to) => {
     const uiStore = useUIStore();
+    const menuStore = useMenuStore();
+
     const { matched } = to;
     let breadcrumbList: BreadcrumbItem[] = [];
 
@@ -15,7 +17,8 @@ export default (router: Router) => {
     } else if (meta.breadcrumb) {
       breadcrumbList = matched.reduce<BreadcrumbItem[]>((acc, record) => {
         if (record.meta?.breadcrumb === true) {
-          const matchedMenu = uiStore.menuLookupByRoute[record.name as string];
+          const matchedMenu =
+            menuStore.menuLookupByRoute[record.name as string];
           if (matchedMenu) {
             acc.push({
               route: matchedMenu.route,

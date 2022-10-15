@@ -2,10 +2,10 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 import { pick, keyBy } from 'lodash';
 
 import type { AuthInfo, UserInfo, LoginInfo } from '@typings';
-import type { MenuItem } from '@/stores/ui';
+import type { MenuItem } from '@/stores/menu';
 
 export const useAuthStore = defineStore('auth', () => {
-  const uiStore = useUIStore();
+  const menuStore = useMenuStore();
 
   const auth = ref<AuthInfo>({
     user: useStorage('some_app_user', {
@@ -48,10 +48,10 @@ export const useAuthStore = defineStore('auth', () => {
 
   const permittedMenuLookupById = computed(() =>
     isAdmin.value
-      ? uiStore.menuLookupById
+      ? menuStore.menuLookupById
       : (pick(
-          uiStore.menuLookupById,
-          (user.value.menuList || []).concat(uiStore.whitelistedMenuIdList)
+          menuStore.menuLookupById,
+          (user.value.menuList || []).concat(menuStore.whitelistedMenuIdList)
         ) as Record<string, MenuItem>)
   );
   const permittedMenuList = computed(() =>

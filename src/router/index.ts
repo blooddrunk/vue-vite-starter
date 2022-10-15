@@ -33,8 +33,10 @@ const middlewareModules = import.meta.glob<(router: Router) => void>(
     eager: true,
   }
 );
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-createNamedEntryForGlobImport(middlewareModules).forEach(([_, m]) => {
+createNamedEntryForGlobImport(
+  middlewareModules
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+).forEach(([_, m]) => {
   m(router);
 });
 

@@ -1,4 +1,4 @@
-import { isNil, mapValues, mapKeys, omit } from 'lodash-es';
+import { isNil, mapValues, mapKeys, omit, pickBy } from 'lodash-es';
 import { unref } from 'vue';
 
 import { MaybeRef } from '@typings';
@@ -117,16 +117,17 @@ export const getFileNameOfResource = (path: string) => {
   const matches = path.match(/([^\/]+)(?=\.\w+$)/);
   return matches ? matches[0] : '';
 };
-
-export const createNamedEntryForGlobImport = <M, Eager extends boolean = true>(
-  modules: Record<string, Eager extends true ? M : () => Promise<M>>
-) => {
+export const createNamedMapForGlobImport = <M>(modules: Record<string, M>) => {
   const modulesWithFileNameAsKey = mapKeys(modules, (value, key) =>
     getFileNameOfResource(key)
   );
-  return Object.entries(modulesWithFileNameAsKey).filter(
-    ([fileName]) => !fileName.startsWith('_')
-  );
+
+  return pickBy(modulesWithFileNameAsKey, (value, key) => !key.startsWith('_'));
+};
+export const createNamedEntryForGlobImport = <M>(
+  modules: Record<string, M>
+) => {
+  return Object.entries(createNamedMapForGlobImport(modules));
 };
 
 export const flattenTree = <

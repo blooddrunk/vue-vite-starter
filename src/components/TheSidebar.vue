@@ -7,14 +7,17 @@
         type="primary"
         @click="handleSidebarCollapse"
       >
-        <IconMdiMenu v-if="isSidebarCollapsed"></IconMdiMenu>
+        <IconMdiMenu v-if="uiStore.isSidebarCollapsed"></IconMdiMenu>
         <IconMdiMenuOpen v-else></IconMdiMenuOpen>
       </el-button>
     </div>
 
-    <el-menu :default-active="defaultActiveName" :collapse="isSidebarCollapsed">
+    <el-menu
+      :default-active="defaultActiveName"
+      :collapse="uiStore.isSidebarCollapsed"
+    >
       <TheSidebarItem
-        v-for="menu in filterPermittedMenu(currentMenuList)"
+        v-for="menu in filterPermittedMenu(menuStore.currentMenuList)"
         :key="menu.id"
         :item="menu"
         :filter="filterPermittedMenu"
@@ -24,18 +27,16 @@
 </template>
 
 <script lang="ts" setup>
-import { storeToRefs } from 'pinia';
-
-import type { MenuItem } from '@/stores/ui';
+import type { MenuItem } from '@/stores/menu';
 
 const uiStore = useUIStore();
-const { isSidebarCollapsed, currentMenuList, menuLookupByRoute } =
-  storeToRefs(uiStore);
+const menuStore = useMenuStore();
+
 const handleSidebarCollapse = () => uiStore.toggleIsSidebarCollapsed();
 
 const route = useRoute();
 const defaultActiveName = computed(() => {
-  const matched = menuLookupByRoute.value[route.name as string];
+  const matched = menuStore.menuLookupByRoute[route.name as string];
   return matched ? matched.id : '';
 });
 
