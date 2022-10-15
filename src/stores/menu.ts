@@ -28,9 +28,13 @@ export const useMenuStore = defineStore('menu', () => {
   const currentMenuList = shallowRef<MenuItem[]>([]);
   const menuLookup = shallowRef(rawMenuLookup);
   const menuPerSystem = shallowRef(rawMenuPerSystem);
+  const menuList = shallowRef(flattenTree(allMenuList));
+
+  const currentFlattenedMenuList = computed(() =>
+    flattenTree(currentMenuList.value)
+  );
   const menuLookupById = computed(() => menuLookup.value.byId);
   const menuLookupByRoute = computed(() => menuLookup.value.byRoute);
-  const menuList = shallowRef(flattenTree(allMenuList));
   const menuIdList = computed(() => menuList.value.map((item) => item.id));
   const whitelistedMenuList = computed(() =>
     menuList.value.filter((item) => item.id.startsWith('__whitelisted_'))
@@ -74,9 +78,10 @@ export const useMenuStore = defineStore('menu', () => {
   return {
     currentMenuList,
     menuLookup,
+    menuList,
+    currentFlattenedMenuList,
     menuLookupById,
     menuLookupByRoute,
-    menuList,
     menuIdList,
     whitelistedMenuList,
     whitelistedMenuIdList,

@@ -54,6 +54,7 @@ export const useAuthStore = defineStore('auth', () => {
           (user.value.menuList || []).concat(menuStore.whitelistedMenuIdList)
         ) as Record<string, MenuItem>)
   );
+
   const permittedMenuList = computed(() =>
     Object.values(permittedMenuLookupById.value)
   );
@@ -61,6 +62,12 @@ export const useAuthStore = defineStore('auth', () => {
     keyBy(
       permittedMenuList.value.filter((item) => !!item.route),
       'route'
+    )
+  );
+
+  const permittedMenuListBySystem = computed(() =>
+    menuStore.currentFlattenedMenuList.filter(
+      (item) => !!permittedMenuLookupById.value[item.id]
     )
   );
   const getFirstPermittedMenu = ({
