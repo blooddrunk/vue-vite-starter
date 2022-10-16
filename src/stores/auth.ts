@@ -73,8 +73,15 @@ export const useAuthStore = defineStore('auth', () => {
   const getFirstPermittedMenu = ({
     excludeIds,
     excludeRoutes,
-  }: { excludeIds?: string[]; excludeRoutes?: string[] } = {}) => {
-    for (const item of permittedMenuList.value) {
+    currentSystemOnly = false,
+  }: {
+    excludeIds?: string[];
+    excludeRoutes?: string[];
+    currentSystemOnly?: boolean;
+  } = {}) => {
+    for (const item of currentSystemOnly
+      ? permittedMenuListBySystem.value
+      : permittedMenuList.value) {
       if (
         (excludeRoutes && excludeRoutes.includes(item.route!)) ||
         (excludeIds && excludeIds.includes(item.id))
@@ -87,6 +94,9 @@ export const useAuthStore = defineStore('auth', () => {
     return null;
   };
   const firstPermittedMenu = computed(() => getFirstPermittedMenu());
+  const firstPermittedMenuBySystem = computed(() =>
+    getFirstPermittedMenu({ currentSystemOnly: true })
+  );
 
   return {
     user,
@@ -100,6 +110,7 @@ export const useAuthStore = defineStore('auth', () => {
     permittedMenuLookupById,
     permittedMenuLookupByRoute,
     firstPermittedMenu,
+    firstPermittedMenuBySystem,
     getFirstPermittedMenu,
 
     updateUser,
