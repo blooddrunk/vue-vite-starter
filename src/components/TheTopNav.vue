@@ -1,8 +1,12 @@
 <template>
   <el-menu
-    :class="$style.topNav"
+    class="!border-b-0"
     :default-active="currentSystem"
     mode="horizontal"
+    :ellipsis="false"
+    background-color="transparent"
+    text-color="white"
+    active-text-color="var(--color-secondary)"
     @select="handleSystemSwitch"
   >
     <el-menu-item
@@ -20,40 +24,22 @@ import { storeToRefs } from 'pinia';
 
 import type { SystemValue } from '@/stores/menu';
 import { getRouteOfMenuItem } from '@/utils/biz/menu';
+import { promiseTimeout } from '@/utils/misc';
 
 const menuStore = useMenuStore();
+const authStore = useAuthStore();
 const { systemList, currentSystem } = storeToRefs(menuStore);
-const { firstPermittedMenuBySystem } = useAuthStore();
 const router = useRouter();
 
-const handleSystemSwitch = (key: string) => {
+const handleSystemSwitch = async (key: string) => {
   menuStore.currentMenuList = [];
 
-  setTimeout(() => {
-    menuStore.switchSystem(key as SystemValue);
+  await promiseTimeout(300);
+  menuStore.switchSystem(key as SystemValue);
 
-    const nextRoute = getRouteOfMenuItem(firstPermittedMenuBySystem);
-    if (nextRoute) {
-      router.push(nextRoute);
-    }
-  }, 300);
+  const nextRoute = getRouteOfMenuItem(authStore.firstPermittedMenuBySystem);
+  if (nextRoute) {
+    router.push(nextRoute);
+  }
 };
 </script>
-
-<style lang="postcss" module>
-.sidebar {
-  @apply h-[var(--app-content-height)];
-  @apply overflow-y-auto border-r border-gray-200;
-
-  :global {
-    .el-menu {
-      @apply min-h-80;
-      @apply border-none !important;
-
-      &:not(.el-menu--collapse) {
-        @apply w-56;
-      }
-    }
-  }
-}
-</style>

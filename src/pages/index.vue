@@ -40,7 +40,7 @@ const menuList = ref([
 
   {
     text: 'Biz Admin',
-    to: '/admin/',
+    to: '/main/admin',
   },
 
   {

@@ -2,26 +2,26 @@ import type { MenuItem } from '@/stores/menu';
 
 export default [
   {
-    id: 'dashboard',
+    id: 'main-home',
     title: '首页',
-    route: 'admin-home',
+    route: 'main-home',
     icon: 'view-dashboard',
   },
   {
-    id: 'admin',
+    id: 'main-admin',
     title: '系统管理',
-    route: 'admin',
+    route: 'main-admin',
     icon: 'cogs',
     children: [
       {
-        id: 'admin-account',
+        id: 'main-admin-account',
         title: '账号管理',
-        route: 'admin-account',
+        route: 'main-admin-account',
       },
       {
-        id: 'admin-role',
+        id: 'main-admin-role',
         title: '角色管理',
-        route: 'admin-role',
+        route: 'main-admin-role',
       },
     ],
   },

@@ -2,27 +2,15 @@ import type { MenuItem } from '@/stores/menu';
 
 export default [
   {
-    id: 'about',
+    id: 'secondary-about',
     title: '关于',
-    route: 'admin-1',
-    icon: 'view-dashboard',
+    route: 'secondary-about',
+    icon: 'information',
   },
   {
-    id: 'admin1',
-    title: '系统管理',
-    route: 'admin1',
-    icon: 'cogs',
-    children: [
-      {
-        id: 'admin-account1',
-        title: '账号管理',
-        route: 'admin-account1',
-      },
-      {
-        id: 'admin-role1',
-        title: '角色管理',
-        route: 'admin-role1',
-      },
-    ],
+    id: 'secondary-acknowledgements',
+    title: '致谢',
+    route: 'secondary-acknowledgements',
+    icon: 'hand-heart',
   },
 ] as MenuItem[];

@@ -10,5 +10,5 @@ meta:
 </route>
 
 <script lang="ts" setup>
-useFirstNavigableRoute('admin');
+useFirstNavigableRoute('main-admin');
 </script>

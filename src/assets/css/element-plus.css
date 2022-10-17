@@ -10,5 +10,7 @@
     --el-color-primary-light-8: theme('colors.emerald.100') !important;
     --el-color-primary-light-9: theme('colors.emerald.50') !important;
     --el-color-primary-dark-2: theme('colors.emerald.600') !important;
+
+    --el-menu-item-height: var(--app-header-height) !important;
   }
 }

@@ -100,6 +100,7 @@ declare module '@vue/runtime-core' {
     TableActionButton: typeof import('./../components/UI/TableActionButton.vue')['default']
     TheBreadcrumb: typeof import('./../components/TheBreadcrumb.vue')['default']
     TheHeading: typeof import('./../components/TheHeading.vue')['default']
+    TheNavTab: typeof import('./../components/TheNavTab.vue')['default']
     TheSidebar: typeof import('./../components/TheSidebar.vue')['default']
     TheSidebarItem: typeof import('./../components/TheSidebarItem.vue')['default']
     TheTabbar: typeof import('./../components/TheTabbar.vue')['default']
