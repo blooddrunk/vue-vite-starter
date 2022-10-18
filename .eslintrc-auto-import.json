@@ -212,6 +212,7 @@
     "useMousePressed": "readonly",
     "useMutationObserver": "readonly",
     "useMyFullscreen": "readonly",
+    "useNavTabStore": "readonly",
     "useNavigatorLanguage": "readonly",
     "useNetwork": "readonly",
     "useNow": "readonly",

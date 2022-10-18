@@ -16,6 +16,7 @@ declare module 'vue-router' {
     title?: string;
     canNavBack?: boolean;
     keepAlive?: boolean;
+    openInTab?: boolean;
   }
 }
 

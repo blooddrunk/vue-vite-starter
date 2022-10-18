@@ -1,4 +1,4 @@
-import { Router, RouteLocationRaw } from 'vue-router';
+import type { Router, RouteLocationRaw } from 'vue-router';
 
 export default (router: Router) => {
   router.beforeEach((to) => {

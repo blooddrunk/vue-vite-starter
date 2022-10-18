@@ -4,7 +4,7 @@ import type { MenuItem } from './menu';
 
 export const useNavTabStore = defineStore('navTab', () => {
   const maxNavTabCount = ref(10);
-  const experimentalNavTab = ref(true);
+  const experimentalNavTab = ref(false);
   const currentNavTabList = ref<MenuItem[]>([]);
   const currentActiveTab = ref('');
 
@@ -64,6 +64,7 @@ export const useNavTabStore = defineStore('navTab', () => {
     currentNavTabList,
     currentActiveTab,
 
+    canRemoveNavTab,
     isNavTabEnabled,
     currentNavTabNameList,
 

@@ -213,6 +213,7 @@ declare global {
   const useMousePressed: typeof import('@vueuse/core')['useMousePressed']
   const useMutationObserver: typeof import('@vueuse/core')['useMutationObserver']
   const useMyFullscreen: typeof import('../composables/useMyFullscreen')['useMyFullscreen']
+  const useNavTabStore: typeof import('../stores/navTab')['useNavTabStore']
   const useNavigatorLanguage: typeof import('@vueuse/core')['useNavigatorLanguage']
   const useNetwork: typeof import('@vueuse/core')['useNetwork']
   const useNow: typeof import('@vueuse/core')['useNow']
@@ -524,6 +525,7 @@ declare module '@vue/runtime-core' {
     readonly useMousePressed: UnwrapRef<typeof import('@vueuse/core')['useMousePressed']>
     readonly useMutationObserver: UnwrapRef<typeof import('@vueuse/core')['useMutationObserver']>
     readonly useMyFullscreen: UnwrapRef<typeof import('../composables/useMyFullscreen')['useMyFullscreen']>
+    readonly useNavTabStore: UnwrapRef<typeof import('../stores/navTab')['useNavTabStore']>
     readonly useNavigatorLanguage: UnwrapRef<typeof import('@vueuse/core')['useNavigatorLanguage']>
     readonly useNetwork: UnwrapRef<typeof import('@vueuse/core')['useNetwork']>
     readonly useNow: UnwrapRef<typeof import('@vueuse/core')['useNow']>

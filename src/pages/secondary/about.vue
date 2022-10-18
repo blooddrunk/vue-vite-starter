@@ -1,5 +1,5 @@
 <template>
-  <div>Aboute</div>
+  <div>About</div>
 </template>
 
 <route lang="yaml">

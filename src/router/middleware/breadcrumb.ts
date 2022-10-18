@@ -1,4 +1,4 @@
-import { Router } from 'vue-router';
+import type { Router } from 'vue-router';
 
 import { BreadcrumbItem } from '@/stores/ui';
 
