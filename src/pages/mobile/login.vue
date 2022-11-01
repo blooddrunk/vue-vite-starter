@@ -87,7 +87,7 @@ meta:
 
 <script lang="ts" setup>
 import { useForm } from 'vee-validate';
-import { Toast } from 'vant';
+import { showToast, showFailToast } from 'vant';
 
 import { MobileLoginInfo } from '@typings';
 
@@ -146,7 +146,7 @@ const handleAuthCodeRequest = async () => {
 
   countdown.value = maxWaitSecs;
   await fetchAuthCode();
-  Toast('验证码已发送');
+  showToast('验证码已发送');
   resume();
 };
 
@@ -175,7 +175,7 @@ const stageAndLeave = (name: string) => {
 
 const handleLogin = handleSubmit(async (formValues) => {
   if (!isUserAgreementChecked.value) {
-    Toast(`请先阅读并同意用户协议和隐私政策`);
+    showToast(`请先阅读并同意用户协议和隐私政策`);
     checkboxClass.value = 'animate__animated animate__shakeX';
     return;
   } else {
@@ -185,7 +185,7 @@ const handleLogin = handleSubmit(async (formValues) => {
   await authStore.login(formValues);
 
   if (authStore.loginError) {
-    Toast.fail(authStore.loginError);
+    showFailToast(authStore.loginError);
   }
 
   if (authStore.isLoggedIn) {

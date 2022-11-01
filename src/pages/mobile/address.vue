@@ -23,7 +23,7 @@ meta:
 
 <script lang="ts" setup>
 import { areaList } from '@vant/area-data';
-import { Toast } from 'vant';
+import { showFailToast, showSuccessToast } from 'vant';
 
 import type { AddressEditInfo } from 'vant';
 
@@ -46,9 +46,9 @@ const handleSubmit = async (content: AddressEditInfo) => {
   });
   const { error } = await execute(order.orderInfo);
   if (error.value) {
-    Toast.fail(error.value.message);
+    showFailToast(error.value.message);
   } else {
-    Toast.success({
+    showSuccessToast({
       message: '下单成功!',
       onClose: () => {
         router.push('/mobile/user');

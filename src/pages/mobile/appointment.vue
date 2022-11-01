@@ -46,7 +46,7 @@ meta:
 import { format } from 'date-fns';
 
 import { areaList } from '@vant/area-data';
-import { Toast } from 'vant';
+import { showFailToast, showSuccessToast } from 'vant';
 import { useRouter } from 'vue-router';
 
 import type { AddressEditInfo } from 'vant';
@@ -99,9 +99,9 @@ const handleSubmit = async (content: AddressEditInfo) => {
   };
   const { error } = await execute(payload);
   if (error.value) {
-    Toast.fail(error.value.message);
+    showFailToast(error.value.message);
   } else {
-    Toast.success({
+    showSuccessToast({
       message: '预约成功!',
       onClose: () => {
         router.push('/mobile/user');

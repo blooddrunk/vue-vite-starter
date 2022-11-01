@@ -1,4 +1,5 @@
 import type { Router } from 'vue-router';
+import { merge } from 'lodash-es';
 
 export default (router: Router) => {
   router.beforeEach((to) => {
@@ -15,7 +16,11 @@ export default (router: Router) => {
 
     if (meta.openInTab !== false && matchedMenu) {
       navTabStore.setActiveTab(matchedMenu.route!);
-      navTabStore.addTab(matchedMenu);
+      navTabStore.addTab(
+        merge({}, matchedMenu, {
+          routerProps: query,
+        })
+      );
     }
   });
 };

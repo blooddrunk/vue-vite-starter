@@ -64,7 +64,7 @@
 
 <script lang="ts" setup>
 import { useVModel, debouncedWatch } from '@vueuse/core';
-import { Toast, Dialog } from 'vant';
+import { showFailToast, showConfirmDialog } from 'vant';
 
 import type { CartItem } from '@typings';
 
@@ -95,7 +95,7 @@ watch(
   () => cart.itemPatchingError || cart.itemRemovingError,
   (value) => {
     if (value) {
-      Toast.fail(value.message);
+      showFailToast(value.message);
     }
   }
 );
@@ -111,7 +111,7 @@ debouncedWatch(
 );
 const handleRemove = async () => {
   try {
-    await Dialog.confirm({
+    await showConfirmDialog({
       title: '提示',
       message: '是否确认删除？',
     });

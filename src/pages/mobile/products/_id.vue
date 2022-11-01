@@ -62,7 +62,7 @@ props: true
 </route>
 
 <script lang="ts" setup>
-import { Toast } from 'vant';
+import { showFailToast } from 'vant';
 
 const props = defineProps<{
   id: string;
@@ -78,7 +78,7 @@ const addToCart = async () => {
     quantity: 1,
   });
   if (error.value) {
-    Toast.fail(error.value.message);
+    showFailToast(error.value.message);
   }
 };
 

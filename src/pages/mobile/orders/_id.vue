@@ -108,7 +108,8 @@ props: true
 </route>
 
 <script lang="ts" setup>
-import { Toast, Dialog, ActionSheetAction } from 'vant';
+import { showToast, showFailToast, showConfirmDialog } from 'vant';
+import type { ActionSheetAction } from 'vant';
 
 import { getPlaceholderForNonValue } from '@/utils/misc';
 
@@ -162,7 +163,7 @@ const isCancelActionSheetVisible = ref(false);
 
 const handleCancel = async (action: ActionSheetAction, index: number) => {
   try {
-    await Dialog.confirm({
+    await showConfirmDialog({
       title: '提示',
       message: '是否确认撤单？',
     });
@@ -171,9 +172,9 @@ const handleCancel = async (action: ActionSheetAction, index: number) => {
 
     const { error } = await onOrderCancel(currentOrderItem.value!);
     if (error.value) {
-      Toast.fail(error.value.message);
+      showFailToast(error.value.message);
     } else {
-      Toast('撤单成功');
+      showToast('撤单成功');
     }
   } catch (error) {
     // * user cancel, do nothing

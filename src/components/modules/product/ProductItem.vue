@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Toast } from 'vant';
+import { showFailToast } from 'vant';
 import { RouteLocationRaw } from 'vue-router';
 
 import type { ProductItem } from '@typings';
@@ -56,7 +56,7 @@ const addToCart = async () => {
     quantity: 1,
   });
   if (cart.itemAddingError) {
-    Toast.fail(cart.itemAddingError.message);
+    showFailToast(cart.itemAddingError.message);
   }
 };
 
