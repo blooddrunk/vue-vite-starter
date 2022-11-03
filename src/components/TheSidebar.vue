@@ -43,13 +43,17 @@ const defaultActiveName = computed(() => {
 const authStore = useAuthStore();
 const filterPermittedMenu = (items?: MenuItem[]) =>
   items
-    ? items.filter((item) => !!authStore.permittedMenuLookupById[item.id])
+    ? items.filter(
+        (item) =>
+          !!authStore.permittedMenuLookupById[item.id] &&
+          item.isVisible !== false
+      )
     : [];
 </script>
 
 <style lang="postcss" module>
 .sidebar {
-  @apply h-[var(--app-content-height)];
+  @apply flex-shrink-0 h-[var(--app-content-height)];
   @apply overflow-y-auto border-r border-gray-200;
 
   :global {
