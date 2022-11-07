@@ -51,7 +51,7 @@ export const useAuthStore = defineStore('auth', () => {
       ? menuStore.menuLookupById
       : (pick(
           menuStore.menuLookupById,
-          (user.value.menuList || []).concat(menuStore.whitelistedMenuIdList)
+          menuStore.whitelistedMenuIdList.concat(user.value.menuList || [])
         ) as Record<string, MenuItem>)
   );
 
