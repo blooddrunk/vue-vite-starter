@@ -1,6 +1,6 @@
 <template>
   <el-form-item
-    :class="{ 'is-required': required }"
+    :class="[{ 'is-required': required }, $attrs.class]"
     :label="label"
     :label-width="labelWidth"
     :error="errorMessage"
@@ -17,9 +17,6 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { withDefaults, defineProps, useAttrs, computed } from 'vue';
-import { reactivePick } from '@vueuse/core';
-
 import type { ValidationMode } from '@/composables/useFormField';
 
 type Props = {
@@ -31,6 +28,7 @@ type Props = {
   validateOnMount?: boolean;
   required?: boolean;
   hasWrapper?: boolean;
+  rules?: string;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -47,7 +45,7 @@ const props = withDefaults(defineProps<Props>(), {
 const label = props.showLabel ? props.label : undefined;
 
 const { listeners, errorMessage, value, meta } = useFormField<any>({
-  ...reactivePick(props, 'name', 'label', 'mode', 'validateOnMount'),
+  ...reactivePick(props, 'name', 'label', 'mode', 'validateOnMount', 'rules'),
 });
 
 const validateStatus = computed(() => {

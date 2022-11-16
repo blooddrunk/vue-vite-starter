@@ -2,9 +2,9 @@
   <el-button
     :loading="isLoading"
     :disabled="isLoading"
-    :size="size"
     :type="type"
-    :plain="plain"
+    :link="link"
+    v-bind="$attrs"
     @click="handleButtonClick"
   >
     <slot v-if="isLoading && hasLoadingSlot" name="loading"> </slot>
@@ -12,8 +12,14 @@
   </el-button>
 </template>
 
+<script lang="ts">
+export default defineComponent({
+  inheritAttrs: false,
+});
+</script>
+
 <script lang="ts" setup>
-import { ElMessageBox, ComponentSize, ButtonType } from 'element-plus';
+import { ElMessageBox, ButtonType } from 'element-plus';
 
 const slots = useSlots();
 const hasLoadingSlot = computed(() => !!slots.loading);
@@ -21,16 +27,15 @@ const hasLoadingSlot = computed(() => !!slots.loading);
 type Props = {
   action: () => Promise<void>;
   confirmText?: string;
-  size?: ComponentSize;
   type?: ButtonType;
-  plain?: boolean;
+  link?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
   confirmText: '',
   size: 'small',
-  type: 'text',
-  plain: false,
+  type: 'primary',
+  link: true,
 });
 
 const { isLoading, execute } = useAsyncState<any>(props.action, null, {

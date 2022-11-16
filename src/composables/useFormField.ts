@@ -1,16 +1,17 @@
 import { unref, computed } from 'vue';
-import { useField } from 'vee-validate';
+import { type RuleExpression, useField } from 'vee-validate';
 
 import { MaybeRef } from '@typings';
 
 export type ValidationMode = 'aggressive' | 'lazy' | 'aggressiveIfInvalid';
 
-export type UseFormFieldOption = {
+export type UseFormFieldOption<TValue> = {
   name: MaybeRef<string>;
   label: MaybeRef<string>;
   mode?: MaybeRef<ValidationMode>;
   validateOnMount?: boolean;
   bindBlurEvent?: boolean;
+  rule?: MaybeRef<RuleExpression<TValue>>;
 };
 
 export const useFormField = <TValue = unknown>({
@@ -19,10 +20,11 @@ export const useFormField = <TValue = unknown>({
   mode = 'aggressiveIfInvalid',
   validateOnMount = false,
   bindBlurEvent = true,
-}: UseFormFieldOption) => {
+  rule,
+}: UseFormFieldOption<TValue>) => {
   const { errorMessage, handleChange, ...rest } = useField<TValue>(
     unref(name),
-    undefined,
+    rule,
     {
       label,
       validateOnValueUpdate: false,
