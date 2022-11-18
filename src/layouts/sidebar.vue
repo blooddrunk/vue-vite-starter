@@ -1,15 +1,17 @@
 <template>
   <div class="flex">
-    <div class="min-h-screen w-full flex flex-col">
+    <div class="h-screen w-full flex flex-col">
       <TheHeading></TheHeading>
 
       <div class="flex-grow flex overflow-x-hidden">
         <TheSidebar></TheSidebar>
 
-        <main class="flex-grow p-4 xl:p-8 2xl:p-12 bg-main">
+        <main class="flex flex-col flex-grow p-4 xl:p-8 2xl:p-12 bg-main">
           <template v-if="navTabStore.isNavTabEnabled">
             <TheNavTab></TheNavTab>
-            <section class="p-3 xl:p-6 2xl:p-9 bg-white shadow-xl">
+            <section
+              class="flex-grow p-3 xl:p-6 2xl:p-9 bg-white shadow-xl overflow-y-auto"
+            >
               <router-view v-slot="{ Component }">
                 <keep-alive :include="navTabStore.currentNavTabNameList">
                   <component :is="Component"></component>
@@ -21,7 +23,9 @@
           <template v-else>
             <TheBreadcrumb></TheBreadcrumb>
 
-            <section class="p-3 xl:p-6 2xl:p-9 bg-white shadow-xl">
+            <section
+              class="flex-grow p-3 xl:p-6 2xl:p-9 bg-white shadow-xl overflow-y-auto"
+            >
               <router-view></router-view>
             </section>
           </template>

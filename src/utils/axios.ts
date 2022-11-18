@@ -9,7 +9,7 @@ import { defaultsDeep, isPlainObject } from 'lodash-es';
 import Nprogress from 'nprogress';
 
 import { jsonToUrlParams } from '@/utils/misc';
-
+import { ServerResponse } from '@typings';
 declare module 'axios' {
   export interface AxiosRequestConfig {
     __cancellable?: boolean | string;
@@ -21,12 +21,6 @@ declare module 'axios' {
 }
 
 export const defaultDataTransformer = (data: unknown = {}) => data;
-
-export type ServerResponse = {
-  errcode: number;
-  errmsg: string;
-  data: any;
-};
 
 // biz logic
 export const validateResponse = (response: ServerResponse) => {

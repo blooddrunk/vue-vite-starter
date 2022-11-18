@@ -32,7 +32,7 @@ export type GetPlaceholderForNonValueOption = Partial<{
   isValueNumeric: boolean;
 }>;
 export const getPlaceholderForNonValue = (
-  value: MaybeRef<string | number | any[] | null | undefined>,
+  value: MaybeRef<any>,
   {
     fallback = '--',
     isValueNumeric = false,
@@ -41,9 +41,9 @@ export const getPlaceholderForNonValue = (
   const unwrappedValue = unref(value);
   const shouldUseFallback = Array.isArray(unwrappedValue)
     ? unwrappedValue.length === 0
-    : isNil(unwrappedValue)
-    ? isValueNumeric
-    : !isNumeric(unwrappedValue);
+    : isValueNumeric
+    ? !isNumeric(unwrappedValue)
+    : isNil(unwrappedValue);
   if (shouldUseFallback) {
     return {
       value: fallback,

@@ -3,3 +3,9 @@ export type CommonSelectOption = {
   value: string | number;
   disabled?: boolean;
 };
+
+export type ServerResponse = {
+  errcode: string;
+  errmsg: string;
+  data: unknown;
+};

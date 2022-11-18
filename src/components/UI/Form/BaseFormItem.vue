@@ -1,6 +1,6 @@
 <template>
   <el-form-item
-    :class="{ 'is-required': required }"
+    :class="[{ 'is-required': required }, $attrs.class]"
     :label="label"
     :label-width="labelWidth"
     :error="errorMessage"
