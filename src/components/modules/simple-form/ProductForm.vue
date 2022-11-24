@@ -103,7 +103,7 @@ const validationSchema = {
 const { meta, isSubmitting, handleSubmit, resetForm } = useForm<Product>({
   validationSchema,
   initialValues: {
-    name: '233',
+    name: '',
     price: 1,
     inventory: 1,
     terms: false,
