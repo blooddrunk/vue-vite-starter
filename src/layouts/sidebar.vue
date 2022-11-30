@@ -6,7 +6,14 @@
       <div class="flex-grow flex overflow-x-hidden">
         <TheSidebar></TheSidebar>
 
-        <main class="flex flex-col flex-grow p-4 xl:p-8 2xl:p-12 bg-main">
+        <main
+          :class="
+            uiStore.isSidebarCollapsed
+              ? 'w-[calc(100vw-65px)]'
+              : 'w-[calc(100vw-14rem)]'
+          "
+          class="flex flex-col flex-grow p-4 xl:p-8 2xl:p-12 bg-main"
+        >
           <template v-if="navTabStore.isNavTabEnabled">
             <TheNavTab></TheNavTab>
             <section
@@ -37,4 +44,5 @@
 
 <script lang="ts" setup>
 const navTabStore = useNavTabStore();
+const uiStore = useUIStore();
 </script>
