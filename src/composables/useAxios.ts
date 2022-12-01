@@ -1,4 +1,6 @@
-// see https://vueuse.org/integrations/useAxios/
+/**
+ * a modified version of https://vueuse.org/integrations/useAxios/
+ */
 
 import type { ComputedRef, Ref, ShallowRef } from 'vue';
 import { ref, shallowRef } from 'vue';
@@ -15,11 +17,11 @@ import { merge } from 'lodash-es';
 
 import axios from '@/utils/axios';
 
-export interface UseAxiosReturn<T, D = any> {
+export interface UseAxiosReturn<T, R = AxiosResponse<T>, D = any> {
   /**
    * Axios Response
    */
-  response: ShallowRef<AxiosResponse<T> | undefined>;
+  response: ShallowRef<R | undefined>;
 
   /**
    * Axios response data
@@ -44,7 +46,7 @@ export interface UseAxiosReturn<T, D = any> {
   /**
    * Any errors that may have occurred
    */
-  error: ShallowRef<AxiosError<T> | undefined>;
+  error: ShallowRef<AxiosError<T, D> | undefined>;
   errorMessage: ComputedRef<string | undefined>;
 
   /**
@@ -62,7 +64,7 @@ export interface UseAxiosReturn<T, D = any> {
    */
   execute: (
     config?: AxiosRequestConfig<D>
-  ) => PromiseLike<UseAxiosReturn<T, D>>;
+  ) => PromiseLike<UseAxiosReturn<T, R, D>>;
 }
 
 export interface UseAxiosOptions {
@@ -71,39 +73,37 @@ export interface UseAxiosOptions {
    *
    */
   immediate?: boolean;
+  /**
+   * Use shallowRef.
+   *
+   * @default true
+   */
+  shallow?: boolean;
 }
 
-export function useAxios<T = any, D = any>(
+export function useAxios<T = any, R = AxiosResponse<T>, D = any>(
   initialData: T,
   config?: AxiosRequestConfig<D>,
   options?: UseAxiosOptions
-): UseAxiosReturn<T, D> & PromiseLike<UseAxiosReturn<T, D>>;
-export function useAxios<T = any>(
+): UseAxiosReturn<T, R, D> & PromiseLike<UseAxiosReturn<T, R, D>>;
+export function useAxios<T = any, R = AxiosResponse<T>>(
   initialData: T,
   instance?: AxiosInstance,
   options?: UseAxiosOptions
-): UseAxiosReturn<T> & PromiseLike<UseAxiosReturn<T>>;
-export function useAxios<T = any, D = any>(
+): UseAxiosReturn<T, R> & PromiseLike<UseAxiosReturn<T, R>>;
+export function useAxios<T = any, R = AxiosResponse<T>, D = any>(
   initialData: T,
   config: AxiosRequestConfig<D>,
   instance: AxiosInstance,
   options?: UseAxiosOptions
-): UseAxiosReturn<T, D> & PromiseLike<UseAxiosReturn<T, D>>;
+): UseAxiosReturn<T, R, D> & PromiseLike<UseAxiosReturn<T, R, D>>;
 
-/**
- * Wrapper for axios.
- *
- * @see https://vueuse.org/useAxios
- * @param url
- * @param config
- */
-export function useAxios<T = any, D = any>(
+export function useAxios<T = any, R = AxiosResponse<T>, D = any>(
   ...args: any[]
-): UseAxiosReturn<T, D> & PromiseLike<UseAxiosReturn<T, D>> {
+): UseAxiosReturn<T, R, D> & PromiseLike<UseAxiosReturn<T, R, D>> {
   const initialData: T = args[0];
   let defaultConfig: AxiosRequestConfig = {};
   let instance: AxiosInstance = axios;
-  let options: UseAxiosOptions;
 
   const isAxiosInstance = (val: any) => !!val?.request;
 
@@ -115,17 +115,22 @@ export function useAxios<T = any, D = any>(
     }
   }
 
+  let options: UseAxiosOptions = {
+    immediate: !!defaultConfig.url,
+    shallow: true,
+  };
   if (args.length > 2) {
-    options = args[args.length - 1];
-  } else {
-    options = { immediate: !!defaultConfig.url };
+    options = {
+      ...options,
+      ...args[args.length - 1],
+    };
   }
 
   if (args.length === 4) {
     instance = args[2];
   }
 
-  const response = shallowRef<AxiosResponse<T>>();
+  const response = shallowRef<R>();
   const data = shallowRef<T>(initialData);
   const isFinished = ref(false);
   const isLoading = ref(false);
@@ -146,17 +151,19 @@ export function useAxios<T = any, D = any>(
     isFinished.value = !loading;
   };
   const waitUntilFinished = () =>
-    new Promise<UseAxiosReturn<T, D>>((resolve, reject) => {
+    new Promise<UseAxiosReturn<T, R, D>>((resolve, reject) => {
       until(isFinished)
         .toBe(true)
         .then(() => resolve(result))
         .catch(reject);
     });
-  const then: PromiseLike<UseAxiosReturn<T, D>>['then'] = (
+  const then: PromiseLike<UseAxiosReturn<T, R, D>>['then'] = (
     onFulfilled,
     onRejected
   ) => waitUntilFinished().then(onFulfilled, onRejected);
-  const execute = async (config?: AxiosRequestConfig) => {
+  const execute: UseAxiosReturn<T, R, D>['execute'] = async (
+    config?: AxiosRequestConfig
+  ) => {
     const _config = merge(
       { cancelToken: cancelToken.token },
       defaultConfig,
@@ -166,7 +173,7 @@ export function useAxios<T = any, D = any>(
     loading(true);
     error.value = undefined;
     try {
-      const r = await instance.request<T>(_config);
+      const r = await instance.request<T, any>(_config);
       response.value = r;
       data.value = r.data;
     } catch (e: any) {
@@ -198,7 +205,7 @@ export function useAxios<T = any, D = any>(
     isCanceled: isAborted,
     abort,
     execute,
-  } as UseAxiosReturn<T, D>;
+  } as UseAxiosReturn<T, R, D>;
 
   return {
     ...result,
