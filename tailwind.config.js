@@ -12,8 +12,6 @@ module.exports = {
       },
 
       colors: {
-        inherit: 'inherit',
-
         primary: {
           DEFAULT: 'var(--color-primary)',
         },
@@ -34,34 +32,26 @@ module.exports = {
       },
 
       spacing: {
-        84: '21rem',
         88: '22rem',
       },
 
-      minWidth: (theme) => theme('spacing'),
+      minWidth: ({ theme }) => theme('spacing'),
 
-      maxWidth: (theme) => ({
+      maxWidth: ({ theme }) => ({
         ...theme('spacing'),
         '8xl': '88rem',
         '9xl': '96rem',
         '10xl': '104rem',
       }),
 
-      minHeight: (theme) => theme('spacing'),
+      minHeight: ({ theme }) => theme('spacing'),
 
-      maxHeight: (theme) => ({
-        ...theme('spacing'),
-        '8xl': '88rem',
-        '9xl': '96rem',
-        '10xl': '104rem',
-      }),
-
-      backgroundColor: (theme) => ({
-        main: theme('colors.gray.100'),
+      backgroundColor: ({ theme }) => ({
+        main: theme('colors.slate.100'),
       }),
 
       fontFamily: {
-        sans: ['Microsoft YaHei', ...defaultTheme.fontFamily.sans],
+        sans: ['"Microsoft YaHei"', ...defaultTheme.fontFamily.sans],
       },
     },
   },
