@@ -26,15 +26,16 @@
   </section>
 </template>
 
-<route lang="yaml">
-meta:
-  requiresAuth: false
-</route>
-
 <script lang="tsx" setup>
 import { useForm } from 'vee-validate';
 import { parseISO, format } from 'date-fns';
 import { Column, TableV2FixedDir } from 'element-plus';
+
+definePage({
+  meta: {
+    requiresAuth: false,
+  },
+});
 
 const { values: filter, handleSubmit } = useForm({
   initialValues: {

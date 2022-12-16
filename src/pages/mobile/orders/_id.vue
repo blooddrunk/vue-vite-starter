@@ -99,19 +99,19 @@
   </article>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: navbar
-  title: 订单详情
-  canNavBack: true
-props: true
-</route>
-
 <script lang="ts" setup>
 import { showToast, showFailToast, showConfirmDialog } from 'vant';
 import type { ActionSheetAction } from 'vant';
 
 import { getPlaceholderForNonValue } from '@/utils/misc';
+
+definePage({
+  meta: {
+    layout: 'navbar',
+    title: '订单详情',
+    canNavBack: true,
+  },
+});
 
 const props = defineProps<{
   id: string;

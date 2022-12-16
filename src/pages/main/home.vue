@@ -2,9 +2,13 @@
   <div>Home</div>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: sidebar
-  breadcrumb:
-    title: 'Home'
-</route>
+<script lang="ts" setup>
+definePage({
+  meta: {
+    layout: 'sidebar',
+    breadcrumb: {
+      title: 'Home',
+    },
+  },
+});
+</script>

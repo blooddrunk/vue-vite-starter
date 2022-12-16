@@ -7,7 +7,10 @@
   </section>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: error
-</route>
+<script setup lang="ts">
+definePage({
+  meta: {
+    layout: 'error',
+  },
+});
+</script>

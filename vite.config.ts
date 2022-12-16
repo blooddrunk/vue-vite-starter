@@ -3,7 +3,8 @@ import { loadEnv } from 'vite';
 import Vue from '@vitejs/plugin-vue';
 import VueJsx from '@vitejs/plugin-vue-jsx';
 import Legacy from '@vitejs/plugin-legacy';
-import Pages from 'vite-plugin-pages';
+import VueRouter from 'unplugin-vue-router/vite';
+import { VueRouterAutoImports } from 'unplugin-vue-router';
 import Layouts from 'vite-plugin-vue-layouts';
 import Components from 'unplugin-vue-components/vite';
 import Icons from 'unplugin-icons/vite';
@@ -14,6 +15,7 @@ import {
 import IconsResolver from 'unplugin-icons/resolver';
 import AutoImport from 'unplugin-auto-import/vite';
 import VueMacros from 'unplugin-vue-macros/vite';
+import { transformShortVmodel } from '@vue-macros/short-vmodel';
 import VueTypeImports from 'vite-plugin-vue-type-imports';
 // import type { Resolver } from 'unplugin-auto-import/types';
 // import fg from 'fast-glob';
@@ -67,27 +69,35 @@ export default ({ mode }) => {
     },
 
     plugins: [
-      /**
-       * official plugins
-       */
-      Vue({
-        reactivityTransform: true,
+      VueRouter({
+        dts: './src/typings/typed-router.d.ts',
+        exclude: ['**/__*', '**/__*/**/*'],
       }),
-      VueJsx(),
+
+      VueMacros({
+        plugins: {
+          vue: Vue({
+            include: [/\.vue$/, /setup\.[cm]?[jt]sx?$/],
+            reactivityTransform: true,
+            template: {
+              compilerOptions: {
+                nodeTransforms: [
+                  transformShortVmodel({
+                    prefix: '$',
+                  }),
+                ],
+              },
+            },
+          }),
+          vueJsx: VueJsx(),
+        },
+      }),
+
       Legacy({
         targets: ['defaults', 'not IE 11'],
       }),
 
-      /**
-       * 3rd party plugins
-       */
-
-      Pages({
-        extensions: ['vue'],
-        nuxtStyle: true,
-      }),
-
-      // Layouts(),
+      Layouts(),
 
       Components({
         extensions: ['vue'],
@@ -95,16 +105,6 @@ export default ({ mode }) => {
         dts: './src/typings/components.d.ts',
 
         resolvers: [
-          // ! icon-park, deprecated in favor of unplugin-icons
-          // (componentName) => {
-          //   if (componentName.startsWith('Icon')) {
-          //     return {
-          //       name: componentName.slice(4),
-          //       from: '@icon-park/vue-next',
-          //     };
-          //   }
-          // },
-
           ElementPlusResolver({
             importStyle: false,
           }),
@@ -128,10 +128,10 @@ export default ({ mode }) => {
         dts: './src/typings/auto-imports.d.ts',
         imports: [
           'vue',
-          'vue-router',
           '@vueuse/head',
           '@vueuse/core',
           'vue/macros',
+          VueRouterAutoImports,
         ],
         dirs: ['./src/composables/**', './src/stores/**', './src/services/**'],
         vueTemplate: true,
@@ -153,13 +153,6 @@ export default ({ mode }) => {
           // }),
           // MyComponentResolver,
         ],
-      }),
-
-      VueMacros({
-        plugins: {
-          vue: Vue(),
-          vueJsx: VueJsx(),
-        },
       }),
 
       VueTypeImports(),

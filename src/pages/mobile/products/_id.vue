@@ -53,16 +53,17 @@
   </article>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: navbar
-  title: 商品详情
-  canNavBack: true
-props: true
-</route>
-
 <script lang="ts" setup>
 import { showFailToast } from 'vant';
+import type { RouteLocationResolved } from 'vue-router/auto';
+
+definePage({
+  meta: {
+    layout: 'navbar',
+    title: '商品详情',
+    canNavBack: true,
+  },
+});
 
 const props = defineProps<{
   id: string;
@@ -82,10 +83,14 @@ const addToCart = async () => {
   }
 };
 
-const checkoutRoute = computed(() => ({
-  name: 'mobile-order',
-  query: {
-    productId: props.id,
-  },
-}));
+type C = RouteLocationResolved<'/mobile/order'>;
+const checkoutRoute = computed(
+  () =>
+    ({
+      name: '/mobile/order',
+      query: {
+        productId: props.id,
+      },
+    } as RouteLocationResolved<'/mobile/order'>)
+);
 </script>

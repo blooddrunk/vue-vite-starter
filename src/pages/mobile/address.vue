@@ -14,18 +14,21 @@
   </div>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: navbar
-  title: 服务地址填写
-  canNavBack: true
-</route>
-
 <script lang="ts" setup>
 import { areaList } from '@vant/area-data';
 import { showFailToast, showSuccessToast } from 'vant';
 
 import type { AddressEditInfo } from 'vant';
+
+definePage({
+  meta: {
+    layout: 'navbar',
+    breadcrumb: {
+      title: '服务地址填写',
+    },
+    canNavBack: true,
+  },
+});
 
 const router = useRouter();
 const order = useOrderStore();

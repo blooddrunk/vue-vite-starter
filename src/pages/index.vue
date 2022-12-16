@@ -11,12 +11,13 @@
   </ul>
 </template>
 
-<route lang="yaml">
-meta:
-  requiresAuth: false
-</route>
-
 <script setup lang="ts">
+definePage({
+  meta: {
+    requiresAuth: false,
+  },
+});
+
 const menuList = ref([
   {
     text: 'Simple list',

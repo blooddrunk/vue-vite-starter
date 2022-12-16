@@ -21,13 +21,14 @@
 </template>
 
 <script lang="ts" setup>
+definePage({
+  meta: {
+    layout: 'tabbar-navbar',
+    title: '全屋智能',
+  },
+});
+
 const { data, execute } = useCustomizationDetail();
 
 execute();
 </script>
-
-<route lang="yaml">
-meta:
-  layout: tabbar-navbar
-  title: 全屋智能
-</route>

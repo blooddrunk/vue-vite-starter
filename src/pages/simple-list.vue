@@ -31,14 +31,15 @@
   </section>
 </template>
 
-<route lang="yaml">
-meta:
-  requiresAuth: false
-</route>
-
 <script lang="ts" setup>
 import { useForm } from 'vee-validate';
 import { parseISO, format } from 'date-fns';
+
+definePage({
+  meta: {
+    requiresAuth: false,
+  },
+});
 
 type ListItem = {
   id: string;

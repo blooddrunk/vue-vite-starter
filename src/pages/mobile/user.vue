@@ -10,15 +10,16 @@
   </article>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: tabbar-navbar
-  title: 我的订单
-</route>
-
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
+
+definePage({
+  meta: {
+    layout: 'tabbar-navbar',
+    title: '我的订单',
+  },
+});
 
 const order = useOrderStore();
 

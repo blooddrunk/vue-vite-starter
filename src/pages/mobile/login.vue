@@ -79,17 +79,19 @@
   </article>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: empty
-  requiresAuth: false
-</route>
-
 <script lang="ts" setup>
 import { useForm } from 'vee-validate';
 import { showToast, showFailToast } from 'vant';
+import type { RouteLocationResolved } from 'vue-router/auto';
 
 import { MobileLoginInfo } from '@typings';
+
+definePage({
+  meta: {
+    layout: 'empty',
+    requiresAuth: false,
+  },
+});
 
 const authStore = useMobileAuthStore();
 
@@ -170,7 +172,7 @@ const stageAndLeave = (name: string) => {
 
   router.push({
     name,
-  });
+  } as RouteLocationResolved);
 };
 
 const handleLogin = handleSubmit(async (formValues) => {

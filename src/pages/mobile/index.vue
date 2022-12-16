@@ -1,6 +1,10 @@
-<route lang="yaml">
-redirect:
-  name: mobile-category
-meta:
-  layout: tabbar
-</route>
+<script lang="ts" setup>
+definePage({
+  redirect: {
+    name: '/mobile/category',
+  },
+  meta: {
+    layout: 'tabbar',
+  },
+});
+</script>

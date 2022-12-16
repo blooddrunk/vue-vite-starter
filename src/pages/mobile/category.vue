@@ -18,16 +18,17 @@
   </article>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: tabbar-navbar
-  title: 商品分类
-</route>
-
 <script lang="ts" setup>
 import { ref } from 'vue';
 
 const auth = useMobileAuthStore();
+
+definePage({
+  meta: {
+    layout: 'tabbar-navbar',
+    title: '商品分类',
+  },
+});
 
 const handleAreaChange = (area: string) => {
   auth.updateUser({

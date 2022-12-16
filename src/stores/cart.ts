@@ -6,7 +6,7 @@ import type { StagedOrderInfo, CartItem } from '@typings';
 
 export const useCartStore = defineStore('cart', () => {
   const stagedOrderInfo = useStorage<StagedOrderInfo>('staged_order_info', {
-    remark: '',
+    remarks: '',
     isServiceAgreementChecked: false,
   });
 

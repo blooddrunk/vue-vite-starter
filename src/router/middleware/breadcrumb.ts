@@ -1,8 +1,8 @@
-import type { Router } from 'vue-router';
+import type { RouterTyped } from 'vue-router/auto';
 
 import { BreadcrumbItem } from '@/stores/ui';
 
-export default (router: Router) => {
+export default (router: RouterTyped) => {
   router.beforeEach((to) => {
     const uiStore = useUIStore();
     const menuStore = useMenuStore();

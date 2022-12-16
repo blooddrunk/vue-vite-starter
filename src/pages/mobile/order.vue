@@ -70,19 +70,20 @@
   </article>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: navbar
-  title: 订单提交
-  canNavBack: true
-</route>
-
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import { useRouteQuery } from '@vueuse/router';
 import { onBeforeRouteLeave } from 'vue-router';
 
 import { CartItem } from '@typings';
+
+definePage({
+  meta: {
+    layout: 'navbar',
+    title: '订单提交',
+    canNavBack: true,
+  },
+});
 
 const directOrderId = useRouteQuery('productId');
 

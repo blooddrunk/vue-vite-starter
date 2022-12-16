@@ -39,15 +39,16 @@
   </section>
 </template>
 
-<route lang="yaml">
-meta:
-  requiresAuth: false
-</route>
-
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus';
 
 import { Product } from '@typings';
+
+definePage({
+  meta: {
+    requiresAuth: false,
+  },
+});
 
 const simpleFormStore = useSimpleFormStore();
 

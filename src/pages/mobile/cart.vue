@@ -35,15 +35,16 @@
   </article>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: tabbar-navbar
-  title: 购物车
-</route>
-
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
+
+definePage({
+  meta: {
+    layout: 'tabbar-navbar',
+    title: '购物车',
+  },
+});
 
 const cart = useCartStore();
 

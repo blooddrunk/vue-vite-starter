@@ -2,11 +2,19 @@
   <h3>Role</h3>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: sidebar
-  breadcrumb:
-    - title: 'Custom'
-      route: 'admin-account'
-    - title: 'Breadcrumb'
-</route>
+<script lang="ts" setup>
+definePage({
+  meta: {
+    layout: 'sidebar',
+    breadcrumb: [
+      {
+        title: '系统管理',
+        route: '/main/admin/account',
+      },
+      {
+        title: 'Breadcrumb',
+      },
+    ],
+  },
+});
+</script>

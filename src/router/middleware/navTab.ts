@@ -1,7 +1,7 @@
-import type { Router } from 'vue-router';
+import type { RouterTyped } from 'vue-router/auto';
 import { merge } from 'lodash-es';
 
-export default (router: Router) => {
+export default (router: RouterTyped) => {
   router.beforeEach((to) => {
     const navTabStore = useNavTabStore();
     const menuStore = useMenuStore();

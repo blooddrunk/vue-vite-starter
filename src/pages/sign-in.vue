@@ -146,20 +146,19 @@
   </div>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: empty
-  requiresAuth: false
-</route>
-
 <script lang="ts" setup>
-import { ref, computed, watch, watchEffect, onMounted } from 'vue';
 import { useForm } from 'vee-validate';
-import { useRouter, useRoute } from 'vue-router';
-import { useTimeoutFn } from '@vueuse/core';
+import type { RouteNamedMap } from 'vue-router/auto/routes';
 import { storeToRefs } from 'pinia';
 
 import { LoginInfo } from '@typings';
+
+definePage({
+  meta: {
+    layout: 'empty',
+    requiresAuth: false,
+  },
+});
 
 const auth = useAuthStore();
 const { isLoggedIn, isLoginPending, loginError, hasLoginError } =
@@ -247,7 +246,7 @@ const isLoginTransitionFinished = ref(false);
 const handleLoginSuccess = async () => {
   // in case page has already been redirected
   // should not happen
-  if (route.name !== 'sign-in' || isLoginTransitionFinished.value) {
+  if (route.name !== '/sign-in' || isLoginTransitionFinished.value) {
     return;
   }
 
@@ -256,7 +255,7 @@ const handleLoginSuccess = async () => {
 
   const { from, ...rest } = route.query;
   await router.push({
-    name: String(from === 'sign-in' || !from ? 'index' : from),
+    name: from === '/sign-in' || !from ? '/' : (from as keyof RouteNamedMap),
     query: rest,
   });
 

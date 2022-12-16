@@ -1,7 +1,7 @@
-import type { Router } from 'vue-router';
+import type { RouterTyped } from 'vue-router/auto';
 import NProgress from 'nprogress';
 
-export default (router: Router) => {
+export default (router: RouterTyped) => {
   router.beforeEach((to, from, next) => {
     if (to.name) {
       NProgress.start();

@@ -35,13 +35,6 @@
   </div>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: navbar
-  title: 全屋智能定制
-  canNavBack: true
-</route>
-
 <script lang="ts" setup>
 import { format } from 'date-fns';
 
@@ -51,6 +44,14 @@ import { useRouter } from 'vue-router';
 
 import type { AddressEditInfo } from 'vant';
 import { CustomizationRequest } from '@typings';
+
+definePage({
+  meta: {
+    layout: 'navbar',
+    title: '全屋智能定制',
+    canNavBack: true,
+  },
+});
 
 const router = useRouter();
 

@@ -1,5 +1,6 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import type { RouteLocationNamedRaw } from 'vue-router';
+import type { RouteNamedMap } from 'vue-router/auto/routes';
+import type { RouteLocationResolved } from 'vue-router/auto';
 
 import {
   getFirstNavigableMenu as _getFirstNavigableMenu,
@@ -19,8 +20,8 @@ export type MenuItem = {
   id: string;
   title?: string;
   icon?: string;
-  route?: string;
-  routeProps?: Omit<RouteLocationNamedRaw, 'name'>;
+  route?: keyof RouteNamedMap;
+  routeProps?: Omit<RouteLocationResolved, 'name'>;
   children?: MenuItem[];
   system: SystemValue;
   isVisible?: boolean;

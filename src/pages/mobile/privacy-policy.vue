@@ -75,16 +75,17 @@
   </article>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: navbar
-  requiresAuth: false
-  title: HSOP隐私政策
-  canNavBack: true
-</route>
-
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
+
+definePage({
+  meta: {
+    layout: 'navbar',
+    title: '隐私政策',
+    requiresAuth: false,
+    canNavBack: true,
+  },
+});
 
 const router = useRouter();
 const navBack = () => {

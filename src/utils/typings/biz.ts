@@ -26,7 +26,7 @@ export type ProductItem = {
 };
 
 export type StagedOrderInfo = {
-  remark?: string;
+  remarks?: string;
   isServiceAgreementChecked: boolean;
 };
 

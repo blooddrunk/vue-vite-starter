@@ -18,7 +18,10 @@
   </div>
 </template>
 
-<route lang="yaml">
-meta:
-  requiresAuth: false
-</route>
+<script setup lang="ts">
+definePage({
+  meta: {
+    requiresAuth: false,
+  },
+});
+</script>

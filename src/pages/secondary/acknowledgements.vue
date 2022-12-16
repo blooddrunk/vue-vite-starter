@@ -2,11 +2,13 @@
   <div>Acknowledgements</div>
 </template>
 
-<route lang="yaml">
-meta:
-  layout: sidebar
-  breadcrumb:
-    title: 'Acknowledgements'
-</route>
-
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePage({
+  meta: {
+    layout: 'sidebar',
+    breadcrumb: {
+      title: 'Acknowledgements',
+    },
+  },
+});
+</script>
