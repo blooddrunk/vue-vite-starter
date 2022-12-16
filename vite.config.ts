@@ -13,8 +13,9 @@ import {
 } from 'unplugin-vue-components/resolvers';
 import IconsResolver from 'unplugin-icons/resolver';
 import AutoImport from 'unplugin-auto-import/vite';
-// import type { Resolver } from 'unplugin-auto-import/types';
+import VueMacros from 'unplugin-vue-macros/vite';
 import VueTypeImports from 'vite-plugin-vue-type-imports';
+// import type { Resolver } from 'unplugin-auto-import/types';
 // import fg from 'fast-glob';
 // import consola from 'consola';
 
@@ -70,7 +71,7 @@ export default ({ mode }) => {
        * official plugins
        */
       Vue({
-        // reactivityTransform: true,
+        reactivityTransform: true,
       }),
       VueJsx(),
       Legacy({
@@ -86,7 +87,7 @@ export default ({ mode }) => {
         nuxtStyle: true,
       }),
 
-      Layouts(),
+      // Layouts(),
 
       Components({
         extensions: ['vue'],
@@ -152,6 +153,13 @@ export default ({ mode }) => {
           // }),
           // MyComponentResolver,
         ],
+      }),
+
+      VueMacros({
+        plugins: {
+          vue: Vue(),
+          vueJsx: VueJsx(),
+        },
       }),
 
       VueTypeImports(),

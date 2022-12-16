@@ -17,6 +17,7 @@
       "vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client",
       "unplugin-icons/types/vue",
+      "unplugin-vue-macros/macros-global",
       "element-plus/global"
     ],
     "baseUrl": ".",
@@ -25,5 +26,11 @@
       "@typings": ["src/utils/typings"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "vueCompilerOptions": {
+    "plugins": [
+      "@vue-macros/volar/define-model",
+      "@vue-macros/volar/short-vmodel"
+    ]
+  }
 }

@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import type { Router } from 'vue-router';
 import generatedRoutes from '~pages';
-import { setupLayouts } from 'virtual:generated-layouts';
+// import { setupLayouts } from 'virtual:generated-layouts';
 
 import type { BreadcrumbItem } from '@/stores/ui';
 import { createNamedEntryForGlobImport } from '@/utils/misc';
@@ -20,11 +20,11 @@ declare module 'vue-router' {
   }
 }
 
-const routes = setupLayouts(generatedRoutes);
+// const routes = setupLayouts(generatedRoutes);
 
 const router = createRouter({
   history: routerHistory,
-  routes,
+  routes: generatedRoutes,
 });
 
 const middlewareModules = import.meta.glob<(router: Router) => void>(

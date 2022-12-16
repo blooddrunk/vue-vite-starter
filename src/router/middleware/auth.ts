@@ -48,9 +48,12 @@ export default (router: Router) => {
             systemOfRoute || menuStore.firstAvailableSystem.value
           );
         } else if (fallbackMenu) {
-          notifyPermission(
-            `没有访问 ${targetMenu?.title ?? '未命名'} 的权限，请联系管理员`
-          );
+          if (targetMenu?.title) {
+            notifyPermission(
+              `没有访问 ${targetMenu?.title ?? '未命名'} 的权限，请联系管理员`
+            );
+          }
+
           const fallbackRoute = getRouteOfMenuItem(fallbackMenu);
           if (fallbackRoute) {
             return fallbackRoute;

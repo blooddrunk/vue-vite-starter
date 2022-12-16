@@ -63,18 +63,27 @@ export const jsonToUrlParams = (obj: Record<string, any>) =>
     return params;
   }, new URLSearchParams());
 
-export const convertToUnit = (
+// stolen from vuetify
+// https://github.com/vuetifyjs/vuetify/blob/v3.0.5/packages/vuetify/src/util/helpers.ts
+export function convertToUnit(str: number, unit?: string): string;
+export function convertToUnit(
+  str: string | number | null | undefined,
+  unit?: string
+): string | undefined;
+export function convertToUnit(
   str: string | number | null | undefined,
   unit = 'px'
-): string | undefined => {
+): string | undefined {
   if (str == null || str === '') {
     return undefined;
-  } else if (isNumeric(str)) {
-    return `${Number(str)}${unit}`;
-  } else {
+  } else if (isNaN(+str!)) {
     return String(str);
+  } else if (!isFinite(+str!)) {
+    return undefined;
+  } else {
+    return `${Number(str)}${unit}`;
   }
-};
+}
 
 export const breakStringBy = (
   str: string,
@@ -122,7 +131,10 @@ export const createNamedMapForGlobImport = <M>(modules: Record<string, M>) => {
     getFileNameOfResource(key)
   );
 
-  return pickBy(modulesWithFileNameAsKey, (value, key) => !key.startsWith('_'));
+  return pickBy(
+    modulesWithFileNameAsKey,
+    (value, key) => !key.startsWith('__')
+  );
 };
 export const createNamedEntryForGlobImport = <M>(
   modules: Record<string, M>
