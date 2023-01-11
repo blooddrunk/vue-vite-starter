@@ -1,15 +1,15 @@
 import 'animate.css';
 
-import './assets/css/main.css';
-import 'vant/es/toast/style/index';
 import 'vant/es/dialog/style/index';
+import 'vant/es/toast/style/index';
+import './assets/css/main.css';
 
 import { createApp } from 'vue';
 
+import { createNamedEntryForGlobImport } from '@/utils/misc';
+import type { UserPlugin } from '@typings';
 import App from './App.vue';
 import { router } from './router';
-import type { UserPlugin } from '@typings';
-import { createNamedEntryForGlobImport } from '@/utils/misc';
 
 const app = createApp(App);
 

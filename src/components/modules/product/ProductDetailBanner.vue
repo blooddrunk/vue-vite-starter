@@ -27,7 +27,7 @@
 
     <template #indicator="{ active }">
       <div
-        class="absolute px-2 bottom-2 left-1/2 -translate-x-1/2 text-sm text-white text-center rounded-full bg-zinc-500/70"
+        class="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-zinc-500/70 px-2 text-center text-sm text-white"
       >
         {{ active + 1 }}/{{ total }}
       </div>
