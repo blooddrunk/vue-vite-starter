@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { ProductMedia } from '@typings';
+import type { ProductMedia } from '@/typings';
 
 const props = withDefaults(
   defineProps<{

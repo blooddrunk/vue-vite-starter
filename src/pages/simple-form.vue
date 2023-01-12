@@ -40,9 +40,8 @@
 </template>
 
 <script lang="ts" setup>
+import { Product } from '@/typings';
 import { ElMessage } from 'element-plus';
-
-import { Product } from '@typings';
 
 definePage({
   meta: {

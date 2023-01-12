@@ -19,10 +19,9 @@
 </template>
 
 <script lang="tsx" setup>
-import { get } from 'lodash-es';
-
-import type { ReadonlyFieldsetData, ReadonlyFieldsetRow } from '@typings';
+import type { ReadonlyFieldsetData, ReadonlyFieldsetRow } from '@/typings';
 import { getPlaceholderForNonValue } from '@/utils/misc';
+import { get } from 'lodash-es';
 
 const props = withDefaults(
   defineProps<{

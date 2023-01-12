@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-lg p-3 shadow-md">
-    <h1 class="py-2 text-semibold text-xl tw">Enter Product</h1>
+    <h1 class="text-semibold tw py-2 text-xl">Enter Product</h1>
 
     <el-form
       status-icon
@@ -78,10 +78,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useForm } from 'vee-validate';
-
-import { Product } from '@typings';
+import { Product } from '@/typings';
 import { ElMessage } from 'element-plus';
+import { useForm } from 'vee-validate';
 
 const props = defineProps<{
   addProduct: (p: Product) => void;

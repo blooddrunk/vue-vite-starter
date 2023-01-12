@@ -1,15 +1,15 @@
+import { ServerResponse } from '@/typings';
+import { jsonToUrlParams } from '@/utils/misc';
 import type {
-  AxiosRequestConfig,
-  AxiosInstance,
   AxiosError,
+  AxiosInstance,
   AxiosProgressEvent,
+  AxiosRequestConfig,
 } from 'axios';
 import { default as axiosDefault } from 'axios';
 import { defaultsDeep, isPlainObject } from 'lodash-es';
 import Nprogress from 'nprogress';
 
-import { jsonToUrlParams } from '@/utils/misc';
-import { ServerResponse } from '@typings';
 declare module 'axios' {
   export interface AxiosRequestConfig {
     __cancellable?: boolean | string;

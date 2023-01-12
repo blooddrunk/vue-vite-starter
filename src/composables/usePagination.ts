@@ -1,11 +1,9 @@
 /**
  * stolen from https://github.com/pikax/vue-composable
  */
-
-import { ref, computed, watch } from 'vue';
-
+import { MaybeRef } from '@/typings';
 import { isNumeric } from '@/utils/misc';
-import { MaybeRef } from '@typings';
+import { computed, ref, watch } from 'vue';
 
 const ensureNumber = (value: number | string) => {
   if (typeof value !== 'undefined' && !isNumeric(value)) {

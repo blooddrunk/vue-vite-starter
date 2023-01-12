@@ -1,7 +1,6 @@
-import { defineStore, acceptHMRUpdate } from 'pinia';
+import { MobileAuthInfo, MobileLoginInfo, MobileUserInfo } from '@/typings';
 import { promiseTimeout } from '@/utils/misc';
-
-import { MobileAuthInfo, MobileUserInfo, MobileLoginInfo } from '@typings';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 
 export const useMobileAuthStore = defineStore('mobile-auth', () => {
   const stagedLoginInfo = ref<Partial<MobileLoginInfo>>({

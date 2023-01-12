@@ -1,7 +1,6 @@
-import { random } from 'lodash-es';
-
+import { CartItem } from '@/typings';
 import { precisionRound } from '@/utils/math';
-import { CartItem } from '@typings';
+import { random } from 'lodash-es';
 
 export const useCartList = () => {
   return useAxios<CartItem[]>([] as CartItem[], {

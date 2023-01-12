@@ -1,22 +1,22 @@
-import path from 'path';
-import { loadEnv } from 'vite';
+import Legacy from '@vitejs/plugin-legacy';
 import Vue from '@vitejs/plugin-vue';
 import VueJsx from '@vitejs/plugin-vue-jsx';
-import Legacy from '@vitejs/plugin-legacy';
-import VueRouter from 'unplugin-vue-router/vite';
-import { VueRouterAutoImports } from 'unplugin-vue-router';
-import Layouts from 'vite-plugin-vue-layouts';
-import Components from 'unplugin-vue-components/vite';
+import { transformShortVmodel } from '@vue-macros/short-vmodel';
+import path from 'path';
+import AutoImport from 'unplugin-auto-import/vite';
+import IconsResolver from 'unplugin-icons/resolver';
 import Icons from 'unplugin-icons/vite';
 import {
   ElementPlusResolver,
   VantResolver,
 } from 'unplugin-vue-components/resolvers';
-import IconsResolver from 'unplugin-icons/resolver';
-import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
 import VueMacros from 'unplugin-vue-macros/vite';
-import { transformShortVmodel } from '@vue-macros/short-vmodel';
-import VueTypeImports from 'vite-plugin-vue-type-imports';
+import { VueRouterAutoImports } from 'unplugin-vue-router';
+import VueRouter from 'unplugin-vue-router/vite';
+import { loadEnv } from 'vite';
+import Layouts from 'vite-plugin-vue-layouts';
+
 // import type { Resolver } from 'unplugin-auto-import/types';
 // import fg from 'fast-glob';
 // import consola from 'consola';
@@ -63,8 +63,9 @@ export default ({ mode }) => {
 
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, 'src'),
-        '@typings': path.resolve(__dirname, 'src/utils/typings'),
+        '@/': `${path.resolve(__dirname, 'src')}/`,
+        '@/typings': path.resolve(__dirname, 'src/utils/typings'),
+        '@/modules/': `${path.resolve(__dirname, 'src/components/modules')}/`,
       },
     },
 
@@ -91,6 +92,7 @@ export default ({ mode }) => {
           }),
           vueJsx: VueJsx(),
         },
+        betterDefine: true,
       }),
 
       Legacy({
@@ -154,8 +156,6 @@ export default ({ mode }) => {
           // MyComponentResolver,
         ],
       }),
-
-      VueTypeImports(),
     ],
 
     server: {

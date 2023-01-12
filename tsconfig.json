@@ -23,7 +23,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@typings": ["src/utils/typings"]
+      "@/typings": ["src/utils/typings"],
+      "@/modules/*": ["src/components/modules/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],

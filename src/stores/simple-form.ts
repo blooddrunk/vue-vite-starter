@@ -1,7 +1,6 @@
-import { acceptHMRUpdate, defineStore } from 'pinia';
+import type { Product } from '@/typings';
 import { ElMessage } from 'element-plus';
-
-import type { Product } from '@typings';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 
 export const useSimpleFormStore = defineStore('simple-form', () => {
   const {

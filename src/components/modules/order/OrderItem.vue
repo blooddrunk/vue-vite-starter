@@ -1,10 +1,10 @@
 <template>
   <router-link
-    class="block p-2 mt-3 bg-white rounded-md shadow shadow-light"
+    class="mt-3 block rounded-md bg-white p-2 shadow shadow-light"
     :to="routeLocation"
   >
     <header
-      class="pb-1.5 mb-2.5 flex items-center justify-between border-b border-primary text-sm font-bold"
+      class="mb-2.5 flex items-center justify-between border-b border-primary pb-1.5 text-sm font-bold"
     >
       <span>
         订单编号：
@@ -23,7 +23,7 @@
     >
     </CartItem>
 
-    <footer class="flex mt-3 text-xs text-semibold">
+    <footer class="text-semibold mt-3 flex text-xs">
       <span>
         {{ format(item.orderTime, 'yyyy-MM-dd HH:mm:ss') }}
       </span>
@@ -45,10 +45,9 @@
 </template>
 
 <script lang="ts" setup>
+import type { OrderItem } from '@/typings';
 import { format } from 'date-fns';
 import type { RouteLocationRaw } from 'vue-router';
-
-import type { OrderItem } from '@typings';
 
 type Props = {
   item: OrderItem;

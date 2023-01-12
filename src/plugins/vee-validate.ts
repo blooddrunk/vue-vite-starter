@@ -1,15 +1,14 @@
-import { configure, defineRule } from 'vee-validate';
+import type { UserPlugin } from '@/typings';
 import { localize } from '@vee-validate/i18n';
 import {
-  required,
-  min,
   max,
-  numeric,
-  min_value,
   max_value,
+  min,
+  min_value,
+  numeric,
+  required,
 } from '@vee-validate/rules';
-
-import type { UserPlugin } from '@typings';
+import { configure, defineRule } from 'vee-validate';
 
 export const install: UserPlugin = async () => {
   const zh_CN = await import('@vee-validate/i18n/dist/locale/zh_CN.json');

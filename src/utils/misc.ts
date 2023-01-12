@@ -1,7 +1,6 @@
-import { isNil, mapValues, mapKeys, omit, pickBy } from 'lodash-es';
+import { MaybeRef } from '@/typings';
+import { isNil, mapKeys, mapValues, omit, pickBy } from 'lodash-es';
 import { unref } from 'vue';
-
-import { MaybeRef } from '@typings';
 
 export const isClient = () => typeof window === 'object';
 

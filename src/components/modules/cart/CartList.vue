@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { CartItem } from '@typings';
+import type { CartItem } from '@/typings';
 
 withDefaults(
   defineProps<{

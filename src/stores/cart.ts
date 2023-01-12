@@ -1,8 +1,7 @@
-import { defineStore, acceptHMRUpdate } from 'pinia';
-import { cloneDeep } from 'lodash-es';
-
+import type { CartItem, StagedOrderInfo } from '@/typings';
 import { precisionFixed } from '@/utils/math';
-import type { StagedOrderInfo, CartItem } from '@typings';
+import { cloneDeep } from 'lodash-es';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 
 export const useCartStore = defineStore('cart', () => {
   const stagedOrderInfo = useStorage<StagedOrderInfo>('staged_order_info', {

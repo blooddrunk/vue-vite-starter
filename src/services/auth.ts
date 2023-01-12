@@ -1,9 +1,9 @@
 import type {
-  UserInfo,
   LoginInfo,
-  MobileUserInfo,
   MobileLoginInfo,
-} from '@typings';
+  MobileUserInfo,
+  UserInfo,
+} from '@/typings';
 import { promiseTimeout } from '@/utils/misc';
 
 export const useLogin = () => {

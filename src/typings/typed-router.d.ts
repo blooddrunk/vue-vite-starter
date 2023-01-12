@@ -50,9 +50,9 @@ declare module 'vue-router/auto/routes' {
     '/mobile/customization': RouteRecordInfo<'/mobile/customization', '/mobile/customization', Record<never, never>, Record<never, never>>,
     '/mobile/login': RouteRecordInfo<'/mobile/login', '/mobile/login', Record<never, never>, Record<never, never>>,
     '/mobile/order': RouteRecordInfo<'/mobile/order', '/mobile/order', Record<never, never>, Record<never, never>>,
-    '/mobile/orders/_id': RouteRecordInfo<'/mobile/orders/_id', '/mobile/orders/_id', Record<never, never>, Record<never, never>>,
+    '/mobile/orders/[id]': RouteRecordInfo<'/mobile/orders/[id]', '/mobile/orders/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/mobile/privacy-policy': RouteRecordInfo<'/mobile/privacy-policy', '/mobile/privacy-policy', Record<never, never>, Record<never, never>>,
-    '/mobile/products/_id': RouteRecordInfo<'/mobile/products/_id', '/mobile/products/_id', Record<never, never>, Record<never, never>>,
+    '/mobile/products/[id]': RouteRecordInfo<'/mobile/products/[id]', '/mobile/products/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/mobile/service-agreement': RouteRecordInfo<'/mobile/service-agreement', '/mobile/service-agreement', Record<never, never>, Record<never, never>>,
     '/mobile/user': RouteRecordInfo<'/mobile/user', '/mobile/user', Record<never, never>, Record<never, never>>,
     '/mobile/user-agreement': RouteRecordInfo<'/mobile/user-agreement', '/mobile/user-agreement', Record<never, never>, Record<never, never>>,
@@ -118,6 +118,8 @@ declare module 'vue-router/auto' {
   export function onBeforeRouteLeave(guard: NavigationGuard<RouteNamedMap>): void
   export function onBeforeRouteUpdate(guard: NavigationGuard<RouteNamedMap>): void
 
+  export const RouterLink: RouterLinkTyped<RouteNamedMap>
+  
   // Experimental Data Fetching
 
   export function defineLoader<

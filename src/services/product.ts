@@ -1,8 +1,7 @@
-import { random } from 'lodash-es';
-
-import { usePaginatedList } from '@/composables/usePaginatedList';
 import { useAxios } from '@/composables/useAxios';
-import type { ProductItem } from '@typings';
+import { usePaginatedList } from '@/composables/usePaginatedList';
+import type { ProductItem } from '@/typings';
+import { random } from 'lodash-es';
 
 export const useProductList = () => {
   return usePaginatedList<ProductItem>(

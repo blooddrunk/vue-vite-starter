@@ -1,6 +1,6 @@
 <template>
   <van-swipe-cell :disabled="readonly">
-    <div class="p-2 mt-3 bg-white rounded-md">
+    <div class="mt-3 rounded-md bg-white p-2">
       <div class="flex items-center">
         <van-checkbox
           v-if="!readonly"
@@ -9,9 +9,9 @@
           icon-size="18px"
         ></van-checkbox>
 
-        <div class="flex-grow grid grid-cols-7 items-center gap-3">
+        <div class="grid flex-grow grid-cols-7 items-center gap-3">
           <van-image
-            class="col-span-2 w-full aspect-w-1 aspect-h-1"
+            class="aspect-w-1 aspect-h-1 col-span-2 w-full"
             :src="item.thumbnail"
             fit="cover"
             round
@@ -19,7 +19,7 @@
           ></van-image>
 
           <div class="col-span-5 self-start">
-            <div class="line-clamp-3 break-all text-medium leading-none">
+            <div class="break-all leading-none text-medium line-clamp-3">
               <figcaption class="inline text-dark">
                 {{ item.title }}
               </figcaption>
@@ -28,8 +28,8 @@
               </span>
             </div>
             <div class="mt-2 flex items-center">
-              <span class="text-primary font-bold">{{ item.price }}</span>
-              <span class="ml-1 text-primary text-xs">元/月</span>
+              <span class="font-bold text-primary">{{ item.price }}</span>
+              <span class="ml-1 text-xs text-primary">元/月</span>
 
               <span v-if="readonly" class="ml-auto text-sm font-semibold">
                 x{{ quantity }}
@@ -63,10 +63,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useVModel, debouncedWatch } from '@vueuse/core';
-import { showFailToast, showConfirmDialog } from 'vant';
-
-import type { CartItem } from '@typings';
+import type { CartItem } from '@/typings';
+import { debouncedWatch, useVModel } from '@vueuse/core';
+import { showConfirmDialog, showFailToast } from 'vant';
 
 type Props = {
   item: CartItem;

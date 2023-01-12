@@ -1,22 +1,23 @@
-import VueEcharts from 'vue-echarts';
-import { use, registerTheme, registerMap } from 'echarts/core';
-import type { ComposeOption } from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
+import type { UserPlugin } from '@/typings';
+import { createNamedEntryForGlobImport } from '@/utils/misc';
+import 'echarts-liquidfill';
 import {
   BarChart,
   BarSeriesOption,
-  LineChart,
-  LineSeriesOption,
-  PieChart,
-  PieSeriesOption,
   GaugeChart,
   GaugeSeriesOption,
+  LineChart,
+  LineSeriesOption,
   MapChart,
   MapSeriesOption,
+  PieChart,
+  PieSeriesOption,
 } from 'echarts/charts';
 import {
   DatasetComponent,
   DatasetComponentOption,
+  GeoComponent,
+  GeoComponentOption,
   GridComponent,
   GridComponentOption,
   LegendComponent,
@@ -25,16 +26,14 @@ import {
   TitleComponentOption,
   TooltipComponent,
   TooltipComponentOption,
-  GeoComponent,
-  GeoComponentOption,
 } from 'echarts/components';
+import { registerMap, registerTheme, use } from 'echarts/core';
+import type { ComposeOption } from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
 // import * as echarts from 'echarts';
 import type { GeoJSONSourceInput } from 'echarts/types/src/coord/geo/geoTypes';
-import 'echarts-liquidfill';
 import type { JsonObject } from 'type-fest';
-
-import type { UserPlugin } from '@typings';
-import { createNamedEntryForGlobImport } from '@/utils/misc';
+import VueEcharts from 'vue-echarts';
 
 export type ECOption = ComposeOption<
   | BarSeriesOption

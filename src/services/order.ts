@@ -1,8 +1,7 @@
-import { sample, random } from 'lodash-es';
-
 import { useAxios } from '@/composables/useAxios';
-import { OrderInfo, OrderItem, CartItem } from '@typings';
-import { precisionRound, precisionFixed } from '@/utils/math';
+import { CartItem, OrderInfo, OrderItem } from '@/typings';
+import { precisionFixed, precisionRound } from '@/utils/math';
+import { random, sample } from 'lodash-es';
 
 export const placeOrder = () => {
   const { execute, ...rest } = useAxios<OrderInfo>({} as OrderInfo, {

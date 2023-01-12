@@ -1,14 +1,14 @@
 <template>
   <router-link :to="routeLocation">
-    <figure class="p-2 mt-3 bg-white rounded-md shadow shadow-light">
+    <figure class="mt-3 rounded-md bg-white p-2 shadow shadow-light">
       <van-image
-        class="w-full h-32"
+        class="h-32 w-full"
         :src="item.thumbnail"
         fit="cover"
         round
         radius="8px"
       ></van-image>
-      <div class="line-clamp-3 break-all text-medium">
+      <div class="break-all text-medium line-clamp-3">
         <figcaption class="inline text-dark">
           {{ item.title }}
         </figcaption>
@@ -16,9 +16,9 @@
           {{ item.body }}
         </span>
       </div>
-      <div class="py-1 flex items-center">
-        <span class="text-primary font-bold">{{ item.price }}</span>
-        <span class="ml-1 text-primary text-xs">元/月</span>
+      <div class="flex items-center py-1">
+        <span class="font-bold text-primary">{{ item.price }}</span>
+        <span class="ml-1 text-xs text-primary">元/月</span>
 
         <span class="ml-auto">
           <van-button
@@ -38,9 +38,9 @@
 
 <script lang="ts" setup>
 import { showFailToast } from 'vant';
-import { RouteLocationRaw } from 'vue-router';
+import type { RouteLocationRaw } from 'vue-router/auto';
 
-import type { ProductItem } from '@typings';
+import type { ProductItem } from '@/typings';
 
 type Props = {
   item: ProductItem;
@@ -60,8 +60,8 @@ const addToCart = async () => {
   }
 };
 
-const routeLocation: RouteLocationRaw = {
-  name: 'mobile-products-id',
+const routeLocation: RouteLocationRaw<'/mobile/products/[id]'> = {
+  name: '/mobile/products/[id]',
   params: {
     id: props.item.id,
   },

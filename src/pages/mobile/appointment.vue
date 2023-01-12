@@ -36,14 +36,12 @@
 </template>
 
 <script lang="ts" setup>
-import { format } from 'date-fns';
-
+import { CustomizationRequest } from '@/typings';
 import { areaList } from '@vant/area-data';
+import { format } from 'date-fns';
 import { showFailToast, showSuccessToast } from 'vant';
-import { useRouter } from 'vue-router';
-
 import type { AddressEditInfo } from 'vant';
-import { CustomizationRequest } from '@typings';
+import { useRouter } from 'vue-router';
 
 definePage({
   meta: {

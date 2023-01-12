@@ -1,4 +1,4 @@
-import type { Product } from '@typings';
+import type { Product } from '@/typings';
 
 export const useSimpleFormList = () =>
   useAxios<Product[]>([], {

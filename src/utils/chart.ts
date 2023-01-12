@@ -1,16 +1,15 @@
-import { unref } from 'vue';
-import type { GeoJSONCompressed } from 'echarts/types/src/coord/geo/geoTypes';
+import { MaybeRef } from '@/typings';
 import type { EChartsOption, SeriesOption } from 'echarts';
+import type { GeoJSONCompressed } from 'echarts/types/src/coord/geo/geoTypes';
+import { merge } from 'lodash-es';
+import { unref } from 'vue';
 // import type { SeriesEncodeOptionMixin } from 'echarts/types/src/util/types';
 import ECharts from 'vue-echarts';
-import { merge } from 'lodash-es';
-
-import { MaybeRef } from '@typings';
 
 export type VueEchartsComponent = InstanceType<typeof ECharts>;
 
 export const chartThemeList = ['primary', 'secondary', 'dark'] as const;
-export type ChartTheme = typeof chartThemeList[number];
+export type ChartTheme = (typeof chartThemeList)[number];
 
 export type CommonChartType = 'pie' | 'bar' | 'line' | 'scatter' | 'map';
 export type CommonChartProps = {

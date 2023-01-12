@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { OrderItem } from '@typings';
+import type { OrderItem } from '@/typings';
 
 withDefaults(
   defineProps<{

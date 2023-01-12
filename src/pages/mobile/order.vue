@@ -12,7 +12,7 @@
       readonly
     ></CartList>
 
-    <van-cell-group class="!mt-6 !mx-0" inset>
+    <van-cell-group class="!mx-0 !mt-6" inset>
       <van-field
         v-model="remarks"
         label="订单备注"
@@ -38,7 +38,7 @@
 
     <van-checkbox
       v-model="isServiceAgreementChecked"
-      class="mt-6 text-xs justify-center"
+      class="mt-6 justify-center text-xs"
       icon-size="16px"
     >
       我已认真阅读并同意
@@ -71,11 +71,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { CartItem } from '@/typings';
 import { useRouteQuery } from '@vueuse/router';
+import { computed, ref } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
-
-import { CartItem } from '@typings';
 
 definePage({
   meta: {

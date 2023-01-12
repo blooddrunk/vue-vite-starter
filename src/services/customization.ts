@@ -1,5 +1,5 @@
 import { useAxios } from '@/composables/useAxios';
-import type { CustomizationInfo, CustomizationRequest } from '@typings';
+import type { CustomizationInfo, CustomizationRequest } from '@/typings';
 
 export const useCustomizationDetail = () => {
   const { execute, ...rest } = useAxios<CustomizationInfo>(

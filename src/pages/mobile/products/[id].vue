@@ -1,18 +1,18 @@
 <template>
-  <article class="h-full relative bg-white pb-[56px]">
+  <article class="relative h-full bg-white pb-[56px]">
     <ProductDetailBanner :items="data.bannerImageList"> </ProductDetailBanner>
 
     <div class="article leading-normal">
       <van-skeleton title avatar :row="3" :loading="isLoading">
         <div class="space-y-3">
           <p>
-            <span class="text-primary text-lg font-bold">
+            <span class="text-lg font-bold text-primary">
               {{ data.price }}
             </span>
-            <span class="ml-1 text-primary text-xs">元/月</span>
+            <span class="ml-1 text-xs text-primary">元/月</span>
           </p>
           <p class="font-bold">{{ data.title }}</p>
-          <p class="text-medium text-sm">{{ data.body }}</p>
+          <p class="text-sm text-medium">{{ data.body }}</p>
         </div>
       </van-skeleton>
     </div>
@@ -55,7 +55,7 @@
 
 <script lang="ts" setup>
 import { showFailToast } from 'vant';
-import type { RouteLocationResolved } from 'vue-router/auto';
+import type { RouteLocationRaw } from 'vue-router/auto';
 
 definePage({
   meta: {
@@ -83,14 +83,10 @@ const addToCart = async () => {
   }
 };
 
-type C = RouteLocationResolved<'/mobile/order'>;
-const checkoutRoute = computed(
-  () =>
-    ({
-      name: '/mobile/order',
-      query: {
-        productId: props.id,
-      },
-    } as RouteLocationResolved<'/mobile/order'>)
-);
+const checkoutRoute = computed<RouteLocationRaw<'/mobile/order'>>(() => ({
+  name: '/mobile/order',
+  query: {
+    productId: props.id,
+  },
+}));
 </script>

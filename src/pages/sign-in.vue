@@ -1,8 +1,8 @@
 <template>
   <div
-    class="h-screen relative flex bg-primary bg-[radial-gradient(var(--color-primary),var(--color-tertiary))]"
+    class="relative flex h-screen bg-primary bg-[radial-gradient(var(--color-primary),var(--color-tertiary))]"
   >
-    <div class="flex-grow hidden lg:flex flex-col items-center justify-center">
+    <div class="hidden flex-grow flex-col items-center justify-center lg:flex">
       <AppLogo size="large"></AppLogo>
       <img
         class="mt-16"
@@ -12,16 +12,16 @@
     </div>
 
     <div
-      class="flex-grow flex flex-col items-center justify-center bg-[url('~assets/images/login.png')] bg-no-repeat bg-center lg:bg-none"
+      class="flex flex-grow flex-col items-center justify-center bg-[url('~assets/images/login.png')] bg-center bg-no-repeat lg:bg-none"
     >
-      <AppLogo size="large" class="lg:hidden mb-20"></AppLogo>
+      <AppLogo size="large" class="mb-20 lg:hidden"></AppLogo>
 
       <div
-        class="py-6 w-80 2xl:w-88 px-10 2xl:px-14 shadow rounded-md bg-white"
+        class="w-80 rounded-md bg-white py-6 px-10 shadow 2xl:w-88 2xl:px-14"
       >
         <header>
           <h3
-            class="text-primary font-semibold text-xl text-center tracking-widiest"
+            class="tracking-widiest text-center text-xl font-semibold text-primary"
           >
             用户登录
           </h3>
@@ -101,7 +101,7 @@
               >
                 <div
                   v-if="isCaptchaBroken"
-                  class="h-full flex items-center justify-center text-yellow-300 text-xs cursor-pointer"
+                  class="flex h-full cursor-pointer items-center justify-center text-xs text-yellow-300"
                   @click="fetchCaptcha"
                 >
                   加载失败
@@ -109,7 +109,7 @@
                 <img
                   v-else
                   ref="captchaRef"
-                  class="rounded-sm cursor-pointer object-contain"
+                  class="cursor-pointer rounded-sm object-contain"
                   :src="captchaUrl"
                   alt="captcha"
                   @click="fetchCaptcha"
@@ -147,11 +147,10 @@
 </template>
 
 <script lang="ts" setup>
+import { LoginInfo } from '@/typings';
+import { storeToRefs } from 'pinia';
 import { useForm } from 'vee-validate';
 import type { RouteNamedMap } from 'vue-router/auto/routes';
-import { storeToRefs } from 'pinia';
-
-import { LoginInfo } from '@typings';
 
 definePage({
   meta: {
