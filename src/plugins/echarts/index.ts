@@ -111,3 +111,9 @@ export const install: UserPlugin = async (app) => {
 
   app.component('ECharts', VueEcharts);
 };
+
+declare module '@vue/runtime-core' {
+  export interface GlobalComponents {
+    ECharts: typeof VueEcharts;
+  }
+}

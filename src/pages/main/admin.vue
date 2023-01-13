@@ -12,5 +12,5 @@ definePage({
   },
 });
 
-useFirstNavigableRoute('main-admin');
+useFirstNavigableRoute('/main/admin');
 </script>

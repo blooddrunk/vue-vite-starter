@@ -1,6 +1,4 @@
 import { mergeWith } from 'lodash-es';
-import type { RouteLocationNamedRaw } from 'vue-router';
-import type { RouteLocationResolved } from 'vue-router/auto';
 
 import type { SystemValue, MenuItem } from '@/stores/menu';
 import { createNamedMapForGlobImport } from '@/utils/misc';
@@ -59,9 +57,7 @@ export const getFirstNavigableMenu = (
   }
 };
 
-export const getRouteOfMenuItem = (
-  item?: MenuItem | null
-): RouteLocationNamedRaw | RouteLocationResolved | null => {
+export const getRouteOfMenuItem = (item?: MenuItem | null) => {
   if (item && item.route && item.id) {
     if (typeof item.route !== 'string') {
       throw new Error(`[route] property of menu item must be route name`);
@@ -69,7 +65,7 @@ export const getRouteOfMenuItem = (
     return { name: item.route };
   }
 
-  return null;
+  return undefined;
 };
 
 const menuModules = createNamedMapForGlobImport(

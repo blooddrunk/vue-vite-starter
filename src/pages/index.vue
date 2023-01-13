@@ -1,8 +1,8 @@
 <template>
-  <ul class="list-none md:w-1/2 w-2/3 m-auto text-lg">
-    <li v-for="item in menuList" :key="item.text" class="px-2 py-3 border-b">
+  <ul class="m-auto w-2/3 list-none text-lg md:w-1/2">
+    <li v-for="item in menuList" :key="item.text" class="border-b px-2 py-3">
       <router-link
-        class="flex items-center justify-between cursor-pointer"
+        class="flex cursor-pointer items-center justify-between"
         :to="item.to"
       >
         {{ item.text }}
@@ -12,13 +12,20 @@
 </template>
 
 <script setup lang="ts">
+import type { RouteNamedMap } from 'vue-router/auto/routes';
+
 definePage({
   meta: {
     requiresAuth: false,
   },
 });
 
-const menuList = ref([
+const menuList = ref<
+  {
+    text: string;
+    to: keyof RouteNamedMap;
+  }[]
+>([
   {
     text: 'Simple list',
     to: '/simple-list',
@@ -46,7 +53,7 @@ const menuList = ref([
 
   {
     text: 'Mobile layout with vant',
-    to: '/mobile',
+    to: '/mobile/',
   },
 ]);
 </script>

@@ -16,6 +16,7 @@ import { VueRouterAutoImports } from 'unplugin-vue-router';
 import VueRouter from 'unplugin-vue-router/vite';
 import { loadEnv } from 'vite';
 import Layouts from 'vite-plugin-vue-layouts';
+import TypeImports from 'vite-plugin-vue-type-imports';
 
 // import type { Resolver } from 'unplugin-auto-import/types';
 // import fg from 'fast-glob';
@@ -63,9 +64,9 @@ export default ({ mode }) => {
 
     resolve: {
       alias: {
-        '@/': `${path.resolve(__dirname, 'src')}/`,
         '@/typings': path.resolve(__dirname, 'src/utils/typings'),
         '@/modules/': `${path.resolve(__dirname, 'src/components/modules')}/`,
+        '@/': `${path.resolve(__dirname, 'src')}/`,
       },
     },
 
@@ -92,7 +93,9 @@ export default ({ mode }) => {
           }),
           vueJsx: VueJsx(),
         },
-        betterDefine: true,
+
+        // ! this won't always work, use vite-plugin-vue-type-imports temporarily
+        betterDefine: false,
       }),
 
       Legacy({
@@ -156,6 +159,8 @@ export default ({ mode }) => {
           // MyComponentResolver,
         ],
       }),
+
+      TypeImports(),
     ],
 
     server: {

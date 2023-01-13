@@ -68,12 +68,6 @@ export const useMapChart = (props: MapChartProps) =>
       regions: props.data,
     },
 
-    // series: {
-    //   type: 'map',
-    //   map: props.map,
-    //   data: props.data,
-    // },
-
     tooltip: {
       confine: true,
     },

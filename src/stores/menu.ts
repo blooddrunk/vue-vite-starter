@@ -1,6 +1,6 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import type { RouteNamedMap } from 'vue-router/auto/routes';
-import type { RouteLocationResolved } from 'vue-router/auto';
+import type { RouteLocationNamedRaw } from 'vue-router/auto';
 
 import {
   getFirstNavigableMenu as _getFirstNavigableMenu,
@@ -15,13 +15,13 @@ const availableSystemList = [
   { label: '系统二', value: 'secondary' },
 ] as const;
 export type SystemList = typeof availableSystemList;
-export type SystemValue = typeof availableSystemList[number]['value'];
+export type SystemValue = (typeof availableSystemList)[number]['value'];
 export type MenuItem = {
   id: string;
   title?: string;
   icon?: string;
   route?: keyof RouteNamedMap;
-  routeProps?: Omit<RouteLocationResolved, 'name'>;
+  routeProps?: Omit<RouteLocationNamedRaw, 'name'>;
   children?: MenuItem[];
   system: SystemValue;
   isVisible?: boolean;

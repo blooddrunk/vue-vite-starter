@@ -1,15 +1,15 @@
-import type { Router, RouteLocationRaw } from 'vue-router';
+import type { RouterTyped } from 'vue-router/auto';
 
-export default (router: Router) => {
+export default (router: RouterTyped) => {
   router.beforeEach((to) => {
-    if (!to.name || !String(to.name).startsWith('mobile')) {
+    if (!to.name || !String(to.name).startsWith('/mobile')) {
       return;
     }
 
     const auth = useMobileAuthStore();
 
     const isLoggedIn = auth.isLoggedIn;
-    const isInLoginPage = to.name === 'mobile-login';
+    const isInLoginPage = to.name === '/mobile/login';
     const requiresAuth =
       !isLoggedIn &&
       (typeof to.meta.requiresAuth === 'undefined'
@@ -20,12 +20,12 @@ export default (router: Router) => {
       auth.logout();
     } else if (requiresAuth && !isLoggedIn) {
       return {
-        name: 'login',
+        name: '/mobile/login',
         query: {
           from: to.name || 'mobile',
           ...to.query,
         },
-      } as RouteLocationRaw;
+      };
     }
   });
 };

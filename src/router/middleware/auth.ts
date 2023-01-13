@@ -1,4 +1,4 @@
-import type { Router, RouteLocationRaw } from 'vue-router';
+import type { RouterTyped } from 'vue-router/auto';
 import { ElNotification } from 'element-plus';
 
 import { getRouteOfMenuItem } from '@/utils/biz/menu';
@@ -10,10 +10,10 @@ const notifyPermission = (message: string) =>
     duration: 5000,
   });
 
-export default (router: Router) => {
+export default (router: RouterTyped) => {
   router.beforeEach((to) => {
     // TODO: remove this
-    if (to.name && String(to.name).startsWith('mobile')) {
+    if (to.name && String(to.name).startsWith('/mobile')) {
       return;
     }
 
@@ -21,7 +21,7 @@ export default (router: Router) => {
     const menuStore = useMenuStore();
 
     const isLoggedIn = authStore.isLoggedIn;
-    const isInLoginPage = to.name === 'sign-in';
+    const isInLoginPage = to.name === '/sign-in';
     const requiresAuth =
       typeof to.meta.requiresAuth === 'undefined'
         ? true
@@ -56,7 +56,8 @@ export default (router: Router) => {
 
           const fallbackRoute = getRouteOfMenuItem(fallbackMenu);
           if (fallbackRoute) {
-            return fallbackRoute;
+            // ! wtf...
+            return fallbackRoute as any;
           } else {
             hasNoPermissionAtAll = true;
           }
@@ -67,18 +68,18 @@ export default (router: Router) => {
         if (hasNoPermissionAtAll) {
           notifyPermission(`没有访问系统的权限，请联系管理员`);
           return {
-            name: 'sign-in',
-          } as RouteLocationRaw;
+            name: '/sign-in',
+          };
         }
       }
     } else if (requiresAuth) {
       return {
-        name: 'sign-in',
+        name: '/sign-in',
         query: {
           from: to.name || 'index',
           ...to.query,
         },
-      } as RouteLocationRaw;
+      };
     }
   });
 };

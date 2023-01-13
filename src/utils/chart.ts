@@ -8,27 +8,27 @@ import ECharts from 'vue-echarts';
 
 export type VueEchartsComponent = InstanceType<typeof ECharts>;
 
-export const chartThemeList = ['primary', 'secondary', 'dark'] as const;
-export type ChartTheme = (typeof chartThemeList)[number];
+export type ChartTheme = 'primary' | 'secondary' | 'dark' | Record<string, any>;
 
 export type CommonChartType = 'pie' | 'bar' | 'line' | 'scatter' | 'map';
-export type CommonChartProps = {
+
+export interface CommonChartProps {
   autoResize?: boolean;
   dimensions?: EnhancedDimensionDefinition[];
   data: any[];
   loading?: boolean;
   option: EChartsOption;
-  theme?: ChartTheme | Record<string, any>;
+  theme?: ChartTheme;
   type?: CommonChartType;
-};
-export type MapChartProps = {
+}
+export interface MapChartProps {
   autoResize?: boolean;
   data: any[];
   loading?: boolean;
   option: EChartsOption;
-  theme?: ChartTheme | Record<string, any>;
+  theme?: ChartTheme;
   map?: string;
-};
+}
 
 export type EnhancedDimensionDefinition =
   | {

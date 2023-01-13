@@ -1,9 +1,9 @@
 <template>
   <div class="flex">
-    <div class="h-screen w-full flex flex-col">
+    <div class="flex h-screen w-full flex-col">
       <TheHeading></TheHeading>
 
-      <div class="flex-grow flex overflow-x-hidden">
+      <div class="flex flex-grow overflow-x-hidden">
         <TheSidebar></TheSidebar>
 
         <main
@@ -12,12 +12,12 @@
               ? 'w-[calc(100vw-65px)]'
               : 'w-[calc(100vw-14rem)]'
           "
-          class="flex flex-col flex-grow p-4 xl:p-8 2xl:p-12 bg-main"
+          class="flex flex-grow flex-col bg-main p-4 xl:p-8 2xl:p-12"
         >
           <template v-if="navTabStore.isNavTabEnabled">
             <TheNavTab></TheNavTab>
             <section
-              class="flex-grow p-3 xl:p-6 2xl:p-9 bg-white shadow-xl overflow-y-auto"
+              class="flex-grow overflow-y-auto bg-white p-3 shadow-xl xl:p-6 2xl:p-9"
             >
               <router-view v-slot="{ Component }">
                 <keep-alive :include="navTabStore.currentNavTabNameList">
@@ -31,7 +31,7 @@
             <TheBreadcrumb></TheBreadcrumb>
 
             <section
-              class="flex-grow p-3 xl:p-6 2xl:p-9 bg-white shadow-xl overflow-y-auto"
+              class="flex-grow overflow-y-auto bg-white p-3 shadow-xl xl:p-6 2xl:p-9"
             >
               <router-view></router-view>
             </section>
