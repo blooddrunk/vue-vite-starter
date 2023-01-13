@@ -6,7 +6,7 @@
       <van-skeleton title avatar :row="3" :loading="isLoading">
         <div class="space-y-3">
           <p>
-            <span class="text-lg font-bold text-primary">
+            <span class="font-bold text-primary text-lg">
               {{ data.price }}
             </span>
             <span class="ml-1 text-xs text-primary">元/月</span>
@@ -54,8 +54,9 @@
 </template>
 
 <script lang="ts" setup>
-import { showFailToast } from 'vant';
 import type { RouteLocationRaw } from 'vue-router/auto';
+
+import { showFailToast } from 'vant';
 
 definePage({
   meta: {

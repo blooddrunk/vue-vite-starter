@@ -34,6 +34,7 @@
 
 <script lang="ts" setup>
 import type { ProductItem } from '@/typings';
+
 import { storeToRefs } from 'pinia';
 
 import MyProductItem from './ProductItem.vue';

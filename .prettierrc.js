@@ -1,4 +1,4 @@
-// @ts-check
+// @ts-checkk
 
 /** @type {import("@ianvs/prettier-plugin-sort-imports").PrettierConfig} */
 module.exports = {
