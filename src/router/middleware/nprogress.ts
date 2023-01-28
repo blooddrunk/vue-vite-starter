@@ -1,4 +1,5 @@
 import type { RouterTyped } from 'vue-router/auto';
+
 import NProgress from 'nprogress';
 
 export default (router: RouterTyped) => {

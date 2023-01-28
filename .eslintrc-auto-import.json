@@ -234,6 +234,7 @@
     "usePermission": "readonly",
     "usePieChart": "readonly",
     "usePointer": "readonly",
+    "usePointerLock": "readonly",
     "usePointerSwipe": "readonly",
     "usePreferredColorScheme": "readonly",
     "usePreferredContrast": "readonly",

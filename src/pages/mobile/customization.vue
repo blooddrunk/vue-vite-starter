@@ -1,10 +1,10 @@
 <template>
-  <article class="h-full relative bg-white pb-[56px]">
+  <article class="relative h-full bg-white pb-[56px]">
     <ProductDetailBanner :items="data.bannerImageList"> </ProductDetailBanner>
 
     <van-image
       v-if="data.detailImage"
-      class="w-full min-h-56"
+      class="min-h-56 w-full"
       fit="cover"
       :src="data.detailImage"
     >
