@@ -11,6 +11,7 @@ import {
   VantResolver,
 } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
+// @ts-expect-error see https://github.com/sxzz/unplugin-vue-macros/issues/257
 import VueMacros from 'unplugin-vue-macros/vite';
 import { VueRouterAutoImports } from 'unplugin-vue-router';
 import VueRouter from 'unplugin-vue-router/vite';
