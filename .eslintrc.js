@@ -26,8 +26,6 @@ module.exports = {
     './.eslintrc-auto-import.json',
   ],
 
-  parser: 'vue-eslint-parser',
-
   parserOptions: {
     ecmaVersion: 'latest',
   },
