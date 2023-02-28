@@ -3,10 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "cross-env MODE=development vite",
-    "build": "cross-env MODE=production vite build",
-    "build-strict": "cross-env MODE=production vue-tsc --noEmit && vite build",
-    "serve": "vite preview",
-    "format": "prettier --write \"**/*.{js,ts,jsx,tsx,vue,scss,css,json}\""
+    "build": "cross-env MODE=production vue-tsc && vite build",
+    "serve": "vite preview"
   },
   "dependencies": {
     "@formkit/auto-animate": "^1.0.0-beta.6",
