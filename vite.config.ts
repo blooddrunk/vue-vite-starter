@@ -1,8 +1,8 @@
+import path from 'path';
+
 import Legacy from '@vitejs/plugin-legacy';
 import Vue from '@vitejs/plugin-vue';
 import VueJsx from '@vitejs/plugin-vue-jsx';
-import { transformShortVmodel } from '@vue-macros/short-vmodel';
-import path from 'path';
 import AutoImport from 'unplugin-auto-import/vite';
 import IconsResolver from 'unplugin-icons/resolver';
 import Icons from 'unplugin-icons/vite';
@@ -79,19 +79,7 @@ export default ({ mode }) => {
 
       VueMacros({
         plugins: {
-          vue: Vue({
-            include: [/\.vue$/, /setup\.[cm]?[jt]sx?$/],
-            reactivityTransform: true,
-            template: {
-              compilerOptions: {
-                nodeTransforms: [
-                  transformShortVmodel({
-                    prefix: '$',
-                  }),
-                ],
-              },
-            },
-          }),
+          vue: Vue(),
           vueJsx: VueJsx(),
         },
 
