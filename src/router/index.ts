@@ -33,10 +33,10 @@ declare module 'vue-router' {
  * &
  * https://github.com/zynth17/unplugin-vue-router-bug-dynamic-path/blob/main/src/modules/router.ts?rgh-link-date=2023-01-16T14%3A55%3A24Z
  */
-function recursiveLayouts(route: RouteRecordRaw): RouteRecordRaw {
+function patchLayouts(route: RouteRecordRaw): RouteRecordRaw {
   if (route.children) {
     for (let i = 0; i < route.children.length; i++) {
-      route.children[i] = recursiveLayouts(route.children[i]);
+      route.children[i] = patchLayouts(route.children[i]);
     }
 
     return route;
@@ -47,7 +47,7 @@ function recursiveLayouts(route: RouteRecordRaw): RouteRecordRaw {
 
 const router = createRouter({
   history: routerHistory,
-  routes: routes.map((route) => recursiveLayouts(route)),
+  routes: routes.map((route) => patchLayouts(route)),
 });
 
 const middlewareModules = import.meta.glob<(router: RouterTyped) => void>(
